@@ -2,6 +2,7 @@
     "name": "pay",
     "description": "UTT Pay",
     "repository": "ungdev/pay",
+    "license": "MIT",
     "main": "server.js",
     "dependencies": {
         "body-parser": "^1.8.2",
