@@ -2,6 +2,8 @@
 
 // Fichier d'application principal
 
+'use strict';
+
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
@@ -17,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Contenu statique (sera changé pour nginx)
-app.use(express.static(__dirname + '/static'));
+app.use(express.static(__dirname + '/app'));
 
 // API router
 var router = express.Router();

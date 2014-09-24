@@ -1,6 +1,7 @@
 // Pay - places/index.js
 
-// Récupère les places
+// Tickets getter
+'use strict';
 
 module.exports = function (req, res) {
     res.json({

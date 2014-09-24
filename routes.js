@@ -1,6 +1,7 @@
 // Pay - routes.js
 
 // Routing
+'use strict';
 
 var tickets = require('./tickets/index.js');
 
