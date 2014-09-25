@@ -7,7 +7,7 @@ var pay = angular.module('pay', [
     'ngRoute'
 ]);
 
-pay.config(['$routeProvider', function($routeProvider) {
+pay.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: 'ticketsList/ticketsList.html',
         controller: 'ticketsList'
