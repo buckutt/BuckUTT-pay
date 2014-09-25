@@ -89,7 +89,6 @@
 /* Behind tiles */
 
 .behind {
-    cursor: pointer;
     float: left;
     font-size: 60px;
     line-height: 66px;
@@ -100,7 +99,23 @@
             transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
 }
 
+.behind .cross {
+    float: right;
+    height: 24px;
+    position: relative;
+    right: 0;
+    top: 2px;
+    width: 24px;
+    z-index: 2;
+}
+
+.behind .cross i {
+    cursor: pointer;
+    font-size: 24px;
+}
+
 .behind i {
+    cursor: pointer;
     vertical-align: top;
 }
 
@@ -109,6 +124,10 @@
     opacity: 1;
     position: relative;
     top: -17px;
+}
+
+.meanOfPayment:last-child {
+    top: -24px;
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
@@ -129,6 +148,10 @@
         top: -98px;
     }
 
+    .behind .cross {
+        top: -10px;
+    }
+
     .behind i {
         vertical-align: text-top;
     }
@@ -144,6 +167,11 @@
         opacity: 0;
         position: relative;
         top: 0;
+    }
+
+    .behind .cross {
+        top: -50px;
+        right: 5px;
     }
 
     .ellipsis {
