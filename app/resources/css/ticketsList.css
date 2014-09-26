@@ -137,7 +137,7 @@
 
 .meanOfPayment {
     overflow: hidden;
-    height: 130px;
+    height: 80px;
 }
 
 .meanOfPayment:last-child {
@@ -184,6 +184,10 @@
     .behind .description, .behind .description.active {
         font-size: 14px;
         top: -32px;
+    }
+
+    .meanOfPayment {
+        height: 100px;
     }
 
     .meanOfPayment i {
@@ -250,6 +254,10 @@
     .behind .description.active {
         font-size: 18px;
         top: -30px;
+    }
+
+    .meanOfPayment {
+        height: 130px;
     }
 
     .meanOfPayment  i {

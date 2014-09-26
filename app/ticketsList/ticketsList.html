@@ -1,5 +1,8 @@
 <h1 class="text-center">BuckUTT</h1>
-<div class="row row-spaced" ng-repeat="event in events" ng-controller="ticketsList as ticket">
+<div class="row row-spaced"
+     pay-onresize
+     ng-repeat="event in events"
+     ng-controller="ticketsList as ticket">
     <div class="panel-col transition col-xs-12 col-sm-10 col-sm-offset-1 col-lg-12 col-lg-offset-0">
         <div class="transition panel panel-default">
             <div class="panel-body active">
@@ -12,25 +15,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center buy" ng-click="ticket.showBuyingCards($event)">
+                <div class="text-center buy"
+                     ng-click="ticket.showBuyingCards($event)">
                     <i class="fa fa-shopping-cart"></i>
                 </div>
             </div>
             <div class="behind panel-body">
                 <div class="cross">
-                    <i class="fa fa-times" ng-click="ticket.hideBuyingCards($event)"></i>
+                    <i class="fa fa-times"
+                       ng-click="ticket.hideBuyingCards($event)"></i>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 meanOfPayment text-center">
-                        <i class="fa fa-shopping-cart" ng-click="ticket.expendBuy($event, 'buckutt')" ng-mouseover="ticket.showTooltip($event)" ng-mouseout="ticket.hideTooltip($event)"></i>
+                    <div class="col-xs-4 meanOfPayment text-center"
+                         pay-onresize-notifier="ticket.checkExpended($event, 'buckutt')">
+                        <i class="fa fa-shopping-cart"
+                           ng-click="ticket.expendBuy($event, 'buckutt')"
+                           ng-mouseover="ticket.showTooltip($event)"
+                           ng-mouseout="ticket.hideTooltip($event)"></i>
                         <h4 class="description transition">BuckUTT</h4>
                     </div>
-                    <div class="col-xs-4 meanOfPayment text-center">
-                        <i class="fa fa-credit-card" ng-click="ticket.expendBuy($event, 'card')" ng-mouseover="ticket.showTooltip($event)" ng-mouseout="ticket.hideTooltip($event)"></i>
+                    <div class="col-xs-4 meanOfPayment text-center"
+                         pay-onresize-notifier="ticket.checkExpended($event, 'card')">
+                        <i class="fa fa-credit-card"
+                           ng-click="ticket.expendBuy($event, 'card')"
+                           ng-mouseover="ticket.showTooltip($event)"
+                           ng-mouseout="ticket.hideTooltip($event)"></i>
                         <h4 class="description transition">Carte</h4>
                     </div>
-                    <div class="col-xs-4 meanOfPayment text-center">
-                        <i class="fa fa-money" ng-click="ticket.expendBuy($event, 'cash')" ng-mouseover="ticket.showTooltip($event)" ng-mouseout="ticket.hideTooltip($event)"></i>
+                    <div class="col-xs-4 meanOfPayment text-center"
+                         pay-onresize-notifier="ticket.checkExpended($event, 'cash')">
+                        <i class="fa fa-money"
+                           ng-click="ticket.expendBuy($event, 'cash')"
+                           ng-mouseover="ticket.showTooltip($event)"
+                           ng-mouseout="ticket.hideTooltip($event)"></i>
                         <h4 class="description transition">Liquide/chèque</h4>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 // Routing
 'use strict';
 
-var tickets = require('./tickets/index.js');
+var tickets = require('./tickets');
 
 module.exports.createOn = function (app) {
     app.get('/tickets/get', tickets.get);

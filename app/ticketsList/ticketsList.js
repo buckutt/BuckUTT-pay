@@ -3,7 +3,7 @@
 // Controller for tickets list
 'use strict';
 
-pay.controller('ticketsList', ['$scope', '$timeout', function ($scope, $timeout) {
+pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scope, $timeout, $debounce) {
         $scope.events = [
             {
                 name: 'Gala 2015',
@@ -19,15 +19,25 @@ pay.controller('ticketsList', ['$scope', '$timeout', function ($scope, $timeout)
             }
         ];
 
-        var browserWidth = $(window).width();
-        var colWidth = 80;
-        if (768 <= browserWidth && browserWidth <= 992) {
-            colWidth = 96;
-        }
-        if (browserWidth > 992) {
-            colWidth = 130;
-        }
+        // Calc the ideal tile height
+        function calcTileHeight () {
+            var browserWidth = $(window).width();
+            var colHeight = 80;
+            if (768 <= browserWidth && browserWidth <= 992) {
+                colHeight = 96;
+            }
+            if (browserWidth > 992) {
+                colHeight = 130;
+            }
 
+            return colHeight;
+        }
+        var colHeight = calcTileHeight();
+
+        /**
+         * Show the three means of payment for the event
+         * @param {object} e - The click event 
+         */
         this.showBuyingCards = function (e) {
             // Hide others buying tiles
             $('i.fa.fa-times').each(function () {
@@ -49,6 +59,10 @@ pay.controller('ticketsList', ['$scope', '$timeout', function ($scope, $timeout)
                     .addClass('animated flipInX active');
         };
 
+        /**
+         * Hide the three means of payment for the event
+         * @param {object} e - The click event 
+         */
         this.hideBuyingCards = function (e) {
             $(e.currentTarget)
                 .parent().parent()
@@ -58,27 +72,71 @@ pay.controller('ticketsList', ['$scope', '$timeout', function ($scope, $timeout)
                     .removeClass('flipOutX')
                     .addClass('animated flipInX active');
 
-            $('.expended').removeClass('expended').height(colWidth);
+            $('.expended').removeClass('expended').height(colHeight);
         };
 
+        /**
+         * Show the tooltip for the mean of payment
+         * @param {object} e - The mouseover event 
+         */
         this.showTooltip = function (e) {
             $(e.currentTarget).next().addClass('active');
         };
 
+        /**
+         * Hide the tooltip for the mean of payment
+         * @param {object} e - The mouseout event 
+         */
         this.hideTooltip = function (e) {
             $(e.currentTarget).next().removeClass('active');
         };
 
+        /**
+         * Show the form for the mean of payment
+         * @param {object} e - The click event 
+         * @param {string} meanOfPayment - The mean of payment (buckutt, cash, card)
+         */
         this.expendBuy = function (e, meanOfPayment) {
             var $self = $(e.currentTarget);
             var $selfRow = $self.parent().parent();
             var $selfCol = $self.parent().parent().parent().parent().parent();
-            var newHeight = $selfRow.height() + $selfRow.siblings('.row.paywith.' + meanOfPayment).height();
-            
-            if ($selfCol.hasClass('expended')) {
-                $selfCol.removeClass('expended').height(colWidth);
-            } else {
+            var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
+
+            if (!$target.hasClass('active')) {
+                console.log('base', $selfRow.height(), $target.height());
+                var newHeight = $selfRow.height() + $target.height();
                 $selfCol.addClass('expended').height(newHeight);
+
+                var $othersTargets = $target.siblings('.paywith');
+                $target
+                    .insertBefore($othersTargets.first())
+                    .addClass('active');
+            } else {
+                $selfCol.removeClass('expended').height(colHeight);
+                $target.removeClass('active');
             }
+        };
+
+        /**
+         * Checks if the active form has to be resized (mediaquery-like)
+         * @param {string} meanOfPayment - The mean of payment (buckutt, cash, card)
+         */
+        this.checkExpended = function (e, meanOfPayment) {
+            var $lastElem = $scope.lastElem;
+            $debounce(function () {
+                colHeight = calcTileHeight();
+                var $expended = $('.expended');
+
+                if ($expended.length > 0) {
+                    var $selfRow = $lastElem.parent();
+                    var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
+                    var newHeight = $selfRow.height() + $target.height();
+
+                    console.log($expended.height());
+                    if ($expended.height() !== newHeight) {
+                        $('.expended').height(newHeight);
+                    }
+                }
+            }, 100);
         };
 }]);
