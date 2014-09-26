@@ -103,11 +103,11 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
             var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
 
             if (!$target.hasClass('active')) {
-                console.log('base', $selfRow.height(), $target.height());
+                console.log('doit'); 
                 var newHeight = $selfRow.height() + $target.height();
                 $selfCol.addClass('expended').height(newHeight);
 
-                var $othersTargets = $target.siblings('.paywith');
+                var $othersTargets = $target.siblings('.paywith').removeClass('active');
                 $target
                     .insertBefore($othersTargets.first())
                     .addClass('active');
@@ -123,8 +123,8 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
          */
         this.checkExpended = function (e, meanOfPayment) {
             var $lastElem = $scope.lastElem;
+            colHeight = calcTileHeight();
             $debounce(function () {
-                colHeight = calcTileHeight();
                 var $expended = $('.expended');
 
                 if ($expended.length > 0) {
