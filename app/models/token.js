@@ -1,4 +1,4 @@
-// Pay - /models/token.js
+// Pay - /app/models/token.js
 
 // Handles the Token model
 

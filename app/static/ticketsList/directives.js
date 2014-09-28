@@ -1,4 +1,4 @@
-// Pay - /app/ticketsList/directives.js
+// Pay - /app/static/ticketsList/directives.js
 
 // Directives for tickets list
 'use strict';

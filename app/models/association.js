@@ -1,4 +1,4 @@
-// Pay - /models/association.js
+// Pay - /app/models/association.js
 
 // Handles the Association model
 

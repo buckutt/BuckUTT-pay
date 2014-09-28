@@ -1,4 +1,4 @@
-// Pay - /models/schoolDomain.js
+// Pay - /app/models/schoolDomain.js
 
 // Handles the SchoolDomain model
 

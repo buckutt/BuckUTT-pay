@@ -1,10 +1,11 @@
-// Pay - routes.js
+// Pay - /app:routes.js
 
 // Routing
+
 'use strict';
 
-var tickets = require('./tickets');
+var controllers = require('./controllers');
 
 module.exports = function (app) {
-    app.get('/tickets/get', tickets.get);
+    app.get('/tickets/get', controllers.tickets.get);
 };

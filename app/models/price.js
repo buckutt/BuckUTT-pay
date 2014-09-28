@@ -1,4 +1,4 @@
-// Pay - /models/price.js
+// Pay - /app/models/price.js
 
 // Handles the Price model
 

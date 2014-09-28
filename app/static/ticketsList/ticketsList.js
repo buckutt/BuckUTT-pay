@@ -1,4 +1,4 @@
-// Pay - /app/ticketsList/ticketsList.js
+// Pay - /app/static/ticketsList/ticketsList.js
 
 // Controller for tickets list
 'use strict';

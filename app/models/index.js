@@ -1,4 +1,4 @@
-// Pay - /models/index.js
+// Pay - /app/models/index.js
 
 // Models regroupment file
 
@@ -41,26 +41,28 @@ module.exports = function (config) {
         models.forEach(function (modelFile) {
             var model = sequelize.import(path.join(__dirname, modelFile));
             db[model.name] = model;
-            if (db[model.name].hasOwnProperty('associate')) {
-                console.log(model.name);
-                db[model.name].associate(db);
-            }
         });
 
         // Associations
-        db.Right.hasOne(db.Account);
-        db.Association.hasOne(db.Account);
-        db.Event.hasOne(db.Price);
-        db.Association.hasOne(db.Ticket);
-        db.Price.hasOne(db.Ticket);
-        db.Event.hasOne(db.Ticket);
+        db.Right        .hasOne(db.Account);
+        db.Association  .hasOne(db.Account);
+        db.Event        .hasOne(db.Price);
+        db.Association  .hasOne(db.Ticket);
+        db.Price        .hasOne(db.Ticket);
+        db.Event        .hasOne(db.Ticket);
         db.MeanOfPayment.hasOne(db.Ticket);
 
         db.sequelize = sequelize;
         db.Sequelize = Sequelize;
 
+        // If debug mode is enabled, reset the database
+        var syncOptions = {};
+        if (config.debug) {
+            syncOptions.force = true;
+        }
+
         db.sequelize
-            .sync({ force: true })
+            .sync(syncOptions)
             .complete(function (err) {
                 if (err) {
                     console.error(err);

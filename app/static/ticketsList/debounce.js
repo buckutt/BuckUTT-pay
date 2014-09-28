@@ -1,4 +1,4 @@
-// Pay - /app/ticketsList/debounce.js
+// Pay - /app/static/ticketsList/debounce.js
 
 // Debounces for tickets list
 'use strict';

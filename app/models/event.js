@@ -1,4 +1,4 @@
-// Pay - /models/event.js
+// Pay - /app/models/event.js
 
 // Handles the Event model
 

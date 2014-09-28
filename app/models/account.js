@@ -1,4 +1,4 @@
-// Pay - /models/account.js
+// Pay - /app/models/account.js
 
 // Handles the Account model
 

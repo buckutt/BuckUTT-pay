@@ -1,6 +1,7 @@
-// Pay - tickets/index.js
+// Pay - /app/controllers/tickets/index.js
 
-// Tickers controller
+// Tickets controller
+
 'use strict';
 
 var get = require('./get.js');

@@ -1,4 +1,4 @@
-// Pay - /models/tickets.js
+// Pay - /app/models/tickets.js
 
 // Handles the Ticket model
 

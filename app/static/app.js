@@ -1,4 +1,4 @@
-// Pay - /app/resources/app.js
+// Pay - /app/static/app.js
 
 // Main entry point
 'use strict';

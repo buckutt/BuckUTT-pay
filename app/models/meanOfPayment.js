@@ -1,4 +1,4 @@
-// Pay - /models/meanOfPayment.js
+// Pay - /app/models/meanOfPayment.js
 
 // Handles the MeanOfPayment model
 

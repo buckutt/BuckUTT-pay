@@ -1,6 +1,7 @@
-// Pay - places/index.js
+// Pay - /app/controllers/tickets/index.js
 
 // Tickets getter
+
 'use strict';
 
 module.exports = function (req, res) {

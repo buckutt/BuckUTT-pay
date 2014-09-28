@@ -1,4 +1,4 @@
-// Pay - /models/right.js
+// Pay - /app/models/right.js
 
 // Handles the Right model
 
