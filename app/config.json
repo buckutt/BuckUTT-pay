@@ -1,0 +1,16 @@
+{
+    "port": 8080,
+    "db": {
+        "host": "localhost",
+        "port": 3306,
+        "name": "pay",
+        "user": "root",
+        "pwd": "toor"
+    },
+    "log": {
+        "log": true,
+        "out": "console",
+        "level": "debug",
+        "format": "%l %d : %s"
+    }
+}

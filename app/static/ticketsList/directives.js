@@ -7,7 +7,7 @@ pay.directive('payOnresize', ['$window', function ($win) {
     return function (scope, element, attr) {
         var $window = $($win);
 
-        // Watch for window height/width change
+        // Watches for window height/width change
         scope.$watch(function () {
             return $window.width();
         }, function (newValue, oldValue) {

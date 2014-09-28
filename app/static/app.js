@@ -12,4 +12,4 @@ pay.config(['$routeProvider', function ($routeProvider) {
         templateUrl: 'ticketsList/ticketsList.html',
         controller: 'ticketsList'
     });
-}])
+}]);

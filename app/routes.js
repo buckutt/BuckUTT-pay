@@ -5,6 +5,6 @@
 
 var tickets = require('./tickets');
 
-module.exports.createOn = function (app) {
+module.exports = function (app) {
     app.get('/tickets/get', tickets.get);
 };

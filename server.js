@@ -1,30 +1,43 @@
 // Pay - server.js
 
-// Fichier d'application principal
+// Main app file
 
 'use strict';
 
-var express    = require('express');
-var app        = express();
-var bodyParser = require('body-parser');
+var colors      = require('colors');
+var express     = require('express');
+var bodyParser  = require('body-parser');
+var compression = require('compression');
+var config      = require('./app/config.json');
+var log         = require('./app/log.js')(config);
+var models      = require('./app/models')(config);
+var app         = express();
 
-// Custom files
-var routes = require('./routes');
+models(function () {
+    // Custom files
+    var makeRoutes = require('./app/routes');
 
-// Server configuration
-var port = 8080;
+    // Server configuration
+    var port = config.port;
 
-// POST data parser
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+    // Gunzip compression
+    app.use(compression({
+        threshold: 512
+    }));
 
-// Contenu statique (sera changé pour nginx)
-app.use(express.static(__dirname + '/app'));
+    // POST data parser
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
 
-// API router
-var router = express.Router();
-routes.createOn(router);
-app.use('/api', router);
+    // Static content (will be nginx)
+    app.use(express.static(__dirname + '/app/static'));
 
-app.listen(port);
-console.log('Listenning on port : ', port);
+    // Router API
+    var router = express.Router();
+    makeRoutes(router);
+    app.use('/api', router);
+
+    app.listen(port);
+    log.info('BuckUTT Pay server');
+    log.info('Listenning on port : ' + config.port);
+});

@@ -19,7 +19,7 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
             }
         ];
 
-        // Calc the ideal tile height
+        // Calcs the ideal tile height
         function calcTileHeight () {
             var browserWidth = $(window).width();
             var colHeight = 80;
@@ -35,7 +35,16 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
         var colHeight = calcTileHeight();
 
         /**
-         * Show the three means of payment for the event
+          * Shows the modal related to the ticket lost
+          */
+        this.showModal = function () {
+            $timeout(function () {
+                $('#modalLost').modal();
+            });
+        };
+
+        /**
+         * Shows the three means of payment for the event
          * @param {object} e - The click event 
          */
         this.showBuyingCards = function (e) {
@@ -60,7 +69,7 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
         };
 
         /**
-         * Hide the three means of payment for the event
+         * Hides the three means of payment for the event
          * @param {object} e - The click event 
          */
         this.hideBuyingCards = function (e) {
@@ -76,7 +85,7 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
         };
 
         /**
-         * Show the tooltip for the mean of payment
+         * Shows the tooltip for the mean of payment
          * @param {object} e - The mouseover event 
          */
         this.showTooltip = function (e) {
@@ -84,7 +93,7 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
         };
 
         /**
-         * Hide the tooltip for the mean of payment
+         * Hides the tooltip for the mean of payment
          * @param {object} e - The mouseout event 
          */
         this.hideTooltip = function (e) {
@@ -92,7 +101,7 @@ pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scop
         };
 
         /**
-         * Show the form for the mean of payment
+         * Shows the form for the mean of payment
          * @param {object} e - The click event 
          * @param {string} meanOfPayment - The mean of payment (buckutt, cash, card)
          */
