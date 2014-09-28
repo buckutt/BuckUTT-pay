@@ -13,6 +13,7 @@ var log         = require('./app/log.js')(config);
 var models      = require('./app/models')(config);
 var app         = express();
 
+log.info('BuckUTT Pay server');
 models(function () {
     // Custom files
     var makeRoutes = require('./app/routes');
@@ -38,6 +39,5 @@ models(function () {
     app.use('/api', router);
 
     app.listen(port);
-    log.info('BuckUTT Pay server');
     log.info('Listenning on port : ' + config.port);
 });
