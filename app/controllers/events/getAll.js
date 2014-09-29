@@ -1,4 +1,4 @@
-// Pay - /app/controllers/events/index.js
+// Pay - /app/controllers/events/getAll.js
 
 // Tickets getter
 

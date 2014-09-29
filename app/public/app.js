@@ -1,10 +1,12 @@
-// Pay - /app/static/app.js
+// Pay - /app/public/app.js
 
 // Main entry point
+
 'use strict';
 
 var pay = angular.module('pay', [
-    'ngRoute'
+    'ngRoute',
+    'ngResource'
 ]);
 
 pay.config(['$routeProvider', function ($routeProvider) {

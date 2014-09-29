@@ -7,6 +7,6 @@
 module.exports = function (router, db) {
     var controllers = require('./controllers')(db);
 
-    router.get('/tickets/get', controllers.tickets.get);
-    router.get('/events/get', controllers.events.get);
+    router.get('/tickets', controllers.tickets.getAll);
+    router.get('/events', controllers.events.getAll);
 };

@@ -33,7 +33,7 @@
         <div class="panel-col transition col-xs-12 col-sm-10 col-sm-offset-1 col-lg-12 col-lg-offset-0">
             <div class="transition panel panel-default">
                 <div class="panel-body active">
-                    <div class="icon"><img height="128" width="128" alt="{{ event.name }}" ng-src="resources/img/upload/{{ event.picture }}"></div>
+                    <div class="icon"><img height="128" width="128" alt="{{ event.name }}" ng-src="static/img/upload/{{ event.picture }}"></div>
                     <div class="title">
                         <h3>{{ event.name }} <small class="muted">{{ event.date | date:"dd/MM/yyyy 'à' HH:mm" }}</small></h3>
                         <div class="ellipsis">
@@ -54,7 +54,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-4 meanOfPayment text-center"
-                             pay-onresize-notifier="ticket.checkExpended($event, 'buckutt')">
+                             pay-onresize-notifier="ticket.checkExpended('buckutt')">
                             <i class="fa fa-shopping-cart"
                                ng-click="ticket.expendBuy($event, 'buckutt')"
                                ng-mouseover="ticket.showTooltip($event)"
@@ -62,7 +62,7 @@
                             <h4 class="description transition">BuckUTT</h4>
                         </div>
                         <div class="col-xs-4 meanOfPayment text-center"
-                             pay-onresize-notifier="ticket.checkExpended($event, 'card')">
+                             pay-onresize-notifier="ticket.checkExpended('card')">
                             <i class="fa fa-credit-card"
                                ng-click="ticket.expendBuy($event, 'card')"
                                ng-mouseover="ticket.showTooltip($event)"
@@ -70,7 +70,7 @@
                             <h4 class="description transition">Carte</h4>
                         </div>
                         <div class="col-xs-4 meanOfPayment text-center"
-                             pay-onresize-notifier="ticket.checkExpended($event, 'cash')">
+                             pay-onresize-notifier="ticket.checkExpended('cash')">
                             <i class="fa fa-money"
                                ng-click="ticket.expendBuy($event, 'cash')"
                                ng-mouseover="ticket.showTooltip($event)"

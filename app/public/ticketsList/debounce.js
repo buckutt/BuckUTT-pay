@@ -1,9 +1,10 @@
-// Pay - /app/static/ticketsList/debounce.js
+// Pay - /app/public/ticketsList/debounce.js
 
 // Debounces for tickets list
+
 'use strict';
 
-pay.factory('debounce', ['$timeout', function ($timeout) {
+pay.factory('$debounce', ['$timeout', function ($timeout) {
     // Underscore debouncer
     var timeout;
     return function debounce (func, wait, immediate) {

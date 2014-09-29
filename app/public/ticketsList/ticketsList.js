@@ -1,13 +1,17 @@
-// Pay - /app/static/ticketsList/ticketsList.js
+// Pay - /app/public/ticketsList/ticketsList.js
 
 // Controller for tickets list
+
 'use strict';
 
-pay.controller('ticketsList', ['$scope', '$timeout', '$http', 'debounce', function ($scope, $timeout, $http, $debounce) {
-        $http({
-            method: 'GET',
-            url: '/api/events/get'
-        }).success(function (events) {
+pay.controller('ticketsList',[
+    '$scope',
+    '$timeout',
+    '$http',
+    '$debounce',
+    'Event',
+    function ($scope, $timeout, $http, $debounce, Event) {
+        var events = Event.query(function () {
             $scope.events = events;
         });
 
@@ -122,8 +126,8 @@ pay.controller('ticketsList', ['$scope', '$timeout', '$http', 'debounce', functi
          * Checks if the active form has to be resized (mediaquery-like)
          * @param {string} meanOfPayment - The mean of payment (buckutt, cash, card)
          */
-        this.checkExpended = function (e, meanOfPayment) {
-            var $lastElem = $scope.lastElem;
+        this.checkExpended = function (meanOfPayment) {
+            var $lastElem = $.data(document.body, '$lastElem');
             colHeight = calcTileHeight();
             $debounce(function () {
                 var $expended = $('.expended');
@@ -133,7 +137,6 @@ pay.controller('ticketsList', ['$scope', '$timeout', '$http', 'debounce', functi
                     var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
                     var newHeight = $selfRow.height() + $target.height();
 
-                    console.log($expended.height());
                     if ($expended.height() !== newHeight) {
                         $('.expended').height(newHeight);
                     }

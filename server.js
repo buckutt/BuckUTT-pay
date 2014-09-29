@@ -37,7 +37,7 @@ models(function (db) {
     app.use(bodyParser.json());
 
     // Static content (will be nginx)
-    app.use(express.static(__dirname + '/app/static'));
+    app.use(express.static(__dirname + '/app/public'));
 
     // Router API
     var router = express.Router();

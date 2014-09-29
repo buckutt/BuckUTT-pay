@@ -1,4 +1,4 @@
-// Pay - /app/models/seed/events.js
+// Pay - /app/models/seed/index.js
 
 // Seeds regroupment file
 

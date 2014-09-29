@@ -4,10 +4,10 @@
 
 'use strict';
 
-var get = require('./get');
+var getAll = require('./getAll');
 
 module.exports = function (db) {
     return {
-        get: get(db)
+        getAll: getAll(db)
     };
 };
