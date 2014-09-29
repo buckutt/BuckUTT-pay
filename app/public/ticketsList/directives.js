@@ -1,6 +1,7 @@
-// Pay - /app/static/ticketsList/directives.js
+// Pay - /app/public/ticketsList/directives.js
 
 // Directives for tickets list
+
 'use strict';
 
 pay.directive('payOnresize', ['$window', function ($win) {
@@ -14,10 +15,10 @@ pay.directive('payOnresize', ['$window', function ($win) {
             $('[pay-onresize-notifier]').each(function () {
                 var $self = $(this);
 
-                // Cannot pass elem to the notifier (bind, ...)
-                scope.lastElem = $self;
-                scope.$eval($(this).attr('pay-onresize-notifier'));
-                delete scope.lastElem;
+                // Cannot pass arguments to $eval, neither to scope
+                $.data(document.body, '$lastElem', $self);
+                scope.$eval($self.attr('pay-onresize-notifier'));
+                $.removeData(document.body);
             });
         }, true);
 
