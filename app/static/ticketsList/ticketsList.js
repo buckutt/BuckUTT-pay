@@ -3,21 +3,13 @@
 // Controller for tickets list
 'use strict';
 
-pay.controller('ticketsList', ['$scope', '$timeout', 'debounce', function ($scope, $timeout, $debounce) {
-        $scope.events = [
-            {
-                name: 'Gala 2015',
-                picture: 'gala2015.png',
-                description: 'Viens au gala on est bien bien bien bien',
-                date: new Date(2015, 5, 20, 20, 0, 0)
-            },
-            {
-                name: 'R2D A2015',
-                picture: 'gala2015.png',
-                description: 'Bis Viens au gala on est bien bien bien bien',
-                date: new Date(2015, 5, 20, 20, 0, 0)
-            }
-        ];
+pay.controller('ticketsList', ['$scope', '$timeout', '$http', 'debounce', function ($scope, $timeout, $http, $debounce) {
+        $http({
+            method: 'GET',
+            url: '/api/events/get'
+        }).success(function (events) {
+            $scope.events = events;
+        });
 
         // Calcs the ideal tile height
         function calcTileHeight () {

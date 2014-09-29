@@ -14,7 +14,13 @@ var models      = require('./app/models')(config);
 var app         = express();
 
 log.info('BuckUTT Pay server');
-models(function () {
+
+// JS Date -> MySQL DateTime
+Date.prototype.toDateTime = function () {
+    return this.toISOString().slice(0, 19).replace('T', ' ');
+};
+
+models(function (db) {
     // Custom files
     var makeRoutes = require('./app/routes');
 
@@ -35,8 +41,16 @@ models(function () {
 
     // Router API
     var router = express.Router();
-    makeRoutes(router);
+    makeRoutes(router, db);
     app.use('/api', router);
+
+    app.use('*', function (req, res) {
+        res.status(404).json({
+            status: 404,
+            error: '404 - Not Found'
+        });
+        res.end();
+    });
 
     app.listen(port);
     log.info('Listenning on port : ' + config.port);

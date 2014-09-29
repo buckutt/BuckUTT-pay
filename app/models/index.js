@@ -69,7 +69,12 @@ module.exports = function (config) {
                     process.exit(1);
                 }
 
-                callback();
+                // Database seeding
+                if (config.debug) {
+                    require('./seed')(db);
+                }
+
+                callback(db);
             });
     };
 };

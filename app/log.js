@@ -107,7 +107,7 @@ function Log () {
       * Error message
       * @param {string} msg - The message to log
       */
-    this.err = function (msg) {
+    this.error = function (msg) {
         this.write('err', msg);
     };
 };

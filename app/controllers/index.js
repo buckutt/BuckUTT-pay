@@ -4,6 +4,9 @@
 
 'use strict';
 
-module.exports = {
-    tickets: require('./tickets')
+module.exports = function (db) {
+    return {
+        tickets: require('./tickets')(db),
+        events: require('./events')(db)
+    };
 };

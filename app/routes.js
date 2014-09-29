@@ -4,8 +4,9 @@
 
 'use strict';
 
-var controllers = require('./controllers');
+module.exports = function (router, db) {
+    var controllers = require('./controllers')(db);
 
-module.exports = function (app) {
-    app.get('/tickets/get', controllers.tickets.get);
+    router.get('/tickets/get', controllers.tickets.get);
+    router.get('/events/get', controllers.events.get);
 };
