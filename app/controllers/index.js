@@ -4,9 +4,10 @@
 
 'use strict';
 
-module.exports = function (db) {
+module.exports = function (db, config) {
     return {
-        tickets: require('./tickets')(db),
-        events: require('./events')(db)
+        tickets: require('./tickets')(db, config),
+        events: require('./events')(db, config),
+        etu: require('./etu')(db, config)
     };
 };

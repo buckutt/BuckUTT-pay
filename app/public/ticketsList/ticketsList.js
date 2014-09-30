@@ -8,12 +8,16 @@ pay.controller('ticketsList', [
     '$scope',
     '$timeout',
     '$http',
-    '$debounce',
+    'debounce',
+    'SiteEtu',
     'Event',
-    function ($scope, $timeout, $http, $debounce, Event) {
-        var events = Event.query(function () {
+    function ($scope, $timeout, $http, debounce, etu, Event) {
+        Event.query(function (events) {
             $scope.events = events;
         });
+
+        // credentials : btoa(clientId, clientSecret)
+        etu.checkAuth('MTExOTYyNzU4NzU6OWNhZmFkZmZlNTlmZTYxMzc3MWQ5ZTkzODdjMTdkMDk=');
 
         // Calcs the ideal tile height
         function calcTileHeight () {
@@ -32,8 +36,10 @@ pay.controller('ticketsList', [
 
         /**
           * Shows the modal related to the ticket lost
+          * @param {object} e - The click event
           */
-        this.showModal = function () {
+        this.showModal = function (e) {
+            e.preventDefault();
             $timeout(function () {
                 $('#modalLost').modal();
             });
@@ -129,7 +135,7 @@ pay.controller('ticketsList', [
         this.checkExpended = function (meanOfPayment) {
             var $lastElem = $.data(document.body, '$lastElem');
             colHeight = calcTileHeight();
-            $debounce(function () {
+            debounce(function () {
                 var $expended = $('.expended');
 
                 if ($expended.length > 0) {
@@ -142,5 +148,14 @@ pay.controller('ticketsList', [
                     }
                 }
             }, 100);
+        };
+
+        /**
+          * Auth the user via site etu
+          * @param {object} e - The click event
+          */
+        this.authUser = function (e) {
+            e.preventDefault();
+            etu.auth('11196275875');
         };
 }]);

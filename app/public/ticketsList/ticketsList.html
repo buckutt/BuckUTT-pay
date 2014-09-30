@@ -24,8 +24,8 @@
     </div>
 
     <div class="row row-spaced pull-right">
-        <a href="#" ng-click="ticket.showModal('modalLost')">J'ai perdu mon billet</a>
-        <a href="#">Admin</a>
+        <a href="#" ng-click="ticket.showModal($event, 'modalLost')">J'ai perdu mon billet</a>
+        <a href="#" ng-click="ticket.authUser($event);">Se connecter</a>
     </div>
     <div class="row row-spaced"
          pay-onresize

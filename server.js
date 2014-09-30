@@ -41,7 +41,7 @@ models(function (db) {
 
     // Router API
     var router = express.Router();
-    makeRoutes(router, db);
+    makeRoutes(router, db, config);
     app.use('/api', router);
 
     app.use('*', function (req, res) {
