@@ -15,6 +15,7 @@
         "format": "%l %d : %s"
     },
     "app": {
+        "link": "https://etu.utt.fr/api/",
         "clientId": "11196275875",
         "clientSecret": "9cafadffe59fe613771d9e9387c17d09"
     }

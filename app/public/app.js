@@ -13,4 +13,8 @@ pay.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: 'ticketsList/ticketsList.html'
     });
+
+    $routeProvider.when('/etuAuth', {
+        templateUrl: 'etuAuth/etuAuth.html'
+    });
 }]);

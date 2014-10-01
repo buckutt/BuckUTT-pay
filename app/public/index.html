@@ -14,6 +14,23 @@
         <title>Pay</title>
     </head>
     <body>
+        <div class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-labelledby="modalErrorTitle" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="modalErrorTitle"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modalErrorText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container" ng-view></div>
         <script src="static/vendor/jquery/jquery-2.1.1.min.js"></script>
         <script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -22,13 +39,17 @@
         <script src="static/vendor/angular/angular-resource.min.js"></script>
 
         <script src="app.js"></script>
-        <script src="factories/base64.js"></script>
+        
+        <script src="factories/error.js"></script>
         <script src="factories/resource.js"></script>
         <script src="factories/account.js"></script>
         <script src="factories/event.js"></script>
-        <script src="factories/etu.js"></script>
+        <script src="factories/siteetu.js"></script>
+
         <script src="ticketsList/debounce.js"></script>
         <script src="ticketsList/directives.js"></script>
         <script src="ticketsList/ticketsList.js"></script>
+
+        <script src="etuAuth/etuAuth.js"></script>
     </body>
 </html>

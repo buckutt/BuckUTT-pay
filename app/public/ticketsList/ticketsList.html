@@ -1,12 +1,12 @@
 <div class="view" ng-controller="ticketsList as ticket">
     <h1 class="text-center">BuckUTT</h1>
 
-    <div class="modal fade" id="modalLost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalLost" tabindex="-1" role="dialog" aria-labelledby="lostTicketsModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Perte de billet</h4>
+                    <h4 class="modal-title" id="lostTicketsModal">Perte de billet</h4>
                 </div>
                 <div class="modal-body">
                     <p>
@@ -24,8 +24,10 @@
     </div>
 
     <div class="row row-spaced pull-right">
-        <a href="#" ng-click="ticket.showModal($event, 'modalLost')">J'ai perdu mon billet</a>
-        <a href="#" ng-click="ticket.authUser($event);">Se connecter</a>
+        <a href="#" ng-click="ticket.showModal($event, 'modalLost')">J'ai perdu mon billet&nbsp;&nbsp;</a>
+        <span id="refreshLoader" class="hidden"><i class="fa fa-spin fa-refresh"></i></span>
+        <a href="#" id="connectLink" ng-click="ticket.authUser($event);">Se connecter</a>
+        <span class="text-muted"></span>
     </div>
     <div class="row row-spaced"
          pay-onresize

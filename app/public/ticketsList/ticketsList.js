@@ -11,13 +11,15 @@ pay.controller('ticketsList', [
     'debounce',
     'SiteEtu',
     'Event',
-    function ($scope, $timeout, $http, debounce, etu, Event) {
+    'Error',
+    function ($scope, $timeout, $http, debounce, etu, Event, Error) {
+        // Shows events list
         Event.query(function (events) {
             $scope.events = events;
         });
 
-        // credentials : btoa(clientId, clientSecret)
-        etu.checkAuth('MTExOTYyNzU4NzU6OWNhZmFkZmZlNTlmZTYxMzc3MWQ5ZTkzODdjMTdkMDk=');
+        // Refresh token if possible
+        etu.pleaseRefreshToken(treatUserData);
 
         // Calcs the ideal tile height
         function calcTileHeight () {
@@ -114,7 +116,7 @@ pay.controller('ticketsList', [
             var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
 
             if (!$target.hasClass('active')) {
-                console.log('doit'); 
+                console.log('doit');
                 var newHeight = $selfRow.height() + $target.height();
                 $selfCol.addClass('expended').height(newHeight);
 
@@ -156,6 +158,13 @@ pay.controller('ticketsList', [
           */
         this.authUser = function (e) {
             e.preventDefault();
-            etu.auth('11196275875');
+            etu.auth('11196275875', treatUserData);
+        };
+
+        /**
+          * Shows the username
+          */
+        function treatUserData (data) {
+            $('#connectLink').hide().next().text('Bonjour, ' + data.fullName).show();
         };
 }]);
