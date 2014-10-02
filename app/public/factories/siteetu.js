@@ -73,20 +73,17 @@ pay.factory('SiteEtu', ['$http', function ($http) {
         /**
           * Checks if the refresh token is here and still viable
           */
-        this.pleaseRefreshToken = function (callback) {
+        this.pleaseRefreshToken = function (loadingCallback, callback) {
             var token = localStorage.getItem('refreshToken');
             var date = localStorage.getItem('date');
             var oneMonth = 1000 * 60 * 60 * 24 * 30;
-            var $refreshLoader = $('#refreshLoader');
 
             if (token && date) {
                 if ((new Date()) - date < oneMonth) {
-                    $refreshLoader.removeAttr('class');
-                    $('#connectLink').hide();
+                    loadingCallback();
                     $http.post('api/authEtu', JSON.stringify({
                         refreshToken: token
                     })).success(function (data) {
-                        $refreshLoader.addClass('hidden');
                         localStorage.setItem('refreshToken', data.refreshToken);
                         localStorage.setItem('date', (new Date()).getTime());
                         callback(data);

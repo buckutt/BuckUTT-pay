@@ -18,9 +18,6 @@ pay.controller('ticketsList', [
             $scope.events = events;
         });
 
-        // Refresh token if possible
-        etu.pleaseRefreshToken(treatUserData);
-
         // Calcs the ideal tile height
         function calcTileHeight () {
             var browserWidth = $(window).width();
@@ -150,21 +147,5 @@ pay.controller('ticketsList', [
                     }
                 }
             }, 100);
-        };
-
-        /**
-          * Auth the user via site etu
-          * @param {object} e - The click event
-          */
-        this.authUser = function (e) {
-            e.preventDefault();
-            etu.auth('11196275875', treatUserData);
-        };
-
-        /**
-          * Shows the username
-          */
-        function treatUserData (data) {
-            $('#connectLink').hide().next().text('Bonjour, ' + data.fullName).show();
         };
 }]);

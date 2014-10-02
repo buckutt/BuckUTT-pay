@@ -20,6 +20,21 @@ Date.prototype.toDateTime = function () {
     return this.toISOString().slice(0, 19).replace('T', ' ');
 };
 
+// DRY error module
+Error.emit = function (res, status, msg, exit) {
+    res.status(status).json({
+        status: status,
+        error: msg
+    });
+    res.end();
+
+    log.error(msg);
+
+    if (exit) {
+        throw msg;
+    }
+};
+
 models(function (db) {
     // Custom files
     var makeRoutes = require('./app/routes');
@@ -45,11 +60,7 @@ models(function (db) {
     app.use('/api', router);
 
     app.use('*', function (req, res) {
-        res.status(404).json({
-            status: 404,
-            error: '404 - Not Found'
-        });
-        res.end();
+        Error.emit(res, 404, '404 - Not Found');
     });
 
     app.listen(port);

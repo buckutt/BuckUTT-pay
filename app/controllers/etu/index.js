@@ -21,12 +21,7 @@ module.exports = function (db, config) {
                 refresh_token: req.body.refreshToken
             };
         } else {
-            res.status(400).json({
-                status: 400,
-                error: 'Bad Request'
-            });
-            res.end();
-            return;
+            Error.emit(res, 400, '400 - Bad Request');
         }
 
         request.post({
@@ -48,6 +43,8 @@ module.exports = function (db, config) {
                     userData.refreshToken = refreshToken;
                     res.json(userData);
                 });
+            } else {
+                Error.emit(res, 500, '500 - Etu server is not responding', true);
             }
         });
     };
