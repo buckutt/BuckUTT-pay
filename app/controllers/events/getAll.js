@@ -14,7 +14,7 @@ module.exports = function (db) {
             }
         }).done(function (err, events) {
             if (err) {
-                Error.emit(res, 500, '500 - SQL Server error');
+                Error.emit(res, 500, 3);
             }
             
             res.json(events);

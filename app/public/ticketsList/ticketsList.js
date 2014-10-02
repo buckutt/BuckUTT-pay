@@ -7,12 +7,11 @@
 pay.controller('ticketsList', [
     '$scope',
     '$timeout',
-    '$http',
     'debounce',
     'SiteEtu',
     'Event',
     'Error',
-    function ($scope, $timeout, $http, debounce, etu, Event, Error) {
+    function ($scope, $timeout, debounce, etu, Event, Error) {
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
@@ -113,7 +112,6 @@ pay.controller('ticketsList', [
             var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
 
             if (!$target.hasClass('active')) {
-                console.log('doit');
                 var newHeight = $selfRow.height() + $target.height();
                 $selfCol.addClass('expended').height(newHeight);
 

@@ -21,18 +21,25 @@ Date.prototype.toDateTime = function () {
 };
 
 // DRY error module
-Error.emit = function (res, status, msg, exit) {
+Error.emit = function (res, status, msg) {
+    var msgCodes = {
+        '500 - Etu server is not responding': 1,
+        '400 - Bad Request'                 : 2,
+        '500 - SQL Server error'            : 3
+    };
+
+    log.error(msg);
+
+    if (msgCodes.hasOwnProperty(msg)) {
+        msg = msgCodes[msg];
+    } else {
+        msg = 0;
+    }
+    
     res.status(status).json({
         status: status,
         error: msg
     });
-    res.end();
-
-    log.error(msg);
-
-    if (exit) {
-        throw msg;
-    }
 };
 
 models(function (db) {

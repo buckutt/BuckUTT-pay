@@ -4,7 +4,7 @@
 
 'use strict';
 
-pay.factory('SiteEtu', ['$http', function ($http) {
+pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
     function SiteEtu (baseURL) {
         this.token = null;
 
@@ -67,6 +67,9 @@ pay.factory('SiteEtu', ['$http', function ($http) {
                     window.opener.postMessage(data, '*');
                     window.close();
                 }
+            }).error(function (data, status, headers) {
+                console.log(data, status, headers);
+                error('Erreur', data.error);
             });
         };
 
@@ -87,6 +90,9 @@ pay.factory('SiteEtu', ['$http', function ($http) {
                         localStorage.setItem('refreshToken', data.refreshToken);
                         localStorage.setItem('date', (new Date()).getTime());
                         callback(data);
+                    }).error(function (data, status, headers) {
+                        console.log(data, status, headers);
+                        error('Erreur', data.error);
                     });
                 }
             }
