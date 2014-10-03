@@ -66,6 +66,7 @@ module.exports = function (config) {
             .complete(function (err) {
                 if (err) {
                     Error.emit(null, 500, '500 - SQL Server error ' + err.toString());
+                    process.exit(1);
                 }
 
                 // Database seeding
