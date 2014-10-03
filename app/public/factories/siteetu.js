@@ -18,8 +18,8 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
         };
 
         /**
-          * Auths a user via site etu
-          * @param {}
+          * Authenticates a user via site etu
+          * @param {string} clientId - The site etu buckutt's clientid
           */
         this.auth = function (clientId, callback) {
             var url = baseURL + 'oauth/authorize?client_id=' +

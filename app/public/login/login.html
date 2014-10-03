@@ -1,12 +1,12 @@
 <div ng-controller="Login as login">
-    <span id="refreshLoader" class="connected-hidden hidden">
-        <i class="fa fa-spin fa-refresh"></i>
-        &nbsp;&nbsp;Connexion
-    </span>
-    <a href="#" id="connectLink" class="connected-hidden" ng-click="login.authUser($event);">Se connecter</a>
+    <a href="#" id="connectLink" class="connected-hidden loading-hidden"
+       ng-click="login.authUser($event);">Se connecter</a>
     <span class="guest-hidden text-muted"></span>
-    <span id="refreshLoader" class="admin-hidden hidden">
+    <span id="refreshLoader" class="connected-hidden">
         <i class="fa fa-spin fa-refresh"></i>
         &nbsp;&nbsp;Connexion
     </span>
+    <div class="notadmin-hidden guest-hidden">
+        <a href="#/admin/">Administration</a>
+    </div>
 </div>

@@ -10,11 +10,14 @@ var pay = angular.module('pay', [
 ]);
 
 pay.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/', {
-        templateUrl: 'ticketsList/ticketsList.html'
-    });
-
-    $routeProvider.when('/etuAuth', {
-        templateUrl: 'etuAuth/etuAuth.html'
-    });
+    $routeProvider
+        .when('/', {
+            templateUrl: 'ticketsList/ticketsList.html'
+        })
+        .when('/etuAuth', {
+            templateUrl: 'etuAuth/etuAuth.html'
+        })
+        .when('/admin', {
+            templateUrl: 'admin/admin.html'
+        });
 }]);

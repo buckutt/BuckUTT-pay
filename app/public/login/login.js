@@ -8,11 +8,11 @@ pay.controller('Login', [
     '$scope',
     'SiteEtu',
     function ($scope, etu) {
-        // Refresh token if possible
+        // Refreshes token if possible
         etu.pleaseRefreshToken(treatLoading, treatUserData);
 
         /**
-          * Auth the user via site etu
+          * Authenticates the user via site etu
           * @param {object} e - The click event
           */
         this.authUser = function (e) {
@@ -20,18 +20,32 @@ pay.controller('Login', [
             etu.auth('11196275875', treatUserData);
         };
 
+        $('.guest-hidden').hide();
+
         /**
           * Shows the username
           */
         function treatUserData (data) {
             $scope.user = window.x = data;
-            $('#refreshLoader').addClass('hidden');
-            $('#connectLink').hide().next().text('Bonjour, ' + data.fullName).show();
-        };
+
+            // Shows guest-hidden elements, hides admin elements
+            $('.guest-hidden').show();
+            
+            /* if (data.isAssoAdmin) */
+            if (1) {
+                $('.notadmin-hidden').show();
+            } else {
+                $('.notadmin-hidden').hide();
+            }
+
+            $('.connected-hidden').hide();
+            $('.admin-hidden').hide();
+
+            $('#connectLink').next().text('Bonjour, ' + data.fullName).show();
+        }
 
         function treatLoading () {
-            $('#refreshLoader').removeAttr('class');
-            $('#connectLink').hide();
+            $('.loading-hidden').hide();
         }
     }
 ]);
