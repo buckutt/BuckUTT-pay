@@ -36,10 +36,12 @@ Error.emit = function (res, status, msg) {
         msg = 0;
     }
     
-    res.status(status).json({
-        status: status,
-        error: msg
-    });
+    if (res) {
+        res.status(status).json({
+            status: status,
+            error: msg
+        });
+    }
 };
 
 models(function (db) {
