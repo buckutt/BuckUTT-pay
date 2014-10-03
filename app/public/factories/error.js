@@ -9,7 +9,6 @@ pay.factory('Error', [function () {
     var $title = $('#modalErrorTitle');
     var $content = $('#modalErrorText');
 
-
     var msgCodes = {
         0: 'Erreur 500 - Erreur inconnue.',
         1: 'Erreur 500 - Le site etu ne répond pas.',
@@ -18,6 +17,9 @@ pay.factory('Error', [function () {
     };
 
     return function (title, message) {
+        // Clear the storage if this is a token matters
+        localStorage.clear();
+    
         $title.text(title);
         $content.text(msgCodes[message]);
         $modal.modal();

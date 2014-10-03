@@ -9,8 +9,6 @@ var request = require('request');
 
 module.exports = function (db, config) {
     return function (req, res) {
-        Error.emit(res, 500, '500 - Etu server is not responding');
-        return;
         var form = '';
         if (req.body.hasOwnProperty('code')) {
             form = {
