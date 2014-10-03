@@ -1,19 +1,22 @@
 <div class="view" ng-controller="ticketsList as ticket">
     <h1 class="text-center">BuckUTT</h1>
 
-    <div class="modal fade" id="modalLost" tabindex="-1" role="dialog" aria-labelledby="lostTicketsModal" aria-hidden="true">
+    <div id="modalLost" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="lostTicketsModal">Perte de billet</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 id="lostTicketsModal" class="modal-title">Perte de billet</h4>
                 </div>
                 <div class="modal-body">
                     <p>
                         Si vous avez oublié l'un de vos tickets, veuillez entrez votre e-mail.<br>
                         Un mail sera envoyé avec des liens pour chaque place encore valide.
                     </p>
-                    <input type="email" name="lostTicketsEmail" id="lostTicketsEmail" class="form-control">
+                    <input type="email" id="lostTicketsEmail" class="form-control" name="lostTicketsEmail">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
@@ -28,30 +31,32 @@
         <div ng-init="template = 'login/login.html'" ng-include="template">
         </div>
     </div>
-    <div class="row row-spaced"
-         pay-onresize
-         ng-repeat="event in events">
+    <div class="row row-spaced" pay-onresize ng-repeat="event in events">
         <div class="panel-col transition col-xs-12 col-sm-10 col-sm-offset-1 col-lg-12 col-lg-offset-0">
             <div class="transition panel panel-default">
                 <div class="panel-body active">
-                    <div class="icon"><img height="128" width="128" alt="{{ event.name }}" ng-src="static/img/upload/{{ event.picture }}"></div>
+                    <div class="icon">
+                        <img height="128" width="128" alt="{{ event.name }}"
+                             ng-src="static/img/upload/{{ event.picture }}">
+                    </div>
                     <div class="title">
-                        <h3>{{ event.name }} <small class="muted">{{ event.date | date:"dd/MM/yyyy 'à' HH:mm" }}</small></h3>
+                        <h3>
+                            {{ event.name }}
+                            <small class="muted">{{ event.date | date:"dd/MM/yyyy 'à' HH:mm" }}</small>
+                        </h3>
                         <div class="ellipsis">
                             <div>
                                 <p class="text-muted">{{ event.description }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center buy"
-                         ng-click="ticket.showBuyingCards($event)">
+                    <div class="text-center buy" ng-click="ticket.showBuyingCards($event)">
                         <i class="fa fa-shopping-cart"></i>
                     </div>
                 </div>
                 <div class="behind panel-body">
                     <div class="cross">
-                        <i class="fa fa-times"
-                           ng-click="ticket.hideBuyingCards($event)"></i>
+                        <i class="fa fa-times" ng-click="ticket.hideBuyingCards($event)"></i>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 meanOfPayment text-center"
