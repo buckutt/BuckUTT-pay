@@ -1,12 +1,12 @@
 // Pay - /app/public/etuAuth/etuAuth.js
 
-// Controller for tickets list
+// Controller for storing data from oauth
 
 'use strict';
 
 pay.controller('etuAuth', [
     'SiteEtu',
-    function (etu) {
-        etu.checkAuth();
+    function (SiteEtu) {
+        SiteEtu.checkAuth();
     }
 ]);

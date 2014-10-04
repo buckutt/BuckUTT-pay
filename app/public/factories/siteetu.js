@@ -5,8 +5,18 @@
 'use strict';
 
 pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
+    var etuData = null;
+
     function SiteEtu (baseURL) {
+        var rights = [
+            'public',
+            'private_user_account',
+            'private_user_organizations'
+        ].join('%20');
+
         this.token = null;
+
+        this.etu = etuData;
 
         /**
           * Checks if the user browser is IE (window.opener is not supported)
@@ -23,7 +33,8 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
           */
         this.auth = function (clientId, callback) {
             var url = baseURL + 'oauth/authorize?client_id=' +
-                      clientId + '&scope=public%20private_user_account&response_type=code&state=buckutt';
+                      clientId + '&scope=' +
+                      rights + '&response_type=code&state=buckutt';
             var params = 'location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0,width=490,height=650';
 
             if (this.isIE()) {
@@ -77,6 +88,13 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
           * Checks if the refresh token is here and still viable
           */
         this.pleaseRefreshToken = function (loadingCallback, callback) {
+            console.log(this.etu);
+            if (this.etu !== null) {
+                loadingCallback();
+                callback(this.etu);
+                return;
+            }
+
             var token = localStorage.getItem('refreshToken');
             var date = localStorage.getItem('date');
             var oneMonth = 1000 * 60 * 60 * 24 * 30;

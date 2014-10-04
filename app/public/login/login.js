@@ -7,9 +7,9 @@
 pay.controller('Login', [
     '$scope',
     'SiteEtu',
-    function ($scope, etu) {
+    function ($scope, SiteEtu) {
         // Refreshes token if possible
-        etu.pleaseRefreshToken(treatLoading, treatUserData);
+        SiteEtu.pleaseRefreshToken(treatLoading, treatUserData);
 
         /**
           * Authenticates the user via site etu
@@ -17,35 +17,33 @@ pay.controller('Login', [
           */
         this.authUser = function (e) {
             e.preventDefault();
-            etu.auth('11196275875', treatUserData);
+            SiteEtu.auth('11196275875', treatUserData);
         };
-
-        $('.guest-hidden').hide();
 
         /**
           * Shows the username
           */
         function treatUserData (data) {
-            $scope.user = window.x = data;
+            SiteEtu.etu = data;
+            $scope.etu = window.x = data;
 
-            // Shows guest-hidden elements, hides admin elements
-            $('.guest-hidden').show();
-            
+            $('.loading').hide();
+
+            $('.connected').show();
+
             /* if (data.isAssoAdmin) */
             if (1) {
-                $('.notadmin-hidden').show();
+                $('.admin').show();
             } else {
-                $('.notadmin-hidden').hide();
+                $('.admin').hide();
             }
 
-            $('.connected-hidden').hide();
-            $('.admin-hidden').hide();
-
-            $('#connectLink').next().text('Bonjour, ' + data.fullName).show();
+            $('.welcoming').text('Bonjour, ' + data.fullName).show();
         }
 
         function treatLoading () {
-            $('.loading-hidden').hide();
+            $('.guest').hide();
+            $('.loading').show();
         }
     }
 ]);
