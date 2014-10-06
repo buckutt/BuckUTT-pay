@@ -1,3 +1,51 @@
-<div ng-controller="admin">
-    Admin
+<div ng-controller="Admin as admin">
+    <h1 class="text-center">BuckUTT</h1>
+    <h2 class="text-center">Administration</h2>
+
+    <div class="row">
+        <div class="panel panel-default col-sm-5">
+            <h3 ng-click="admin.expendPanel($event)">Gérer les événements</h3>
+            <div class="subPanel" style="display: none;">
+                blablablabla<br>
+                blablablabla<br>
+                blablablabla<br>
+                blablablabla<br>
+                blablablabla<br>
+                blablablabla<br>
+            </div>
+        </div>
+        <div class="panel panel-default col-sm-5 col-sm-offset-2"
+             ng-click="admin.expendPanel($event)">
+            <h3 ng-click="admin.expendPanel($event)">Créer un événement</h3>
+            <div class="subPanel" style="display: none;">
+                <div>
+                    <input type="text" id="name" class="form-control" placeholder="Nom de l'event">
+                </div>
+                <div>
+                    <div class="input-group date">
+                        <input type="text" class="form-control" placeholder="Date de l'événement">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <textarea name="description" id="description" class="form-control" placeholder="Description"></textarea>
+                </div>
+                <div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-default btn-file">
+                                Parcourir <input type="file">
+                            </span>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Image de l'événement (taille : 128x128)" readonly="">
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-block btn-primary">Créer l'événement</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

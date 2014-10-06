@@ -4,10 +4,10 @@
 
 'use strict';
 
-pay.controller('ticketsList', [
+pay.controller('TicketsList', [
     '$scope',
     '$timeout',
-    'debounce',
+    'Debounce',
     'SiteEtu',
     'Event',
     'Error',

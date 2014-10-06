@@ -4,7 +4,7 @@
 
 'use strict';
 
-pay.directive('payOnresize', ['$window', function ($win) {
+pay.directive('PayOnresize', ['$window', function ($win) {
     return function (scope, element, attr) {
         var $window = $($win);
 

@@ -88,7 +88,6 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
           * Checks if the refresh token is here and still viable
           */
         this.pleaseRefreshToken = function (loadingCallback, callback) {
-            console.log(this.etu);
             if (this.etu !== null) {
                 loadingCallback();
                 callback(this.etu);

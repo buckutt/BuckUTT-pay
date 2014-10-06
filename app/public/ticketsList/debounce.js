@@ -4,7 +4,7 @@
 
 'use strict';
 
-pay.factory('debounce', ['$timeout', function ($timeout) {
+pay.factory('Debounce', ['$timeout', function ($timeout) {
     // Underscore debouncer
     var timeout;
     return function debounce (func, wait, immediate) {

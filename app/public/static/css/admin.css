@@ -1,0 +1,27 @@
+.panel {
+    cursor: pointer;
+}
+
+.panel > h3 {
+    margin: 26px 0;
+}
+
+.subPanel {
+    margin-bottom: 10px;
+}
+
+.subPanel > div {
+    margin-bottom: 10px;
+}
+
+.subPanel > div:last-child {
+    margin-bottom: 0;
+}
+
+.loading, .connected, .admin {
+    display: none;
+}
+
+textarea {
+    resize: vertical;
+}

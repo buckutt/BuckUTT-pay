@@ -4,7 +4,7 @@
 
 'use strict';
 
-pay.controller('etuAuth', [
+pay.controller('EtuAuth', [
     'SiteEtu',
     function (SiteEtu) {
         SiteEtu.checkAuth();
