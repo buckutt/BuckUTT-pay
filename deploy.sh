@@ -19,8 +19,8 @@ echo "remotePath : $remotePath"
 echo "user       : $user"
 
 echo "--- git pull ---"
-#git pull
+git pull
 echo "--- rsync ---"
 rsync -rv --exclude='config.json' app ${filesList[*]} ung@"$host":"$remotePath"
 echo "--- ssh ---"
-#ssh "$user"@"$host" cd $remotePath && npm start
+ssh "$user"@"$host" cd $remotePath && npm start
