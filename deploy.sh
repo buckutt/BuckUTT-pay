@@ -8,7 +8,7 @@ user='ung'
 
 
 filesList[0]='LICENSE'
-filesList[1]='README'
+filesList[1]='README.md'
 filesList[2]='deploy.js'
 filesList[3]='package.json'
 filesList[4]='server.js'
