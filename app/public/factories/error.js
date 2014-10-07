@@ -13,7 +13,8 @@ pay.factory('Error', [function () {
         0: 'Erreur 500 - Erreur inconnue.',
         1: 'Erreur 500 - Le site etu ne répond pas.',
         2: 'Erreur 400 - Requête invalide.',
-        3: 'Erreur 500 - Erreur de la base de donnée.'
+        3: 'Erreur 500 - Erreur de la base de donnée.',
+        4: 'Erreur 400 - L\'application n\'a pas reçu assez de droits.'
     };
 
     return function (title, message) {

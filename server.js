@@ -25,7 +25,8 @@ Error.emit = function (res, status, msg) {
     var msgCodes = {
         '500 - Etu server is not responding': 1,
         '400 - Bad Request'                 : 2,
-        '500 - SQL Server error'            : 3
+        '500 - SQL Server error'            : 3,
+        '400 - Not enough scopes'           : 4
     };
 
     log.error(msg);

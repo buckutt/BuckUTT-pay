@@ -12,5 +12,9 @@
     "mysql": "^2.5.1",
     "request": "^2.44.0",
     "sequelize": "^2.0.0-rc1"
+  },
+  "scripts": {
+    "prestart": "chmod +x deploy.sh && npm update",
+    "deploy": "./deploy.sh"
   }
 }

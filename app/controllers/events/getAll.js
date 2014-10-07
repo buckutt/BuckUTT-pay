@@ -15,6 +15,7 @@ module.exports = function (db) {
         }).done(function (err, events) {
             if (err) {
                 Error.emit(res, 500, 3);
+                return;
             }
             
             res.json(events);

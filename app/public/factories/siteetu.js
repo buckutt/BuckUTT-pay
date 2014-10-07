@@ -12,7 +12,7 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
             'public',
             'private_user_account',
             'private_user_organizations'
-        ].join('%20');
+        ].join('+');
 
         this.token = null;
 
@@ -33,9 +33,8 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
           */
         this.auth = function (clientId, callback) {
             var url = baseURL + 'oauth/authorize?client_id=' +
-                      clientId + '&scope=' +
-                      rights + '&response_type=code&state=buckutt';
-            var params = 'location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0,width=490,height=650';
+                      clientId + '&scopes=' + rights;
+            var params = 'location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0,width=490,height=741';
 
             if (this.isIE()) {
                 params = 'dialogWidth=490,dialogHeight=650,resizable=0,scroll=0,status=0';
@@ -61,13 +60,13 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
         this.checkAuth = function () {
             var isIE = this.isIE;
 
-            // location.search = ?code=8a0d56bfe3eb6cb5ff67ab888d31bb211f70fb21&state=buckutt
-            var query = location.search.split('?code=');
+            // location.search = ?authorization_code=8a0d56bfe3eb6cb5ff67ab888d31bb211f70fb21&state=buckutt
+            var query = location.href.split('?authorization_code=');
             if (query.length !== 2) {
                 return;
             }
 
-            var code = query[1].split('&')[0];
+            var code = query[1];
 
             $http.post('api/authEtu', JSON.stringify({
                 code: code
@@ -79,7 +78,6 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
                     window.close();
                 }
             }).error(function (data, status, headers) {
-                console.log(data, status, headers);
                 error('Erreur', data.error);
             });
         };

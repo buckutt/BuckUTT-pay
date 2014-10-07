@@ -8,12 +8,24 @@
 var request = require('request');
 
 module.exports = function (db, config) {
+    function arrayEquals(a, b) {
+        if (!b || a.length !== b.length) {
+            return false;
+        }
+        for (var i = a.length - 1; i >= 0; i--) {
+            if (a[i] !== b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     return function (req, res) {
         var form = '';
         if (req.body.hasOwnProperty('code')) {
             form = {
                 grant_type: 'authorization_code',
-                code: req.body.code
+                authorization_code: req.body.code
             };
         } else if (req.body.hasOwnProperty('refreshToken')) {
             form = {
@@ -22,29 +34,56 @@ module.exports = function (db, config) {
             };
         } else {
             Error.emit(res, 400, '400 - Bad Request');
+            return;
         }
+
+        var authHeaders = {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            'Authorization': 'Basic ' + new Buffer(
+                config.app.clientId + ':' + config.app.clientSecret
+            ).toString('base64')
+        };
+
+        console.log(authHeaders);
 
         request.post({
             url: config.app.link + 'oauth/token',
             form: form,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-                'Authorization': 'Basic ' + new Buffer(config.app.clientId + ':' + config.app.clientSecret).toString('base64')
-            }
-        }, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var response = JSON.parse(body).response;
-                var token = response.access_token;
-                var refreshToken = response.refresh_token;
+            headers: authHeaders
+        }, function (authError, authResponse, authBody) {
+            if (!authError && authResponse.statusCode == 200) {
+                var authResponse = JSON.parse(authBody).response;
+
+                    if (!arrayEquals(authResponse.scopes, ['public',
+                                                          'private_user_account',
+                                                          'private_user_organizations'])) {
+                    Error.emit(res, 400, '400 - Not enough scopes');
+                    return;
+                }
+
+                var token = authResponse.access_token;
+                var refreshToken = authResponse.refresh_token;
+                console.log('token', token);
                 request.get({
-                    url: config.app.link + 'private/user/account?access_token=' + token
-                }, function (error, response, body) {
-                    var userData = JSON.parse(body).response.data;
+                    url: config.app.link + 'private/user/account?access_token=' + token,
+                    headers: authHeaders
+                }, function (infoError, infoResponse, infoBody) {
+                    var userData = JSON.parse(infoBody).response.data;
                     userData.refreshToken = refreshToken;
-                    res.json(userData);
+
+                    request.get({
+                        url: config.app.link + 'private/user/organizations?access_token=' + token,
+                        headers: authHeaders
+                    }, function (orgsError, orgsResponse, orgsBody) {
+                        
+                        var orgsData = JSON.parse(orgsBody).response.data;
+                        console.log(orgsData);
+                        res.json(userData);
+                    });
                 });
             } else {
                 Error.emit(res, 500, '500 - Etu server is not responding');
+                return;
             }
         });
     };
