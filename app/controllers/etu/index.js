@@ -44,8 +44,6 @@ module.exports = function (db, config) {
             ).toString('base64')
         };
 
-        console.log(authHeaders);
-
         request.post({
             url: config.app.link + 'oauth/token',
             form: form,
@@ -63,7 +61,6 @@ module.exports = function (db, config) {
 
                 var token = authResponse.access_token;
                 var refreshToken = authResponse.refresh_token;
-                console.log('token', token);
                 request.get({
                     url: config.app.link + 'private/user/account?access_token=' + token,
                     headers: authHeaders

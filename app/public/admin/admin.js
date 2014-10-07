@@ -6,7 +6,8 @@
 
 pay.controller('Admin', [
     'SiteEtu',
-    function (SiteEtu) {
+    'Event',
+    function (SiteEtu, Event) {
         // Datepickers
         $.extend($.fn.datetimepicker.defaults, {
             pickDate: true,
@@ -30,9 +31,43 @@ pay.controller('Admin', [
             }
         });
 
+        /**
+          * Expends the create event or the manage events panel
+          * @param {object} e - The click event
+          */
         this.expendPanel = function (e) {
             var $self = $(e.currentTarget);
             $self.next().slideToggle();
+        };
+
+        /**
+          * Creates a event
+          */
+        this.createEvent = function () {
+            var $name = $('#name');
+            var $date = $('#date');
+            var $description = $('#description');
+            var $file = $('#file');
+            var file = $file[0].files[0];
+
+            // Input validation
+
+            // Image -> string
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var result = e.currentTarget.result;
+                console.log(result.length);
+
+                var newEvent = new Event({
+                    name: $name.val(),
+                    description: $description.val(),
+                    date: moment($date.val(), 'DD-MM-YYYY HH:mm'),
+                    image: result
+                });
+
+                newEvent.$save();
+            };
+            reader.readAsDataURL(file);
         };
     }
 ]);

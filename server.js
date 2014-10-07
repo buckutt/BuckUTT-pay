@@ -52,10 +52,12 @@ models(function (db) {
     // Server configuration
     var port = config.port;
 
-    // Gunzip compression
-    app.use(compression({
-        threshold: 512
-    }));
+    // Gunzip compression, if nginx is off
+    if (config.debug) {
+        app.use(compression({
+            threshold: 512
+        }));
+    }
 
     // POST data parser
     app.use(bodyParser.urlencoded({ extended: true }));

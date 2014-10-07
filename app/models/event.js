@@ -24,10 +24,6 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
 
-        css: {
-            type: DataTypes.TEXT
-        },
-
         description: {
             type: DataTypes.TEXT,
             allowNull: false

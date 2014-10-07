@@ -30,6 +30,7 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
         /**
           * Authenticates a user via site etu
           * @param {string} clientId - The site etu buckutt's clientid
+          * @param {function} callback - Callback called when the popup gets an answer
           */
         this.auth = function (clientId, callback) {
             var url = baseURL + 'oauth/authorize?client_id=' +
@@ -84,6 +85,8 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
 
         /**
           * Checks if the refresh token is here and still viable
+          * @param {function} loadingCallback - Called when the refresh token is being refreshed
+          * @param {function} callback - Called when the refresh token has been refreshed
           */
         this.pleaseRefreshToken = function (loadingCallback, callback) {
             if (this.etu !== null) {
@@ -106,7 +109,6 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
                         localStorage.setItem('date', (new Date()).getTime());
                         callback(data);
                     }).error(function (data, status, headers) {
-                        console.log(data, status, headers);
                         error('Erreur', data.error);
                     });
                 }

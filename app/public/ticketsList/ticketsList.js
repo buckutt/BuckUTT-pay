@@ -17,7 +17,10 @@ pay.controller('TicketsList', [
             $scope.events = events;
         });
 
-        // Calcs the ideal tile height
+        /**
+          * Calcs the ideal tile height
+          * @return {int} the ideal tile height
+          */
         function calcTileHeight () {
             var browserWidth = $(window).width();
             var colHeight = 80;

@@ -9,5 +9,6 @@ module.exports = function (router, db, config) {
 
     router.get( '/tickets', controllers.tickets.getAll);
     router.get( '/events',  controllers.events.getAll);
+    router.post('/events',  controllers.events.create);
     router.post('/authEtu', controllers.etu);
 };

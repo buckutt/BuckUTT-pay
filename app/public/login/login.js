@@ -22,6 +22,7 @@ pay.controller('Login', [
 
         /**
           * Shows the username
+          * @param {function} data - The user data
           */
         function treatUserData (data) {
             SiteEtu.etu = data;
@@ -41,6 +42,9 @@ pay.controller('Login', [
             $('.welcoming').text('Bonjour, ' + data.fullName).show();
         }
 
+        /**
+          * Shows the loading icons
+          */
         function treatLoading () {
             $('.guest').hide();
             $('.loading').show();

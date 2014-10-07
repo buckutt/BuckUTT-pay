@@ -5,9 +5,11 @@
 'use strict';
 
 var getAll = require('./getAll');
+var create = require('./create');
 
 module.exports = function (db) {
     return {
-        getAll: getAll(db)
+        getAll: getAll(db),
+        create: create(db)
     };
 };

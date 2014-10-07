@@ -6,7 +6,6 @@ host='10.8.0.1'
 remotePath='/var/www/pay/'
 user='ung'
 
-
 filesList[0]='LICENSE'
 filesList[1]='README.md'
 filesList[2]='deploy.js'
