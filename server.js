@@ -21,7 +21,7 @@ Date.prototype.toDateTime = function () {
 };
 
 // DRY error module
-Error.emit = function (res, status, msg) {
+Error.emit = function (res, status, msg, additionnalLog) {
     var msgCodes = {
         '500 - Etu server is not responding': 1,
         '400 - Bad Request'                 : 2,
@@ -30,6 +30,9 @@ Error.emit = function (res, status, msg) {
     };
 
     log.error(msg);
+    if (config.debug) {
+        log.error(additionnalLog);
+    }
 
     if (msgCodes.hasOwnProperty(msg)) {
         msg = msgCodes[msg];

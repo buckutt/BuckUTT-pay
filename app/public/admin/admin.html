@@ -17,26 +17,33 @@
         <div class="panel panel-default col-sm-5 col-sm-offset-2"
              ng-click="admin.expendPanel($event)">
             <h3 ng-click="admin.expendPanel($event)">Créer un événement</h3>
-            <div class="subPanel" style="display: none;">
+            <form name="newEventForm" class="subPanel" style="display: none;">
                 <div>
-                    <input type="text" id="name" class="form-control" placeholder="Nom de l'event">
+                    <input type="text" name="name" class="form-control" placeholder="Nom de l'event (taille minimum : 5 caractères)"
+                           ng-maxlength="255"
+                           ng-minlength="5"
+                           ng-model="newEvent.name">
                 </div>
                 <div>
                     <div class="input-group date">
-                        <input type="text" id="date" class="form-control" placeholder="Date de l'événement">
+                        <input type="text" name="date" class="form-control" placeholder="Date de l'événement"
+                               ng-model="newEvent.date"
+                               ng-pattern="datePattern">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                 </div>
                 <div>
-                    <textarea name="description" id="description" class="form-control" placeholder="Description"></textarea>
+                    <textarea name="description" name="description" class="form-control" placeholder="Description"
+                              ng-model="newEvent.description"
+                              ng-required></textarea>
                 </div>
                 <div>
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-default btn-file">
-                                Parcourir <input type="file" id="file">
+                                Parcourir <input type="file" name="file">
                             </span>
                         </span>
                         <input type="text" class="form-control" placeholder="Image de l'événement (taille : 128x128)" readonly="">
@@ -45,7 +52,7 @@
                 <div>
                     <button class="btn btn-block btn-primary" ng-click="admin.createEvent()">Créer l'événement</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

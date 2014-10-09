@@ -1,3 +1,4 @@
+/* Panels */
 .panel {
     cursor: pointer;
 }
@@ -22,6 +23,15 @@
     display: none;
 }
 
+/* Panels content */
 textarea {
     resize: vertical;
+}
+
+.ng-invalid:not(.ng-pristine) {
+    border-color: #e74c3c;
+}
+
+.ng-valid:not(.ng-pristine) {
+    border-color: #2ecc71;
 }

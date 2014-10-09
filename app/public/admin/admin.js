@@ -5,9 +5,14 @@
 'use strict';
 
 pay.controller('Admin', [
+    '$scope',
     'SiteEtu',
     'Event',
-    function (SiteEtu, Event) {
+    function ($scope, SiteEtu, Event) {
+        // Model for the new event
+        $scope.newEvent = {};
+        $scope.datePattern = /\d{1,2}\/\d{1,2}\/\d{4} [0-2][1-9]?:[0-5]?[0-9]/;
+
         // Datepickers
         $.extend($.fn.datetimepicker.defaults, {
             pickDate: true,
@@ -23,7 +28,13 @@ pay.controller('Admin', [
             sideBySide: true,
             daysOfWeekDisabled: [0, 7]
         });
-        $('.date').datetimepicker();
+
+        // Activate the datepicker, and ng-validate when the date changes
+        $('.date').datetimepicker().on('dp.change', function () {
+            var $self = $(this).children().first();
+            $self.data().$ngModelController.$setViewValue($self.val());
+            $self.scope().$apply();
+        });
 
         $('input[type=file]').on('change', function (e) {
             if (this.files.length === 1) {
@@ -44,27 +55,34 @@ pay.controller('Admin', [
           * Creates a event
           */
         this.createEvent = function () {
-            var $name = $('#name');
-            var $date = $('#date');
-            var $description = $('#description');
-            var $file = $('#file');
-            var file = $file[0].files[0];
+            // If we end directly the function, all errors may be not thrown
+            var continueSend = false;
 
             // Input validation
+            if (!newEventForm.$valid) {
+                var $invalids = $('.ng-pristine, .ng-invalid', newEventForm);
+                $invalids.removeClass('ng-pristine ng-valid').addClass('ng-invalid');
+                continueSend = false;
+            }
+
+            // Image validation
+            var $file = newEventForm.file;
+            var file = $file.files[0];
+            if (!file || (file.type !== 'image/png' && file.type !== 'image/jpeg')) {
+                $($file).parent().parent().next().addClass('ng-invalid');
+                continueSend = false;
+            }
+
+            if (!continueSend) {
+                return;
+            }
 
             // Image -> string
             var reader = new FileReader();
             reader.onload = function (e) {
                 var result = e.currentTarget.result;
-                console.log(result.length);
-
-                var newEvent = new Event({
-                    name: $name.val(),
-                    description: $description.val(),
-                    date: moment($date.val(), 'DD-MM-YYYY HH:mm'),
-                    image: result
-                });
-
+                $scope.newEvent.image = result;
+                var newEvent = new Event($scope.newEvent);
                 newEvent.$save();
             };
             reader.readAsDataURL(file);

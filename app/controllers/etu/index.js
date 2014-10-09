@@ -37,6 +37,9 @@ module.exports = function (db, config) {
             return;
         }
 
+        // Refresh token not recieved
+        console.log(form);
+
         var authHeaders = {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             'Authorization': 'Basic ' + new Buffer(
@@ -61,25 +64,24 @@ module.exports = function (db, config) {
 
                 var token = authResponse.access_token;
                 var refreshToken = authResponse.refresh_token;
+                console.log(authResponse);
                 request.get({
-                    url: config.app.link + 'private/user/account?access_token=' + token,
-                    headers: authHeaders
+                    url: config.app.link + 'private/user/account?access_token=' + token
                 }, function (infoError, infoResponse, infoBody) {
                     var userData = JSON.parse(infoBody).response.data;
                     userData.refreshToken = refreshToken;
 
                     request.get({
-                        url: config.app.link + 'private/user/organizations?access_token=' + token,
-                        headers: authHeaders
+                        url: config.app.link + 'private/user/organizations?access_token=' + token
                     }, function (orgsError, orgsResponse, orgsBody) {
                         
-                        var orgsData = JSON.parse(orgsBody).response.data;
+                        var orgsData = JSON.parse(orgsBody);
                         console.log(orgsData);
                         res.json(userData);
                     });
                 });
             } else {
-                Error.emit(res, 500, '500 - Etu server is not responding');
+                Error.emit(res, 500, '500 - Etu server is not responding', authResponse);
                 return;
             }
         });

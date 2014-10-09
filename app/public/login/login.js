@@ -28,6 +28,7 @@ pay.controller('Login', [
             SiteEtu.etu = data;
             $scope.etu = window.x = data;
 
+            $('.guest').hide();
             $('.loading').hide();
 
             $('.connected').show();
@@ -46,6 +47,7 @@ pay.controller('Login', [
           * Shows the loading icons
           */
         function treatLoading () {
+            console.log('loading');
             $('.guest').hide();
             $('.loading').show();
         }
