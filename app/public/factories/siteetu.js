@@ -105,8 +105,9 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
                     $http.post('api/authEtu', JSON.stringify({
                         refreshToken: token
                     })).success(function (data) {
-                        localStorage.setItem('refreshToken', data.refreshToken);
-                        localStorage.setItem('date', (new Date()).getTime());
+                        // Refresh token is not refreshable anymore
+                        /*localStorage.setItem('refreshToken', data.refreshToken);
+                        localStorage.setItem('date', (new Date()).getTime());*/
                         callback(data);
                     }).error(function (data, status, headers) {
                         error('Erreur', data.error);
