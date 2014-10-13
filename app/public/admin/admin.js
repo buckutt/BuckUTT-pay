@@ -8,10 +8,25 @@ pay.controller('Admin', [
     '$scope',
     'SiteEtu',
     'Event',
-    function ($scope, SiteEtu, Event) {
+    'Error',
+    function ($scope, SiteEtu, Event, Error) {
+        // Shows events list
+        Event.query(function (events) {
+            $scope.events = events;
+        });
+
         // Model for the new event
         $scope.newEvent = {};
-        $scope.datePattern = /\d{1,2}\/\d{1,2}\/\d{4} [0-2][1-9]?:[0-5]?[0-9]/;
+        $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4} [0-2][1-9]?:[0-5]?[0-9]$/;
+
+        if (!SiteEtu.etu) {
+            /*Error('Erreur', 5, true);
+            setTimeout(function () {
+                location.hash = '#/';
+                $('#modalError').modal('hide');
+            }, 3000);
+            return;*/
+        }
 
         // Datepickers
         $.extend($.fn.datetimepicker.defaults, {
@@ -31,7 +46,9 @@ pay.controller('Admin', [
 
         // Activate the datepicker, and ng-validate when the date changes
         $('.date').datetimepicker().on('dp.change', function () {
+            console.log('update');
             var $self = $(this).children().first();
+            console.log($self);
             $self.data().$ngModelController.$setViewValue($self.val());
             $self.scope().$apply();
         });
@@ -43,23 +60,15 @@ pay.controller('Admin', [
         });
 
         /**
-          * Expends the create event or the manage events panel
-          * @param {object} e - The click event
-          */
-        this.expendPanel = function (e) {
-            var $self = $(e.currentTarget);
-            $self.next().slideToggle();
-        };
-
-        /**
           * Creates a event
           */
         this.createEvent = function () {
             // If we end directly the function, all errors may be not thrown
-            var continueSend = false;
+            var continueSend = true;
 
             // Input validation
-            if (!newEventForm.$valid) {
+            var isFormValid = $('.ng-pristine, .ng-invalid', newEventForm).length === 0;
+            if (!isFormValid) {
                 var $invalids = $('.ng-pristine, .ng-invalid', newEventForm);
                 $invalids.removeClass('ng-pristine ng-valid').addClass('ng-invalid');
                 continueSend = false;
@@ -74,7 +83,7 @@ pay.controller('Admin', [
             }
 
             if (!continueSend) {
-                return;
+                //return;
             }
 
             // Image -> string

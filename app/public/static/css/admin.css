@@ -1,9 +1,10 @@
 /* Panels */
 .panel {
-    cursor: pointer;
+    padding: 0 15px;
 }
 
 .panel > h3 {
+    cursor: pointer;
     margin: 26px 0;
 }
 
@@ -13,10 +14,6 @@
 
 .subPanel > div {
     margin-bottom: 10px;
-}
-
-.subPanel > div:last-child {
-    margin-bottom: 0;
 }
 
 .loading, .connected, .admin {
@@ -34,4 +31,12 @@ textarea {
 
 .ng-valid:not(.ng-pristine) {
     border-color: #2ecc71;
+}
+
+h4 {
+    margin: 0;
+}
+
+h4:not(:last-child) {
+    margin-bottom: 10px;
 }

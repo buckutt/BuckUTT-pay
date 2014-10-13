@@ -1,23 +1,21 @@
+<link rel="stylesheet" href="static/css/admin.css">
+
 <div ng-controller="Admin as admin">
     <h1 class="text-center">BuckUTT</h1>
     <h2 class="text-center">Administration</h2>
 
     <div class="row">
         <div class="panel panel-default col-sm-5">
-            <h3 ng-click="admin.expendPanel($event)">Gérer les événements</h3>
-            <div class="subPanel" style="display: none;">
-                blablablabla<br>
-                blablablabla<br>
-                blablablabla<br>
-                blablablabla<br>
-                blablablabla<br>
-                blablablabla<br>
+            <h3>Gérer les événements</h3>
+            <div class="subPanel">
+                <h4 ng-repeat="event in events">
+                    <a href="#/admin/event/{{ event.id }}">{{ event.name }}</a>
+                </h4>
             </div>
         </div>
-        <div class="panel panel-default col-sm-5 col-sm-offset-2"
-             ng-click="admin.expendPanel($event)">
+        <div class="panel panel-default col-sm-5 col-sm-offset-2">
             <h3 ng-click="admin.expendPanel($event)">Créer un événement</h3>
-            <form name="newEventForm" class="subPanel" style="display: none;">
+            <form name="newEventForm" class="subPanel">
                 <div>
                     <input type="text" name="name" class="form-control" placeholder="Nom de l'event (taille minimum : 5 caractères)"
                            ng-maxlength="255"
@@ -38,6 +36,12 @@
                     <textarea name="description" name="description" class="form-control" placeholder="Description"
                               ng-model="newEvent.description"
                               ng-required></textarea>
+                </div>
+                <div>
+                    <input type="number" name="maximumTickets" class="form-control" placeholder="Nombre maximum de places"
+                           min="0" max="10000"
+                           ng-model="newEvent.maximumTickets"
+                           required>
                 </div>
                 <div>
                     <div class="input-group">
