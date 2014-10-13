@@ -37,9 +37,6 @@ module.exports = function (db, config) {
             return;
         }
 
-        // Refresh token not recieved
-        console.log(form);
-
         var authHeaders = {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             'Authorization': 'Basic ' + new Buffer(
@@ -64,7 +61,6 @@ module.exports = function (db, config) {
 
                 var token = authResponse.access_token;
                 var refreshToken = authResponse.refresh_token;
-                console.log(authResponse);
                 request.get({
                     url: config.app.link + 'private/user/account?access_token=' + token
                 }, function (infoError, infoResponse, infoBody) {
@@ -76,12 +72,14 @@ module.exports = function (db, config) {
                     }, function (orgsError, orgsResponse, orgsBody) {
                         
                         var orgsData = JSON.parse(orgsBody);
-                        console.log(orgsData);
+                        console.log('ahoy');
+                        console.log(orgsBody);
                         res.json(userData);
                     });
                 });
             } else {
-                Error.emit(res, 500, '500 - Etu server is not responding', authResponse);
+                console.log('Error on oauth/token', authBody);
+                Error.emit(res, 500, '500 - Etu server is not responding');
                 return;
             }
         });
