@@ -1,0 +1,11 @@
+.row:first-of-type > .col-sm-5:first-of-type {
+    padding: 0;
+}
+
+.panel > h3 {
+    cursor: default;
+}
+
+.panel > h2 {
+    margin-bottom: 45px;
+}

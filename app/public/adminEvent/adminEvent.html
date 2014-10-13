@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="static/css/admin.css">
+<link rel="stylesheet" href="static/css/adminEvent.css">
+
+<div ng-controller="AdminEvent as adminEvent">
+    <h1 class="text-center">BuckUTT</h1>
+    <h2 class="text-center">Administration - {{ event.name }}</h2>
+
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="panel">
+                <h3>Inscrits</h3>
+                <div class="progress">
+                    <div class="progress-bar" style="width: {{ (100 * tickets.length/event.maximumTickets) }}%;"></div>
+                </div>
+                <p>Inscrits : {{ tickets.length }} / {{ event.maximumTickets }}</p>
+            </div>
+            <div class="panel">
+                <h3>Temps avant événement</h3>
+                <h2 class="countdown">{{ remainingTime }}</h2>
+            </div>
+        </div>
+        <div class="panel col-sm-5 col-sm-offset-2">
+            <h3>Tickets payés</h3>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width: {{ (100 * ticketsEtu.length/event.maximumTickets) }}%"></div>
+                <div class="progress-bar progress-bar-info" style="width: {{ (100 * ticketsContrib.length/event.maximumTickets) }}%"></div>
+                <div class="progress-bar progress-bar-warning" style="width: {{ (100 * ticketsExt.length/event.maximumTickets) }}%"></div>
+            </div>
+            <p>
+                Étudiants non-cotisants: {{ ticketsEtu.length }}<br>
+                Étudiants cotisants : {{ ticketsContrib.length }}<br>
+                Externes : {{ ticketsExt.length }}
+            </p>
+            <h3>Tickets non payés</h3>
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" style="width: {{ (100 * ticketsNotPaid.length/event.maximumTickets) }}%"></div>
+            </div>
+            <p>Tickets en liquide non payés : {{ ticketsNotPaid.length }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel col-sm-5">
+            <h3>Comptes vendeurs</h3>
+        </div>
+        <div class="panel col-sm-5 col-sm-offset-2">
+            <h3>Comptes admins</h3>
+        </div>
+    </div>
+</div>
