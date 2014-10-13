@@ -45,6 +45,8 @@ Error.emit = function (res, status, msg, additionnalLog) {
             status: status,
             error: msg
         });
+    } else {
+        process.exit(1);
     }
 };
 
