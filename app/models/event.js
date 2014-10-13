@@ -32,6 +32,10 @@ module.exports = function (sequelize, DataTypes) {
         date: {
             type: DataTypes.DATE,
             allowNull: false
+        },
+
+        maximumTickets: {
+            type: DataTypes.INTEGER(5).UNSIGNED
         }
     }, {
         underscored: true
