@@ -47,7 +47,6 @@ pay.controller('Login', [
           * Shows the loading icons
           */
         function treatLoading () {
-            console.log('loading');
             $('.guest').hide();
             $('.loading').show();
         }
