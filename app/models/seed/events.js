@@ -9,13 +9,39 @@ module.exports = function (db) {
         name: 'Gala 2015',
         picture: 'gala2015.png',
         description: 'Viens au gala on est bien bien bien bien',
-        date: new Date(2015, 5, 20, 20, 0, 0)
+        date: new Date(2015, 5, 20, 20, 0, 0),
+        maximumTickets: 3600
+    }).complete(function (err, gala2015) {
+        if (err) {
+            Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+        }
+
+        db.Association.find({ name: 'BDE' }).complete(function (err, bde) {
+            if (err) {
+                Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+            }
+
+            bde.setEvent(gala2015);
+        });
     });
     
     db.Event.create({
         name: 'R2D A2015',
         picture: 'gala2015.png',
         description: 'Bis Viens au gala on est bien bien bien bien',
-        date: new Date(2015, 5, 20, 20, 0, 0)
+        date: new Date(2015, 5, 20, 20, 0, 0),
+        maximumTickets: 1600
+    }).complete(function (err, r2d2015) {
+        if (err) {
+            Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+        }
+
+        db.Association.find({ name: 'BDE' }).complete(function (err, bde) {
+            if (err) {
+                Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+            }
+
+            bde.setEvent(r2d2015);
+        });
     });
 };
