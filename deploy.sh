@@ -8,7 +8,7 @@ user='ung'
 
 filesList[0]='LICENSE'
 filesList[1]='README.md'
-filesList[2]='deploy.js'
+filesList[2]='deploy.sh'
 filesList[3]='package.json'
 filesList[4]='server.js'
 
@@ -22,4 +22,4 @@ git pull
 echo "--- rsync ---"
 rsync -rv --exclude='config.json' app ${filesList[*]} ung@"$host":"$remotePath"
 echo "--- ssh ---"
-ssh "$user"@"$host" cd $remotePath && npm start
+ssh "$user"@"$host" sudo service buckutt restart
