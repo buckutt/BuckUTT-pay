@@ -19,5 +19,11 @@ pay.config(['$routeProvider', function ($routeProvider) {
         })
         .when('/admin', {
             templateUrl: 'admin/admin.html'
+        })
+        .when('/admin/event/:eventId', {
+            templateUrl: 'adminEvent/adminEvent.html'
+        })
+        .otherwise({
+            redirectTo: '/'
         });
 }]);
