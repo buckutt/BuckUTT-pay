@@ -9,6 +9,8 @@
     "colors": "^0.6.2",
     "compression": "^1.1.0",
     "express": "^4.9.2",
+    "express-form": "^0.12.3",
+    "moment": "^2.8.3",
     "mysql": "^2.5.1",
     "request": "^2.44.0",
     "sequelize": "^2.0.0-rc1"
