@@ -1,4 +1,4 @@
-// Pay - /app/public/factories/account.js
+// Pay - /app/public/resources/account.js
 
 // Account resource
 

@@ -1,4 +1,4 @@
-// Pay - /app/public/factories/tickets.js
+// Pay - /app/public/resources/tickets.js
 
 // Ticket(s) resource
 

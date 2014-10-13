@@ -1,4 +1,4 @@
-// Pay - /app/public/factories/event.js
+// Pay - /app/public/resources/event.js
 
 // Event resource
 
