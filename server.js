@@ -30,7 +30,7 @@ Error.emit = function (res, status, msg, additionnalLog) {
     };
 
     log.error(msg);
-    if (config.debug) {
+    if (config.debug && additionnalLog) {
         log.error(additionnalLog);
     }
 
