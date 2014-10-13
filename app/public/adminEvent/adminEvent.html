@@ -22,9 +22,9 @@
         <div class="panel col-sm-5 col-sm-offset-2">
             <h3>Tickets payés</h3>
             <div class="progress">
-                <div class="progress-bar progress-bar-success" style="width: {{ (100 * ticketsEtu.length/event.maximumTickets) }}%"></div>
-                <div class="progress-bar progress-bar-info" style="width: {{ (100 * ticketsContrib.length/event.maximumTickets) }}%"></div>
-                <div class="progress-bar progress-bar-warning" style="width: {{ (100 * ticketsExt.length/event.maximumTickets) }}%"></div>
+                <div class="progress-bar progress-bar-success" style="width: {{ (100 * ticketsEtu.length/paidTickets) }}%"></div>
+                <div class="progress-bar progress-bar-info" style="width: {{ (100 * ticketsContrib.length/paidTickets) }}%"></div>
+                <div class="progress-bar progress-bar-warning" style="width: {{ (100 * ticketsExt.length/paidTickets) }}%"></div>
             </div>
             <p>
                 Étudiants non-cotisants: {{ ticketsEtu.length }}<br>

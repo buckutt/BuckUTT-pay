@@ -75,6 +75,9 @@ pay.controller('AdminEvent', [
             $scope.ticketsNotPaid = tickets.filter(function (ticket) {
                 return !ticket.paid
             });
+
+            // Amount of paid tickets
+            $scope.paidTickets = tickets.length - $scope.ticketsNotPaid.length;
         });
     }
 ]);
