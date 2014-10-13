@@ -47,10 +47,10 @@ module.exports = function (config) {
         db.Right        .hasOne(db.Account);
         db.Association  .hasOne(db.Account);
         db.Event        .hasOne(db.Price);
-        db.Association  .hasOne(db.Ticket);
         db.Price        .hasOne(db.Ticket);
         db.Event        .hasOne(db.Ticket);
         db.MeanOfPayment.hasOne(db.Ticket);
+        db.Association  .hasOne(db.Event);
 
         db.sequelize = sequelize;
         db.Sequelize = Sequelize;
@@ -66,7 +66,6 @@ module.exports = function (config) {
             .complete(function (err) {
                 if (err) {
                     Error.emit(null, 500, '500 - SQL Server error ' + err.toString());
-                    process.exit(1);
                 }
 
                 // Database seeding
