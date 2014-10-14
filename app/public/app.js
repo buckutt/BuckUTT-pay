@@ -27,3 +27,20 @@ pay.config(['$routeProvider', function ($routeProvider) {
             redirectTo: '/'
         });
 }]);
+
+
+// Datepickers
+$.extend($.fn.datetimepicker.defaults, {
+    pickDate: true,
+    pickTime: true,
+    useMinutes: true,
+    useSeconds: false,
+    useCurrent: true,
+    minuteStepping: 15,
+    minDate: new Date(),
+    showToday: true,
+    language: 'fr',
+    useStrict: true,  
+    sideBySide: true,
+    daysOfWeekDisabled: [0, 7]
+});

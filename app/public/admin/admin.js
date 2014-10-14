@@ -28,22 +28,6 @@ pay.controller('Admin', [
             return;*/
         }
 
-        // Datepickers
-        $.extend($.fn.datetimepicker.defaults, {
-            pickDate: true,
-            pickTime: true,
-            useMinutes: true,
-            useSeconds: false,
-            useCurrent: true,
-            minuteStepping: 15,
-            minDate: new Date(),
-            showToday: true,
-            language: 'fr',
-            useStrict: true,  
-            sideBySide: true,
-            daysOfWeekDisabled: [0, 7]
-        });
-
         // Activate the datepicker, and ng-validate when the date changes
         $('.date').datetimepicker().on('dp.change', function () {
             console.log('update');
