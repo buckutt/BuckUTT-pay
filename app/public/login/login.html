@@ -1,11 +1,11 @@
 <div ng-controller="Login as login">
     <a href="#" id="connectLink" class="guest" ng-click="login.authUser($event);">Se connecter</a>
     <span class="text-muted welcoming connected admin"></span>
-    <span id="refreshLoader" class="loading">
+    <span id="refreshLoader" class="loading" style="display: none;">
         <i class="fa fa-spin fa-refresh"></i>
         &nbsp;&nbsp;Connexion
     </span>
-    <div class="admin">
+    <div class="admin" style="display: none;">
         <a href="#/admin/">Administration</a>
     </div>
 </div>
