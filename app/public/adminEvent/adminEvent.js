@@ -79,5 +79,14 @@ pay.controller('AdminEvent', [
             // Amount of paid tickets
             $scope.paidTickets = tickets.length - $scope.ticketsNotPaid.length;
         });
+
+        /**
+          * Edits the event parameters
+          * @param {object} e - The click event 
+          */
+        this.editParameters = function (e) {
+            e.preventDefault();
+            $('#modalEdit').modal();
+        };
     }
 ]);

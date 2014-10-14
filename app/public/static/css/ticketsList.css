@@ -5,7 +5,7 @@
 }
 
 .row-spaced > div {
-    height: 80px;
+    height: 130px;
     margin-bottom: 20px;
     overflow: hidden;
 }
@@ -13,11 +13,12 @@
 .panel {
     border-radius: 0;
     box-shadow: none;
-    min-height: 80px;
+    min-height: 130px;
     -webkit-box-shadow: none;
 }
 
 .panel-body {
+    height: 130px;
     overflow: hidden;
     padding: 0;
 }
@@ -29,60 +30,18 @@
 /* Tiles */
 
 .icon {
+    display: none;
     float: left;
-}
-
-.icon img {
-    height: 80px;
-    width: 80px;
 }
 
 .title {
-    padding-left: 15px;
     float: left;
+    padding-left: 15px;
+    width: calc(100% - 128px);
 }
 
 .title small {
     display: block;
-}
-
-.ellipsis {
-    display: none;
-    height: 60px;
-    left: -5px;
-    line-height: 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-.ellipsis:before {
-    content:"";
-    float: left;
-    height: 60px;
-    width: 5px;
-}
-
-.ellipsis > *:first-child {
-    float: right;
-    margin-left: -5px;
-    width: 100%;
-}
-
-.ellipsis:after {
-    content: "...";
-    
-    box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    
-    float: right;
-    left: 100%; 
-    margin-left: -3em;
-    padding-right: 5px;
-    position: relative;
-    text-align: right;
-    top: -20px;
-    width: 3em;
 }
 
 .buy {
@@ -90,9 +49,9 @@
     color: #fff;
     cursor: pointer;
     float: right;
-    font-size: 45px;
-    line-height: 80px;
-    width: 80px;
+    font-size: 75px;
+    line-height: 128px;
+    width: 128px;
 }
 
 /* Behind tiles */
@@ -102,7 +61,7 @@
     font-size: 60px;
     line-height: 66px;
     position: relative;
-    top: -80px;
+    top: -133px;
     width: 100%;
     -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
             transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
@@ -112,8 +71,8 @@
     float: right;
     height: 24px;
     position: relative;
-    right: 0;
-    top: 2px;
+    right: 5px;
+    top: 5px;
     width: 24px;
     z-index: 2;
 }
@@ -129,76 +88,47 @@
 }
 
 .behind .description, .behind .description.active {
-    font-size: 14px;
     opacity: 1;
     position: relative;
-    top: -17px;
+    font-size: 18px;
+    top: -30px;
 }
 
 .meanOfPayment {
+    height: 130px;
     overflow: hidden;
-    height: 80px;
+}
+
+.meanOfPayment  i {
+    font-size: 90px;
+    line-height: 128px;
 }
 
 .meanOfPayment:last-child {
     top: -24px;
 }
 
-@media (max-width: 480px) {
-    .behind .cross i {
-        position: relative;
-        top: 0;
-        right: -9px;
-        font-size: 16px;
-    }
-}
-
 @media (min-width: 768px) and (max-width: 992px) {
-    .row-spaced > div {
-        height: 96px;
+    .icon {
+        display: block;
     }
 
-    .icon img {
-        height: 96px;
-        width: 96px;
-    }
-
-    .buy {
-        font-size: 56.25px;
-        line-height: 96px;
-        width: 96px;
-    }
-
-    .behind {
-        top: -98px;
-    }
-
-    .behind .cross {
-        top: 2px;
-    }
-
-    .behind i {
-        vertical-align: text-top;
+    .title {
+        width: calc(100% - 256px);
     }
 
     .behind .description, .behind .description.active {
-        font-size: 14px;
         top: -32px;
-    }
-
-    .meanOfPayment {
-        height: 100px;
-    }
-
-    .meanOfPayment i {
-        font-size: 60px;
-        line-height: 98px;
     }
 }
 
 @media (min-width: 992px) {
-    .row-spaced > div {
-        height: 130px;
+    .icon {
+        display: block;
+    }
+
+    .title {
+        width: calc(100% - 256px);
     }
 
     .title small {
@@ -206,18 +136,12 @@
     }
 
     .behind .description {
-        opacity: 0;
         position: relative;
-        top: 0;
+        top: -30px;
     }
 
     .behind .cross {
-        top: -15px;
-        right: 5px;
-    }
-
-    .ellipsis {
-        display: block;
+        top: -20px;
     }
 
     .icon img {
@@ -233,35 +157,7 @@
         max-height: 60px;
     }
 
-    .buy {
-        font-size: 75px;
-        line-height: 128px;
-        width: 128px;
-    }
-
-    .behind {
-        top: -133px;
-    }
-
     .behind i {
         vertical-align: middle;
-    }
-
-    .behind .description {
-        font-size: 18px;
-    }
-
-    .behind .description.active {
-        font-size: 18px;
-        top: -30px;
-    }
-
-    .meanOfPayment {
-        height: 130px;
-    }
-
-    .meanOfPayment  i {
-        font-size: 90px;
-        line-height: 128px;
     }
 }

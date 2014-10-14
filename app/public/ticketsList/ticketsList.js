@@ -18,24 +18,6 @@ pay.controller('TicketsList', [
         });
 
         /**
-          * Calcs the ideal tile height
-          * @return {int} the ideal tile height
-          */
-        function calcTileHeight () {
-            var browserWidth = $(window).width();
-            var colHeight = 80;
-            if (768 <= browserWidth && browserWidth <= 992) {
-                colHeight = 96;
-            }
-            if (browserWidth > 992) {
-                colHeight = 130;
-            }
-
-            return colHeight;
-        }
-        var colHeight = calcTileHeight();
-
-        /**
           * Shows the modal related to the ticket lost
           * @param {object} e - The click event
           */
@@ -84,29 +66,13 @@ pay.controller('TicketsList', [
                     .removeClass('flipOutX')
                     .addClass('animated flipInX active');
 
-            $('.expended').removeClass('expended').height(colHeight);
-        };
-
-        /**
-         * Shows the tooltip for the mean of payment
-         * @param {object} e - The mouseover event 
-         */
-        this.showTooltip = function (e) {
-            $(e.currentTarget).next().addClass('active');
-        };
-
-        /**
-         * Hides the tooltip for the mean of payment
-         * @param {object} e - The mouseout event 
-         */
-        this.hideTooltip = function (e) {
-            $(e.currentTarget).next().removeClass('active');
+            $('.expended').removeClass('expended');
         };
 
         /**
          * Shows the form for the mean of payment
          * @param {object} e - The click event 
-         * @param {string} meanOfPayment - The mean of payment (buckutt, cash, card)
+         * @param {string} meanOfPayment - The mean of payment (buckutt, card)
          */
         this.expendBuy = function (e, meanOfPayment) {
             var $self = $(e.currentTarget);
@@ -123,30 +89,8 @@ pay.controller('TicketsList', [
                     .insertBefore($othersTargets.first())
                     .addClass('active');
             } else {
-                $selfCol.removeClass('expended').height(colHeight);
+                $selfCol.removeClass('expended');
                 $target.removeClass('active');
             }
-        };
-
-        /**
-         * Checks if the active form has to be resized (mediaquery-like)
-         * @param {string} meanOfPayment - The mean of payment (buckutt, cash, card)
-         */
-        this.checkExpended = function (meanOfPayment) {
-            var $lastElem = $.data(document.body, '$lastElem');
-            colHeight = calcTileHeight();
-            debounce(function () {
-                var $expended = $('.expended');
-
-                if ($expended.length > 0) {
-                    var $selfRow = $lastElem.parent();
-                    var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
-                    var newHeight = $selfRow.height() + $target.height();
-
-                    if ($expended.height() !== newHeight) {
-                        $('.expended').height(newHeight);
-                    }
-                }
-            }, 100);
         };
 }]);

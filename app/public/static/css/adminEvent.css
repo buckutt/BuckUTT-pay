@@ -1,5 +1,5 @@
 /* Reset from admin styles */
-.row:first-of-type > .col-sm-5:first-of-type {
+.main-row > .col-sm-5:first-of-type {
     padding: 0;
 }
 
@@ -14,4 +14,8 @@
 /* Vendor */
 .vendor span {
     cursor: pointer;
+}
+
+.parameters, .delete {
+    margin-bottom: 20px;
 }
