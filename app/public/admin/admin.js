@@ -17,7 +17,7 @@ pay.controller('Admin', [
 
         // Model for the new event
         $scope.newEvent = {};
-        $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4} [0-2][1-9]?:[0-5]?[0-9]$/;
+        $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4} [0-2][0-9]?:[0-5]?[0-9]$/;
 
         if (!SiteEtu.etu) {
             /*Error('Erreur', 5, true);
