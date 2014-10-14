@@ -33,6 +33,7 @@
             </p>
             <h3>Tickets non payés</h3>
             <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width: {{ (100 - (100 * ticketsNotPaid.length/event.maximumTickets)) }}%"></div>
                 <div class="progress-bar progress-bar-danger" style="width: {{ (100 * ticketsNotPaid.length/event.maximumTickets) }}%"></div>
             </div>
             <p>Tickets en liquide non payés : {{ ticketsNotPaid.length }}</p>
@@ -41,6 +42,17 @@
     <div class="row">
         <div class="panel col-sm-5">
             <h3>Comptes vendeurs</h3>
+            <p class="text-muted small">
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+                <span>Thomas Chauchefoin</span>
+            </p>
         </div>
         <div class="panel col-sm-5 col-sm-offset-2">
             <h3>Comptes admins</h3>

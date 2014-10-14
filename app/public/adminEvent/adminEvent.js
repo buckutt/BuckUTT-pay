@@ -48,7 +48,7 @@ pay.controller('AdminEvent', [
             $scope.event = event;
 
             console.log();
-            $scope.remainingTime = moment(new Date(event.date) - new Date()).format('D [jours et] H [heures]');
+            $scope.remainingTime = moment(new Date(event.date) - new Date()).format('D [jour(s) et] H [heure(s)]');
         });
 
         EventTickets.query({

@@ -50,6 +50,12 @@ Error.emit = function (res, status, msg, additionnalLog) {
     }
 };
 
+// Extends Number to check if a string is a positive number
+Number.isPositiveNumeric = function (str) {
+    var n = ~~Number(str);
+    return String(n) === str && n >= 0;
+};
+
 models(function (db) {
     // Custom files
     var makeRoutes = require('./app/routes');
