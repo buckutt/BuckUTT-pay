@@ -6,12 +6,13 @@
 
 pay.controller('AdminEvent', [
     '$scope',
+    '$timeout',
     '$routeParams',
     'SiteEtu',
     'Event',
     'EventTickets',
     'Error',
-    function ($scope, $routeParams, SiteEtu, Event, EventTickets, Error) {
+    function ($scope, $timeout, $routeParams, SiteEtu, Event, EventTickets, Error) {
         if (!SiteEtu.etu) {
             /*Error('Erreur', 5, true);
             setTimeout(function () {
@@ -22,6 +23,14 @@ pay.controller('AdminEvent', [
         }
 
         var eventId = $routeParams.eventId;
+
+        // Activate the datepicker, and ng-validate when the date changes
+        $('.date').datetimepicker().on('dp.change', function () {
+            var $self = $(this).children().first();
+            $timeout(function () {
+                $self.data().$ngModelController.$setViewValue($self.val());
+            }, 0);
+        });
 
         /**
           * Checks whether the given string is an positive integer or not
@@ -46,8 +55,8 @@ pay.controller('AdminEvent', [
             id: eventId,
         }, function (event) {
             $scope.event = event;
-
-            console.log();
+            $scope.event.date = moment($scope.event.date).format('DD/MM/YYYY HH:mm');
+            $('.date').data('DateTimePicker').setDate($scope.event.date.split(' ')[0]);
             $scope.remainingTime = moment(new Date(event.date) - new Date()).format('D [jour(s) et] H [heure(s)]');
         });
 

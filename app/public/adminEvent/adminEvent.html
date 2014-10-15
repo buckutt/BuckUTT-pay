@@ -78,10 +78,21 @@
                 </div>
                 <p>Inscrits : {{ tickets.length }} / {{ event.maximumTickets }}</p>
             </div>
-            <div class="panel">
-                <h3>Temps avant événement</h3>
-                <h2 class="countdown">{{ remainingTime }}</h2>
-            </div>
+        </div>
+        <div class="panel col-sm-5 col-sm-offset-2">
+            <h3>Paramètres</h3>
+            <h4 class="parameters">
+                <a href="#" ng-click="adminEvent.editParameters($event)">Éditer les paramètres</a>
+            </h4>
+            <h4 class="delete">
+                <a href="#" class="text-danger">Supprimer l'événement</a>
+            </h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel col-sm-5">
+            <h3>Temps avant événement</h3>
+            <h2 class="countdown">{{ remainingTime }}</h2>
         </div>
         <div class="panel col-sm-5 col-sm-offset-2">
             <h3>Tickets payés</h3>
@@ -95,26 +106,6 @@
                 Étudiants cotisants : {{ ticketsContrib.length }}<br>
                 Externes : {{ ticketsExt.length }}
             </p>
-            <h3>Tickets non payés</h3>
-            <div class="progress">
-                <div class="progress-bar progress-bar-success" style="width: {{ (100 - (100 * ticketsNotPaid.length/event.maximumTickets)) }}%"></div>
-                <div class="progress-bar progress-bar-danger" style="width: {{ (100 * ticketsNotPaid.length/event.maximumTickets) }}%"></div>
-            </div>
-            <p>Tickets en liquide non payés : {{ ticketsNotPaid.length }}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="panel col-sm-5">
-            <h3>Paramètres</h3>
-            <h4 class="parameters">
-                <a href="#" ng-click="adminEvent.editParameters($event)">Éditer les paramètres</a>
-            </h4>
-        </div>
-        <div class="panel col-sm-5 col-sm-offset-2">
-            <h3>Suppression</h3>
-            <h4 class="delete">
-                <a href="#" class="text-danger">Supprimer l'événement</a>
-            </h4>
         </div>
     </div>
     <div class="row">

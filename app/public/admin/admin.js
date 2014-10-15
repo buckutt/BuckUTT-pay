@@ -6,10 +6,11 @@
 
 pay.controller('Admin', [
     '$scope',
+    '$timeout',
     'SiteEtu',
     'Event',
     'Error',
-    function ($scope, SiteEtu, Event, Error) {
+    function ($scope, $timeout, SiteEtu, Event, Error) {
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
@@ -30,11 +31,10 @@ pay.controller('Admin', [
 
         // Activate the datepicker, and ng-validate when the date changes
         $('.date').datetimepicker().on('dp.change', function () {
-            console.log('update');
             var $self = $(this).children().first();
-            console.log($self);
-            $self.data().$ngModelController.$setViewValue($self.val());
-            $self.scope().$apply();
+            $timeout(function () {
+                $self.data().$ngModelController.$setViewValue($self.val());
+            }, 0);
         });
 
         $('input[type=file]').on('change', function (e) {
@@ -67,7 +67,7 @@ pay.controller('Admin', [
             }
 
             if (!continueSend) {
-                //return;
+                return;
             }
 
             // Image -> string
