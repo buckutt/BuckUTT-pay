@@ -16,7 +16,7 @@ module.exports = form(
     field('date')
         .trim()
         .required()
-        .is(/^\d{1,2}\/\d{1,2}\/\d{4} [0-2][0-9]?:[0-5]?[0-9]$/),
+        .is(/^\d{4}-\d{2}-\d{2}T[0-2]\d:\d{2}:\d{2}.\d{3}Z$/),
 
     field('description')
         .trim()

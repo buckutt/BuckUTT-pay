@@ -30,6 +30,8 @@ pay.config(['$routeProvider', function ($routeProvider) {
 
 
 // Datepickers
+// Set min date to now + 1 hour
+var minDate = moment().add(1, 'hour').toDate();
 $.extend($.fn.datetimepicker.defaults, {
     pickDate: true,
     pickTime: true,
@@ -37,7 +39,7 @@ $.extend($.fn.datetimepicker.defaults, {
     useSeconds: false,
     useCurrent: true,
     minuteStepping: 15,
-    minDate: new Date(),
+    minDate: minDate,
     showToday: true,
     language: 'fr',
     useStrict: true,  

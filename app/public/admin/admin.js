@@ -9,8 +9,9 @@ pay.controller('Admin', [
     '$timeout',
     'SiteEtu',
     'Event',
+    'FormValidator',
     'Error',
-    function ($scope, $timeout, SiteEtu, Event, Error) {
+    function ($scope, $timeout, SiteEtu, Event, FormValidator, Error) {
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
@@ -47,36 +48,29 @@ pay.controller('Admin', [
           * Creates a event
           */
         this.createEvent = function () {
-            // If we end directly the function, all errors may be not thrown
-            var continueSend = true;
-
-            // Input validation
-            var isFormValid = $('.ng-pristine, .ng-invalid', newEventForm).length === 0;
-            if (!isFormValid) {
-                var $invalids = $('.ng-pristine, .ng-invalid', newEventForm);
-                $invalids.removeClass('ng-pristine ng-valid').addClass('ng-invalid');
-                continueSend = false;
-            }
-
-            // Image validation
-            var $file = newEventForm.file;
-            var file = $file.files[0];
-            if (!file || (file.type !== 'image/png' && file.type !== 'image/jpeg')) {
-                $($file).parent().parent().next().addClass('ng-invalid');
-                continueSend = false;
-            }
-
-            if (!continueSend) {
+            if (!FormValidator(newEventForm, 'file')) {
                 return;
             }
+
+            var file = newEventForm.file.files[0];
 
             // Image -> string
             var reader = new FileReader();
             reader.onload = function (e) {
                 var result = e.currentTarget.result;
-                $scope.newEvent.image = result;
-                var newEvent = new Event($scope.newEvent);
-                newEvent.$save();
+                var newEventData = jQuery.extend(true, {}, $scope.newEvent);
+
+                newEventData.image = result;
+                newEventData.date = moment(newEventData.date, 'DD/MM/YYYY HH:mm').toDate();
+                console.log(newEventData);
+                var newEvent = new Event(newEventData);
+                newEvent.$save(function (e) {
+                    var res = e.toJSON();
+                    console.log(res);
+                    if (res.status === 1) {
+                        //location.hash = '/admin/event/' + res.id
+                    }
+                });
             };
             reader.readAsDataURL(file);
         };

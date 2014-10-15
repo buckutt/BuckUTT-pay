@@ -35,16 +35,26 @@ module.exports = function (db) {
             if (err) {
                 console.log(err);
             }
+
+            console.log(form.date);
     
             db.Event.create({
                 name: form.name,
                 picture: path.basename(opath),
                 description: form.description,
-                date: moment(form.date, 'DD/MM/YYYY HH:mm'),
+                date: new Date(form.date),
                 maximumTickets: form.maximumTickets
-            });
+            }).complete(function (err, gala2015) {
+                if (err) {
+                    Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+                }
 
-            res.end('ok');
+                res.json({
+                    status: 1,
+                    id: gala2015.id
+                });
+                res.end();
+            });
         });
     };
 };

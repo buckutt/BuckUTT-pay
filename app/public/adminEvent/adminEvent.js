@@ -55,9 +55,10 @@ pay.controller('AdminEvent', [
             id: eventId,
         }, function (event) {
             $scope.event = event;
-            $scope.event.date = moment($scope.event.date).format('DD/MM/YYYY HH:mm');
-            $('.date').data('DateTimePicker').setDate($scope.event.date.split(' ')[0]);
-            $scope.remainingTime = moment(new Date(event.date) - new Date()).format('D [jour(s) et] H [heure(s)]');
+            var dateDiff = new Date($scope.event.date) - new Date();
+            $scope.event.date = moment(new Date($scope.event.date)).format('DD/MM/YYYY HH:mm');
+            $('.date').data('DateTimePicker').setDate($scope.event.date);
+            $scope.remainingTime = moment(new Date(dateDiff)).format('D [jour(s) et] H [heure(s)]');
         });
 
         EventTickets.query({

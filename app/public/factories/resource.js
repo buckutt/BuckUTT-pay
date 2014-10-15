@@ -20,12 +20,12 @@ pay.factory('$Resource', ['$resource', function ($resource) {
 
         var resource = $resource(url, params, methods);
 
-        resource.prototype.$save = function() {
+        resource.prototype.$save = function(callback) {
             if (!this.id) {
-                return this.$create();
+                return this.$create(callback);
             }
             else {
-                return this.$update();
+                return this.$update(callback);
             }
         };
 
