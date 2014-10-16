@@ -22,13 +22,15 @@
                     <input type="text" name="name" class="form-control" placeholder="Nom de l'event (taille minimum : 5 caractères)"
                            ng-maxlength="255"
                            ng-minlength="5"
-                           ng-model="newEvent.name">
+                           ng-model="newEvent.name"
+                           ng-required="true">
                 </div>
                 <div>
                     <div class="input-group date">
                         <input type="text" name="date" class="form-control" placeholder="Date de l'événement"
                                ng-model="newEvent.date"
-                               ng-pattern="datePattern">
+                               ng-pattern="datePattern"
+                               ng-required="true">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -37,13 +39,13 @@
                 <div>
                     <textarea name="description" name="description" class="form-control" placeholder="Description"
                               ng-model="newEvent.description"
-                              ng-required></textarea>
+                              ng-required="true"></textarea>
                 </div>
                 <div>
                     <input type="number" name="maximumTickets" class="form-control" placeholder="Nombre maximum de places"
                            min="0" max="10000"
                            ng-model="newEvent.maximumTickets"
-                           required>
+                           ng-required="true">
                 </div>
                 <div>
                     <div class="input-group">
@@ -52,7 +54,9 @@
                                 Parcourir <input type="file" name="file">
                             </span>
                         </span>
-                        <input type="text" class="form-control" placeholder="Image de l'événement (taille : 128x128)" readonly="">
+                        <input type="text" class="form-control" placeholder="Image de l'événement (taille : 128x128)"
+                               readonly
+                               ng-model="fileInfo">
                     </div>
                 </div>
                 <div>
