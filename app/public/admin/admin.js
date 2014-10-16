@@ -25,8 +25,9 @@ pay.controller('Admin', [
         if (!SiteEtu.etu) {
             /*Error('Erreur', 5, true);
             setTimeout(function () {
-                location.hash = '#/';
-                $('#modalError').modal('hide');
+                $('#modalError').modal('hide').on('hidden.bs.modal', function () {
+                    location.hash = '#/';
+                });
             }, 3000);
             return;*/
         }
@@ -68,7 +69,6 @@ pay.controller('Admin', [
                 newEvent.$save(function (res) {
                     location.hash = '/admin/event/' + res.id
                 }, function (res) {
-                    console.log('okokok');
                     Error('Erreur', res.data.error);
                 });
             };
