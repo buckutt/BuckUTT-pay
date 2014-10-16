@@ -1,6 +1,6 @@
 // Pay - /app/controllers/events/getOne.js
 
-// Ticket getter
+// Event getter
 
 'use strict';
 

@@ -1,6 +1,6 @@
 // Pay - /app/controllers/events/create.js
 
-// Tickets creator
+// Event creator
 
 'use strict';
 

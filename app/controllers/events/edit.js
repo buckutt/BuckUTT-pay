@@ -1,6 +1,6 @@
 // Pay - /app/controllers/events/edit.js
 
-// Tickets editor
+// Event editor
 
 'use strict';
 
