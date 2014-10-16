@@ -52,8 +52,10 @@ pay.controller('AdminEvent', [
 
         if (!isInteger(eventId)) {
             Error('Erreur', 6, true);
+            $('#modalError').on('hidden.bs.modal', function () {
+                location.hash = '#/admin/';
+            });
             setTimeout(function () {
-                location.hash = '#/';
                 $('#modalError').modal('hide');
             }, 3000);
             return;
@@ -62,6 +64,15 @@ pay.controller('AdminEvent', [
         Event.get({
             id: eventId,
         }, function (event) {
+            if (!event.hasOwnProperty('id')) {
+                Error('Erreur', 9, true);
+                $('#modalError').on('hidden.bs.modal', function () {
+                    location.hash = '#/admin/';
+                });
+                setTimeout(function () {
+                    $('#modalError').modal('hide');
+                }, 3000);
+            }
             $scope.currentEvent = event;
             var dateDiff = new Date($scope.currentEvent.date) - new Date();
             $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');

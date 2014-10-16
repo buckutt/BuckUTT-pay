@@ -18,7 +18,8 @@ pay.factory('Error', [function () {
         5: 'Vous ne vous êtes pas authentifié. Redirection dans quelques secondes...',
         6: 'L\'identifiant de l\'événement est incorrect',
         7: 'L\'événement existe déjà.',
-        8: 'Impossible d\'enregistrer l\'image'
+        8: 'Impossible d\'enregistrer l\'image',
+        9: 'L\'événement n\'existe pas'
     };
 
     return function (title, message, doNotClear) {
