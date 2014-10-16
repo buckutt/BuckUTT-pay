@@ -21,6 +21,10 @@ input.form-control, textarea.form-control, input.form-control:focus, textarea.fo
             box-shadow: none;
 }
 
+#modalError {
+    z-index: 1051;
+}
+
 .modal-content {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
