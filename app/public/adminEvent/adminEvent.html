@@ -9,9 +9,8 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
                     </button>
-                    <h4 id="lostTicketsModal" class="modal-title">Édition de l'événement</h4>
+                    <h4 class="modal-title">Édition de l'événement</h4>
                 </div>
                 <div class="modal-body">
                     <form name="eventForm" class="subPanel">
@@ -64,6 +63,31 @@
         </div>
     </div>
 
+    <div id="modalConfirm" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Confirmation de suppression</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Vous êtes sur le point de supprimer un événement. Ceci entraînera l'invalidité de tous les tickets achetés.<br>
+                        Les places ne seront pas remboursées.<br>
+                        <br>
+                        <strong class="text-danger">Si l'événement est terminé, l'opération est inutile</strong>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" ng-click="adminEvent.deleteEvent($event)">Supprimer l'événement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1 class="text-center">
         <a href="#/">BuckUTT</a>
     </h1>
@@ -87,7 +111,7 @@
                 <a href="#" ng-click="adminEvent.editParameters($event)">Éditer les paramètres</a>
             </h4>
             <h4 class="delete">
-                <a href="#" class="text-danger">Supprimer l'événement</a>
+                <a href="#" class="text-danger" ng-click="adminEvent.confirmDeleteEvent($event)">Supprimer l'événement</a>
             </h4>
         </div>
     </div>
