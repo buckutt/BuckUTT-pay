@@ -19,13 +19,15 @@
                             <input type="text" name="name" class="form-control" placeholder="Nom de l'event (taille minimum : 5 caractères)"
                                    ng-maxlength="255"
                                    ng-minlength="5"
-                                   ng-model="event.name">
+                                   ng-model="currentEvent.name"
+                                   ng-required="true">
                         </div>
                         <div>
                             <div class="input-group date">
                                 <input type="text" name="date" class="form-control" placeholder="Date de l'événement"
-                                       ng-model="event.date"
-                                       ng-pattern="datePattern">
+                                       ng-model="currentEvent.date"
+                                       ng-pattern="datePattern"
+                                       ng-required="true">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -33,14 +35,14 @@
                         </div>
                         <div>
                             <textarea name="description" name="description" class="form-control" placeholder="Description"
-                                      ng-model="event.description"
-                                      ng-required></textarea>
+                                      ng-model="currentEvent.description"
+                                      ng-required="true"></textarea>
                         </div>
                         <div>
                             <input type="number" name="maximumTickets" class="form-control" placeholder="Nombre maximum de places"
                                    min="0" max="10000"
-                                   ng-model="event.maximumTickets"
-                                   required>
+                                   ng-model="currentEvent.maximumTickets"
+                                   ng-required="true">
                         </div>
                         <div>
                             <div class="input-group">
@@ -49,14 +51,14 @@
                                         Parcourir <input type="file" name="file">
                                     </span>
                                 </span>
-                                <input type="text" class="form-control" placeholder="Image de l'événement (taille : 128x128)" readonly="">
+                                <input type="text" class="form-control" placeholder="Image de l'événement (taille : 128x128)" readonly>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Éditer l'événement</button>
+                    <button type="button" class="btn btn-primary" ng-click="adminEvent.editEvent($event)">Éditer l'événement</button>
                 </div>
             </div>
         </div>
@@ -66,7 +68,7 @@
         <a href="#/">BuckUTT</a>
     </h1>
     <h2 class="text-center">
-        <a href="#/admin/">Administration</a> - {{ event.name }}
+        <a href="#/admin/">Administration</a> - {{ currentEvent.name }}
     </h2>
 
     <div class="row main-row">
@@ -74,9 +76,9 @@
             <div class="panel">
                 <h3>Inscrits</h3>
                 <div class="progress">
-                    <div class="progress-bar" style="width: {{ (100 * tickets.length/event.maximumTickets) }}%;"></div>
+                    <div class="progress-bar" style="width: {{ (100 * tickets.length/currentEvent.maximumTickets) }}%;"></div>
                 </div>
-                <p>Inscrits : {{ tickets.length }} / {{ event.maximumTickets }}</p>
+                <p>Inscrits : {{ tickets.length }} / {{ currentEvent.maximumTickets }}</p>
             </div>
         </div>
         <div class="panel col-sm-5 col-sm-offset-2">

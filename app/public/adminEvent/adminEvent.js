@@ -11,8 +11,9 @@ pay.controller('AdminEvent', [
     'SiteEtu',
     'Event',
     'EventTickets',
+    'FormValidator',
     'Error',
-    function ($scope, $timeout, $routeParams, SiteEtu, Event, EventTickets, Error) {
+    function ($scope, $timeout, $routeParams, SiteEtu, Event, EventTickets, FormValidator, Error) {
         if (!SiteEtu.etu) {
             /*Error('Erreur', 5, true);
             setTimeout(function () {
@@ -30,6 +31,13 @@ pay.controller('AdminEvent', [
             $timeout(function () {
                 $self.data().$ngModelController.$setViewValue($self.val());
             }, 0);
+        });
+
+        // Updates the input text with the input file name
+        $('input[type=file]').on('change', function (e) {
+            if (this.files.length === 1) {
+                $(this).parent().parent().next().val(this.files[0].name);                
+            }
         });
 
         /**
@@ -54,10 +62,10 @@ pay.controller('AdminEvent', [
         Event.get({
             id: eventId,
         }, function (event) {
-            $scope.event = event;
-            var dateDiff = new Date($scope.event.date) - new Date();
-            $scope.event.date = moment(new Date($scope.event.date)).format('DD/MM/YYYY HH:mm');
-            $('.date').data('DateTimePicker').setDate($scope.event.date);
+            $scope.currentEvent = event;
+            var dateDiff = new Date($scope.currentEvent.date) - new Date();
+            $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');
+            $('.date').data('DateTimePicker').setDate($scope.currentEvent.date);
             $scope.remainingTime = moment(new Date(dateDiff)).format('D [jour(s) et] H [heure(s)]');
         });
 
@@ -97,6 +105,54 @@ pay.controller('AdminEvent', [
         this.editParameters = function (e) {
             e.preventDefault();
             $('#modalEdit').modal();
+        };
+
+        /**
+          * Edits the event
+          * @param {object} e - The click event 
+          */
+        this.editEvent = function (e) {
+            var fileDisabled = eventForm.file.files.length === 0;
+            if (fileDisabled) {
+                if (!FormValidator(eventForm, 'file')) {
+                    return;
+                }
+            } else {
+                if (!FormValidator(eventForm, 'file', true)) {
+                    return;
+                }
+            }
+
+            if (!fileDisabled) {
+                var file = eventForm.file.files[0];
+
+                // Image -> string
+                var reader = new FileReader();
+                reader.onload = callback;
+                reader.readAsDataURL(file);
+            } else {
+                callback();
+            }
+
+            function callback (e) {
+                if (!fileDisabled) {
+                    var result = e.currentTarget.result;
+                    $scope.currentEvent.image = result;
+                }
+
+                $scope.currentEvent.date = moment($scope.currentEvent.date, 'DD/MM/YYYY HH:mm').toDate();
+
+                $scope.currentEvent.$save(function (res) {
+                    $scope.currentEvent = this;
+                    var dateDiff = new Date($scope.currentEvent.date) - new Date();
+                    $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');
+                    $('.date').data('DateTimePicker').setDate($scope.currentEvent.date);
+                    $scope.remainingTime = moment(new Date(dateDiff)).format('D [jour(s) et] H [heure(s)]');
+                    $('#modalEdit').modal('hide');
+                }, function (res) {
+                    Error('Erreur', res.data.error);
+                });
+            }
         };
     }
 ]);
