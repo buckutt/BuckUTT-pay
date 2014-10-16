@@ -7,11 +7,13 @@
 var getAll = require('./getAll');
 var getOne = require('./getOne');
 var create = require('./create');
+var edit   = require('./edit');
 
 module.exports = function (db) {
     return {
         getAll: getAll(db),
         getOne: getOne(db),
-        create: create(db)
+        create: create(db),
+        edit: edit(db)
     };
 };

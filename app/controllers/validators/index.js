@@ -5,7 +5,9 @@
 'use strict';
 
 var createEvent = require('./createEvent');
+var editEvent   = require('./editEvent');
 
 module.exports = {
-    createEvent: createEvent
+    createEvent: createEvent,
+    editEvent: editEvent
 };
