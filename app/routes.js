@@ -25,6 +25,11 @@ module.exports = function (router, db, config) {
         validators.createEvent,
         controllers.events.create
     );
+    router.put(
+        '/events',
+        validators.editEvent,
+        controllers.events.edit
+    )
 
     // Event
     router.get(
