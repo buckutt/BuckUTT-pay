@@ -19,6 +19,7 @@ pay.controller('Admin', [
 
         // Model for the new event
         $scope.newEvent = {};
+        $scope.fileInfo = null;
         $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4} [0-2][0-9]?:[0-5]?[0-9]$/;
 
         if (!SiteEtu.etu) {
@@ -38,9 +39,10 @@ pay.controller('Admin', [
             }, 0);
         });
 
+        // Updates the input text with the input file name
         $('input[type=file]').on('change', function (e) {
             if (this.files.length === 1) {
-                $(this).parent().parent().next().val(this.files[0].name);                
+                $(this).parent().parent().next().val(this.files[0].name);
             }
         });
 
@@ -62,14 +64,12 @@ pay.controller('Admin', [
 
                 newEventData.image = result;
                 newEventData.date = moment(newEventData.date, 'DD/MM/YYYY HH:mm').toDate();
-                console.log(newEventData);
                 var newEvent = new Event(newEventData);
-                newEvent.$save(function (e) {
-                    var res = e.toJSON();
-                    console.log(res);
-                    if (res.status === 1) {
-                        //location.hash = '/admin/event/' + res.id
-                    }
+                newEvent.$save(function (res) {
+                    location.hash = '/admin/event/' + res.id
+                }, function (res) {
+                    console.log('okokok');
+                    Error('Erreur', res.data.error);
                 });
             };
             reader.readAsDataURL(file);
