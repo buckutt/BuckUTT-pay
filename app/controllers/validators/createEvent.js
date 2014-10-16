@@ -1,6 +1,6 @@
 // Pay - /app/controllers/validators/createEvent.js
 
-// Tickets creator form validatior
+// Event creator form validatior
 
 'use strict';
 
