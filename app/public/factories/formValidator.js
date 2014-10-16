@@ -10,7 +10,6 @@ pay.factory('FormValidator', [function () {
             var formValid = true;
 
             // Image validation
-            console.log(typeof imageValidator !== 'undefined');
             if (typeof imageValidator !== 'undefined') {
                 var $file = form[imageSelector];
                 var file = $file.files[0];
