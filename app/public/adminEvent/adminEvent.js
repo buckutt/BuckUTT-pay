@@ -154,5 +154,31 @@ pay.controller('AdminEvent', [
                 });
             }
         };
+
+        /**
+          * Shows the modal to prevent from miss clicks
+          * @param {string} e - The click event
+          */
+        this.confirmDeleteEvent = function (e) {
+            e.preventDefault();
+            $('#modalConfirm').modal();
+        };
+
+        /**
+          * Deletes the event
+          * @param {string} e - The click event
+          */
+        this.deleteEvent = function (e) {
+            e.preventDefault();
+            $scope.currentEvent.$remove({
+                id: $scope.currentEvent.id
+            }).then(function (res) {
+                if (res.status === 200) {
+                    $('#modalConfirm').modal('hide').on('hidden.bs.modal', function () {
+                        location.hash = '#/admin/';
+                    });
+                }
+            });
+        };
     }
 ]);
