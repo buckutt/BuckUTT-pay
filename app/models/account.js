@@ -18,7 +18,8 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         }
     }, {
-        underscored: true
+        underscored: true,
+        paranoid: true
     });
 
     return Account;

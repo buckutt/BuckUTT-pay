@@ -50,7 +50,8 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: false
         },
     }, {
-        underscored: true
+        underscored: true,
+        paranoid: true
     });
 
     return Ticket;

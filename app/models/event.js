@@ -38,7 +38,8 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER(5).UNSIGNED
         }
     }, {
-        underscored: true
+        underscored: true,
+        paranoid: true
     });
 
     return Event;

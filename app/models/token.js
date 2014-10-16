@@ -34,7 +34,8 @@ module.exports = function (sequelize, DataTypes) {
             unique: true
         }
     }, {
-        underscored: true
+        underscored: true,
+        paranoid: true
     });
 
     return Token;
