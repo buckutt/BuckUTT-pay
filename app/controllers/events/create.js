@@ -13,7 +13,7 @@ module.exports = function (db) {
         var newEvent = req.body;
 
         if (!req.form.isValid) {
-            Error.emit(res, 400, '400 - Bad Request');
+            Error.emit(res, 400, '400 - Bad Request', req.form.errors);
             return;
         }
 
@@ -33,11 +33,9 @@ module.exports = function (db) {
         opath = (opath + '/' + oname).toLowerCase();
         fs.writeFile(opath, buffer, function (err) {
             if (err) {
-                console.log(err);
+                Error.emit(res, 500, '500 - Cannot write file', err.toString());
             }
 
-            console.log(form.date);
-    
             db.Event.create({
                 name: form.name,
                 picture: path.basename(opath),
@@ -46,11 +44,15 @@ module.exports = function (db) {
                 maximumTickets: form.maximumTickets
             }).complete(function (err, gala2015) {
                 if (err) {
+                    if (err.name === 'SequelizeUniqueConstraintError') {
+                        Error.emit(res, 400, '400 - Duplicate event');
+                        return;
+                    }
                     Error.emit(null, 500, '500 - SQL Server error ', err.toString());
                 }
 
                 res.json({
-                    status: 1,
+                    status: 200,
                     id: gala2015.id
                 });
                 res.end();
