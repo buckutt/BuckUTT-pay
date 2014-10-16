@@ -16,26 +16,26 @@ module.exports = function (router, db, config) {
     );
 
     // Events
-    router.get(
-        '/events',
-        controllers.events.getAll
-    );
-    router.post(
-        '/events',
-        validators.createEvent,
-        controllers.events.create
-    );
-    router.put(
-        '/events',
-        validators.editEvent,
-        controllers.events.edit
-    )
+    router.route('/events').
+        get(
+            controllers.events.getAll
+        )
+        .post(
+            validators.createEvent,
+            controllers.events.create
+        )
+        .put(
+            validators.editEvent,
+            controllers.events.edit
+        );
 
-    // Event
-    router.get(
-        '/events/:eventId',
-        controllers.events.getOne
-    );
+    router.route('/events/:eventId')
+        .delete(
+            controllers.events.remove
+        )
+        .get(
+            controllers.events.getOne
+        );
 
     // Events ticket
     router.get(
