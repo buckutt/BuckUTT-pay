@@ -26,7 +26,9 @@ Error.emit = function (res, status, msg, additionnalLog) {
         '500 - Etu server is not responding': 1,
         '400 - Bad Request'                 : 2,
         '500 - SQL Server error'            : 3,
-        '400 - Not enough scopes'           : 4
+        '400 - Not enough scopes'           : 4,
+        '400 - Duplicate event'             : 7,
+        '500 - Cannot write file'           : 8
     };
 
     log.error(msg);
