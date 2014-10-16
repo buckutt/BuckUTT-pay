@@ -78,7 +78,6 @@ module.exports = function (db, config) {
                     });
                 });
             } else {
-                console.log('Error on oauth/token', authBody);
                 Error.emit(res, 500, '500 - Etu server is not responding');
                 return;
             }
