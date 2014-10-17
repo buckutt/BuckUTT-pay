@@ -54,7 +54,7 @@ pay.controller('TicketsList', [
                     .removeClass('flipOutX')
                     .addClass('animated flipInX active');
 
-            $('.expended').removeClass('expended');
+            $('.expended').removeClass('expended').removeAttr('style');
         };
 
         /**
@@ -77,7 +77,7 @@ pay.controller('TicketsList', [
                     .insertBefore($othersTargets.first())
                     .addClass('active');
             } else {
-                $selfCol.removeClass('expended');
+                $selfCol.removeClass('expended').removeAttr('style');
                 $target.removeClass('active');
             }
         };
