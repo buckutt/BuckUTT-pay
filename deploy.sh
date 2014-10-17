@@ -8,9 +8,8 @@ user='ung'
 
 filesList[0]='LICENSE'
 filesList[1]='README.md'
-filesList[2]='deploy.sh'
-filesList[3]='package.json'
-filesList[4]='server.js'
+filesList[2]='package.json'
+filesList[3]='server.js'
 
 echo "--- config ---"
 echo "host       : $host"
