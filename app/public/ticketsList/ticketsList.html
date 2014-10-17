@@ -3,8 +3,9 @@
 
     <div class="row row-spaced">
         <div class="panel-col transition col-xs-12 col-sm-10 col-sm-offset-1 col-lg-12 col-lg-offset-0">
-            <div class="transition panel panel-default">
-                <div ng-init="template = 'login/login.html'" ng-include="template"></div>
+            <div id="loginControllerWrapper" class="transition panel panel-default"
+                 ng-init="template = 'login/login.html'"
+                 ng-include="template">
             </div>
         </div>
     </div>
