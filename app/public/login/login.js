@@ -6,10 +6,22 @@
 
 pay.controller('Login', [
     '$scope',
+    '$timeout',
     'SiteEtu',
-    function ($scope, SiteEtu) {
+    function ($scope, $timeout, SiteEtu) {
         // Refreshes token if possible
         SiteEtu.pleaseRefreshToken(treatLoading, treatUserData);
+
+        /**
+          * Shows the modal related to the ticket lost
+          * @param {object} e - The click event
+          */
+        this.showModal = function (e) {
+            e.preventDefault();
+            $timeout(function () {
+                $('#modalLost').modal();
+            });
+        };
 
         /**
           * Authenticates the user via site etu

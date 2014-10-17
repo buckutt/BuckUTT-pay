@@ -1,33 +1,11 @@
 <div class="view" ng-controller="TicketsList as ticket">
     <h1 class="text-center">BuckUTT</h1>
 
-    <div id="modalLost" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">Perte de billet</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Si vous avez oublié l'un de vos tickets, veuillez entrez votre e-mail.<br>
-                        Un mail sera envoyé avec des liens pour chaque place encore valide.
-                    </p>
-                    <input type="email" id="lostTicketsEmail" class="form-control" name="lostTicketsEmail">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Envoyer les places</button>
-                </div>
+    <div class="row row-spaced">
+        <div class="panel-col transition col-xs-12 col-sm-10 col-sm-offset-1 col-lg-12 col-lg-offset-0">
+            <div class="transition panel panel-default">
+                <div ng-init="template = 'login/login.html'" ng-include="template"></div>
             </div>
-        </div>
-    </div>
-
-    <div class="row pull-right">
-        <a href="#" ng-click="ticket.showModal($event, 'modalLost')">J'ai perdu mon billet</a>
-        <div ng-init="template = 'login/login.html'" ng-include="template">
         </div>
     </div>
     <div class="row row-spaced" pay-onresize ng-repeat="event in events">

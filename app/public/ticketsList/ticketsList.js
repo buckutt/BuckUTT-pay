@@ -17,17 +17,6 @@ pay.controller('TicketsList', [
         });
 
         /**
-          * Shows the modal related to the ticket lost
-          * @param {object} e - The click event
-          */
-        this.showModal = function (e) {
-            e.preventDefault();
-            $timeout(function () {
-                $('#modalLost').modal();
-            });
-        };
-
-        /**
          * Shows the three means of payment for the event
          * @param {object} e - The click event 
          */
