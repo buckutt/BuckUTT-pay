@@ -6,6 +6,8 @@
 'use strict';
 
 var request = require('request');
+var config = require('../../config.json');
+var logger = require('../../log')(config);
 
 module.exports = function (db, config) {
     function arrayEquals(a, b) {
@@ -60,6 +62,7 @@ module.exports = function (db, config) {
                 }
 
                 var token = authResponse.access_token;
+                logger.debug('Token to be used : ' + token);
                 var refreshToken = authResponse.refresh_token;
                 request.get({
                     url: config.app.link + 'private/user/account?access_token=' + token
