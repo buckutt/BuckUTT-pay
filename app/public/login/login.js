@@ -42,6 +42,15 @@ pay.controller('Login', [
 
             $('.guest').hide();
             $('.loading').hide();
+            $('#loginIcon').addClass('iconHide');
+            $('#okayIcon').addClass('iconShow');
+            setTimeout(function () {
+                $('#okayIcon').removeClass('iconShow');
+                $('#loginController').removeClass('connecting');
+                setTimeout(function () {
+                    $('#logged').removeClass('loggedHide');
+                });
+            }, 1000);
 
             $('.connected').show();
 
@@ -60,7 +69,37 @@ pay.controller('Login', [
           */
         function treatLoading () {
             $('.guest').hide();
-            $('.loading').show();
+            setTimeout(function () {
+                $('#loginController').addClass('connecting');
+            }, 100);
+
+            var callbackIn = function () {
+                animLoad(0, callbackOut);
+            };
+
+            var callbackOut = function () {
+                if (!$scope.etu) {
+                    animLoad(90, callbackIn);
+                }
+            };
+
+            animLoad(90, callbackIn);
+        }
+
+        function animLoad (to, callback) {
+            $('#loginLoader').animate({
+                height: to,
+                width: to,
+                top: '-' + (to / 2) + 'px',
+                left: '-' + (to / 2) + 'px'
+            }, {
+                done: function () {
+                    setTimeout(function () {
+                        callback();
+                    }, 100);
+                },
+                duration: 300
+            }, 'easeInOutExpo');
         }
     }
 ]);

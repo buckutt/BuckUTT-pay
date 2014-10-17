@@ -1,0 +1,80 @@
+#loginControllerWrapper, #loginController {
+    background-color: white;
+    float: left;
+    height: 100%;
+    width: 100%;
+
+    -webkit-transition: background-color .3s ease;
+       -moz-transition: background-color .3s ease;
+         -o-transition: background-color .3s ease;
+        -ms-transition: background-color .3s ease;
+            transition: background-color .3s ease;
+}
+
+#loginController.connecting {
+    background-color: #2ecc71;
+}
+
+#buttonLost {
+    bottom: 5px;
+    position: absolute;
+    right: 20px;
+    z-index: 4;
+}
+
+#loginIcon, #okayIcon {
+    display: block;
+    float: left;
+    font-size: 60px;
+    line-height: 60px;
+    margin: 35px auto 0 auto;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    z-index: 2;
+
+    -webkit-transition: font-size .3s;
+            transition: font-size .3s;
+}
+
+#loginIcon.iconHide, #okayIcon {
+    font-size: 0;
+}
+
+#loginLoader {
+    background-color: #27ae60;
+    border-radius: 50px;
+    float: left;
+    height: 0;
+    margin: -30px 0 0 50%;
+    opacity: 0.6;
+    position: relative;
+    top: 0;
+    width: 0;
+}
+
+#okayIcon {
+    float: none;
+    position: absolute;
+    width: calc(100% - 30px - 2px);
+}
+
+#okayIcon.iconShow {
+    font-size: 60px;
+}
+
+#logged {
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    -webkit-transition: height .3s;
+            transition: height .3s;
+}
+
+#logged.loggedHide {
+    height: 0;
+}
