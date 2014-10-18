@@ -45,6 +45,7 @@ pay.controller('Login', [
             SiteEtu.etu = data;
             $scope.etu = window.x = data;
 
+            $('#loginController').addClass('connecting');
             $('.guest').hide();
             $('.loading').hide();
             $('#loginIcon').addClass('iconHide');
