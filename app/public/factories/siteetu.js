@@ -87,12 +87,13 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
           * Checks if the refresh token is here and still viable
           * @param {function} loadingCallback - Called when the refresh token is being refreshed
           * @param {function} callback - Called when the refresh token has been refreshed
+          * @return {integer} -1 if useless, 0 is impossible, 1 if it's refreshing
           */
         this.pleaseRefreshToken = function (loadingCallback, callback) {
             if (this.etu !== null) {
                 loadingCallback();
                 callback(this.etu);
-                return;
+                return -1;
             }
 
             var token = localStorage.getItem('refreshToken');
@@ -112,7 +113,13 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
                     }).error(function (data, status, headers) {
                         error('Erreur', data.error);
                     });
+
+                    return 1;
+                } else {
+                    return 0;
                 }
+            } else {
+                return 0;
             }
         };
     }

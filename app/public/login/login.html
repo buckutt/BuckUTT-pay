@@ -23,8 +23,8 @@
         </div>
     </div>
 
-    <button id="buttonLost" class="btn btn-default" ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
-    <i id="loginIcon" class="fa fa-lock"></i>
+    <button id="buttonLost" class="guest btn btn-default" ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
+    <i id="loginIcon" class="fa fa-lock" ng-click="login.authUser($event)"></i>
     <div id="loginLoader"></div>
     <i id="okayIcon" class="fa fa-check"></i>
     <div id="logged" class="loggedHide raw">

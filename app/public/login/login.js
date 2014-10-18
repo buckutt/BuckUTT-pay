@@ -10,7 +10,12 @@ pay.controller('Login', [
     'SiteEtu',
     function ($scope, $timeout, SiteEtu) {
         // Refreshes token if possible
-        SiteEtu.pleaseRefreshToken(treatLoading, treatUserData);
+        var isRefreshing = SiteEtu.pleaseRefreshToken(treatLoading, treatUserData);
+
+        console.log(isRefreshing);
+        if (isRefreshing === 0) {
+            $('#loginIcon').addClass('canConnect');
+        }
 
         /**
           * Shows the modal related to the ticket lost

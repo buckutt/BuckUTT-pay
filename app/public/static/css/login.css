@@ -38,6 +38,11 @@
             transition: font-size .3s;
 }
 
+#loginIcon.canConnect {
+    cursor: pointer;
+    z-index: 3;
+}
+
 #loginIcon.iconHide, #okayIcon {
     font-size: 0;
 }
