@@ -1,3 +1,15 @@
+.loginPanel, .loginPanel #loginControllerWrapper {
+    -webkit-transition: height .3s ease-out, min-height .3s ease-out;
+       -moz-transition: height .3s ease-out, min-height .3s ease-out;
+         -o-transition: height .3s ease-out, min-height .3s ease-out;
+            transition: height .3s ease-out, min-height .3s ease-out;
+}
+
+.loginPanel.logged, .loginPanel.logged #loginControllerWrapper {
+    height: 48px;
+    min-height: 48px;
+}
+
 #loginControllerWrapper, #loginController {
     background-color: white;
     float: left;
@@ -82,4 +94,11 @@
 
 #logged.loggedHide {
     height: 0;
+}
+
+#logged .col-xs-3 {
+    height: 100%;
+    font-size: 140%;
+    text-align: center;
+    padding-top: 10px;
 }

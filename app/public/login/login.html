@@ -23,17 +23,25 @@
         </div>
     </div>
 
-    <button id="buttonLost" class="guest btn btn-default" ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
+    <button id="buttonLost" class="btn btn-default" ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
     <i id="loginIcon" class="fa fa-lock" ng-click="login.authUser($event)"></i>
     <div id="loginLoader"></div>
     <i id="okayIcon" class="fa fa-check"></i>
     <div id="logged" class="loggedHide raw">
-        <div class="col-xs-3">Gérer Buckutt</div>
-        <div class="col-xs-3">Gérer mes tickets</div>
-        <div class="col-xs-3">Administration</div>
-        <div class="col-xs-3">Déconnexion</div>
+        <div class="col-xs-3">
+            <a href="#">Gérer Buckutt</a>
+        </div>
+        <div class="col-xs-3">
+            <a href="#">Gérer mes tickets</a>
+        </div>
+        <div class="col-xs-3">
+            <a href="#/admin/">Administration</a>
+        </div>
+        <div class="col-xs-3">
+            <a href="#" ng-click="login.logout($event)">Déconnexion</a>
+        </div>
     </div>
-    <!--<a href="#" id="connectLink" class="guest" ng-click="login.authUser($event);">Se connecter</a>
+    <!--<a href="#" id="connectLink" class="" ng-click="login.authUser($event);">Se connecter</a>
     <span class="text-muted welcoming connected admin"></span>
     <span id="refreshLoader" class="loading" style="display: none;">
         <i class="fa fa-spin fa-refresh"></i>
