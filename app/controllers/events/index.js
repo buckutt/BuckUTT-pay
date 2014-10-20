@@ -10,12 +10,12 @@ var create = require('./create');
 var edit   = require('./edit');
 var remove = require('./remove');
 
-module.exports = function (db) {
+module.exports = function (db, config) {
     return {
-        getAll: getAll(db),
-        getOne: getOne(db),
-        create: create(db),
-        edit: edit(db),
-        remove: remove(db)
+        getAll: getAll(db, config),
+        getOne: getOne(db, config),
+        create: create(db, config),
+        edit: edit(db, config),
+        remove: remove(db, config)
     };
 };

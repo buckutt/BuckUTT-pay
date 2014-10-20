@@ -8,9 +8,10 @@ var fs     = require('fs');
 var path   = require('path');
 var moment = require('moment');
 var config = require('../../config.json');
-var logger = require('../../log')(config);
 
-module.exports = function (db) {
+module.exports = function (db, config) {
+    var logger = require('../../log')(config);
+    
     /**
       * Gets the file extension
       * @param {string} filename - The file name
