@@ -1,0 +1,45 @@
+<div ng-controller="BuckuttAdmin as buckuttAdmin">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Administration BuckUTT</h2>
+    <div class="row">
+        <div class="col-xs-12 panel panel-default">
+            <h3>Prix Sherlock's LCL</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 panel panel-default">
+            <h3>Domaines mails étudiants</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 panel panel-default">
+            <h3>Configuration serveur</h3>
+<pre>
+{
+    "debug": true,
+    "port": 8080,
+    "db": {
+        "host": "localhost",
+        "port": 3306,
+        "name": "pay",
+        "user": "root",
+        "pwd": "toor"
+    },
+    "log": {
+        "log": true,
+        "out": "console",
+        "level": "debug",
+        "format": "%l %d : %s"
+    },
+    "app": {
+        "link": "https://etu.utt.fr/api/",
+        "clientId": "11196275875",
+        "clientSecret": "9cafadffe59fe613771d9e9387c17d09"
+    }
+}
+</pre>
+        </div>
+    </div>
+</div>
