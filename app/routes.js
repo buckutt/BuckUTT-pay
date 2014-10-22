@@ -45,8 +45,14 @@ module.exports = function (router, db, config) {
 
     // Auth etu
     router.post(
-        '/authEtu',
-        controllers.etu
+        '/etu/auth',
+        controllers.etu.auth
+    );
+
+    // Search among users list
+    router.get(
+        '/etu/search/',
+        controllers.etu.searchUsers
     );
 
     router.param('eventId', function (req, res, next, eventId) {

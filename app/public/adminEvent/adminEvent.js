@@ -25,6 +25,28 @@ pay.controller('AdminEvent', [
 
         var eventId = $routeParams.eventId;
 
+        // jQuery autocomplete
+        $('#searchVendorUser').autocomplete({
+            serviceUrl: '/api/etu/search/?token=' + localStorage.getItem('token'),
+            minChars: 3,
+            maxHeight: 400,
+            zIndex: 9999,
+            // callback function:
+            onSelect: function (value, data) {
+                console('You selected: ' + value + ', ' + data);
+            },
+            onSearchError: function (v, e) {
+                Error('Erreur', JSON.parse(e.responseText).error);
+            },
+            transformResult: function (response) {
+                var truc = JSON.parse(response).response.data.map(function (v) {
+                    return v.fullName;
+                });
+                return response.toString();
+            }
+        });
+        $scope.autocompleter = $('#searchVendorUser').autocomplete();
+
         // Activate the datepicker, and ng-validate when the date changes
         $('.date').datetimepicker().on('dp.change', function () {
             var $self = $(this).children().first();
@@ -65,7 +87,7 @@ pay.controller('AdminEvent', [
             id: eventId,
         }, function (event) {
             if (!event.hasOwnProperty('id')) {
-                Error('Erreur', 9, true);
+                Error('Erreur', event.error, true);
                 $('#modalError').on('hidden.bs.modal', function () {
                     location.hash = '#/admin/';
                 });
