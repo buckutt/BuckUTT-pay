@@ -10,16 +10,17 @@ pay.factory('Error', [function () {
     var $content = $('#modalErrorText');
 
     var msgCodes = {
-        0: 'Erreur inconnue.',
-        1: 'Le site etu ne répond pas.',
-        2: 'Requête invalide ou insuffisante.',
-        3: 'Erreur de la base de donnée.',
-        4: 'L\'application n\'a pas reçu assez de droits.',
-        5: 'Vous ne vous êtes pas authentifié. Redirection dans quelques secondes...',
-        6: 'L\'identifiant de l\'événement est incorrect',
-        7: 'L\'événement existe déjà.',
-        8: 'Impossible d\'enregistrer l\'image',
-        9: 'L\'événement n\'existe pas'
+        0:   'Erreur inconnue.',
+        1:   'Le site etu ne répond pas.',
+        2:   'Requête invalide ou insuffisante.',
+        3:   'Erreur de la base de donnée.',
+        4:   'L\'application n\'a pas reçu assez de droits.',
+        5:   'Vous ne vous êtes pas authentifié. Redirection dans quelques secondes...',
+        6:   'L\'identifiant de l\'événement est incorrect.',
+        7:   'L\'événement existe déjà.',
+        8:   'Impossible d\'enregistrer l\'image.',
+        9:   'L\'événement n\'existe pas.',
+        10:  'La session a expirée.'
     };
 
     return function (title, message, doNotClear) {

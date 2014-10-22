@@ -42,6 +42,7 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
                 window.showModalDialog(url, window, params);
                 window.onMessage = function (data) {
                     localStorage.setItem('refreshToken', e.data.refreshToken);
+                    localStorage.setItem('token', e.data.token);
                     localStorage.setItem('date', (new Date()).getTime());
                     callback(data);
                 };
@@ -49,6 +50,7 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
                 window.open(url, '_blank', params);
                 window.addEventListener('message', function (e) {
                     localStorage.setItem('refreshToken', e.data.refreshToken);
+                    localStorage.setItem('token', e.data.token);
                     localStorage.setItem('date', (new Date()).getTime());
                     callback(e.data);
                 }, false);
@@ -69,7 +71,7 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
 
             var code = query[1];
 
-            $http.post('api/authEtu', JSON.stringify({
+            $http.post('api/etu/auth', JSON.stringify({
                 code: code
             })).success(function (data) {
                 if (isIE()) {
@@ -103,12 +105,13 @@ pay.factory('SiteEtu', ['$http', 'Error', function ($http, error) {
             if (token && date) {
                 if ((new Date()) - date < oneMonth) {
                     loadingCallback();
-                    $http.post('api/authEtu', JSON.stringify({
+                    $http.post('api/etu/auth', JSON.stringify({
                         refreshToken: token
                     })).success(function (data) {
                         // Refresh token is not refreshable anymore
                         /*localStorage.setItem('refreshToken', data.refreshToken);
                         localStorage.setItem('date', (new Date()).getTime());*/
+                        localStorage.setItem('token', data.token);
                         callback(data);
                     }).error(function (data, status, headers) {
                         error('Erreur', data.error);

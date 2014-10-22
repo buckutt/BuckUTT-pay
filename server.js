@@ -28,7 +28,8 @@ Error.emit = function (res, status, msg, additionnalLog) {
         '500 - SQL Server error'            : 3,
         '400 - Not enough scopes'           : 4,
         '400 - Duplicate event'             : 7,
-        '500 - Cannot write file'           : 8
+        '500 - Cannot write file'           : 8,
+        '500 - Invalid token'               : 10
     };
 
     log.error(msg);
