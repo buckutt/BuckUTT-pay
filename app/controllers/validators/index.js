@@ -6,10 +6,8 @@
 
 var createEvent = require('./createEvent');
 var editEvent   = require('./editEvent');
-var searchUsers = require('./searchUsers');
 
 module.exports = {
     createEvent: createEvent,
-    editEvent: editEvent,
-    searchUsers: searchUsers
+    editEvent: editEvent
 };
