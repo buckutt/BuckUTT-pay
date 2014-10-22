@@ -23,16 +23,22 @@
         </div>
     </div>
 
-    <button id="buttonLost" class="btn btn-default" ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
-    <i id="loginIcon" class="fa fa-lock" ng-click="login.authUser($event)"></i>
-    <div id="loginLoader"></div>
-    <i id="okayIcon" class="fa fa-check"></i>
+    <div class="loginForm">
+        <input type="text" id="username" placeholder="Nom d'utilisateur">
+        <input type="password" id="password" placeholder="Mot de passe">
+        <input type="submit" class="btn btn-success" ng-click="login.authUser($event)">
+        <button id="buttonLost" class="btn btn-default" ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
+    </div>
+    <div class="logging">
+        <div id="loginLoader"></div>
+        <i id="okayIcon" class="fa fa-check"></i>
+    </div>
     <div id="logged" class="loggedHide raw">
         <div class="col-xs-3">
-            <a href="#">Gérer Buckutt</a>
+            <a href="#/buckutt/">Gérer Buckutt</a>
         </div>
         <div class="col-xs-3">
-            <a href="#">Gérer mes tickets</a>
+            <a href="#/list/">Gérer mes tickets</a>
         </div>
         <div class="col-xs-3">
             <a href="#/admin/">Administration</a>
