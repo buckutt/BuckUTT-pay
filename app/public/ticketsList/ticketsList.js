@@ -7,10 +7,9 @@
 pay.controller('TicketsList', [
     '$scope',
     '$timeout',
-    'SiteEtu',
     'Event',
     'Error',
-    function ($scope, $timeout, etu, Event, Error) {
+    function ($scope, $timeout, Event, Error) {
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
