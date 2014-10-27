@@ -46,6 +46,7 @@ module.exports = function (router, db, config) {
     // Auth etu
     router.post(
         '/etu/auth',
+        validators.etuAuth,
         controllers.etu.auth
     );
 
