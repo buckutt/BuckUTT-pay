@@ -25,13 +25,15 @@
 
     <div class="loginForm">
         <div class="row">
-            <div class="col-xs-3">
-                <input type="text" id="username" class="form-control" placeholder="Nom d'utilisateur">
-            </div>
-            <div class="col-xs-3">
-                <input type="password" id="password" class="form-control" placeholder="Mot de passe">
-            </div>
-            <input type="submit" class="btn btn-success" ng-click="login.authUser($event)">
+            <form ng-submit="login.authUser($event)">
+                <div class="col-xs-3">
+                    <input type="text" id="username" class="form-control" placeholder="Nom d'utilisateur">
+                </div>
+                <div class="col-xs-3">
+                    <input type="password" id="password" class="form-control" placeholder="Mot de passe">
+                </div>
+                <input type="submit" class="btn btn-success" ng-click="login.authUser($event)">
+            </form>
             <button id="buttonLost" class="btn btn-default pull-right"
                     ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
         </div>
@@ -54,13 +56,4 @@
             <a href="#" ng-click="login.logout($event)">Déconnexion</a>
         </div>
     </div>
-    <!--<a href="#" id="connectLink" class="" ng-click="login.authUser($event);">Se connecter</a>
-    <span class="text-muted welcoming connected admin"></span>
-    <span id="refreshLoader" class="loading" style="display: none;">
-        <i class="fa fa-spin fa-refresh"></i>
-        &nbsp;&nbsp;Connexion
-    </span>
-    <div class="admin" style="display: none;">
-        <a href="#/admin/">Administration</a>
-    </div>-->
 </div>
