@@ -24,6 +24,8 @@
     </div>
 
     <div class="loginForm">
+        <button id="buttonLost" class="btn btn-default pull-right"
+                ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
         <div class="row">
             <form ng-submit="login.authUser($event)">
                 <div class="col-xs-3">
@@ -34,8 +36,6 @@
                 </div>
                 <input type="submit" class="btn btn-success" ng-click="login.authUser($event)">
             </form>
-            <button id="buttonLost" class="btn btn-default pull-right"
-                    ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
         </div>
     </div>
     <div class="logging">
