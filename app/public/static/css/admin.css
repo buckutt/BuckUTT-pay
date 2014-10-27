@@ -40,3 +40,16 @@ h4 {
 h4:not(:last-child) {
     margin-bottom: 10px;
 }
+
+form.subPanel label {
+    display: block;
+    font-weight: normal;
+}
+
+.prices .form-control {
+    display: none;
+}
+
+.prices .hideNextInput:checked + .form-control, .prices .form-control.forceShow {
+    display: block;
+}

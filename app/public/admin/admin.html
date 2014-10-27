@@ -43,9 +43,55 @@
                 </div>
                 <div>
                     <input type="number" name="maximumTickets" class="form-control" placeholder="Nombre maximum de places"
-                           min="0" max="10000"
+                           min="0" max="10000" step="0.01"
                            ng-model="newEvent.maximumTickets"
                            ng-required="true">
+                </div>
+                <div class="prices">
+                    <label>
+                        Prix étudiant cottisant en prévente :
+                        <input type="number" name="priceEtuCottPresell" class="form-control forceShow" placeholder="00.00"
+                               min="0" max="100" step="0.01"
+                               ng-model="newEvent.priceEtuCottPresell">
+                    </label>
+                    <label>
+                        Prix étudiant cottisant hors prévente :
+                        <input type="number" name="priceEtuCott" class="form-control forceShow" placeholder="00.00"
+                               min="0" max="100" step="0.01"
+                               ng-model="newEvent.priceEtuCott">
+                    </label>
+                    <label>
+                        <input type="checkbox" name="priceEtuPresellActive" class="hideNextInput"
+                               ng-model="newEvent.priceEtuPresellActive">
+                        Prix étudiant non-cottisant en prévente :
+                        <input type="number" name="priceEtuPresell" class="form-control" placeholder="00.00"
+                               min="0" max="100" step="0.01"
+                               ng-model="newEvent.priceEtuPresell">
+                    </label>
+                    <label>
+                        <input type="checkbox" name="priceEtuActive" class="hideNextInput"
+                               ng-model="newEvent.priceEtuActive">
+                        Prix étudiant non-cottisant hors prévente :
+                        <input type="number" name="priceEtu" class="form-control" placeholder="00.00"
+                               min="0" max="100" step="0.01"
+                               ng-model="newEvent.priceEtu">
+                    </label>
+                    <label>
+                        <input type="checkbox" name="priceExtPresellActive" class="hideNextInput"
+                               ng-model="newEvent.priceExtPresellActive">
+                        Prix extérieur en prévente :
+                        <input type="number" name="priceExtPresell" class="form-control" placeholder="00.00"
+                               min="0" max="100" step="0.01"
+                               ng-model="newEvent.priceExtPresell">
+                    </label>
+                    <label>
+                        <input type="checkbox" name="priceExtActive" class="hideNextInput"
+                               ng-model="newEvent.priceExtActive">
+                        Prix extérieur hors prévente :
+                        <input type="number" name="priceExtActive" class="form-control" placeholder="00.00"
+                               min="0" max="100" step="0.01"
+                               ng-model="newEvent.priceExtActive">
+                    </label>
                 </div>
                 <div>
                     <div class="input-group">
