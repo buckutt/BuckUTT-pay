@@ -21,6 +21,7 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
                     username: username,
                     password: password
                 }).success(function (data) {
+                    localStorage.setItem('token', data.token);
                     resolve(data);
                 }).error(function (data, status, headers) {
                     // Custom handle wrong auth
@@ -30,20 +31,6 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
                     }
                     Error('Erreur', data.error);
                     reject(false);
-                });
-            });
-        };
-
-        /**
-          * Try to auth via the localstorage data
-          */
-        this.renewAuth = function () {
-            return $q(function (resolve, reject) {
-                $http.post('api/etu/auth', createToken(username, password)).success(function () {
-                    resolve();
-                }).error(function (data, status, headers) {
-                    console.log(data);
-                    reject();
                 });
             });
         };

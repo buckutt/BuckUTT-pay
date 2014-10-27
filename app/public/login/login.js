@@ -9,13 +9,6 @@ pay.controller('Login', [
     '$timeout',
     'PayAuth',
     function ($scope, $timeout, PayAuth) {
-        // Refreshes token if possible
-        var isRefreshing = 0;
-
-        if (isRefreshing === 0) {
-            $('#loginIcon').addClass('canConnect');
-        }
-
         /**
           * Animate the circles to a given size
           * @param {int} to - The size to give to the circle

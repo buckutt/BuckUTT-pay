@@ -23,9 +23,15 @@ module.exports = function (db, config) {
 
         logger.info('Asking axel back end with : ' + username + '/' + password);
         bcrypt.compare(req.form.password, hash, function (err, hash) {
+            /*
             setTimeout(function () {
                 Error.emit(res, 400, '400 - Invalid username/password');
             }, 1400);
+            */
+            res.json({
+                token: 'abc'
+            });
+            res.end();
         });
     };
 };
