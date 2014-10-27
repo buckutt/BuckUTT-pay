@@ -40,7 +40,6 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
           * Makes the controller require auth
           */
         this.needUser = function () {
-            debugger;
             if (!this.etu) {
                 location.hash = '#/';
             }
