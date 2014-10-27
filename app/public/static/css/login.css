@@ -1,70 +1,41 @@
-.loginPanel, .loginPanel #loginControllerWrapper {
-    -webkit-transition: height .3s ease-out, min-height .3s ease-out;
-       -moz-transition: height .3s ease-out, min-height .3s ease-out;
-         -o-transition: height .3s ease-out, min-height .3s ease-out;
-            transition: height .3s ease-out, min-height .3s ease-out;
+/* Main login panel */
+.loginPanel.loginPanel, #loginControllerWrapper {
+    height: 75px;
+    min-height: 75px;
 }
 
-.loginPanel.logged, .loginPanel.logged #loginControllerWrapper {
-    height: 48px;
-    min-height: 48px;
-}
-
-#loginControllerWrapper, #loginController {
-    background-color: white;
+/* Login form */
+.loginForm {
     float: left;
     height: 100%;
+    padding: 20px;
+    position: relative;
     width: 100%;
-
-    -webkit-transition: background-color .3s ease;
-       -moz-transition: background-color .3s ease;
-         -o-transition: background-color .3s ease;
-        -ms-transition: background-color .3s ease;
-            transition: background-color .3s ease;
+    z-index: 2;
 }
 
-#loginController.connecting {
-    background-color: #2ecc71;
+.loginForm > .row {
+    margin-bottom: 10px;
 }
 
 #buttonLost {
-    bottom: 5px;
     position: absolute;
-    right: 20px;
-    z-index: 4;
+    right: 30px;
 }
 
-#loginIcon, #okayIcon {
-    display: block;
-    float: left;
-    font-size: 60px;
-    line-height: 60px;
-    margin: 35px auto 0 auto;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
+/* Loading panel */
+.logging {
+    background-color: #2ecc71;
+    display: none;
+    height: 100%;
     width: 100%;
-    z-index: 2;
-
-    -webkit-transition: font-size .3s;
-            transition: font-size .3s;
-}
-
-#loginIcon.canConnect {
-    cursor: pointer;
-    z-index: 3;
-}
-
-#loginIcon.iconHide, #okayIcon {
-    font-size: 0;
 }
 
 #loginLoader {
     background-color: #27ae60;
     border-radius: 50px;
     float: left;
-    height: 0;
-    margin: -30px 0 0 50%;
+    margin: 36.5px 0 0 50%;
     opacity: 0.6;
     position: relative;
     top: 0;
@@ -72,16 +43,18 @@
 }
 
 #okayIcon {
-    float: none;
-    position: absolute;
-    width: calc(100% - 30px - 2px);
+    font-size: 0;
+    height: 74px;
+    line-height: 74px;
+    position: relative;
+    text-align: center;
+    top: -37.5px;
+    width: 100%;
 }
 
-#okayIcon.iconShow {
-    font-size: 60px;
-}
-
+/* Logged panel */
 #logged {
+    display: none;
     height: 100%;
     overflow: hidden;
     position: absolute;
@@ -92,13 +65,9 @@
             transition: height .3s;
 }
 
-#logged.loggedHide {
-    height: 0;
-}
-
 #logged .col-xs-3 {
     height: 100%;
     font-size: 140%;
     text-align: center;
-    padding-top: 10px;
+    padding-top: 22.5px;
 }

@@ -7,38 +7,20 @@
 pay.controller('Login', [
     '$scope',
     '$timeout',
-    'SiteEtu',
-    function ($scope, $timeout, SiteEtu) {
+    'PayAuth',
+    function ($scope, $timeout, PayAuth) {
         // Refreshes token if possible
-        var isRefreshing = SiteEtu.pleaseRefreshToken(treatLoading, treatUserData);
+        var isRefreshing = 0;
 
-        console.log(isRefreshing);
         if (isRefreshing === 0) {
             $('#loginIcon').addClass('canConnect');
         }
 
         /**
-          * Shows the loading icons
+          * Animate the circles to a given size
+          * @param {int} to - The size to give to the circle
+          * @param {function} callback - Called when the animation is done
           */
-        function treatLoading () {
-            $('.guest').hide();
-            setTimeout(function () {
-                $('#loginController').addClass('connecting');
-            }, 100);
-
-            var callbackIn = function () {
-                animLoad(0, callbackOut);
-            };
-
-            var callbackOut = function () {
-                if (!$scope.etu) {
-                    animLoad(90, callbackIn);
-                }
-            };
-
-            animLoad(90, callbackIn);
-        }
-
         function animLoad (to, callback) {
             $('#loginLoader').animate({
                 height: to,
@@ -56,34 +38,27 @@ pay.controller('Login', [
         }
 
         /**
-          * Shows the username
-          * @param {function} data - The user data
+          * Triggered
           */
-        function treatUserData (data) {
-            SiteEtu.etu = data;
-            $scope.etu = window.x = data;
-
-            $('#loginController').addClass('connecting');
-            $('#loginIcon').addClass('iconHide');
-            $('#okayIcon').addClass('iconShow');
-            $('#buttonLost').fadeOut();
-            setTimeout(function () {
-                $('#okayIcon').removeClass('iconShow');
-                $('#loginController').removeClass('connecting');
-                $('#logged').removeClass('loggedHide');
-                $('.loginPanel').addClass('logged');
-            }, 1000);
-
-            $('.connected').show();
-
-            /* if (data.isAssoAdmin) */
-            if (1) {
-                $('.admin').show();
-            } else {
-                $('.admin').hide();
-            }
-
-            $('.welcoming').text('Bonjour, ' + data.fullName).show();
+        function animEnd (fail, wrongAuth) {
+            $('.logging').fadeOut();
+            $('#okayIcon').animate({
+                fontSize: 0
+            }, function () {
+                if (fail) {
+                    if (wrongAuth) {
+                        $('#loginControllerWrapper').css('backgroundColor', '#e74c3c');
+                        setTimeout(function () {
+                            $('#loginControllerWrapper').removeAttr('style');
+                            $('.loginForm').fadeIn();
+                        }, 600);
+                        return;
+                    }
+                    $('.loginForm').fadeIn();
+                } else {
+                    $('#logged').fadeIn();
+                }
+            });
         }
 
         /**
@@ -103,7 +78,32 @@ pay.controller('Login', [
           */
         this.authUser = function (e) {
             e.preventDefault();
-            SiteEtu.auth('11196275875', treatUserData);
+            PayAuth.auth($('#username').val(), $('#password').val()).then(function (etu) {
+                $scope.etu = etu;
+            }, function (wrongAuth) {
+                animEnd(true, wrongAuth);
+            });
+
+            $('.loginForm').fadeOut();
+            $('.logging').fadeIn();
+
+            var callbackIn = function () {
+                animLoad(0, callbackOut);
+            };
+
+            var callbackOut = function () {
+                if (!$scope.etu) {
+                    animLoad(65, callbackIn);
+                } else {
+                    $('#okayIcon').animate({
+                        fontSize: 60
+                    }, function () {
+                        setTimeout(animEnd, 400);
+                    });
+                }
+            };
+
+            animLoad(65, callbackIn);
         };
 
         /**
