@@ -5,6 +5,7 @@
   "license": "MIT",
   "main": "server.js",
   "dependencies": {
+    "bcryptjs": "^2.1.0",
     "body-parser": "^1.8.2",
     "colors": "^0.6.2",
     "compression": "^1.1.0",
