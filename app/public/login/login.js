@@ -38,7 +38,9 @@ pay.controller('Login', [
         }
 
         /**
-          * Triggered
+          * Triggered when the login has been done or not
+          * @param {bool} fail - True when the login has failed
+          * @param {bool} wrongAuth - True when the login has failed because of the username/password
           */
         function animEnd (fail, wrongAuth) {
             $('.logging').fadeOut();
