@@ -6,8 +6,10 @@
 
 var createEvent = require('./createEvent');
 var editEvent   = require('./editEvent');
+var etuAuth     = require('./etuAuth');
 
 module.exports = {
     createEvent: createEvent,
-    editEvent: editEvent
+    editEvent: editEvent,
+    etuAuth: etuAuth
 };
