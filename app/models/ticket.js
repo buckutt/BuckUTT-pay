@@ -48,7 +48,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
-        },
+        }
+
+        // Association with Price
+        // Association with Event
+        // Association with Mean of Payment
     }, {
         underscored: true,
         paranoid: true

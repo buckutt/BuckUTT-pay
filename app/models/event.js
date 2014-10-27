@@ -37,6 +37,8 @@ module.exports = function (sequelize, DataTypes) {
         maximumTickets: {
             type: DataTypes.INTEGER(5).UNSIGNED
         }
+
+        // Association with Association
     }, {
         underscored: true,
         paranoid: true
