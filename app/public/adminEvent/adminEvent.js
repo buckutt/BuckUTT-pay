@@ -8,20 +8,13 @@ pay.controller('AdminEvent', [
     '$scope',
     '$timeout',
     '$routeParams',
-    'SiteEtu',
+    'PayAuth',
     'Event',
     'EventTickets',
     'FormValidator',
     'Error',
-    function ($scope, $timeout, $routeParams, SiteEtu, Event, EventTickets, FormValidator, Error) {
-        if (!SiteEtu.etu) {
-            /*Error('Erreur', 5, true);
-            setTimeout(function () {
-                location.hash = '#/';
-                $('#modalError').modal('hide');
-            }, 5000);
-            return;*/
-        }
+    function ($scope, $timeout, $routeParams, PayAuth, Event, EventTickets, FormValidator, Error) {
+        PayAuth.needUser();
 
         var eventId = $routeParams.eventId;
 

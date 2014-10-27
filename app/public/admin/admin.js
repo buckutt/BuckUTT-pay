@@ -7,11 +7,13 @@
 pay.controller('Admin', [
     '$scope',
     '$timeout',
-    'SiteEtu',
+    'PayAuth',
     'Event',
     'FormValidator',
     'Error',
-    function ($scope, $timeout, SiteEtu, Event, FormValidator, Error) {
+    function ($scope, $timeout, PayAuth, Event, FormValidator, Error) {
+        PayAuth.needUser();
+
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
@@ -21,16 +23,6 @@ pay.controller('Admin', [
         $scope.newEvent = {};
         $scope.fileInfo = null;
         $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4} [0-2][0-9]?:[0-5]?[0-9]$/;
-
-        if (!SiteEtu.etu) {
-            /*Error('Erreur', 5, true);
-            setTimeout(function () {
-                $('#modalError').modal('hide').on('hidden.bs.modal', function () {
-                    location.hash = '#/';
-                });
-            }, 3000);
-            return;*/
-        }
 
         // Activate the datepicker, and ng-validate when the date changes
         $('.date').datetimepicker().on('dp.change', function () {

@@ -9,6 +9,7 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
 
     function PayAuth () {
         this.etu = etuData;
+        var self = this;
 
         /**
           * Authenticates the user via username and password
@@ -21,7 +22,7 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
                     username: username,
                     password: password
                 }).success(function (data) {
-                    localStorage.setItem('token', data.token);
+                    self.etu = data;
                     resolve(data);
                 }).error(function (data, status, headers) {
                     // Custom handle wrong auth
@@ -33,6 +34,25 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
                     reject(false);
                 });
             });
+        };
+
+        /**
+          * Makes the controller require auth
+          */
+        this.needUser = function () {
+            debugger;
+            if (!this.etu) {
+                location.hash = '#/';
+            }
+        };
+
+        /**
+          * Makes the controller require admin rights
+          */
+        this.needAdmin = function () {
+            if (!this.etu) {
+                location.hash = '#/';
+            }
         };
     }
 
