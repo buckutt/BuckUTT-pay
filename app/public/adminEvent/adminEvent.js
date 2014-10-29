@@ -14,7 +14,7 @@ pay.controller('AdminEvent', [
     'FormValidator',
     'Error',
     function ($scope, $timeout, $routeParams, PayAuth, Event, EventTickets, FormValidator, Error) {
-        PayAuth.needUser();
+        //PayAuth.needUser();
 
         var eventId = $routeParams.eventId;
 
@@ -92,7 +92,7 @@ pay.controller('AdminEvent', [
             var dateDiff = new Date($scope.currentEvent.date) - new Date();
             $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');
             $('.date').data('DateTimePicker').setDate($scope.currentEvent.date);
-            $scope.remainingTime = moment(new Date(dateDiff)).format('D [jour(s) et] H [heure(s)]');
+            $scope.remainingTime = moment(new Date(dateDiff)).format('M [mois,] D [jour(s) et] H [heure(s)]');
         });
 
         EventTickets.query({
@@ -192,7 +192,7 @@ pay.controller('AdminEvent', [
 
         /**
           * Deletes the event
-          * @param {string} e - The click event
+          * @param {object} e - The click event
           */
         this.deleteEvent = function (e) {
             e.preventDefault();
@@ -205,6 +205,23 @@ pay.controller('AdminEvent', [
                     });
                 }
             });
+        };
+
+        /**
+          * Shows the modal to changes the event prices
+          * @param {object} e - The click event
+          */
+        this.showChangePrices = function (e) {
+            e.preventDefault();
+            $('#modalPrices').modal();
+        };
+
+        /**
+          * Changes the event prices
+          * @param {object} e - The click event
+          */
+        this.changePrices = function (e) {
+            e.preventDefault();
         };
     }
 ]);
