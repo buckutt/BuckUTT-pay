@@ -50,13 +50,13 @@
                 <div class="prices">
                     <label>
                         Prix étudiant cottisant en prévente :
-                        <input type="number" name="priceEtuCottPresale" class="form-control forceShow" placeholder="00.00"
+                        <input type="number" name="priceEtuCottPresale" class="form-control input-sm forceShow" placeholder="00.00"
                                min="0" max="100" step="0.01"
                                ng-model="newEvent.priceEtuCottPresale">
                     </label>
                     <label>
                         Prix étudiant cottisant hors prévente :
-                        <input type="number" name="priceEtuCott" class="form-control forceShow" placeholder="00.00"
+                        <input type="number" name="priceEtuCott" class="form-control input-sm forceShow" placeholder="00.00"
                                min="0" max="100" step="0.01"
                                ng-model="newEvent.priceEtuCott">
                     </label>
@@ -64,7 +64,7 @@
                         <input type="checkbox" name="priceEtuPresaleActive" class="hideNextInput"
                                ng-model="newEvent.priceEtuPresaleActive">
                         Prix étudiant non-cottisant en prévente :
-                        <input type="number" name="priceEtuPresale" class="form-control" placeholder="00.00"
+                        <input type="number" name="priceEtuPresale" class="form-control input-sm" placeholder="00.00"
                                min="0" max="100" step="0.01"
                                ng-model="newEvent.priceEtuPresale">
                     </label>
@@ -72,7 +72,7 @@
                         <input type="checkbox" name="priceEtuActive" class="hideNextInput"
                                ng-model="newEvent.priceEtuActive">
                         Prix étudiant non-cottisant hors prévente :
-                        <input type="number" name="priceEtu" class="form-control" placeholder="00.00"
+                        <input type="number" name="priceEtu" class="form-control input-sm" placeholder="00.00"
                                min="0" max="100" step="0.01"
                                ng-model="newEvent.priceEtu">
                     </label>
@@ -80,7 +80,7 @@
                         <input type="checkbox" name="priceExtPresaleActive" class="hideNextInput"
                                ng-model="newEvent.priceExtPresaleActive">
                         Prix extérieur en prévente :
-                        <input type="number" name="priceExtPresale" class="form-control" placeholder="00.00"
+                        <input type="number" name="priceExtPresale" class="form-control input-sm" placeholder="00.00"
                                min="0" max="100" step="0.01"
                                ng-model="newEvent.priceExtPresale">
                     </label>
@@ -88,7 +88,7 @@
                         <input type="checkbox" name="priceExtActive" class="hideNextInput"
                                ng-model="newEvent.priceExtActive">
                         Prix extérieur hors prévente :
-                        <input type="number" name="priceExt" class="form-control" placeholder="00.00"
+                        <input type="number" name="priceExt" class="form-control input-sm" placeholder="00.00"
                                min="0" max="100" step="0.01"
                                ng-model="newEvent.priceExt">
                     </label>
@@ -113,8 +113,8 @@
     </div>
 
     <div id="buckuttAdmin" class="row">
-        <div class="col-sm-5 panel panel-default" style="min-height: 0;">
-            <h3>
+        <div class="col-xs-12 panel panel-default" style="min-height: 0;">
+            <h3 class="text-center">
                 <a href="#/buckuttAdmin/">Administration buckutt</a>
             </h3>
         </div>
