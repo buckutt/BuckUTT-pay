@@ -7,7 +7,6 @@
 var fs     = require('fs');
 var path   = require('path');
 var moment = require('moment');
-var config = require('../../config.json');
 
 module.exports = function (db, config) {
     var logger = require('../../log')(config);
