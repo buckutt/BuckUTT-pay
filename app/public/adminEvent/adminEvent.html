@@ -88,6 +88,76 @@
         </div>
     </div>
 
+    <div id="modalPrices" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Édition des prix</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger">
+                        Vous êtes sur le point de modifier les prix de l'événement.
+                        <br>
+                        Les personnes ayant déjà acheté des tickets pourront constater une différence de prix.
+                    </p>
+                    <div class="prices">
+                        <label>
+                            Prix étudiant cottisant en prévente :
+                            <input type="number" name="priceEtuCottPresale" class="form-control input-sm forceShow" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.priceEtuCottPresale">
+                        </label>
+                        <label>
+                            Prix étudiant cottisant hors prévente :
+                            <input type="number" name="priceEtuCott" class="form-control input-sm forceShow" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.priceEtuCott">
+                        </label>
+                        <label>
+                            <input type="checkbox" name="priceEtuPresaleActive" class="hideNextInput"
+                                   ng-model="newPrices.priceEtuPresaleActive">
+                            Prix étudiant non-cottisant en prévente :
+                            <input type="number" name="priceEtuPresale" class="form-control input-sm" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.priceEtuPresale">
+                        </label>
+                        <label>
+                            <input type="checkbox" name="priceEtuActive" class="hideNextInput"
+                                   ng-model="newPrices.priceEtuActive">
+                            Prix étudiant non-cottisant hors prévente :
+                            <input type="number" name="priceEtu" class="form-control input-sm" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.priceEtu">
+                        </label>
+                        <label>
+                            <input type="checkbox" name="priceExtPresaleActive" class="hideNextInput"
+                                   ng-model="newPrices.priceExtPresaleActive">
+                            Prix extérieur en prévente :
+                            <input type="number" name="priceExtPresale" class="form-control input-sm" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.priceExtPresale">
+                        </label>
+                        <label>
+                            <input type="checkbox" name="priceExtActive" class="hideNextInput"
+                                   ng-model="newPrices.priceExtActive">
+                            Prix extérieur hors prévente :
+                            <input type="number" name="priceExt" class="form-control input-sm" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.priceExt">
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" ng-click="adminEvent.changePrices($event)">Changer les prix</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1 class="text-center">
         <a href="#/">BuckUTT</a>
     </h1>
@@ -109,6 +179,7 @@
             <h3>Paramètres</h3>
             <h4 class="parameters">
                 <a href="#" ng-click="adminEvent.editParameters($event)">Éditer les paramètres</a>
+                <a href="#" class="pull-right" ng-click="adminEvent.showChangePrices($event)">Éditer les prix</a>
             </h4>
             <h4 class="delete">
                 <a href="#" class="text-danger" ng-click="adminEvent.confirmDeleteEvent($event)">Supprimer l'événement</a>
