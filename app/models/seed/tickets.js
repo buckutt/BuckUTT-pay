@@ -15,31 +15,31 @@ module.exports = function (db) {
         temporarlyOut: false
     }).complete(function (err, galaGJ) {
         if (err) {
-            Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+            Error.emit(null, 500, '500 - SQL Server error', err.toString());
         }
 
-        db.Price.find({ name: 'Gala Prix Etu Cotisant' }).complete(function (err, price) {
+        db.Price.find({ name: 'Gala 2015 - Prix étudiant cottisant en prévente' }).complete(function (err, price) {
             if (err) {
-                Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+                Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }
 
-            price.setTicket(galaGJ);
+            galaGJ.setPrice(price);
         });
 
         db.Event.find({ name: 'Gala 2015' }).complete(function (err, gala2015) {
             if (err) {
-                Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+                Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }
 
-            gala2015.setTicket(galaGJ);
+            galaGJ.setEvent(gala2015);
         });
 
         db.MeanOfPayment.find({ name: 'Buckutt' }).complete(function (err, buckutt) {
             if (err) {
-                Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+                Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }
 
-            buckutt.setTicket(galaGJ);
+            galaGJ.setMeanOfPayment(buckutt);
         });
     });
 };

@@ -18,10 +18,10 @@ module.exports = function (db) {
 
         db.Association.find({ name: 'BDE' }).complete(function (err, bde) {
             if (err) {
-                Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+                Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }
 
-            bde.setEvent(gala2015);
+            gala2015.setAssociation(bde);
         });
     });
     
@@ -33,15 +33,15 @@ module.exports = function (db) {
         maximumTickets: 1600
     }).complete(function (err, r2d2015) {
         if (err) {
-            Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+            Error.emit(null, 500, '500 - SQL Server error', err.toString());
         }
 
         db.Association.find({ name: 'BDE' }).complete(function (err, bde) {
             if (err) {
-                Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+                Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }
 
-            bde.setEvent(r2d2015);
+            r2d2015.setAssociation(bde);
         });
     });
 };

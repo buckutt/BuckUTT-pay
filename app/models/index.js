@@ -44,13 +44,26 @@ module.exports = function (config) {
         });
 
         // Associations
-        db.Right        .hasOne(db.Account);
-        db.Association  .hasOne(db.Account);
-        db.Event        .hasOne(db.Price);
-        db.Price        .hasOne(db.Ticket);
-        db.Event        .hasOne(db.Ticket);
+        db.Right.hasOne(db.Account);
+        db.Association.hasOne(db.Account);
+
+        db.Association.hasOne(db.Event);
+        db.Event.hasMany(db.Price);
+
+        db.Price.hasOne(db.Ticket);
+        db.Event.hasOne(db.Ticket);
         db.MeanOfPayment.hasOne(db.Ticket);
-        db.Association  .hasOne(db.Event);
+
+        // Retro associations
+        db.Account.belongsTo(db.Right);
+        db.Account.belongsTo(db.Association);
+
+        db.Event.belongsTo(db.Association);
+        db.Price.belongsTo(db.Event);
+
+        db.Ticket.belongsTo(db.Price);
+        db.Ticket.belongsTo(db.Event);
+        db.Ticket.belongsTo(db.MeanOfPayment);
 
         db.sequelize = sequelize;
         db.Sequelize = Sequelize;
@@ -65,7 +78,7 @@ module.exports = function (config) {
             .sync(syncOptions)
             .complete(function (err) {
                 if (err) {
-                    Error.emit(null, 500, '500 - SQL Server error ' + err.toString());
+                    Error.emit(null, 500, '500 - SQL Server error', err.toString());
                 }
 
                 // Database seeding
