@@ -19,3 +19,17 @@
 .parameters, .delete {
     margin-bottom: 20px;
 }
+
+/* Prices */
+.prices label {
+    display: block;
+    font-weight: normal;
+}
+
+.prices .form-control {
+    display: none;
+}
+
+.prices .hideNextInput:checked + .form-control, .prices .form-control.forceShow {
+    display: block;
+}
