@@ -34,5 +34,10 @@ module.exports = form(
 
     field('image')
         .trim()
-        .is(/^data:\w+\/\w+;base64,[a-zA-Z0-9+\/=]+$/)
+        .is(/^data:\w+\/\w+;base64,[a-zA-Z0-9+\/=]+$/),
+
+    field('opened')
+        .trim()
+        .required()
+        .toBoolean()
 );

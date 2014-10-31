@@ -7,7 +7,12 @@
 var pay = angular.module('pay', [
     'ngRoute',
     'ngResource'
-]);
+]).run(function ($rootScope) {
+    // This will removes everything under scripts : modal divs, autocompletion divs, etc.
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+        $('body > script').last().nextUntil().remove();
+    });
+});
 
 pay.config(['$routeProvider', function ($routeProvider) {
     $routeProvider

@@ -39,7 +39,8 @@ module.exports = function (db) {
                 picture: path.basename(opath),
                 description: form.description,
                 date: new Date(form.date),
-                maximumTickets: form.maximumTickets
+                maximumTickets: form.maximumTickets,
+                opened: false
             }).complete(function (err, newEvent) {
                 if (err) {
                     if (err.name === 'SequelizeUniqueConstraintError') {
