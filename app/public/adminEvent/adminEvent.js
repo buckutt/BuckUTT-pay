@@ -8,12 +8,13 @@ pay.controller('AdminEvent', [
     '$scope',
     '$timeout',
     '$routeParams',
+    'ParsePrices',
     'PayAuth',
     'Event',
     'EventTickets',
     'FormValidator',
     'Error',
-    function ($scope, $timeout, $routeParams, PayAuth, Event, EventTickets, FormValidator, Error) {
+    function ($scope, $timeout, $routeParams, ParsePrices, PayAuth, Event, EventTickets, FormValidator, Error) {
         //PayAuth.needUser();
 
         var eventId = $routeParams.eventId;
@@ -78,9 +79,9 @@ pay.controller('AdminEvent', [
 
         Event.get({
             id: eventId,
-        }, function (event) {
-            if (!event.hasOwnProperty('id')) {
-                Error('Erreur', event.error, true);
+        }, function (e) {
+            if (!e.hasOwnProperty('id')) {
+                Error('Erreur', e.error, true);
                 $('#modalError').on('hidden.bs.modal', function () {
                     location.hash = '#/admin/';
                 });
@@ -88,11 +89,16 @@ pay.controller('AdminEvent', [
                     $('#modalError').modal('hide');
                 }, 3000);
             }
-            $scope.currentEvent = event;
+            $scope.currentEvent = e;
+
+            // Parse the date
             var dateDiff = new Date($scope.currentEvent.date) - new Date();
             $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');
             $('.date').data('DateTimePicker').setDate($scope.currentEvent.date);
             $scope.remainingTime = moment(new Date(dateDiff)).format('M [mois,] D [jour(s) et] H [heure(s)]');
+
+            // Parse the prices
+            ParsePrices.fromEvent(e);
         });
 
         EventTickets.query({
@@ -222,6 +228,7 @@ pay.controller('AdminEvent', [
           */
         this.changePrices = function (e) {
             e.preventDefault();
+            ParsePrices.toEvent($scope.currentEvent, $scope.newPrices);
         };
     }
 ]);
