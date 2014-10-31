@@ -53,6 +53,7 @@ pay.controller('Admin', [
             var reader = new FileReader();
             reader.onload = function (e) {
                 var result = e.currentTarget.result;
+                // Duplicate event to preserve from changes made by the resource
                 var newEventData = jQuery.extend(true, {}, $scope.newEvent);
 
                 newEventData.image = result;
