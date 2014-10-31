@@ -43,6 +43,18 @@ module.exports = function (router, db, config) {
         controllers.tickets.getAllFromEvent
     );
 
+    // Events prices
+    router.put(
+        '/events/:eventId/prices',
+        validators.createPrice,
+        controllers.events.createPrice
+    );
+    router.post(
+        '/events/:eventId/prices/:priceId',
+        validators.editPrice,
+        controllers.events.editPrice
+    );
+
     // Auth etu
     router.post(
         '/etu/auth',

@@ -10,8 +10,6 @@ var moment = require('moment');
 
 module.exports = function (db) {
     return function (req, res) {
-        var newEvent = req.body;
-
         if (!req.form.isValid) {
             Error.emit(res, 400, '400 - Bad Request', req.form.errors);
             return;
@@ -42,18 +40,94 @@ module.exports = function (db) {
                 description: form.description,
                 date: new Date(form.date),
                 maximumTickets: form.maximumTickets
-            }).complete(function (err, gala2015) {
+            }).complete(function (err, newEvent) {
                 if (err) {
                     if (err.name === 'SequelizeUniqueConstraintError') {
                         Error.emit(res, 400, '400 - Duplicate event');
                         return;
                     }
-                    Error.emit(null, 500, '500 - SQL Server error ', err.toString());
+                    Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                }
+
+                // Create prices
+                // Price Etu cott in presale :
+                db.Price.create({
+                    name: form.name + ' - Prix étudiant cottisant en prévente',
+                    price: form.priceEtuCottPresale
+                }).complete(function (err, priceEtuCottPresale) {
+                    if (err) {
+                        Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                    }
+
+                    newEvent.setPrice(priceEtuCottPresale);
+                });
+                // Price Etu cott not in presale :
+                db.Price.create({
+                    name: form.name + ' - Prix étudiant cottisant hors prévente',
+                    price: form.priceEtuCott
+                }).complete(function (err, priceEtuCott) {
+                    if (err) {
+                        Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                    }
+
+                    newEvent.setPrice(priceEtuCott);
+                });
+                // Price Etu in presale :
+                if (form.priceEtuPresaleActive) {
+                    db.Price.create({
+                        name: form.name + ' - Prix étudiant non-cottisant en prévente',
+                        price: form.priceEtuPresale
+                    }).complete(function (err, priceEtuPresale) {
+                        if (err) {
+                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                        }
+
+                        newEvent.setPrice(priceEtuPresale);
+                    });
+                }
+                // Price Etu not in presale :
+                if (form.priceEtuActive) {
+                    db.Price.create({
+                        name: form.name + ' - Prix étudiant non-cottisant hors prévente',
+                        price: form.priceEtu
+                    }).complete(function (err, priceEtu) {
+                        if (err) {
+                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                        }
+
+                        newEvent.setPrice(priceEtu);
+                    });
+                }
+                // Price Ext in presale :
+                if (form.priceExtPresaleActive) {
+                    db.Price.create({
+                        name: form.name + ' - Prix extérieur en prévente',
+                        price: form.priceExtPresale
+                    }).complete(function (err, priceExtPresale) {
+                        if (err) {
+                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                        }
+
+                        newEvent.setPrice(priceExtPresale);
+                    });
+                }
+                // Price Ext not in presale :
+                if (form.priceExtActive) {
+                    db.Price.create({
+                        name: form.name + ' - Prix extérieur hors prévente',
+                        price: form.priceExt
+                    }).complete(function (err, priceExt) {
+                        if (err) {
+                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                        }
+
+                        newEvent.setPrice(priceExt);
+                    });
                 }
 
                 res.json({
                     status: 200,
-                    id: gala2015.id
+                    id: newEvent.id
                 });
                 res.end();
             });

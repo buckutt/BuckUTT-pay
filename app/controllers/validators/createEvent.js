@@ -30,5 +30,55 @@ module.exports = form(
     field('image')
         .trim()
         .required()
-        .is(/^data:\w+\/\w+;base64,[a-zA-Z0-9+\/=]+$/)
+        .is(/^data:\w+\/\w+;base64,[a-zA-Z0-9+\/=]+$/),
+
+    field('priceEtuPresaleActive')
+        .trim()
+        .required()
+        .toBoolean(),
+
+    field('priceEtuActive')
+        .trim()
+        .required()
+        .toBoolean(),
+
+    field('priceExtPresaleActive')
+        .trim()
+        .required()
+        .toBoolean(),
+
+    field('priceExtActive')
+        .trim()
+        .required()
+        .toBoolean(),
+
+    field('priceEtuCottPresale')
+        .trim()
+        .required()
+        .toFloat(),
+
+    field('priceEtuCott')
+        .trim()
+        .required()
+        .toFloat(),
+
+    field('priceEtuPresale')
+        .trim()
+        .required()
+        .toFloat(),
+
+    field('priceEtu')
+        .trim()
+        .required()
+        .toFloat(),
+
+    field('priceExtPresale')
+        .trim()
+        .required()
+        .toFloat(),
+
+    field('priceExt')
+        .trim()
+        .required()
+        .toFloat()
 );
