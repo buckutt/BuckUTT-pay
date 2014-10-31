@@ -41,6 +41,7 @@ h4:not(:last-child) {
     margin-bottom: 10px;
 }
 
+/* Prices */
 form.subPanel label {
     display: block;
     font-weight: normal;
