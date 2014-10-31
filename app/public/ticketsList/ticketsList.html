@@ -11,6 +11,7 @@
     </div>
     <div class="row row-spaced" pay-onresize ng-repeat="event in events">
         <div class="panel-col transition col-xs-12 col-sm-10 col-sm-offset-1 col-lg-12 col-lg-offset-0">
+            <span class="closedPresale" ng-if="event.opened">Préventes fermées</span>
             <div class="transition panel panel-default">
                 <div class="panel-body active">
                     <div class="icon">

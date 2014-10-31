@@ -10,7 +10,8 @@ module.exports = function (db) {
         picture: 'gala2015.png',
         description: 'Viens au gala on est bien bien bien bien',
         date: new Date(2015, 5, 20, 20, 0, 0),
-        maximumTickets: 3600
+        maximumTickets: 3600,
+        opened: true
     }).complete(function (err, gala2015) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error ', err.toString());
@@ -30,7 +31,8 @@ module.exports = function (db) {
         picture: 'gala2015.png',
         description: 'Bis Viens au gala on est bien bien bien bien',
         date: new Date(2015, 5, 20, 20, 0, 0),
-        maximumTickets: 1600
+        maximumTickets: 1600,
+        opened: false
     }).complete(function (err, r2d2015) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error', err.toString());

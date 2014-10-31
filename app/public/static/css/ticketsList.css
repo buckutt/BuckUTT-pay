@@ -1,5 +1,4 @@
 /* All lists */
-
 .row-spaced {
     margin-top: 20px;
 }
@@ -28,7 +27,6 @@
 }
 
 /* Tiles */
-
 .icon {
     display: none;
     float: left;
@@ -55,7 +53,6 @@
 }
 
 /* Behind tiles */
-
 .behind {
     float: left;
     font-size: 60px;
@@ -106,6 +103,20 @@
 
 .meanOfPayment:last-child {
     top: -24px;
+}
+
+/* Closed presales */
+span.closedPresale {
+    background: rgba(40, 40, 40, 0.6);
+    color: white;
+    float: left;
+    font-size: 36px;
+    font-weight: bold;
+    height: 100%;
+    padding: 20px 0;
+    position: absolute;
+    text-align: center;
+    width: calc(100% - 31px);
 }
 
 @media (min-width: 768px) and (max-width: 992px) {

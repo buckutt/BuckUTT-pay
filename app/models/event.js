@@ -36,6 +36,11 @@ module.exports = function (sequelize, DataTypes) {
 
         maximumTickets: {
             type: DataTypes.INTEGER(5).UNSIGNED
+        },
+
+        opened: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         }
 
         // Association with Association
