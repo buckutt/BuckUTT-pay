@@ -26,6 +26,9 @@ pay.controller('AdminEvent', [
             maxHeight: 400,
             zIndex: 9999,
             // callback function:
+            onSelect: function (suggestion) {
+                $scope.vendorToAdd = suggestion.value;
+            },
             onSearchError: function (v, e) {
                 Error('Erreur', JSON.parse(e.responseText).error);
             },
@@ -228,6 +231,15 @@ pay.controller('AdminEvent', [
         this.changePrices = function (e) {
             e.preventDefault();
             ParsePrices.toEvent($scope.currentEvent, $scope.newPrices);
+        };
+
+        /**
+          * Adds a user as a event vendor
+          * @param {object} e - The submit event
+          */
+        this.addVendor = function (e) {
+            e.preventDefault();
+            alert($scope.vendorToAdd);
         };
     }
 ]);

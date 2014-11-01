@@ -229,10 +229,11 @@
                         <tbody>
                             <tr>
                                 <td colspan="3">
-                                    <input id="searchVendorUser" type="text" class="form-control"
-                                           ng-change="adminEvent.searchUser()"
-                                           ng-model="searchingUsers"
-                                           ng-model-options="{ debounce: 1000 }">
+                                    <form ng-submit="adminEvent.addVendor($event)">
+                                        <input id="searchVendorUser" type="text" class="form-control"
+                                               ng-change="adminEvent.searchUser()"
+                                               ng-model="vendorToAdd">
+                                    </form>
                                 </td>
                             </tr>
                             <tr>
