@@ -21,7 +21,7 @@ pay.controller('AdminEvent', [
 
         // jQuery autocomplete
         $('#searchVendorUser').autocomplete({
-            serviceUrl: '/api/etu/search/?token=' + localStorage.getItem('token'),
+            serviceUrl: '/api/etu/search/',
             minChars: 3,
             maxHeight: 400,
             zIndex: 9999,
@@ -33,10 +33,12 @@ pay.controller('AdminEvent', [
                 Error('Erreur', JSON.parse(e.responseText).error);
             },
             transformResult: function (response) {
-                var truc = JSON.parse(response).response.data.map(function (v) {
+                var fullNames = JSON.parse(response).map(function (v) {
                     return v.fullName;
                 });
-                return response.toString();
+                return {
+                    suggestions: fullNames
+                };
             }
         });
         $scope.autocompleter = $('#searchVendorUser').autocomplete();

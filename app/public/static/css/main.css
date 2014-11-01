@@ -10,11 +10,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Autocomplete */
-.autocomplete-w1 {  position:absolute; top:0px; left:0px; margin:6px 0 0 6px; } 
-.autocomplete { border:1px solid #999; background:#FFF; cursor:default; text-align:left; max-height:350px; overflow:auto; margin:-6px 6px 6px -6px; } 
-.autocomplete .selected { background:#F0F0F0; } 
-.autocomplete div { padding:2px 5px; white-space:nowrap; overflow:hidden; } 
-.autocomplete strong { font-weight:normal; color:#3399FF; } 
+.autocomplete-suggestions {
+    background: #FFF;
+    border: 1px solid #CBD3DD;
+    overflow: auto;
+}
+
+.autocomplete-suggestion {
+    overflow: hidden;
+    padding: 5px 15px;
+    white-space: nowrap;
+}
+
+.autocomplete-suggestions strong {
+    color: #029cca;
+    font-weight: normal;
+}
+
+.autocomplete-selected {
+    background: #F0F0F0;
+    cursor: pointer;
+}
 
 /* Flat */
 button:focus, a:focus, .btn:focus, .btn:active:focus, .btn.active:focus {
