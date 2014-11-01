@@ -54,6 +54,9 @@ pay.controller('Login', [
                     $('#logged').fadeIn();
                 }
             });
+
+            $('.loginPanel').height(75);
+            $('#loginControllerWrapper').css('minHeight', 0);
         }
 
         /**

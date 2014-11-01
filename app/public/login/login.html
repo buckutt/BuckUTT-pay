@@ -24,19 +24,13 @@
     </div>
 
     <div class="loginForm">
-        <button id="buttonLost" class="btn btn-default pull-right"
-                ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
-        <div class="row">
-            <form ng-submit="login.authUser($event)">
-                <div class="col-xs-3">
-                    <input type="text" id="username" class="form-control" placeholder="Nom d'utilisateur">
-                </div>
-                <div class="col-xs-3">
-                    <input type="password" id="password" class="form-control" placeholder="Mot de passe">
-                </div>
+            <form class="form-inline" ng-submit="login.authUser($event)">
+                <input type="text" id="username" class="form-control" placeholder="Nom d'utilisateur">
+                <input type="password" id="password" class="form-control" placeholder="Mot de passe">
                 <input type="submit" class="btn btn-success" ng-click="login.authUser($event)">
+                <button id="buttonLost" class="btn btn-default pull-right"
+                        ng-click="login.showModal($event, 'modalLost')">J'ai perdu mon billet</button>
             </form>
-        </div>
     </div>
     <div class="logging">
         <div id="loginLoader"></div>
@@ -44,16 +38,16 @@
     </div>
     <div id="logged" class="raw">
         <div class="col-xs-3">
-            <a href="#/buckutt/">Gérer Buckutt</a>
+            <a href="#/buckutt/">Mon Buckutt</a>
         </div>
         <div class="col-xs-3">
-            <a href="#/list/">Gérer mes tickets</a>
+            <a href="#/list/">Mes tickets</a>
         </div>
         <div class="col-xs-3">
-            <a href="#/admin/">Administration</a>
+            <a href="#/admin/">Admin<span>istration</span></a>
         </div>
         <div class="col-xs-3">
-            <a href="#" ng-click="login.logout($event)">Déconnexion</a>
+            <a href="#" ng-click="login.logout($event)">Déco<span>nnexion</span></a>
         </div>
     </div>
 </div>

@@ -1,7 +1,10 @@
-/* Main login panel */
-.loginPanel.loginPanel, #loginControllerWrapper {
-    height: 75px;
-    min-height: 75px;
+/* Main panel */
+.loginPanel.loginPanel {
+    height: 145px;
+}
+
+#loginController {
+    height: 100%;
 }
 
 /* Login form */
@@ -18,9 +21,8 @@
     margin-bottom: 10px;
 }
 
-#buttonLost {
-    position: absolute;
-    right: 30px;
+.form-inline input {
+    margin-bottom: 5px;
 }
 
 /* Loading panel */
@@ -70,4 +72,26 @@
     font-size: 140%;
     text-align: center;
     padding-top: 22.5px;
+}
+
+@media (min-width: 768px) {
+    .loginPanel.loginPanel, #loginControllerWrapper {
+        height: 75px;
+        min-height: 75px;
+    }
+
+    .form-inline input {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    #logged .col-xs-3 span {
+        display: none;
+    }
+}
+
+@media (max-width: 610px) {
+    #logged .col-xs-3 {
+        font-size: 110%;
 }
