@@ -26,9 +26,6 @@ pay.controller('AdminEvent', [
             maxHeight: 400,
             zIndex: 9999,
             // callback function:
-            onSelect: function (value, data) {
-                console('You selected: ' + value + ', ' + data);
-            },
             onSearchError: function (v, e) {
                 Error('Erreur', JSON.parse(e.responseText).error);
             },
