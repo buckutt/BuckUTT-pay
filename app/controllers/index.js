@@ -7,7 +7,8 @@
 module.exports = function (db, config) {
     return {
         tickets: require('./tickets')(db, config),
-        events: require('./events')(db, config),
-        etu: require('./etu')(db, config)
+        events:  require('./events')(db, config),
+        etu:     require('./etu')(db, config),
+        domains: require('./domains')(db, config)
     };
 };

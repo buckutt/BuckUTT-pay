@@ -1,0 +1,11 @@
+.form-inline > .row > .col-xs-11 > input {
+    width: 100%;
+}
+
+.ng-invalid:not(.ng-pristine) {
+    border-color: #e74c3c;
+}
+
+.ng-valid:not(.ng-pristine) {
+    border-color: #2ecc71;
+}

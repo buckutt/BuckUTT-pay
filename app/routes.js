@@ -68,6 +68,16 @@ module.exports = function (router, db, config) {
         controllers.etu.searchUsers
     );
 
+    // School domains
+    router.get(
+        '/domains/',
+        controllers.domains.getAll
+    );
+    router.route('/domains/:domainId')
+        .delete(
+            controllers.domains.remove
+        )
+
     router.param('eventId', function (req, res, next, eventId) {
         if (Number.isPositiveNumeric(eventId)) {
             req.body.eventId = eventId;
