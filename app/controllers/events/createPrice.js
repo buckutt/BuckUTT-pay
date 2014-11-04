@@ -4,8 +4,6 @@
 
 'use strict';
 
-var moment = require('moment');
-
 module.exports = function (db, config) {
     var logger = require('../../log')(config);
 

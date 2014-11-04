@@ -69,10 +69,14 @@ module.exports = function (router, db, config) {
     );
 
     // School domains
-    router.get(
-        '/domains/',
-        controllers.domains.getAll
-    );
+    router.route('/domains/')
+        .get(
+            controllers.domains.getAll
+        )
+        .post(
+            validators.createDomain,
+            controllers.domains.create
+        );
     router.route('/domains/:domainId')
         .delete(
             controllers.domains.remove

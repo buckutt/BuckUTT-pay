@@ -17,6 +17,27 @@ pay.controller('BuckuttAdmin', [
         });
 
         /**
+          * Creates a domain
+          * @param {object} e - The submit event
+          */
+        this.addDomain = function (e) {
+            e.preventDefault();
+
+            var val = $('#newDomain').val();
+            var domain = new Domain({
+                domain: val
+            });
+
+            domain.$save(function () {
+                domain.domain = val;
+                console.log(domain);
+                $scope.domains.push(domain);
+            }, function () {
+                Error('Erreur', res.data.error);
+            });
+        };
+
+        /**
           * Removes one domain
           * @param {object} e - The click event
           * @param {int} id - The domain id
