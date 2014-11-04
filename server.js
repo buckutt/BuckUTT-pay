@@ -86,7 +86,7 @@ models(function (db) {
     app.use('/api', router);
 
     app.use('*', function (req, res) {
-        Error.emit(res, 404, '404 - Not Found', req.path);
+        Error.emit(res, 404, '404 - Not Found', req.originalUrl);
     });
 
     app.listen(port);
