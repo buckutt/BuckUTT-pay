@@ -20,14 +20,18 @@ pay.controller('AdminEvent', [
         var eventId = $routeParams.eventId;
 
         // jQuery autocomplete
-        $('#searchVendorUser').autocomplete({
+        $('#searchVendorUser, #searchAdminUser').autocomplete({
             serviceUrl: '/api/etu/search/',
             minChars: 3,
             maxHeight: 400,
             zIndex: 9999,
             // callback function:
             onSelect: function (suggestion) {
-                $scope.vendorToAdd = suggestion.value;
+                if (this.id === 'searchVendorUser') {
+                    $scope.vendorToAdd = suggestion.value;
+                } else {
+                    $scope.adminToAdd = suggestion.value;
+                }
             },
             onSearchError: function (v, e) {
                 Error('Erreur', JSON.parse(e.responseText).error);
@@ -41,7 +45,6 @@ pay.controller('AdminEvent', [
                 };
             }
         });
-        $scope.autocompleter = $('#searchVendorUser').autocomplete();
 
         // Activate the datepicker, and ng-validate when the date changes
         $('.date').datetimepicker().on('dp.change', function () {
@@ -234,7 +237,16 @@ pay.controller('AdminEvent', [
         };
 
         /**
-          * Adds a user as a event vendor
+          * Adds a vendor to the event
+          * @param {object} e - The submit event
+          */
+        this.addVendor = function (e) {
+            e.preventDefault();
+            alert($scope.vendorToAdd);
+        };
+
+        /**
+          * Adds an admin to the event
           * @param {object} e - The submit event
           */
         this.addVendor = function (e) {

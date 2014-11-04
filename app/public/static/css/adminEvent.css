@@ -12,6 +12,9 @@
 }
 
 /* Vendor */
+.panelSearchUser {
+    min-height: 400px;
+}
 .vendor span {
     cursor: pointer;
 }
