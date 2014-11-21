@@ -1,6 +1,6 @@
 // Pay - /app/controllers/domains/create.js
 
-// Event editor
+// Domain editor
 
 'use strict';
 
