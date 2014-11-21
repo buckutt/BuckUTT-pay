@@ -29,7 +29,8 @@ Error.emit = function (res, status, msg, additionnalLog) {
         '400 - Invalid username/password' : 4,
         '400 - Duplicate event'           : 7,
         '500 - Cannot write file'         : 8,
-        '500 - Invalid token'             : 10
+        '500 - Invalid token'             : 10,
+        '500 - Cannot write config file'  : 13
     };
 
     log.error(msg);

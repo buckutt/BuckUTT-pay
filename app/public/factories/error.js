@@ -22,7 +22,8 @@ pay.factory('Error', [function () {
         9:  'L\'événement n\'existe pas.',
         10: 'La session a expirée.',
         11: 'Impossible de générer un nombre aléatoire pour sécuriser le mot de passe.',
-        12: 'Impossible de sécuriser votre mot de passe.'
+        12: 'Impossible de sécuriser votre mot de passe.',
+        13: 'Impossible d\'enregistrer la configuration'
     };
 
     return function (title, message, doNotClear) {
