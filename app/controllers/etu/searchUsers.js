@@ -1,6 +1,6 @@
 // Pay - /app/controllers/etu/auth.js
 
-// Do the CORS request to the site etu
+// Do the CORS request to the back-end
 // Or refresh the token
 
 'use strict';
