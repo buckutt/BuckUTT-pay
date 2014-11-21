@@ -80,6 +80,16 @@ module.exports = function (router, db, config) {
     router.route('/domains/:domainId')
         .delete(
             controllers.domains.remove
+        );
+
+    // Back Price
+    router.route('/bankPrice/')
+        .get(
+            controllers.bankPrice.get
+        )
+        .post(
+            validators.editBankprice,
+            controllers.bankPrice.edit
         )
 
     router.param('eventId', function (req, res, next, eventId) {
