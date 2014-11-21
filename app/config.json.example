@@ -2,6 +2,7 @@
     "debug": true,
     "port": 8080,
     "bcryptCost": 10,
+    "bankPrice": 0.4,
     "db": {
         "host": "localhost",
         "port": 3306,
@@ -14,10 +15,5 @@
         "out": "console",
         "level": "debug",
         "format": "%l %d : %s"
-    },
-    "app": {
-        "link": "https://etu.utt.fr/api/",
-        "clientId": "",
-        "clientSecret": ""
     }
 }

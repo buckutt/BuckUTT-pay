@@ -8,13 +8,34 @@ pay.controller('BuckuttAdmin', [
     '$scope',
     'PayAuth',
     'Domain',
-    function ($scope, PayAuth, Domain) {
+    'BankPrice',
+    'Error',
+    function ($scope, PayAuth, Domain, BankPrice, Error) {
         //PayAuth.needUser();
 
         // Shows domains list
         Domain.query(function (domains) {
             $scope.domains = domains;
         });
+
+        // Get the bank price
+        BankPrice.get(function (data) {
+            $scope.bankPrice = data.bankPrice;
+        });
+
+        /**
+          * Edit the bank price
+          * @param {object} e - The submit event
+          */
+        this.editBankPrice = function (e) {
+            var bankPrice = new BankPrice();
+            bankPrice.value = $scope.bankPrice;
+            bankPrice.$save(function () {
+                
+            }, function (res) {
+                Error('Erreur', res.data.error);
+            });
+        };
 
         /**
           * Creates a domain
@@ -30,9 +51,8 @@ pay.controller('BuckuttAdmin', [
 
             domain.$save(function () {
                 domain.domain = val;
-                console.log(domain);
                 $scope.domains.push(domain);
-            }, function () {
+            }, function (res) {
                 Error('Erreur', res.data.error);
             });
         };

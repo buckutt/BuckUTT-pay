@@ -7,8 +7,8 @@
     <h2 class="text-center">Administration BuckUTT</h2>
     <div class="row">
         <div class="col-xs-12 panel panel-default">
-            <h3>Prix Sherlock's LCL</h3>
-            <form ng-submit="">
+            <h3>Prix d'une transaction bancaire</h3>
+            <form ng-submit="buckuttAdmin.editBankPrice($event)">
                 <div class="form-group">
                     <input type="number" class="form-control" placeholder="Prix d'une transaction en centimes"
                            min="0" max="100" step="0.01"
@@ -44,35 +44,6 @@
                     </li>
                 </ul>
             </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 panel panel-default">
-            <h3>Configuration serveur</h3>
-<pre>
-{
-    "debug": true,
-    "port": 8080,
-    "db": {
-        "host": "localhost",
-        "port": 3306,
-        "name": "pay",
-        "user": "root",
-        "pwd": "toor"
-    },
-    "log": {
-        "log": true,
-        "out": "console",
-        "level": "debug",
-        "format": "%l %d : %s"
-    },
-    "app": {
-        "link": "https://etu.utt.fr/api/",
-        "clientId": "11196275875",
-        "clientSecret": "9cafadffe59fe613771d9e9387c17d09"
-    }
-}
-</pre>
         </div>
     </div>
 </div>
