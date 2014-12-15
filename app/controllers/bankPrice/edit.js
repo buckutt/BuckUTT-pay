@@ -6,7 +6,6 @@
 
 module.exports = function (db, config) {
     var fs     = require('fs')
-    var extend = require('node.extend');
     var logger = require('../../log')(config);
 
     return function (req, res) {
