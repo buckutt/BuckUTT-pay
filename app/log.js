@@ -37,7 +37,7 @@ function Log () {
     var levelColor = {
         'debug': 'green',
         'info': 'blue',
-        'warn': 'orange',
+        'warn': 'yellow',
         'err': 'red'
     };
 
