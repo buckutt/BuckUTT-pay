@@ -90,7 +90,17 @@ module.exports = function (router, db, config) {
         .post(
             validators.editBankprice,
             controllers.bankPrice.edit
+        );
+
+    // Event accounts
+    router.route('/events/:eventId/accounts')
+        .post(
+            validators.createAccount,
+            controllers.accounts.create
         )
+        .get(
+            controllers.accounts.getAll
+        );
 
     router.param('eventId', function (req, res, next, eventId) {
         if (Number.isPositiveNumeric(eventId)) {

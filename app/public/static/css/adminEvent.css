@@ -15,6 +15,11 @@
 .panelSearchUser {
     min-height: 400px;
 }
+
+.panelSearchUser .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+    background-color: #fff;
+}
+
 .vendor span {
     cursor: pointer;
 }

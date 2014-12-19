@@ -9,6 +9,13 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 }
 
+/* Cross */
+.cross {
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+
 /* Autocomplete */
 .autocomplete-suggestions {
     background: #FFF;

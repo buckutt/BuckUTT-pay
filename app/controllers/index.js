@@ -10,6 +10,7 @@ module.exports = function (db, config) {
         events:    require('./events')(db, config),
         etu:       require('./etu')(db, config),
         domains:   require('./domains')(db, config),
-        bankPrice: require('./bankPrice')(db, config)
+        bankPrice: require('./bankPrice')(db, config),
+        accounts:  require('./accounts')(db, config)
     };
 };

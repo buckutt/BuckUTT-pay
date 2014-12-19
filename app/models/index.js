@@ -48,15 +48,19 @@ module.exports = function (config) {
         db.Association.hasOne(db.Account);
 
         db.Association.hasOne(db.Event);
+
         db.Event.hasMany(db.Price);
+        db.Event.hasMany(db.Account);
 
         db.Price.hasOne(db.Ticket);
         db.Event.hasOne(db.Ticket);
         db.MeanOfPayment.hasOne(db.Ticket);
 
+
         // Retro associations
         db.Account.belongsTo(db.Right);
         db.Account.belongsTo(db.Association);
+        db.Account.belongsTo(db.Event);
 
         db.Event.belongsTo(db.Association);
         db.Price.belongsTo(db.Event);

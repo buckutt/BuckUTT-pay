@@ -11,6 +11,7 @@ var editPrice     = require('./editPrice');
 var etuAuth       = require('./etuAuth');
 var createDomain  = require('./createDomain');
 var editBankprice = require('./editBankprice');
+var createAccount = require('./createAccount');
 
 module.exports = {
     createEvent: createEvent,
@@ -19,5 +20,6 @@ module.exports = {
     editPrice: editPrice,
     etuAuth: etuAuth,
     createDomain: createDomain,
-    editBankprice: editBankprice
+    editBankprice: editBankprice,
+    createAccount: createAccount
 };

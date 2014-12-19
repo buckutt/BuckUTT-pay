@@ -235,6 +235,11 @@
                                     </form>
                                 </td>
                             </tr>
+                            <tr ng-repeat="vendor in vendors">
+                                <td>{{ vendor[0] }}</td>
+                                <td>{{ vendor[1] }}</td>
+                                <td class="cross">&times;</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -255,10 +260,16 @@
                         <tbody>
                             <tr>
                                 <td colspan="3">
-                                    <form ng-submit="adminEvent.addAdmin($event)"></form>
-                                    <input id="searchAdminUser" type="text" class="form-control"
+                                    <form ng-submit="adminEvent.addAdmin($event)">
+                                        <input id="searchAdminUser" type="text" class="form-control"
                                            ng-model="adminToAdd">
+                                    </form>
                                 </td>
+                            </tr>
+                            <tr ng-repeat="admin in admins">
+                                <td>{{ admin[0] }}</td>
+                                <td>{{ admin[1] }}</td>
+                                <td class="cross">&times;</td>
                             </tr>
                         </tbody>
                     </table>

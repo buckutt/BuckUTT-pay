@@ -11,13 +11,22 @@ pay.controller('AdminEvent', [
     'ParsePrices',
     'PayAuth',
     'Event',
+    'Account',
     'EventTickets',
     'FormValidator',
     'Error',
-    function ($scope, $timeout, $routeParams, ParsePrices, PayAuth, Event, EventTickets, FormValidator, Error) {
+    function ($scope, $timeout, $routeParams, ParsePrices, PayAuth, Event, Account, EventTickets, FormValidator, Error) {
         //PayAuth.needUser();
 
         var eventId = $routeParams.eventId;
+
+        var BoundAccount = Account.bind({
+            id: eventId
+        });
+
+        $scope.foundUsers = {};
+        $scope.vendors = [];
+        $scope.admins = [];
 
         // jQuery autocomplete
         $('#searchVendorUser, #searchAdminUser').autocomplete({
@@ -38,6 +47,7 @@ pay.controller('AdminEvent', [
             },
             transformResult: function (response) {
                 var fullNames = JSON.parse(response).map(function (v) {
+                    $scope.foundUsers[v.fullName] = v.id;
                     return v.fullName;
                 });
                 return {
@@ -57,7 +67,7 @@ pay.controller('AdminEvent', [
         // Updates the input text with the input file name
         $('input[type=file]').on('change', function (e) {
             if (this.files.length === 1) {
-                $(this).parent().parent().next().val(this.files[0].name);                
+                $(this).parent().parent().next().val(this.files[0].name);
             }
         });
 
@@ -135,9 +145,21 @@ pay.controller('AdminEvent', [
             $scope.paidTickets = tickets.length - $scope.ticketsNotPaid.length;
         });
 
+        Account.query({
+            id: eventId
+        }, function (accounts) {
+            accounts.forEach(function (account) {
+                if (account[1] === 1) {
+                    $scope.admins.push(account[0].split(' '));
+                } else {
+                    $scope.vendors.push(account[0].split(' '));
+                }
+            });
+        });
+
         /**
           * Edits the event parameters
-          * @param {object} e - The click event 
+          * @param {object} e - The click event
           */
         this.editParameters = function (e) {
             e.preventDefault();
@@ -146,7 +168,7 @@ pay.controller('AdminEvent', [
 
         /**
           * Edits the event
-          * @param {object} e - The click event 
+          * @param {object} e - The click event
           */
         this.editEvent = function (e) {
             var fileDisabled = eventForm.file.files.length === 0;
@@ -242,16 +264,53 @@ pay.controller('AdminEvent', [
           */
         this.addVendor = function (e) {
             e.preventDefault();
-            alert($scope.vendorToAdd);
+            var username = $scope.foundUsers[$scope.vendorToAdd];
+            var displayName = $scope.vendorToAdd;
+
+            var newAccount = new BoundAccount({
+                username: username,
+                displayName: displayName,
+                association_id: $scope.currentEvent.association_id,
+                event_id: $scope.currentEvent.id,
+                right_id: 2
+            });
+
+            newAccount.$save(function () {
+                var splitted = displayName.split(' ');
+                var firstName = splitted.shift();
+                var lastName = splitted.join(' ');
+
+                $scope.vendors.push([firstName, lastName]);
+            }, function (res) {
+                Error('Erreur', res.data.error);
+            });
         };
 
         /**
           * Adds an admin to the event
           * @param {object} e - The submit event
           */
-        this.addVendor = function (e) {
+        this.addAdmin = function (e) {
             e.preventDefault();
-            alert($scope.vendorToAdd);
+            var username = $scope.foundUsers[$scope.adminToAdd];
+            var displayName = $scope.adminToAdd;
+            var newAccount = new BoundAccount({
+                username: username,
+                displayName: displayName,
+                association_id: $scope.currentEvent.association_id,
+                event_id: $scope.currentEvent.id,
+                right_id: 1
+            });
+
+            newAccount.$save(function () {
+                var splitted = displayName.split(' ');
+                var firstName = splitted.shift();
+                var lastName = splitted.join(' ');
+
+                $scope.admins.push([firstName, lastName]);
+            }, function (res) {
+                Error('Erreur', res.data.error);
+            });
         };
     }
 ]);
