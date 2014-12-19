@@ -11,7 +11,7 @@ module.exports = form(
     field('username')
         .trim()
         .required()
-        .is(/^[\w\d]+$/),
+        .is(/^[\w\d]{5,255}$/),
 
     field('password')
         .trim()
