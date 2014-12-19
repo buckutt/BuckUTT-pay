@@ -4,12 +4,9 @@
 
 'use strict';
 
-var edit = require('./edit');
-var get  = require('./get');
-
 module.exports = function (db, config) {
     return {
-        edit: edit(db, config),
-        get: get(db, config)
+        edit: require('./edit')(db, config),
+        get: require('./get')(db, config)
     };
 };

@@ -4,12 +4,9 @@
 
 'use strict';
 
-var auth = require('./auth');
-var searchUsers = require('./searchUsers');
-
 module.exports = function (db, config) {
     return {
-        auth: auth(db, config),
-        searchUsers: searchUsers(db, config)
+        auth: require('./auth')(db, config),
+        searchUsers: require('./searchUsers')(db, config)
     };
 };

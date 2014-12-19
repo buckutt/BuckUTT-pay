@@ -4,12 +4,9 @@
 
 'use strict';
 
-var getAll = require('./getAll');
-var getAllFromEvent = require('./getAllFromEvent');
-
 module.exports = function (db) {
     return {
-        getAll: getAll(db),
-        getAllFromEvent: getAllFromEvent(db)
+        getAll: require('./getAll')(db),
+        getAllFromEvent: require('./getAllFromEvent')(db)
     };
 };

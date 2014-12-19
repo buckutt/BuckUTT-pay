@@ -4,12 +4,9 @@
 
 'use strict';
 
-var create = require('./create');
-var getAll = require('./getAll');
-
 module.exports = function (db, config) {
     return {
-        create: create(db, config),
-        getAll: getAll(db, config)
+        create: require('./create')(db, config),
+        getAll: require('./getAll')(db, config)
     };
 };

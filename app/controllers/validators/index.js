@@ -4,22 +4,13 @@
 
 'use strict';
 
-var createEvent   = require('./createEvent');
-var editEvent     = require('./editEvent');
-var createPrice   = require('./createPrice');
-var editPrice     = require('./editPrice');
-var etuAuth       = require('./etuAuth');
-var createDomain  = require('./createDomain');
-var editBankprice = require('./editBankprice');
-var createAccount = require('./createAccount');
-
 module.exports = {
-    createEvent: createEvent,
-    editEvent: editEvent,
-    createPrice: createPrice,
-    editPrice: editPrice,
-    etuAuth: etuAuth,
-    createDomain: createDomain,
-    editBankprice: editBankprice,
-    createAccount: createAccount
+    createEvent: require('./createEvent'),
+    editEvent: require('./editEvent'),
+    createPrice: require('./createPrice'),
+    editPrice: require('./editPrice'),
+    etuAuth: require('./etuAuth'),
+    createDomain: require('./createDomain'),
+    editBankprice: require('./editBankprice'),
+    createAccount: require('./createAccount')
 };
