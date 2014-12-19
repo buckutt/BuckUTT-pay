@@ -13,16 +13,20 @@ module.exports = function (db, config) {
     return function (req, res) {
         res.json([
             {
-                fullName: 'Thomas Chauchefoin'
+                fullName: 'Thomas Chauchefoin',
+                id: 1
             },
             {
-                fullName: 'Julien Canat'
+                fullName: 'Julien Canat',
+                id: 2
             },
             {
-                fullName: 'Gabriel Juchault'
+                fullName: 'Gabriel Juchault',
+                id: 3
             },
             {
-                fullName: 'Hugo Collignon'
+                fullName: 'Hugo Collignon',
+                id: 4
             }
         ]);
     }
