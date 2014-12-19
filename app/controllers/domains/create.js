@@ -16,6 +16,7 @@ module.exports = function (db, config) {
         db.SchoolDomain.create(req.form).complete(function (err) {
             if (err) {
                 Error.emit(res, 500, '500 - SQL Server error', err.toString());
+                return;
             }
 
             res.json({

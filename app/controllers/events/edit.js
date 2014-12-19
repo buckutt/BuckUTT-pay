@@ -10,7 +10,7 @@ var moment = require('moment');
 
 module.exports = function (db, config) {
     var logger = require('../../log')(config);
-    
+
     /**
       * Gets the file extension
       * @param {string} filename - The file name
@@ -37,13 +37,13 @@ module.exports = function (db, config) {
             // Save image to upload/
             var base64Regex = /^data:\w+\/(\w+);base64,([a-zA-Z0-9+\/=]+)$/;
             var matches = form.image.match(base64Regex);
-        
+
             var ext = matches[1];
             var data = matches[2];
 
             var oname = form.name.replace(/\W+/ig, '-') + '.' + ext;
             var realOPath = (opath + '/' + oname).toLowerCase();
-        
+
             var buffer = new Buffer(data, 'base64');
             fs.writeFile(opath, buffer, callback);
         } else {
@@ -62,6 +62,7 @@ module.exports = function (db, config) {
                         return;
                     }
                     Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                    return;
                 }
 
                 var picturePath = path.resolve(process.cwd() + '/app/public/static/img/upload') + '/' + event.picture;
