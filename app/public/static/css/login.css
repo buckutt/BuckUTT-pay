@@ -68,10 +68,12 @@
 }
 
 #logged .col-xs-3 {
-    height: 100%;
+    font-family: 'Lato';
     font-size: 170%;
-    text-align: center;
+    font-weight: 300;
+    height: 100%;
     padding-top: 22.5px;
+    text-align: center;
 }
 
 @media (min-width: 768px) {
