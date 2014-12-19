@@ -42,7 +42,7 @@ function Log () {
     };
 
     /**
-      * Generic write. Write to console or to file, depending on outTo
+      * Generic write. Writes to console or to file, depending on outTo
       * @param {string} lvl - The message level
       * @param {string} msg - The log message
       */

@@ -5,6 +5,14 @@
 'use strict';
 
 module.exports =  function (config, log) {
+
+    /**
+     * Emit an error to the browser
+     * @param  {object} The express res object
+     * @param  {number} The status code
+     * @param  {string} The exit message
+     * @param  {string} Additionnal log to be out on the logger
+     */
     Error.emit = function (res, status, msg, additionnalLog) {
         var msgCodes = {
             '404 - Not Found'                 : 1,
