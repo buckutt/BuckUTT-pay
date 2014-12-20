@@ -1,10 +1,11 @@
-// Pay - /app:routes.js
+// Pay - /app/routes.js
 
 // Routing
 
 'use strict';
 
 var validators = require('./controllers/validators');
+var auth       = require('./lib/auth');
 
 module.exports = function (router, db, config) {
     var controllers = require('./controllers')(db, config);

@@ -11,6 +11,7 @@
     "compression": "^1.1.0",
     "express": "^4.9.2",
     "express-form": "^0.12.3",
+    "jsonwebtoken": "^2.0.0",
     "moment": "^2.8.3",
     "mysql": "^2.5.1",
     "request": "^2.44.0",

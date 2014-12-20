@@ -3,6 +3,8 @@
     "port": 8080,
     "bcryptCost": 10,
     "bankPrice": 0.4,
+    "secret": "[randomstring]",
+    "tokenAlgorithm": "HS512",
     "db": {
         "host": "localhost",
         "port": 3306,
