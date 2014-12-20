@@ -1,6 +1,6 @@
 // Pay - /app/controllers/events/remove.js
 
-// Event getter
+// Event remover
 
 'use strict';
 

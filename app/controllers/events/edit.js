@@ -9,7 +9,7 @@ var path   = require('path');
 var moment = require('moment');
 
 module.exports = function (db, config) {
-    var logger = require('../../log')(config);
+    var logger = require('../../lib/log')(config);
 
     /**
       * Gets the file extension

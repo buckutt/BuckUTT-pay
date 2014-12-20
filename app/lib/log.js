@@ -1,4 +1,4 @@
-// Pay - /app/log.js
+// Pay - /app/lib/log.js
 
 // Log helper
 
@@ -108,7 +108,7 @@ function Log () {
       * @param {string} msg - The message to log
       */
     this.error = function (msg) {
-      this.write('err', msg);
+        this.write('err', msg);
     };
 };
 

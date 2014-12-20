@@ -1,11 +1,11 @@
 // Pay - /app/controllers/events/createPrice.js
 
-// Event editor
+// Event price creator
 
 'use strict';
 
 module.exports = function (db, config) {
-    var logger = require('../../log')(config);
+    var logger = require('../../lib/log')(config);
 
     return function (req, res) {
         db.Price.create(req.form).complete(function (err, newPrice) {

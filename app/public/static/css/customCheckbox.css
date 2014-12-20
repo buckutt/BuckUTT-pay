@@ -42,7 +42,7 @@
 
 /* on checked */
 .customCheckbox:checked + label:before {
-    background:#34495E; 
+    background:#34495E;
 }
 .customCheckbox:checked + label:after {
     background: #39D2B4;

@@ -1,4 +1,4 @@
-// Pay - pay/utils.js
+// Pay - app/lib/utils.js
 
 // Utils functions file
 

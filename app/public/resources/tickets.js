@@ -1,6 +1,6 @@
 // Pay - /app/public/resources/tickets.js
 
-// Ticket(s) resource
+// Ticket resource
 
 'use strict';
 

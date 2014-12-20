@@ -1,14 +1,13 @@
-// Pay - /app/controllers/etu/auth.js
+// Pay - /app/controllers/etu/searchUsers.js
 
-// Do the CORS request to the back-end
-// Or refresh the token
+// Search among back-end users
 
 'use strict';
 
 var request = require('request');
 
 module.exports = function (db, config) {
-    var logger = require('../../log')(config);
+    var logger = require('../../lib/log')(config);
 
     return function (req, res) {
         res.json([

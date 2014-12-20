@@ -50,7 +50,7 @@ $.extend($.fn.datetimepicker.defaults, {
     minDate: minDate,
     showToday: true,
     language: 'fr',
-    useStrict: true,  
+    useStrict: true,
     sideBySide: true,
     daysOfWeekDisabled: [0, 7]
 });

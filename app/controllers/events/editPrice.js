@@ -1,13 +1,13 @@
 // Pay - /app/controllers/events/editPrice.js
 
-// Event editor
+// Event price editor
 
 'use strict';
 
 var moment = require('moment');
 
 module.exports = function (db, config) {
-    var logger = require('../../log')(config);
+    var logger = require('../../lib/log')(config);
 
     return function (req, res) {
         db.Price.find(req.params.priceId).complete(function (err, price) {

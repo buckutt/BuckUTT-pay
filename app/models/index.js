@@ -6,7 +6,7 @@
 
 var path      = require('path');
 var Sequelize = require('sequelize');
-var log       = require('../log');
+var log       = require('../lib/log');
 var models    = [
     './account.js',
     './association.js',

@@ -6,7 +6,7 @@
 
 module.exports = function (db, config) {
     var fs     = require('fs')
-    var logger = require('../../log')(config);
+    var logger = require('../../lib/log')(config);
 
     return function (req, res) {
         config.bankPrice = req.body.value;

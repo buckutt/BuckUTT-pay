@@ -1,4 +1,4 @@
-// Pay - /app/public/adminEvent/adminEvent.js
+// Pay - /app/public/buckuttAdmin/buckuttAdmin.js
 
 // Controller for event dashboard
 
@@ -31,7 +31,7 @@ pay.controller('BuckuttAdmin', [
             var bankPrice = new BankPrice();
             bankPrice.value = $scope.bankPrice;
             bankPrice.$save(function () {
-                
+
             }, function (res) {
                 Error('Erreur', res.data.error);
             });

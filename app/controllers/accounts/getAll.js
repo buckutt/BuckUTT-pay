@@ -5,7 +5,7 @@
 'use strict';
 
 module.exports = function (db, config) {
-    var logger = require('../../log')(config);
+    var logger = require('../../lib/log')(config);
 
     function getDisplayName (id, callback) {
         logger.info('Asking axel back end for username (from id : ' + id + ')');

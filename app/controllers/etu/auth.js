@@ -9,7 +9,7 @@ var request = require('request');
 var bcrypt = require('bcryptjs');
 
 module.exports = function (db, config) {
-    var logger = require('../../log')(config);
+    var logger = require('../../lib/log')(config);
 
     return function (req, res) {
         if (!req.form.isValid) {

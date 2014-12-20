@@ -31,7 +31,7 @@ pay.factory('Error', [function () {
             // Clear the storage if this is a token matters
             localStorage.clear();
         }
-    
+
         $title.text(title);
         $content.text(msgCodes[message]);
         $modal.modal();

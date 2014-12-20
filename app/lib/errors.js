@@ -1,4 +1,4 @@
-// Pay - app/error.js
+// Pay - app/lib/error.js
 
 // Error function to out json error to browser
 
@@ -45,4 +45,4 @@ module.exports =  function (config, log) {
             process.exit(1);
         }
     };
-}
+};
