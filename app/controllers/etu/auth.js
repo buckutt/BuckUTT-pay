@@ -11,7 +11,7 @@ var bcrypt = require('bcryptjs');
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
 
-    return function (req, res) {
+    return function (req, res, next) {
         if (!req.form.isValid) {
             Error.emit(res, 400, '400 - Bad Request', req.form.errors);
             return;
@@ -28,10 +28,11 @@ module.exports = function (db, config) {
                 Error.emit(res, 400, '400 - Invalid username/password');
             }, 1400);
             */
-            res.json({
-                token: 'abc'
-            });
-            res.end();
+            req.user = {
+                username: username,
+                password: password
+            };
+            next();
         });
     };
 };

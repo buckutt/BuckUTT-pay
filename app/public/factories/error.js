@@ -23,7 +23,9 @@ pay.factory('Error', [function () {
         10: 'La session a expirée.',
         11: 'Impossible de générer un nombre aléatoire pour sécuriser le mot de passe.',
         12: 'Impossible de sécuriser votre mot de passe.',
-        13: 'Impossible d\'enregistrer la configuration'
+        13: 'Impossible d\'enregistrer la configuration',
+        14: 'Erreur d\'authentification',
+        15: 'Serveur injoignable'
     };
 
     return function (title, message, doNotClear) {

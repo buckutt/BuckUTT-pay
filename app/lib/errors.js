@@ -22,7 +22,8 @@ module.exports =  function (config, log) {
             '400 - Duplicate event'           : 7,
             '500 - Cannot write file'         : 8,
             '500 - Invalid token'             : 10,
-            '500 - Cannot write config file'  : 13
+            '500 - Cannot write config file'  : 13,
+            '401 - Unauthorized'              : 14
         };
 
         log.error(msg);

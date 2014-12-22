@@ -5,11 +5,18 @@
 'use strict';
 
 pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
+    var tokenData = null;
     var etuData = null;
 
     function PayAuth () {
+        this.token = tokenData;
         this.etu = etuData;
         var self = this;
+
+        if (sessionStorage.hasOwnProperty('etu')) {
+            this.etu = JSON.parse(sessionStorage.getItem('etu'));
+            this.token = this.etu.token;
+        }
 
         /**
           * Authenticates the user via username and password
@@ -22,11 +29,18 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
                     username: username,
                     password: password
                 }).success(function (data) {
+                    self.token = data.token;
                     self.etu = data;
+                    sessionStorage.setItem('etu', JSON.stringify(data));
                     resolve(data);
                 }).error(function (data, status, headers) {
+                    if (!data) {
+                        Error('Erreur', 15);
+                        return;
+                    }
+
                     // Custom handle wrong auth
-                    if (data.error === 4) {
+                    if (data && data.error === 4) {
                         reject(true);
                         return;
                     }
@@ -40,7 +54,7 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
           * Makes the controller require auth
           */
         this.needUser = function () {
-            if (!this.etu) {
+            if (!this.token) {
                 location.hash = '#/';
             }
         };
@@ -49,7 +63,7 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
           * Makes the controller require admin rights
           */
         this.needAdmin = function () {
-            if (!this.etu) {
+            if (!this.etu.admin) {
                 location.hash = '#/';
             }
         };
