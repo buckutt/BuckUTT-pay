@@ -16,9 +16,7 @@
         <div class="col-sm-4">
             <div class="panel panel-default">
                 <h1>Solde</h1>
-                <h2>
-                    3.5€
-                </h2>
+                <h2>{{ sold | currency : '€' : 2}}</h2>
             </div>
         </div>
         <div class="col-sm-4">
@@ -46,17 +44,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Action1</td>
-                                <td>+7€</td>
-                            </tr>
-                            <tr>
-                                <td>Action2</td>
-                                <td>-1€</td>
-                            </tr>
-                            <tr>
-                                <td>Action3</td>
-                                <td>-1€</td>
+                            <tr ng-repeat="(i, action) in history" ng-click="buckutt.expand($event, i)">
+                                <td>
+                                    <div class="visible">
+                                        {{ action.name }}
+                                    </div>
+                                    <div class="infos" style="display: none;">
+                                        <p>
+                                            <span ng-if="action.sold > 0">Rechargement</span>
+                                            <span ng-if="action.sold < 0">Achat</span>
+                                            effectué le
+                                            {{ action.date | date: 'dd/MM/yyyy à HH:mm:ss' }}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td ng-if="action.sold > 0">+{{ action.sold }}€</td>
+                                <td ng-if="action.sold < 0">{{ action.sold }}€</td>
                             </tr>
                         </tbody>
                     </table>

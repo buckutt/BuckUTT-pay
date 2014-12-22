@@ -7,3 +7,11 @@
 table th:last-child {
     width: 10%;
 }
+
+table tbody tr {
+    cursor: pointer;
+}
+
+.infos p {
+    margin-top: 10px;
+}
