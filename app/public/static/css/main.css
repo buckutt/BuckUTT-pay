@@ -1,6 +1,7 @@
 html, body {
     background-color: #ededed;
     font-family: 'RobotoSlab', sans-serif;
+    font-size: 15px;
     min-width: 360px;
 }
 
