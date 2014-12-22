@@ -12,7 +12,9 @@ pay.controller('Admin', [
     'FormValidator',
     'Error',
     function ($scope, $timeout, PayAuth, Event, FormValidator, Error) {
-        //PayAuth.needUser();
+        PayAuth.needUser();
+
+        $scope.isAdmin = (PayAuth.etu && PayAuth.etu.admin === 1);
 
         // Shows events list
         Event.query(function (events) {

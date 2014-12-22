@@ -16,7 +16,7 @@ pay.controller('AdminEvent', [
     'FormValidator',
     'Error',
     function ($scope, $timeout, $routeParams, ParsePrices, PayAuth, Event, Account, EventTickets, FormValidator, Error) {
-        //PayAuth.needUser();
+        PayAuth.needUser();
 
         var eventId = $routeParams.eventId;
 

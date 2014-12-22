@@ -9,6 +9,12 @@ pay.controller('Login', [
     '$timeout',
     'PayAuth',
     function ($scope, $timeout, PayAuth) {
+        // Account already connected, hide the login form and auto show the connecter header
+        if (!!PayAuth.etu) {
+            $('.loginForm').hide();
+            $('#logged').show();
+        }
+
         /**
           * Animate the circles to a given size
           * @param {int} to - The size to give to the circle
