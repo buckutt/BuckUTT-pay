@@ -1,0 +1,9 @@
+/* Panels */
+.panel {
+    padding: 0 15px;
+}
+
+/* History table */
+table th:last-child {
+    width: 10%;
+}

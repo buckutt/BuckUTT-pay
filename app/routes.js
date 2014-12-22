@@ -5,10 +5,10 @@
 'use strict';
 
 var validators = require('./controllers/validators');
-var auth       = require('./lib/auth');
 
 module.exports = function (router, db, config) {
     var controllers = require('./controllers')(db, config);
+    var auth       = require('./lib/auth')(config);
 
     // Tickets
     router.get(
@@ -60,7 +60,8 @@ module.exports = function (router, db, config) {
     router.post(
         '/etu/auth',
         validators.etuAuth,
-        controllers.etu.auth
+        controllers.etu.auth,
+        auth.addAuth
     );
 
     // Search among users list

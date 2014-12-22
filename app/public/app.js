@@ -31,6 +31,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/buckuttAdmin', {
             templateUrl: 'buckuttAdmin/buckuttAdmin.html'
         })
+        .when('/buckutt', {
+            templateUrl: 'buckutt/buckutt.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
