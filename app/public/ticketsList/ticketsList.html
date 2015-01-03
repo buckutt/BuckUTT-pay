@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div class="row row-spaced" pay-onresize ng-repeat="event in events">
+    <div class="row row-spaced" ng-repeat="event in events">
         <div class="panel-col transition col-xs-12 col-sm-12 col-lg-12">
             <span class="closedPresale" ng-if="!event.opened">Préventes fermées</span>
             <div class="transition panel panel-default">
@@ -34,14 +34,12 @@
                         <i class="fa fa-times" ng-click="ticket.hideBuyingCards($event)"></i>
                     </div>
                     <div class="row">
-                        <div class="col-xs-6 meanOfPayment text-center"
-                             pay-onresize-notifier="ticket.checkExpended('buckutt')">
+                        <div class="col-xs-6 meanOfPayment text-center">
                             <i class="fa fa-shopping-cart"
                                ng-click="ticket.expendBuy($event, 'buckutt')"></i>
                             <h4 class="description">BuckUTT</h4>
                         </div>
-                        <div class="col-xs-6 meanOfPayment text-center"
-                             pay-onresize-notifier="ticket.checkExpended('card')">
+                        <div class="col-xs-6 meanOfPayment text-center">
                             <i class="fa fa-credit-card"
                                ng-click="ticket.expendBuy($event, 'card')"></i>
                             <h4 class="description">Carte</h4>
