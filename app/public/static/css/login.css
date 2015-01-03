@@ -67,7 +67,7 @@
             transition: height .3s;
 }
 
-#logged .col-xs-3 {
+#logged .col-xs-4 {
     font-family: 'Lato';
     font-size: 170%;
     font-weight: 300;
@@ -88,12 +88,12 @@
 }
 
 @media (max-width: 500px) {
-    #logged .col-xs-3 span {
+    #logged .col-xs-4 span {
         display: none;
     }
 }
 
 @media (max-width: 610px) {
-    #logged .col-xs-3 {
+    #logged .col-xs-4 {
         font-size: 110%;
 }

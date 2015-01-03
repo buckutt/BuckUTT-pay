@@ -25,8 +25,11 @@
                         </h3>
                         <p class="text-muted">{{ event.description }}</p>
                     </div>
-                    <div class="text-center buy" ng-click="ticket.showBuyingCards($event)">
+                    <div class="text-center buy" ng-click="ticket.showBuyingCards($event)" ng-if="!event.isBought">
                         <i class="fa fa-shopping-cart"></i>
+                    </div>
+                    <div class="text-center print" ng-click="ticket.print($event)" ng-if="event.isBought">
+                        <i class="fa fa-print"></i>
                     </div>
                 </div>
                 <div class="behind panel-body">

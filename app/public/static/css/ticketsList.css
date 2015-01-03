@@ -42,7 +42,7 @@
     display: block;
 }
 
-.buy {
+.buy, .print {
     background-color: #444;
     color: #fff;
     cursor: pointer;

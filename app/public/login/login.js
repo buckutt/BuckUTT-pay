@@ -13,6 +13,17 @@ pay.controller('Login', [
         if (!!PayAuth.etu) {
             $('.loginForm').hide();
             $('#logged').show();
+            var $loginPanel = $('.loginPanel');
+
+            var fixedHeight = {
+                height: 75,
+                maxHeight: 75,
+                minHeight: 75
+            };
+            
+            $loginPanel.css(fixedHeight);
+            $loginPanel.children().css(fixedHeight);
+            $loginPanel.children().children().css(fixedHeight);
         }
 
         /**
@@ -116,7 +127,7 @@ pay.controller('Login', [
           */
         this.logout = function (e) {
             e.preventDefault();
-            localStorage.clear();
+            sessionStorage.clear();
             window.location.reload();
         };
     }

@@ -12,6 +12,7 @@ pay.controller('TicketsList', [
     function ($scope, $timeout, Event, Error) {
         // Shows events list
         Event.query(function (events) {
+            events[0].isBought = true;
             $scope.events = events;
         });
 
@@ -79,5 +80,13 @@ pay.controller('TicketsList', [
                 $selfCol.removeClass('expended').removeAttr('style');
                 $target.removeClass('active');
             }
+        };
+
+        /**
+          * Prints the ticket 
+          *
+          */
+        this.print = function (e) {
+
         };
 }]);
