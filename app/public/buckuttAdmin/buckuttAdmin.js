@@ -1,6 +1,6 @@
 // Pay - /app/public/buckuttAdmin/buckuttAdmin.js
 
-// Controller for event dashboard
+// Controller for buckutt global administration
 
 'use strict';
 
