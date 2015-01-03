@@ -1,7 +1,6 @@
 /* Main panel */
-.loginPanel.loginPanel, #loginControllerWrapper {
-    height: 75px;
-    min-height: 75px;
+.loginPanel.loginPanel {
+    height: 145px;
 }
 
 #loginController {
@@ -68,7 +67,7 @@
             transition: height .3s;
 }
 
-#logged .col-xs-4 {
+#logged .col-xs-3 {
     font-family: 'Lato';
     font-size: 170%;
     font-weight: 300;
@@ -77,23 +76,24 @@
     text-align: center;
 }
 
-#logged .underlined {
-    text-decoration: underline;
-}
-
 @media (min-width: 768px) {
+    .loginPanel.loginPanel, #loginControllerWrapper {
+        height: 75px;
+        min-height: 75px;
+    }
+
     .form-inline input {
         margin-bottom: 0;
     }
 }
 
 @media (max-width: 500px) {
-    #logged .col-xs-4 span {
+    #logged .col-xs-3 span {
         display: none;
     }
 }
 
 @media (max-width: 610px) {
-    #logged .col-xs-4 {
+    #logged .col-xs-3 {
         font-size: 110%;
 }
