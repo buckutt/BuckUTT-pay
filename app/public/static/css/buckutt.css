@@ -4,6 +4,10 @@
 }
 
 /* History table */
+#panelTable {
+  padding-bottom: 10px;
+}
+
 table th:last-child {
     width: 10%;
 }
