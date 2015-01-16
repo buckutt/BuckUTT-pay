@@ -69,5 +69,10 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
         };
     }
 
+    // Deletes the session when the page is closed.
+    window.onbeforeunload = function () {
+        sessionStorage.clear();
+    };
+
     return new PayAuth();
 }]);
