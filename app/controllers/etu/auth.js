@@ -5,8 +5,9 @@
 
 'use strict';
 
+var crypto  = require('crypto');
 var request = require('request');
-var bcrypt = require('bcryptjs');
+var bcrypt  = require('bcryptjs');
 
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
@@ -19,7 +20,9 @@ module.exports = function (db, config) {
 
         var username = req.form.username;
         var password = req.form.password;
-        var hash = req.form.password;
+        var sha256 = crypto.createHash('sha256');
+        sha256.update(username + ':' + password);
+        var hash = sha256.digest('base64');
 
         logger.info('Asking axel back end with : ' + username + '/' + password);
         bcrypt.compare(req.form.password, hash, function (err, hash) {
@@ -30,7 +33,7 @@ module.exports = function (db, config) {
             */
             req.user = {
                 username: username,
-                password: password
+                hash: hash
             };
             next();
         });
