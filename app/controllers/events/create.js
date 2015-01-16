@@ -4,8 +4,8 @@
 
 'use strict';
 
-var fs   = require('fs');
-var path = require('path');
+var fs     = require('fs');
+var path   = require('path');
 var moment = require('moment');
 
 module.exports = function (db) {
