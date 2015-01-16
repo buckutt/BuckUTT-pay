@@ -26,7 +26,7 @@ module.exports = function (config) {
                 return;
             }
             req.user = decoded;
-            console.lo('decoded', req.user);
+            console.log('decoded', req.user);
             next();
         });
     };
