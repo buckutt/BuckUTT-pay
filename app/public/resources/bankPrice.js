@@ -1,6 +1,6 @@
-// Pay - /app/public/resources/bankPrice.js
-
-// BankPrice resource
+////////////////////////
+// BankPrice resource //
+////////////////////////
 
 'use strict';
 

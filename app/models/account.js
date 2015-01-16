@@ -1,6 +1,6 @@
-// Pay - /app/models/account.js
-
-// Handles the Account model
+///////////////////////////////
+// Handles the Account model //
+///////////////////////////////
 
 'use strict';
 

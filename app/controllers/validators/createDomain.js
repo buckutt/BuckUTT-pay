@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/createDomain.js
-
-// School domain creator form validatior
+///////////////////////////////////////////
+// School domain creator form validatior //
+///////////////////////////////////////////
 
 'use strict';
 

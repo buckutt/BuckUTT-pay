@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/associations.js
-
-// Seeds some associations
+/////////////////////////////
+// Seeds some associations //
+/////////////////////////////
 
 'use strict';
 

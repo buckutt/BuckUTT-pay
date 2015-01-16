@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/etuAuth.js
-
-// Etu auth form validatior
+//////////////////////////////
+// Etu auth form validatior //
+//////////////////////////////
 
 'use strict';
 

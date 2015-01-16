@@ -1,6 +1,6 @@
-// Pay - /app/controllers/bankPrice/index.js
-
-// BankPrice controller
+//////////////////////////
+// BankPrice controller //
+//////////////////////////
 
 'use strict';
 

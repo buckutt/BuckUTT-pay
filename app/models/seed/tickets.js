@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/tickets.js
-
-// Seeds some tickets
+////////////////////////
+// Seeds some tickets //
+////////////////////////
 
 'use strict';
 

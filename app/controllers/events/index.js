@@ -1,6 +1,6 @@
-// Pay - /app/controllers/events/index.js
-
-// Events controller
+///////////////////////
+// Events controller //
+///////////////////////
 
 'use strict';
 

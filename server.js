@@ -1,6 +1,6 @@
-// Pay - server.js
-
-// Main app file
+///////////////////
+// Main app file //
+///////////////////
 
 'use strict';
 

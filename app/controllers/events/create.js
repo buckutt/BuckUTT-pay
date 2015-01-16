@@ -1,6 +1,6 @@
-// Pay - /app/controllers/events/create.js
-
-// Event creator
+///////////////////
+// Event creator //
+///////////////////
 
 'use strict';
 

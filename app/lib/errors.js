@@ -1,6 +1,6 @@
-// Pay - app/lib/error.js
-
-// Error function to out json error to browser
+/////////////////////////////////////////////////
+// Error function to out json error to browser //
+/////////////////////////////////////////////////
 
 'use strict';
 

@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/price.js
-
-// Seeds some price
+//////////////////////
+// Seeds some price //
+//////////////////////
 
 'use strict';
 

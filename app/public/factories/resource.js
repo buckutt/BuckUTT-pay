@@ -1,6 +1,6 @@
-// Pay - /app/public/factories/resource.js
-
-// Resource with PUT support for updates
+///////////////////////////////////////////
+// Resource with PUT support for updates //
+///////////////////////////////////////////
 
 'use strict';
 

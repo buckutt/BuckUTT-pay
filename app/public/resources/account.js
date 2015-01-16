@@ -1,6 +1,6 @@
-// Pay - /app/public/resources/account.js
-
-// Account resource
+//////////////////////
+// Account resource //
+//////////////////////
 
 'use strict';
 

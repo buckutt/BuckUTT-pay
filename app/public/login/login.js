@@ -1,6 +1,6 @@
-// Pay - /app/public/login/login.js
-
-// Controller for tickets list
+/////////////////////////////////
+// Controller for tickets list //
+/////////////////////////////////
 
 'use strict';
 

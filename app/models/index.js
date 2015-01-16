@@ -1,6 +1,6 @@
-// Pay - /app/models/index.js
-
-// Models regroupment file
+/////////////////////////////
+// Models regroupment file //
+/////////////////////////////
 
 'use strict';
 

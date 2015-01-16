@@ -1,6 +1,6 @@
-// Pay - /app/controllers/domains/create.js
-
-// Domain editor
+////////////////////
+// Domain creator //
+////////////////////
 
 'use strict';
 

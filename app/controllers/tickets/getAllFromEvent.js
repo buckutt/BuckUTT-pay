@@ -1,6 +1,6 @@
-// Pay - /app/controllers/tickets/getFromTickets.js
-
-// Event tickets getter
+//////////////////////////
+// Event tickets getter //
+//////////////////////////
 
 'use strict';
 

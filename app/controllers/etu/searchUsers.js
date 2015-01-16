@@ -1,6 +1,6 @@
-// Pay - /app/controllers/etu/searchUsers.js
-
-// Search among back-end users
+/////////////////////////////////
+// Search among back-end users //
+/////////////////////////////////
 
 'use strict';
 

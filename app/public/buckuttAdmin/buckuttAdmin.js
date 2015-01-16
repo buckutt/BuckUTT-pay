@@ -1,6 +1,6 @@
-// Pay - /app/public/buckuttAdmin/buckuttAdmin.js
-
-// Controller for buckutt global administration
+//////////////////////////////////////////////////
+// Controller for buckutt global administration //
+//////////////////////////////////////////////////
 
 'use strict';
 

@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/domains.js
-
-// Seeds some domains
+////////////////////////
+// Seeds some domains //
+////////////////////////
 
 'use strict';
 

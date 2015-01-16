@@ -1,6 +1,6 @@
-// Pay - /app/models/meanOfPayment.js
-
-// Handles the MeanOfPayment model
+/////////////////////////////////////
+// Handles the MeanOfPayment model //
+/////////////////////////////////////
 
 'use strict';
 

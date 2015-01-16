@@ -1,6 +1,6 @@
-// Pay - /app/controllers/tickets/getAll.js
-
-// Tickets getter
+////////////////////
+// Tickets getter //
+////////////////////
 
 'use strict';
 

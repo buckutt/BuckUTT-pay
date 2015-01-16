@@ -1,6 +1,6 @@
-// Pay - /app/controllers/events/createPrice.js
-
-// Event price creator
+/////////////////////////
+// Event price creator //
+/////////////////////////
 
 'use strict';
 

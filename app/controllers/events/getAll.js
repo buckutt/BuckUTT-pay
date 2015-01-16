@@ -1,6 +1,6 @@
-// Pay - /app/controllers/events/getAll.js
-
-// Events getter
+///////////////////
+// Events getter //
+///////////////////
 
 'use strict';
 

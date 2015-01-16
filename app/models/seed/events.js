@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/events.js
-
-// Seeds some events
+///////////////////////
+// Seeds some events //
+///////////////////////
 
 'use strict';
 

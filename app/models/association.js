@@ -1,6 +1,6 @@
-// Pay - /app/models/association.js
-
-// Handles the Association model
+///////////////////////////////////
+// Handles the Association model //
+///////////////////////////////////
 
 'use strict';
 

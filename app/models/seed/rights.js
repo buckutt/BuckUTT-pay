@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/rights.js
-
-// Seeds some rights
+///////////////////////
+// Seeds some rights //
+///////////////////////
 
 'use strict';
 

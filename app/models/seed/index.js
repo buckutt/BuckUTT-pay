@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/index.js
-
-// Seeds regroupment file
+////////////////////////////
+// Seeds regroupment file //
+////////////////////////////
 
 'use strict';
 

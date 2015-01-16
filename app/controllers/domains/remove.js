@@ -1,6 +1,6 @@
-// Pay - /app/controllers/domains/remove.js
-
-// Domain getter
+////////////////////
+// Domain remover //
+////////////////////
 
 'use strict';
 

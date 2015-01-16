@@ -1,6 +1,6 @@
-// Pay - /app/controllers/etu/index.js
-
-// Etus controller
+////////////////////
+// Etu controller //
+////////////////////
 
 'use strict';
 

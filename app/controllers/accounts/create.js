@@ -1,6 +1,6 @@
-// Pay - /app/controllers/accounts/create.js
-
-// Account editor
+/////////////////////
+// Account creator //
+/////////////////////
 
 'use strict';
 

@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/editPrice.js
-
-// Event price editor form validatior
+////////////////////////////////////////
+// Event price editor form validatior //
+////////////////////////////////////////
 
 'use strict';
 

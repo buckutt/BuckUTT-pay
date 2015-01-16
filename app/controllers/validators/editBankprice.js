@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/editBankprice.js
-
-// BankPrice editor form validatior
+//////////////////////////////////////
+// BankPrice editor form validatior //
+//////////////////////////////////////
 
 'use strict';
 

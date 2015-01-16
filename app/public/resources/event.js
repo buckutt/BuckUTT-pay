@@ -1,6 +1,6 @@
-// Pay - /app/public/resources/event.js
-
-// Event resource
+////////////////////
+// Event resource //
+////////////////////
 
 'use strict';
 

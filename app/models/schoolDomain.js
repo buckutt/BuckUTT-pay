@@ -1,6 +1,6 @@
-// Pay - /app/models/schoolDomain.js
-
-// Handles the SchoolDomain model
+////////////////////////////////////
+// Handles the SchoolDomain model //
+////////////////////////////////////
 
 'use strict';
 

@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/index.js
-
-// Validators regroupment file
+/////////////////////////////////
+// Validators regroupment file //
+/////////////////////////////////
 
 'use strict';
 

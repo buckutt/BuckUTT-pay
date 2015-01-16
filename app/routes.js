@@ -1,6 +1,6 @@
-// Pay - /app/routes.js
-
-// Routing
+/////////////
+// Routing //
+/////////////
 
 'use strict';
 

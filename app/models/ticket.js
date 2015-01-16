@@ -1,6 +1,6 @@
-// Pay - /app/models/tickets.js
-
-// Handles the Ticket model
+//////////////////////////////
+// Handles the Ticket model //
+//////////////////////////////
 
 'use strict';
 

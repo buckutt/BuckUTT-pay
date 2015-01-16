@@ -1,6 +1,6 @@
-// Pay - /app/controllers/events/editPrice.js
-
-// Event price editor
+////////////////////////
+// Event price editor //
+////////////////////////
 
 'use strict';
 

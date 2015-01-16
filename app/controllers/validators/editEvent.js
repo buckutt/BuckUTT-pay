@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/editEvent.js
-
-// Event editor form validatior
+//////////////////////////////////
+// Event editor form validatior //
+//////////////////////////////////
 
 'use strict';
 

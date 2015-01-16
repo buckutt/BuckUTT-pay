@@ -1,6 +1,6 @@
-// Pay - /app/public/admin/admin.js
-
-// Controller for admin panel
+////////////////////////////////
+// Controller for admin panel //
+////////////////////////////////
 
 'use strict';
 

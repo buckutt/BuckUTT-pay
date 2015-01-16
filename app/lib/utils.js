@@ -1,6 +1,6 @@
-// Pay - app/lib/utils.js
-
-// Utils functions file
+//////////////////////////
+// Utils functions file //
+//////////////////////////
 
 'use strict';
 

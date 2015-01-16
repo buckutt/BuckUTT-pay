@@ -1,6 +1,6 @@
-// Pay - /app/public/ticketsList/ticketsList.js
-
-// Controller for tickets list
+/////////////////////////////////
+// Controller for tickets list //
+/////////////////////////////////
 
 'use strict';
 
@@ -12,7 +12,6 @@ pay.controller('TicketsList', [
     function ($scope, $timeout, Event, Error) {
         // Shows events list
         Event.query(function (events) {
-            events[0].isBought = true;
             $scope.events = events;
         });
 

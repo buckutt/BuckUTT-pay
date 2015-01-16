@@ -1,6 +1,6 @@
-// Pay - /app/controllers/domains/getAll.js
-
-// Domains getter
+////////////////////
+// Domains getter //
+////////////////////
 
 'use strict';
 

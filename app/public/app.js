@@ -1,6 +1,6 @@
-// Pay - /app/public/app.js
-
-// Main entry point
+//////////////////////
+// Main entry point //
+//////////////////////
 
 'use strict';
 

@@ -1,6 +1,6 @@
-// Pay - /app/public/factories/error.js
-
-// Error factory
+///////////////////
+// Error factory //
+///////////////////
 
 'use strict';
 

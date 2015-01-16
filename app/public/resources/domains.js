@@ -1,6 +1,6 @@
-// Pay - /app/public/resources/domains.js
-
-// School Domains resource
+/////////////////////////////
+// School Domains resource //
+/////////////////////////////
 
 'use strict';
 

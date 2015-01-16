@@ -1,6 +1,6 @@
-// Pay - /app/controllers/accounts/index.js
-
-// Accounts controller
+/////////////////////////
+// Accounts controller //
+/////////////////////////
 
 'use strict';
 

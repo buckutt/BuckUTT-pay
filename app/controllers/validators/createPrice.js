@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/createPrice.js
-
-// Event price creator form validatior
+/////////////////////////////////////////
+// Event price creator form validatior //
+/////////////////////////////////////////
 
 'use strict';
 

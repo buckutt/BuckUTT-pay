@@ -1,6 +1,6 @@
-// Pay - /app/models/right.js
-
-// Handles the Right model
+/////////////////////////////
+// Handles the Right model //
+/////////////////////////////
 
 'use strict';
 

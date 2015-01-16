@@ -1,6 +1,6 @@
-// Pay - /app/controllers/bankPrice/get.js
-
-// BankPrice editor
+//////////////////////
+// BankPrice getter //
+//////////////////////
 
 'use strict';
 

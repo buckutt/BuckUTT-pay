@@ -1,6 +1,6 @@
-// Pay - /app/controllers/validators/createAccount.js
-
-// School account creator form validatior
+////////////////////////////////////////////
+// School account creator form validatior //
+////////////////////////////////////////////
 
 'use strict';
 

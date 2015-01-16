@@ -1,6 +1,6 @@
-// Pay - /app/controllers/tickets/index.js
-
-// Tickets controller
+////////////////////////
+// Tickets controller //
+////////////////////////
 
 'use strict';
 

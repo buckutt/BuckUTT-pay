@@ -1,6 +1,6 @@
-// Pay - /app/controllers/index.js
-
-// Controllers regroupment file
+//////////////////////////////////
+// Controllers regroupment file //
+//////////////////////////////////
 
 'use strict';
 

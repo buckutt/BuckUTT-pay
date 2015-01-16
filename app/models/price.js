@@ -1,6 +1,6 @@
-// Pay - /app/models/price.js
-
-// Handles the Price model
+/////////////////////////////
+// Handles the Price model //
+/////////////////////////////
 
 'use strict';
 

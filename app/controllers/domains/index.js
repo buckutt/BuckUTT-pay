@@ -1,6 +1,6 @@
-// Pay - /app/controllers/domains/index.js
-
-// Domain controller
+///////////////////////
+// Domain controller //
+///////////////////////
 
 'use strict';
 

@@ -1,6 +1,6 @@
-// Pay - /app/controllers/accounts/getAll.js
-
-// Account getter
+/////////////////////
+// Accounts getter //
+/////////////////////
 
 'use strict';
 

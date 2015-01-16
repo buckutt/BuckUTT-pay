@@ -1,6 +1,6 @@
-// Pay - /app/lib/log.js
-
-// Log helper
+////////////////
+// Log helper //
+////////////////
 
 'use strict';
 

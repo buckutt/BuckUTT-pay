@@ -1,6 +1,6 @@
-// Pay - app/lib/auth.js
-
-// Auth middleware
+/////////////////////
+// Auth middleware //
+/////////////////////
 
 'use strict';
 

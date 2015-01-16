@@ -1,6 +1,6 @@
-// Pay - /app/public/factories/etu.js
-
-// Site Etu factory
+//////////////////////
+// Site Etu factory //
+//////////////////////
 
 'use strict';
 

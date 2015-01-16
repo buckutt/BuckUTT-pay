@@ -1,6 +1,6 @@
-// Pay - /app/models/seed/meanOfPayment.js
-
-// Seeds some meanOfPayment
+//////////////////////////////
+// Seeds some meanOfPayment //
+//////////////////////////////
 
 'use strict';
 

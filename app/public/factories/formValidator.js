@@ -1,6 +1,6 @@
-// Pay - /app/public/factories/formValidator.js
-
-// Form Validator factory
+////////////////////////////
+// Form Validator factory //
+////////////////////////////
 
 'use strict';
 
