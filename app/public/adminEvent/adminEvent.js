@@ -60,6 +60,9 @@ pay.controller('AdminEvent', [
         $('.date').datetimepicker().on('dp.change', function () {
             var $self = $(this).children().first();
             $timeout(function () {
+                if (!$self.data().$ngModelController) {
+                    return;
+                }
                 $self.data().$ngModelController.$setViewValue($self.val());
             }, 0);
         });
@@ -82,13 +85,8 @@ pay.controller('AdminEvent', [
         }
 
         if (!isInteger(eventId)) {
+            location.hash = '#/admin/';
             Error('Erreur', 6);
-            $('#modalError').on('hidden.bs.modal', function () {
-                location.hash = '#/admin/';
-            });
-            setTimeout(function () {
-                $('#modalError').modal('hide');
-            }, 3000);
             return;
         }
 
@@ -96,13 +94,9 @@ pay.controller('AdminEvent', [
             id: eventId,
         }, function (e) {
             if (!e.hasOwnProperty('id')) {
-                Error('Erreur', e.error);
-                $('#modalError').on('hidden.bs.modal', function () {
-                    location.hash = '#/admin/';
-                });
-                setTimeout(function () {
-                    $('#modalError').modal('hide');
-                }, 3000);
+                location.hash = '#/admin/';
+                console.log(e);
+                Error('Erreur', 0);
             }
             $scope.currentEvent = e;
 
@@ -114,6 +108,9 @@ pay.controller('AdminEvent', [
 
             // Parse the prices
             ParsePrices.fromEvent(e);
+        }, function () {
+            location.hash = '#/admin/';
+            Error('Erreur', 6);
         });
 
         EventTickets.query({

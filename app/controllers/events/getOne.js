@@ -18,7 +18,13 @@ module.exports = function (db) {
                 Error.emit(res, 500, '500 - SQL Server error', err);
                 return;
             }
-            
+
+            if (!event) {
+                res.status(404);
+                res.end();
+                return;
+            }
+
             res.json(event || {});
         });
     };
