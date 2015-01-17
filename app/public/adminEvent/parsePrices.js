@@ -45,6 +45,9 @@ pay.factory('ParsePrices', [
                     $target.first().prop('checked', true);
                     $target.last().val(price.price);
                     $timeout(function () {
+                        if (!$target.last().data().$ngModelController) {
+                            return;
+                        }
                         $target.last().data().$ngModelController.$setViewValue($target.last().val());
                     }, 0);
                 });
