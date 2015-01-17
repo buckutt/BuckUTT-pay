@@ -8,7 +8,7 @@ module.exports = function (db) {
     return function (req, res) {
         db.Event.find({
             where: {
-                id: req.body.eventId
+                id: req.params.eventId
             },
             include: [
                 db.Price

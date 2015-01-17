@@ -6,12 +6,7 @@
 
 module.exports = function (db) {
     return function (req, res) {
-        if (!Number.isPositiveNumeric(req.body.eventId)) {
-            Error.emit(res, 400, '400 - Bad Request');
-            return;
-        }
-
-        db.Event.find(req.body.eventId).complete(function (err, event) {
+        db.Event.find(req.params.eventId).complete(function (err, event) {
             if (err) {
                 Error.emit(res, 500, '500 - SQL Error', err.toString());
                 return;

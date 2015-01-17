@@ -8,7 +8,7 @@ module.exports = function (db) {
     return function (req, res) {
         db.Ticket.findAll({
             where: {
-                event_id: req.body.eventId
+                event_id: req.params.eventId
             }
         }).done(function (err, tickets) {
             if (err) {

@@ -63,6 +63,11 @@ module.exports = function (router, db, config) {
         controllers.etu.auth,
         auth.addAuth
     );
+    router.get(
+        '/etu/checkToken/:token',
+        auth.checkAuth,
+        controllers.etu.tokenInfos
+    );
 
     // Search among users list
     router.get(
@@ -104,9 +109,24 @@ module.exports = function (router, db, config) {
             controllers.accounts.getAll
         );
 
-    router.param('eventId', function (req, res, next, eventId) {
-        if (Number.isPositiveNumeric(eventId)) {
-            req.body.eventId = eventId;
+    /* Params filters */
+    var justIds = ['eventId', 'priceId', 'domainId'];
+    justIds.forEach(function (idName) {
+        router.param(idName, function (req, res, next, id) {
+            if (Number.isPositiveNumeric(id)) {
+                req.body[idName] = id;
+                next();
+            } else {
+                Error.emit(res, 400, '400 - Bad Request');
+            }
+        });
+    });
+
+    router.param('token', function (req, res, next, token) {
+        var reg = /^([\w-]+\.){2}([\w-]+)$/;
+        console.log(token);
+        if (reg.test(token)) {
+            req.params.token = token;
             next();
         } else {
             Error.emit(res, 400, '400 - Bad Request');
