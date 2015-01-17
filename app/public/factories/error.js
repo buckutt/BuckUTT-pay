@@ -28,12 +28,7 @@ pay.factory('Error', [function () {
         15: 'Serveur injoignable'
     };
 
-    return function (title, message, doNotClear) {
-        if (!doNotClear) {
-            // Clear the storage if this is a token matters
-            localStorage.clear();
-        }
-
+    return function (title, message) {
         $title.text(title);
         $content.text(msgCodes[message]);
         $modal.modal();

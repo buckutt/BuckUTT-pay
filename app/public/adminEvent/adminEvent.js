@@ -82,7 +82,7 @@ pay.controller('AdminEvent', [
         }
 
         if (!isInteger(eventId)) {
-            Error('Erreur', 6, true);
+            Error('Erreur', 6);
             $('#modalError').on('hidden.bs.modal', function () {
                 location.hash = '#/admin/';
             });
@@ -96,7 +96,7 @@ pay.controller('AdminEvent', [
             id: eventId,
         }, function (e) {
             if (!e.hasOwnProperty('id')) {
-                Error('Erreur', e.error, true);
+                Error('Erreur', e.error);
                 $('#modalError').on('hidden.bs.modal', function () {
                     location.hash = '#/admin/';
                 });
