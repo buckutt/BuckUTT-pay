@@ -28,6 +28,12 @@ module.exports = function (db, config) {
                 return;
             }
 
+            if (accounts.length === 0) {
+                res.json([]);
+                res.end();
+                return;
+            }
+
             var sentAccounts = [];
 
             accounts.forEach(function (account, i) {

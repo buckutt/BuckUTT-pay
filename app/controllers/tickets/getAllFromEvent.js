@@ -16,7 +16,13 @@ module.exports = function (db) {
                 return;
             }
 
-            res.json(tickets || []);
+            if (!tickets) {
+                res.status(404);
+                res.end();
+                return;
+            }
+
+            res.json(tickets);
         });
     };
 };
