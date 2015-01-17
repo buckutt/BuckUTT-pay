@@ -14,7 +14,7 @@ module.exports = function (config) {
      * @param  {Function} next Next middleware to call
      */
     var checkAuth = function (req, res, next) {
-        var enodedToken = req.param('token', -1);
+        var encodedToken = req.params.token;
         if (encodedToken === -1) {
             Error.emit(res, status, '401 - Unauthorized');
             return;
