@@ -6,7 +6,6 @@
 
 pay.factory('FormValidator', [function () {
     return function (form, imageSelector, imageValidator) {
-            // If we end directly the function, all errors may be not thrown
             var formValid = true;
 
             // Image validation
@@ -22,14 +21,18 @@ pay.factory('FormValidator', [function () {
             }
 
             // Input validation
-            var isFormValid = $('.ng-pristine, .ng-invalid', form).filter(function () {
+            var $invalids = $('.ng-pristine, .ng-invalid', form);
+            var emptyForms = $invalids.filter(function () {
+                console.log('On a un pristine ou un invalide', this)
+                if ($(this).is(':visible') === false) {
+                    console.log('Bon ok il était pas visible le coco');
+                    return false;
+                }
                 return this.value.length === 0;
-            }).length === 0;
-            if (!isFormValid) {
-                var $invalids = $('.ng-pristine, .ng-invalid', form).filter(function () {
-                    return this.value.length === 0;
-                });
-                $invalids.removeClass('ng-pristine ng-valid').addClass('ng-invalid');
+            });
+            console.log('Champs problématiques : ', emptyForms);
+            if (emptyForms.length !== 0) {
+                emptyForms.removeClass('ng-pristine ng-valid').addClass('ng-invalid');
                 formValid = false;
             }
 
