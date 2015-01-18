@@ -34,22 +34,22 @@ module.exports = form(
 
     field('priceEtuPresaleActive')
         .trim()
-        .required()
+        .ifNull(false)
         .toBoolean(),
 
     field('priceEtuActive')
         .trim()
-        .required()
+        .ifNull(false)
         .toBoolean(),
 
     field('priceExtPresaleActive')
         .trim()
-        .required()
+        .ifNull(false)
         .toBoolean(),
 
     field('priceExtActive')
         .trim()
-        .required()
+        .ifNull(false)
         .toBoolean(),
 
     field('priceEtuCottPresale')
@@ -64,21 +64,21 @@ module.exports = form(
 
     field('priceEtuPresale')
         .trim()
-        .required()
+        .ifNull(0)
         .toFloat(),
 
     field('priceEtu')
         .trim()
-        .required()
+        .ifNull(0)
         .toFloat(),
 
     field('priceExtPresale')
         .trim()
-        .required()
+        .ifNull(0)
         .toFloat(),
 
     field('priceExt')
         .trim()
-        .required()
+        .ifNull(0)
         .toFloat()
 );
