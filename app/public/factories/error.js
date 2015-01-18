@@ -25,7 +25,8 @@ pay.factory('Error', [function () {
         12: 'Impossible de sécuriser votre mot de passe.',
         13: 'Impossible d\'enregistrer la configuration',
         14: 'Erreur d\'authentification',
-        15: 'Serveur injoignable'
+        15: 'Serveur injoignable',
+        16: 'L\'image est trop volumineuse.'
     };
 
     return function (title, message) {
