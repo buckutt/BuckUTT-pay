@@ -20,18 +20,19 @@ module.exports = function (db) {
         // Save image to upload/
         var base64Regex = /^data:\w+\/(\w+);base64,([a-zA-Z0-9+\/=]+)$/;
         var matches = form.image.match(base64Regex);
-        
+
         var ext = matches[1];
         var data = matches[2];
-        
+
         var buffer = new Buffer(data, 'base64');
 
         var opath = path.resolve(process.cwd() + '/app/public/static/img/upload');
         var oname = form.name.replace(/\W+/ig, '-') + '.' + ext;
-        opath = (opath + '/' + oname).toLowerCase();
+        opath = (opath + '/' + oname.toLowerCase());
         fs.writeFile(opath, buffer, function (err) {
             if (err) {
                 Error.emit(res, 500, '500 - Cannot write file', err.toString());
+                return;
             }
 
             db.Event.create({
@@ -48,6 +49,7 @@ module.exports = function (db) {
                         return;
                     }
                     Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                    return;
                 }
 
                 // Create prices
@@ -58,6 +60,7 @@ module.exports = function (db) {
                 }).complete(function (err, priceEtuCottPresale) {
                     if (err) {
                         Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                        return;
                     }
 
                     newEvent.setPrice(priceEtuCottPresale);
@@ -69,6 +72,7 @@ module.exports = function (db) {
                 }).complete(function (err, priceEtuCott) {
                     if (err) {
                         Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                        return;
                     }
 
                     newEvent.setPrice(priceEtuCott);
@@ -81,6 +85,7 @@ module.exports = function (db) {
                     }).complete(function (err, priceEtuPresale) {
                         if (err) {
                             Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                            return;
                         }
 
                         newEvent.setPrice(priceEtuPresale);
@@ -94,6 +99,7 @@ module.exports = function (db) {
                     }).complete(function (err, priceEtu) {
                         if (err) {
                             Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                            return;
                         }
 
                         newEvent.setPrice(priceEtu);
@@ -107,6 +113,7 @@ module.exports = function (db) {
                     }).complete(function (err, priceExtPresale) {
                         if (err) {
                             Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                            return;
                         }
 
                         newEvent.setPrice(priceExtPresale);
@@ -120,6 +127,7 @@ module.exports = function (db) {
                     }).complete(function (err, priceExt) {
                         if (err) {
                             Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                            return;
                         }
 
                         newEvent.setPrice(priceExt);
