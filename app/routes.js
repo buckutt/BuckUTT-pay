@@ -63,11 +63,6 @@ module.exports = function (router, db, config) {
         controllers.etu.auth,
         auth.addAuth
     );
-    router.get(
-        '/etu/checkToken/:token',
-        auth.checkAuth,
-        controllers.etu.tokenInfos
-    );
 
     // Search among users list
     router.get(
