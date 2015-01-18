@@ -127,7 +127,6 @@ pay.controller('Login', [
           */
         this.logout = function (e) {
             e.preventDefault();
-            sessionStorage.clear();
             window.location.reload();
         };
     }

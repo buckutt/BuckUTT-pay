@@ -12,11 +12,7 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
         this.token = tokenData;
         this.etu = etuData;
         var self = this;
-
-        if (sessionStorage.hasOwnProperty('etu')) {
-            this.etu = JSON.parse(sessionStorage.getItem('etu'));
-            this.token = this.etu.token;
-        }
+        pay.auth = self;
 
         /**
           * Authenticates the user via username and password
@@ -31,7 +27,6 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
                 }).success(function (data) {
                     self.token = data.token;
                     self.etu = data;
-                    sessionStorage.setItem('etu', JSON.stringify(data));
                     resolve(data);
                 }).error(function (data, status, headers) {
                     if (!data) {
@@ -68,11 +63,6 @@ pay.factory('PayAuth', ['$http', '$q', 'Error', function ($http, $q, Error) {
             }
         };
     }
-
-    // Deletes the session when the page is closed.
-    window.onbeforeunload = function () {
-        sessionStorage.clear();
-    };
 
     return new PayAuth();
 }]);
