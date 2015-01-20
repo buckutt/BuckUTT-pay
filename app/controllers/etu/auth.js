@@ -20,22 +20,49 @@ module.exports = function (db, config) {
 
         var username = req.form.username;
         var password = req.form.password;
-        var sha256 = crypto.createHash('sha256');
-        sha256.update(username + ':' + password);
-        var hash = sha256.digest('base64');
+        var hash = bcrypt.hashSync(password);
+        var sha512 = crypto.createHash('sha512');
+        sha512.update(username + ':' + password);
+        var token = sha512.digest('hex');
 
         logger.info('Asking axel back end with : ' + username + '/' + password);
-        bcrypt.compare(req.form.password, hash, function (err, hash) {
-            /*
-            setTimeout(function () {
-                Error.emit(res, 400, '400 - Invalid username/password');
-            }, 1400);
-            */
+        if (bcrypt.compareSync(req.form.password, hash)) {
             req.user = {
+                id: 1,
                 username: username,
-                hash: hash
+                isAdmin: false,
+                fundations: [
+                    {
+                        id: 1,
+                        name: 'BDE',
+                        isInBoard: true
+                    },
+                    {
+                        id: 2,
+                        name: 'UNG',
+                        isInBoard: false
+                    }
+                ],
+                tickets: [
+                    {
+                        id: 1,
+                        username: 35342,
+                        student: true,
+                        contributor: true,
+                        paid: true,
+                        paid_at: new Date(),
+                        paid_with: 'buckutt',
+                        event_id: 1,
+                        price_id: 1,
+                        mean_of_payment_id: 1
+                    }
+                ],
+                token: token
             };
             next();
-        });
+        } else {
+            Error.emit(res, 400, '400 - Invalid username/password');
+            return;
+        }
     };
 };
