@@ -5,12 +5,12 @@
 'use strict';
 
 module.exports = {
-    createEvent: require('./createEvent'),
-    editEvent: require('./editEvent'),
-    createPrice: require('./createPrice'),
-    editPrice: require('./editPrice'),
-    etuAuth: require('./etuAuth'),
+    createAccount: require('./createAccount'),
     createDomain: require('./createDomain'),
+    createEvent: require('./createEvent'),
+    createPrice: require('./createPrice'),
     editBankprice: require('./editBankprice'),
-    createAccount: require('./createAccount')
+    editEvent: require('./editEvent'),
+    editPrice: require('./editPrice'),
+    etuAuth: require('./etuAuth')
 };
