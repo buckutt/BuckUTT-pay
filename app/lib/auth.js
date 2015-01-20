@@ -6,7 +6,9 @@
 
 var jwt = require('jsonwebtoken');
 
-module.exports = function (config) {
+module.exports = function (config, logger) {
+    var logger = require('./log')(config);
+
     /**
      * Checks for the token to be present on the request. If it is, add the token value (ie. the user data) to the request.
      * @param  {object}   req  Request object
@@ -26,7 +28,12 @@ module.exports = function (config) {
                 return;
             }
             req.user = decoded;
-            console.log('decoded', req.user);
+
+            // Verify user token
+            logger.info('Getting username');
+            logger.info('Getting his token');
+
+
             next();
         });
     };
@@ -42,11 +49,7 @@ module.exports = function (config) {
         });
 
         if (typeof token === 'string' && token.split('.').length === 3) {
-            res.json({
-                id: 1,
-                admin: false,
-                token: token
-            });
+            res.json(req.user);
             res.end();
         } else {
             Error.emit(res, status, '401 - Unauthorized');
