@@ -52,6 +52,16 @@ module.exports = form(
         .ifNull(false)
         .toBoolean(),
 
+    field('pricePartnerPresaleActive')
+        .trim()
+        .ifNull(false)
+        .toBoolean(),
+
+    field('pricePartnerActive')
+        .trim()
+        .ifNull(false)
+        .toBoolean(),
+
     field('priceEtuCottPresale')
         .trim()
         .required()
@@ -78,6 +88,16 @@ module.exports = form(
         .toFloat(),
 
     field('priceExt')
+        .trim()
+        .ifNull(0)
+        .toFloat(),
+
+    field('pricePartnerPresale')
+        .trim()
+        .ifNull(0)
+        .toFloat(),
+
+    field('pricePartner')
         .trim()
         .ifNull(0)
         .toFloat()

@@ -14,7 +14,9 @@ pay.controller('Admin', [
     function ($scope, $timeout, PayAuth, Event, FormValidator, Error) {
         PayAuth.needUser();
 
-        $scope.isAdmin = (PayAuth.etu && PayAuth.etu.admin === 1);
+        $scope.isAdmin = (PayAuth.etu && PayAuth.etu.isAdmin === 1);
+        $scope.fundations = PayAuth.etu.fundations;
+        console.log(PayAuth.etu);
 
         // Shows events list
         Event.query(function (events) {
@@ -64,6 +66,10 @@ pay.controller('Admin', [
                 newEvent.$save(function (res) {
                     location.hash = '/admin/event/' + res.id
                 }, function (res) {
+                    // Request entity too large => file size too large
+                    if (res.status === 413) {
+                        Error('Erreur', 16);
+                    }
                     Error('Erreur', res.data.error);
                 });
             };
