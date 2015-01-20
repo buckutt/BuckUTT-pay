@@ -39,6 +39,23 @@ pay.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
+// Auth token
+pay.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.transformRequest.unshift(function (data, headersGetter, status) {
+        if (pay.hasOwnProperty('auth') && pay.auth.token) {
+            if (data) {
+                data.token = pay.auth.etu.token
+                data.username = pay.auth.etu.username
+            } else {
+                data = {
+                    token: pay.auth.etu.token,
+                    username: pay.auth.etu.username
+                };
+            }
+        }
+        return data;
+    });
+}]);
 
 // Datepickers
 // Set min date to now + 1 hour
