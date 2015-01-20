@@ -101,10 +101,24 @@ pay.controller('AdminEvent', [
             $scope.currentEvent = e;
 
             // Parse the date
-            var dateDiff = new Date($scope.currentEvent.date) - new Date();
-            $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');
+            var b = moment($scope.currentEvent.date, moment.ISO_8601);
+            var now = moment();
+            var diff = moment({
+                years: b.year() - now.year(),
+                months: b.month() - now.month(),
+                date: b.date() - now.date(),
+                hours: b.hours() - now.hours(),
+                minutes: 0,
+                seconds: 0,
+                milliseconds: 0
+            });
+            var formatted = diff.months() + ' mois, ' +
+                            diff.date() + ' jours et ' +
+                            diff.hours() + ' heure(s)';
+
+            $scope.currentEvent.date = b.format('DD/MM/YYYY HH:mm');
             $('.date').data('DateTimePicker').setDate($scope.currentEvent.date);
-            $scope.remainingTime = moment(new Date(dateDiff)).format('M [mois,] D [jour(s) et] H [heure(s)]');
+            $scope.remainingTime = formatted;
 
             // Parse the prices
             ParsePrices.fromEvent(e);
