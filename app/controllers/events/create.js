@@ -52,6 +52,8 @@ module.exports = function (db) {
                     return;
                 }
 
+                newEvent.setAssociation(1);
+
                 // Create prices
                 // Price Etu cott in presale :
                 db.Price.create({
@@ -63,7 +65,7 @@ module.exports = function (db) {
                         return;
                     }
 
-                    newEvent.setPrice(priceEtuCottPresale);
+                    newEvent.addPrice(priceEtuCottPresale);
                 });
                 // Price Etu cott not in presale :
                 db.Price.create({
@@ -75,7 +77,7 @@ module.exports = function (db) {
                         return;
                     }
 
-                    newEvent.setPrice(priceEtuCott);
+                    newEvent.addPrice(priceEtuCott);
                 });
                 // Price Etu in presale :
                 if (form.priceEtuPresaleActive) {
@@ -88,7 +90,7 @@ module.exports = function (db) {
                             return;
                         }
 
-                        newEvent.setPrice(priceEtuPresale);
+                        newEvent.addPrice(priceEtuPresale);
                     });
                 }
                 // Price Etu not in presale :
@@ -102,7 +104,7 @@ module.exports = function (db) {
                             return;
                         }
 
-                        newEvent.setPrice(priceEtu);
+                        newEvent.addPrice(priceEtu);
                     });
                 }
                 // Price Ext in presale :
@@ -116,7 +118,7 @@ module.exports = function (db) {
                             return;
                         }
 
-                        newEvent.setPrice(priceExtPresale);
+                        newEvent.addPrice(priceExtPresale);
                     });
                 }
                 // Price Ext not in presale :
@@ -130,7 +132,35 @@ module.exports = function (db) {
                             return;
                         }
 
-                        newEvent.setPrice(priceExt);
+                        newEvent.addPrice(priceExt);
+                    });
+                }
+                // Price Partner in presale :
+                if (form.pricePartnerPresaleActive) {
+                    db.Price.create({
+                        name: form.name + ' - Prix partenaire en prévente',
+                        price: form.pricePartnerPresale
+                    }).complete(function (err, pricePartnerPresale) {
+                        if (err) {
+                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                            return;
+                        }
+
+                        newEvent.addPrice(pricePartnerPresale);
+                    });
+                }
+                // Price Partner not in presale :
+                if (form.pricePartnerActive) {
+                    db.Price.create({
+                        name: form.name + ' - Prix partenaire hors prévente',
+                        price: form.pricePartner
+                    }).complete(function (err, pricePartner) {
+                        if (err) {
+                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                            return;
+                        }
+
+                        newEvent.addPrice(pricePartner);
                     });
                 }
 
