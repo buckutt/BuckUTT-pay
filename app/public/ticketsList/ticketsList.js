@@ -6,13 +6,32 @@
 
 pay.controller('TicketsList', [
     '$scope',
+    '$rootScope',
     '$timeout',
     'Event',
     'Error',
-    function ($scope, $timeout, Event, Error) {
+    'PayAuth',
+    function ($scope, $rootScope, $timeout, Event, Error, PayAuth) {
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
+            $rootScope.$on('payauth:logged', function () {
+                var eventsIds = $scope.events.map(function (e) { return e.id; });
+                var ticketsEvIds = PayAuth.etu.tickets.map(function (t) { return t.event_id; });
+                eventsIds.forEach(function (id) {
+                    if (ticketsEvIds.indexOf(id) === -1) {
+                        return;
+                    } else {
+                        $scope.events.forEach(function (e) {
+                            if (e.id === id) {
+                                e.isBought = true;
+                                var ticket = PayAuth.etu.tickets[ticketsEvIds.indexOf(id)];
+                                e.ticketBoughtId = ticket.id;
+                            }
+                        });
+                    }
+                });
+            });
         });
 
         /**
@@ -82,10 +101,17 @@ pay.controller('TicketsList', [
         };
 
         /**
-          * Prints the ticket 
-          *
-          */
-        this.print = function (e) {
-
+         * Prints the ticket
+         * @param  {object} e              The click event
+         * @param  {number} ticketBoughtId The ticket id
+         */
+        this.print = function (e, ticketBoughtId) {
+            e.preventDefault();
+            var url = location.href.replace(location.hash, '');
+            url += 'api/print/' +
+                   '?ticketId=' + ticketBoughtId +
+                   '&username='  + PayAuth.etu.username +
+                   '&token='     + PayAuth.etu.token;
+            window.open(url, '_blank');
         };
 }]);

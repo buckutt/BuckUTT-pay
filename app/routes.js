@@ -70,6 +70,15 @@ module.exports = function (router, db, config) {
         controllers.etu.searchUsers
     );
 
+    // Token demo
+    router.get(
+        '/token/:token',
+        auth.checkAuth,
+        function (req, res) {
+            res.json(req.user);
+        }
+    );
+
     // School domains
     router.route('/domains/')
         .get(
@@ -103,6 +112,12 @@ module.exports = function (router, db, config) {
         .get(
             controllers.accounts.getAll
         );
+
+    // Ticket printer
+    router.get(
+        '/print/',
+        controllers.tickets.print
+    );
 
     /* Params filters */
     var justIds = ['eventId', 'priceId', 'domainId'];

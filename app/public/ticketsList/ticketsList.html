@@ -28,7 +28,10 @@
                     <div class="text-center buy" ng-click="ticket.showBuyingCards($event)" ng-if="!event.isBought">
                         <i class="fa fa-shopping-cart"></i>
                     </div>
-                    <div class="text-center print" ng-click="ticket.print($event)" ng-if="event.isBought">
+                    <div
+                        class="text-center print"
+                        ng-click="ticket.print($event, event.ticketBoughtId)"
+                        ng-if="event.isBought">
                         <i class="fa fa-print"></i>
                     </div>
                 </div>
