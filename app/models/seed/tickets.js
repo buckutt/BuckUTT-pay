@@ -10,7 +10,7 @@ module.exports = function (db) {
         student: true,
         contributor: true,
         paid: true,
-        paid_at: (new Date()),
+        paid_at: new Date(),
         paid_with: 'buckutt',
         temporarlyOut: false
     }).complete(function (err, galaGJ) {
