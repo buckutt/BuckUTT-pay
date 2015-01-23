@@ -12,11 +12,10 @@ pay.controller('Admin', [
     'FormValidator',
     'Error',
     function ($scope, $timeout, PayAuth, Event, FormValidator, Error) {
-        PayAuth.needUser();
+        if (!PayAuth.needUser()) { return; }
 
-        $scope.isAdmin = (PayAuth.etu && PayAuth.etu.isAdmin === 1);
+        $scope.isAdmin = PayAuth.etu.isAdmin === 1;
         $scope.fundations = PayAuth.etu.fundations;
-        console.log(PayAuth.etu);
 
         // Shows events list
         Event.query(function (events) {
@@ -27,6 +26,17 @@ pay.controller('Admin', [
         $scope.newEvent = {};
         $scope.fileInfo = null;
         $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4} [0-2][0-9]?:[0-5]?[0-9]$/;
+
+        // Sets default fundation
+        $scope.fundations.every(function (fundation) {
+            if (fundation.isInBoard) {
+                $scope.newEvent.fundationId = fundation.id;
+                return false;
+            }
+        });
+
+        // Fix empty opton
+        $timeout(function () { $('option:empty').remove(); }, 0);
 
         // Activate the datepicker, and ng-validate when the date changes
         $('.date').datetimepicker().on('dp.change', function () {

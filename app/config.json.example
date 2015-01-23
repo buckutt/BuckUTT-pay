@@ -17,5 +17,9 @@
         "out": "console",
         "level": "debug",
         "format": "%l %d : %s"
+    },
+    "backend": {
+        "host": "http://127.0.0.1/",
+        "path": "api/"
     }
 }

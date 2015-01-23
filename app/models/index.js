@@ -9,7 +9,6 @@ var Sequelize = require('sequelize');
 var log       = require('../lib/log');
 var models    = [
     './account.js',
-    './association.js',
     './event.js',
     './meanOfPayment.js',
     './price.js',
@@ -45,9 +44,6 @@ module.exports = function (config) {
 
         // Associations
         db.Right.hasOne(db.Account);
-        db.Association.hasOne(db.Account);
-
-        db.Association.hasOne(db.Event);
 
         db.Event.hasMany(db.Price);
         db.Event.hasMany(db.Account);
@@ -59,10 +55,8 @@ module.exports = function (config) {
 
         // Retro associations
         db.Account.belongsTo(db.Right);
-        db.Account.belongsTo(db.Association);
         db.Account.belongsTo(db.Event);
 
-        db.Event.belongsTo(db.Association);
         db.Price.belongsTo(db.Event);
 
         db.Ticket.belongsTo(db.Price);

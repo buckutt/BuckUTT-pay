@@ -11,7 +11,7 @@ pay.controller('BuckuttAdmin', [
     'BankPrice',
     'Error',
     function ($scope, PayAuth, Domain, BankPrice, Error) {
-        PayAuth.needAdmin();
+        if (!PayAuth.needAdmin()) { return; }
 
         // Shows domains list
         Domain.query(function (domains) {

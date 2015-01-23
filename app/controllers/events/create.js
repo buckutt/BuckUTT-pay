@@ -41,7 +41,8 @@ module.exports = function (db) {
                 description: form.description,
                 date: new Date(form.date),
                 maximumTickets: form.maximumTickets,
-                opened: false
+                opened: false,
+                fundationId: form.fundationId
             }).complete(function (err, newEvent) {
                 if (err) {
                     if (err.name === 'SequelizeUniqueConstraintError') {
@@ -51,8 +52,6 @@ module.exports = function (db) {
                     Error.emit(null, 500, '500 - SQL Server error', err.toString());
                     return;
                 }
-
-                newEvent.setAssociation(1);
 
                 // Create prices
                 // Price Etu cott in presale :

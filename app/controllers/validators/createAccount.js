@@ -16,10 +16,6 @@ module.exports = form(
         .trim()
         .required()
         .is(/^[A-ÿ0-9 \-]{5,255}$/),
-    field('association_id')
-        .trim()
-        .required()
-        .is(/^\d+$/),
     field('event_id')
         .trim()
         .required()

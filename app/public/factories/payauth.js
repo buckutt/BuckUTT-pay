@@ -14,7 +14,6 @@ pay.factory('PayAuth', [
         var etuData = null;
 
         function PayAuth () {
-            this.token = tokenData;
             this.etu = etuData;
             var self = this;
             pay.auth = self;
@@ -30,7 +29,6 @@ pay.factory('PayAuth', [
                         username: username,
                         password: password
                     }).success(function (data) {
-                        self.token = data.token;
                         self.etu = data;
                         $rootScope.$emit('payauth:logged');
                         resolve(data);
@@ -53,20 +51,26 @@ pay.factory('PayAuth', [
 
             /**
               * Makes the controller require auth
+              * @return {bool} True if the user is auth
               */
             this.needUser = function () {
-                if (!this.token) {
+                if (!this.etu) {
                     location.hash = '#/';
+                    return false;
                 }
+                return true;
             };
 
             /**
               * Makes the controller require admin rights
+              * @return {bool} True if the user is admin
               */
             this.needAdmin = function () {
                 if (!this.etu.admin) {
                     location.hash = '#/';
+                    return false;
                 }
+                return true;
             };
         }
 

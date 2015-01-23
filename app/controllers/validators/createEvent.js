@@ -100,5 +100,10 @@ module.exports = form(
     field('pricePartner')
         .trim()
         .ifNull(0)
-        .toFloat()
+        .toFloat(),
+
+    field('fundationId')
+        .trim()
+        .required()
+        .is(/^\d+$/)
 );

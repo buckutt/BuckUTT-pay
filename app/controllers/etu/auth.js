@@ -1,7 +1,6 @@
-/////////////////////////////////////////
-// Do the CORS request to the back-end //
-// Or refresh the token                //
-/////////////////////////////////////////
+////////////////////////////////
+// Auth the etu with back-end //
+////////////////////////////////
 
 'use strict';
 
@@ -11,6 +10,7 @@ var bcrypt  = require('bcryptjs');
 
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
+    var rest   = require('../../lib/rest')(config, logger);
 
     return function (req, res, next) {
         if (!req.form.isValid) {
@@ -26,24 +26,53 @@ module.exports = function (db, config) {
         var token = sha512.digest('hex');
 
         logger.info('Asking axel back end with : ' + username + '/' + password);
-        if (bcrypt.compareSync(req.form.password, hash)) {
-            req.user = {
-                id: 1,
-                username: username,
-                isAdmin: false,
-                fundations: [
-                    {
-                        id: 1,
-                        name: 'BDE',
-                        isInBoard: true
-                    },
-                    {
-                        id: 2,
-                        name: 'UNG',
-                        isInBoard: false
-                    }
-                ],
-                tickets: [
+
+        var result;
+        // username is a positive number => auth with card number
+        if (!Number.isPositiveNumeric(username)) {
+            // Auth with email
+            result = rest.get('users?mail=' + username).success(function (data) {
+                goAhead(data, checkPassword);
+            }).error(function () {
+                Error.emit(res, 500, '500 - Buckutt server error', 'Mail failed');
+                return;
+            });
+        } else {
+            // First get the user id (via its meanoflogin)
+            rest.get('meanofloginsusers?data=' + username).success(function (data) {
+                goAhead(data, function (data) {
+                    // Then auth with userid
+                    rest.get('users?id=' + data.UserId).success(function (data) {
+                        goAhead(data, checkPassword);
+                    }).error(function () {
+                        Error.emit(res, 500, '500 - Buckutt server error', 'User data after etu card failed');
+                        return;
+                    });
+                });
+            }).error(function () {
+                Error.emit(res, 500, '500 - Buckutt server error', 'Etu card number failed');
+                return;
+            });
+        }
+
+        // Callback wrapper
+        function goAhead (data, next) {
+            if (data === null) {
+                Error.emit(res, 400, '400 - Invalid username/password');
+                return;
+            }
+            next(data);
+        }
+
+        function checkPassword (data) {
+            if (bcrypt.compareSync(req.form.password, data.password)) {
+                req.user = data;
+                req.user.token = token;
+                req.user.fundations = [
+                    { id: 1, name: 'BDE', isInBoard: true },
+                    { id: 2, name: 'UNG', isInBoard: false }
+                ];
+                req.user.tickets = [
                     {
                         id: 1,
                         username: 35342,
@@ -56,13 +85,13 @@ module.exports = function (db, config) {
                         price_id: 1,
                         mean_of_payment_id: 1
                     }
-                ],
-                token: token
-            };
-            next();
-        } else {
-            Error.emit(res, 400, '400 - Invalid username/password');
-            return;
+                ];
+                req.user.isAdmin = false;
+                next();
+            } else {
+                Error.emit(res, 400, '400 - Invalid username/password');
+                return;
+            }
         }
     };
 };

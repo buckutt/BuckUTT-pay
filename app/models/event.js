@@ -41,9 +41,12 @@ module.exports = function (sequelize, DataTypes) {
         opened: {
             type: DataTypes.BOOLEAN,
             allowNull: false
-        }
+        },
 
-        // Association with Association
+        fundationId: {
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: false
+        }
     }, {
         underscored: true,
         paranoid: true

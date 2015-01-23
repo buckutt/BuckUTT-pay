@@ -1,4 +1,3 @@
-////////////////////////////
 // Seeds regroupment file //
 ////////////////////////////
 
@@ -6,7 +5,6 @@
 
 module.exports = function (db) {
     require('./meanOfPayment')(db);
-    require('./associations')(db);
     require('./events')(db);
     require('./price')(db);
     require('./tickets')(db);

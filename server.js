@@ -10,7 +10,8 @@ var express     = require('express');
 var bodyParser  = require('body-parser');
 var compression = require('compression');
 var config      = require('./app/config.json');
-var log         = require('./app/lib/log.js')(config);
+var log         = require('./app/lib/log')(config);
+var rest        = require('./app/lib/rest')(config, log);
 var models      = require('./app/models')(config);
 var app         = express();
 

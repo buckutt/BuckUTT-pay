@@ -26,7 +26,8 @@ pay.factory('Error', [function () {
         13: 'Impossible d\'enregistrer la configuration',
         14: 'Erreur d\'authentification',
         15: 'Serveur injoignable',
-        16: 'L\'image est trop volumineuse.'
+        16: 'L\'image est trop volumineuse.',
+        17: 'Les serveurs Buckutt ne sont plus en fonctionnement'
     };
 
     return function (title, message) {

@@ -26,9 +26,10 @@
                            ng-required="true">
                 </div>
                 <div>
-                  <select name="fundation" class="form-control">
+                  <select class="form-control" ng-model="newEvent.fundationId">
                     <option
                       ng-disabled="!fundation.isInBoard"
+                      ng-selected="fundation.isInBoard"
                       ng-value="fundation.isInBoard ? fundation.id : -1"
                       ng-repeat="fundation in fundations">
                         {{ fundation.name }}

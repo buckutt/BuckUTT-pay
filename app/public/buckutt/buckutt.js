@@ -8,7 +8,7 @@ pay.controller('Buckutt', [
     '$scope',
     'PayAuth',
     function ($scope, PayAuth) {
-        PayAuth.needUser();
+        if (!PayAuth.needUser()) { return; }
 
         $scope.history = [
             {

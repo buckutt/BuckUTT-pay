@@ -19,7 +19,6 @@ module.exports = function (sequelize, DataTypes) {
         }
 
         // Association with Right
-        // Association with Association
         // Association with Event
     }, {
         underscored: true,
