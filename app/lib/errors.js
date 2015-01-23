@@ -4,7 +4,7 @@
 
 'use strict';
 
-module.exports =  function (config, log) {
+module.exports = function (config, log) {
 
     /**
      * Emit an error to the browser
@@ -23,7 +23,8 @@ module.exports =  function (config, log) {
             '500 - Cannot write file'         : 8,
             '500 - Invalid token'             : 10,
             '500 - Cannot write config file'  : 13,
-            '401 - Unauthorized'              : 14
+            '401 - Unauthorized'              : 14,
+            '500 - Buckutt server error'      : 17
         };
 
         log.error(msg);
