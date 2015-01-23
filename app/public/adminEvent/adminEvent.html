@@ -141,6 +141,22 @@
                                    ng-model="newPrices.priceEtu">
                         </label>
                         <label>
+                            <input type="checkbox" name="pricePartnerPresaleActive" class="hideNextInput"
+                                   ng-model="newPrices.pricePartnerPresaleActive">
+                            Prix d'une école partenaire en prévente :
+                            <input type="number" name="pricePartnerPresale" class="form-control input-sm" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.pricePartnerPresale">
+                        </label>
+                        <label>
+                            <input type="checkbox" name="pricePartnerActive" class="hideNextInput"
+                                   ng-model="newPrices.pricePartnerActive">
+                            Prix d'une école partenaire hors prévente :
+                            <input type="number" name="pricePartner" class="form-control input-sm" placeholder="00.00"
+                                   min="0" max="100" step="0.01"
+                                   ng-model="newPrices.pricePartner">
+                        </label>
+                        <label>
                             <input type="checkbox" name="priceExtPresaleActive" class="hideNextInput"
                                    ng-model="newPrices.priceExtPresaleActive">
                             Prix extérieur en prévente :
