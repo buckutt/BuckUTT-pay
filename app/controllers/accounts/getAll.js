@@ -13,11 +13,6 @@ module.exports = function (db, config) {
     }
 
     return function (req, res) {
-        if (!Number.isPositiveNumeric(req.params.eventId)) {
-            Error.emit(res, 400, '400 - Bad Request');
-            return;
-        }
-
         db.Account.findAll({
             where: {
                 event_id: req.params.eventId
