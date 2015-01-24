@@ -68,26 +68,27 @@ module.exports = function (db, config) {
             if (bcrypt.compareSync(req.form.password, data.password)) {
                 req.user = data;
                 req.user.token = token;
-                req.user.fundations = [
-                    { id: 1, name: 'BDE', isInBoard: true },
-                    { id: 2, name: 'UNG', isInBoard: false }
-                ];
-                req.user.tickets = [
-                    {
-                        id: 1,
-                        username: 35342,
-                        student: true,
-                        contributor: true,
-                        paid: true,
-                        paid_at: new Date(),
-                        paid_with: 'buckutt',
-                        event_id: 1,
-                        price_id: 1,
-                        mean_of_payment_id: 1
+
+                // Get tickets
+                db.Ticket.findAll({
+                    where: {
+                        username: req.user.id
                     }
-                ];
-                req.user.isAdmin = false;
-                next();
+                }).done(function (err, tickets) {
+                    if (err) {
+                        Error.emit(res, 500, '500 - SQL Server error', err);
+                        return;
+                    }
+
+                    req.user.tickets = tickets;
+
+                    req.user.fundations = [
+                        { id: 1, name: 'BDE', isInBoard: true },
+                        { id: 2, name: 'UNG', isInBoard: false }
+                    ];
+                    req.user.isAdmin = false;
+                    next();
+                });
             } else {
                 Error.emit(res, 400, '400 - Invalid username/password');
                 return;
