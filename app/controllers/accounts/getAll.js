@@ -6,10 +6,15 @@
 
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
+    var rest   = require('../../lib/rest')(config, logger);
 
     function getDisplayName (id, callback) {
-        logger.info('Asking axel back end for username (from id : ' + id + ')');
-        callback(null, 'Thomas Chauchefoin');
+        rest.get('users/' + id).success(function (user) {
+            callback(user.firstname.nameCapitalize() + ' ' + user.lastname.nameCapitalize());
+        }).error(function () {
+            Error.emit(res, 500, '500 - Buckutt server error', 'Get mail');
+            callback(false);
+        });
     }
 
     return function (req, res) {
@@ -32,9 +37,8 @@ module.exports = function (db, config) {
             var sentAccounts = [];
 
             accounts.forEach(function (account, i) {
-                getDisplayName(account.username, function (err, displayName) {
-                    if (err) {
-                        Error.emit(res, 500, '500 - SQL Server error', err);
+                getDisplayName(account.username, function (displayName) {
+                    if (!displayName) {
                         return;
                     }
 

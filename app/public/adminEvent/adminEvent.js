@@ -281,9 +281,8 @@ pay.controller('AdminEvent', [
             var newAccount = new BoundAccount({
                 username: username,
                 displayName: displayName,
-                association_id: $scope.currentEvent.association_id,
                 event_id: $scope.currentEvent.id,
-                right_id: 2
+                right_id: 2 // Vendor right
             });
 
             newAccount.$save(function () {
@@ -308,9 +307,8 @@ pay.controller('AdminEvent', [
             var newAccount = new BoundAccount({
                 username: username,
                 displayName: displayName,
-                association_id: $scope.currentEvent.association_id,
                 event_id: $scope.currentEvent.id,
-                right_id: 1
+                right_id: 1 // Admin right
             });
 
             newAccount.$save(function () {
