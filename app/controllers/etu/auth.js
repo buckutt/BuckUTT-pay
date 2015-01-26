@@ -55,7 +55,11 @@ module.exports = function (db, config) {
             });
         }
 
-        // Callback wrapper
+        /**
+         * Callback wrapper
+         * @param  {object}   data Data to pass to next callback
+         * @param  {Function} next Callback
+         */
         function goAhead (data, next) {
             if (data === null) {
                 Error.emit(res, 400, '400 - Invalid username/password');
