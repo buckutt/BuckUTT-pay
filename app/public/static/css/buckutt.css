@@ -3,6 +3,10 @@
     padding: 0 15px;
 }
 
+h1 a, h2 a {
+    cursor: pointer;
+}
+
 /* History table */
 #panelTable {
   padding-bottom: 10px;
