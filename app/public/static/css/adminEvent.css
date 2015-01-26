@@ -8,7 +8,7 @@
 }
 
 .panel > h2 {
-    line-height: 100px;
+    min-height: 100px;
 }
 
 /* Vendor */
