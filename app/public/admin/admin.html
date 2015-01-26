@@ -25,16 +25,9 @@
                            ng-model="newEvent.name"
                            ng-required="true">
                 </div>
-                <div>
-                  <select class="form-control" ng-model="newEvent.fundationId">
-                    <option
-                      ng-disabled="!fundation.isInBoard"
-                      ng-selected="fundation.isInBoard"
-                      ng-value="fundation.isInBoard ? fundation.id : -1"
-                      ng-repeat="fundation in fundations">
-                        {{ fundation.name }}
-                      </option>
-                  </select>
+                <div ng-if="fundation">
+                    <strong>Association :</strong> <span>{{ fundation.name }}</span>
+                    <input type="hidden" name="fundationId" value="{{ fundation.id }}">
                 </div>
                 <div>
                     <div class="input-group date">

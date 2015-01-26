@@ -21,3 +21,13 @@ Number.isPositiveNumeric = function (str) {
     var n = ~~Number(str);
     return String(n) === str && n >= 0;
 };
+
+/**
+ * Capitalize a name correctly
+ * @return {string} Name with every part capitalized
+ */
+String.prototype.nameCapitalize = function () {
+    return this.toLowerCase().replace(/(^|[\s'-])([a-z])/g, function (m, p1, p2) {
+        return p1 + p2.toUpperCase();
+    });
+};

@@ -66,7 +66,7 @@ pay.factory('PayAuth', [
               * @return {bool} True if the user is admin
               */
             this.needAdmin = function () {
-                if (!this.etu.admin) {
+                if (!this.etu || !this.etu.isAdmin) {
                     location.hash = '#/';
                     return false;
                 }
