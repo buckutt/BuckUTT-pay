@@ -59,10 +59,12 @@ pay.controller('Login', [
             }, function () {
                 if (fail) {
                     if (wrongAuth) {
+                        $('#password').val('');
                         $('#loginControllerWrapper').css('backgroundColor', '#e74c3c');
                         setTimeout(function () {
                             $('#loginControllerWrapper').removeAttr('style');
                             $('.loginForm').fadeIn();
+                            $('#password').focus();
                         }, 600);
                         return;
                     }
