@@ -14,7 +14,7 @@ module.exports = function (db) {
 
             event.destroy().complete(function (errDestroy) {
                 if (errDestroy) {
-                    Error.emit(res, 500, '500 - SQL Error', err.toString());
+                    Error.emit(res, 500, '500 - SQL Error', errDestroy.toString());
                     return;
                 }
 
