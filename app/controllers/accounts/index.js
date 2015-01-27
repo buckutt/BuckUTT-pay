@@ -7,6 +7,7 @@
 module.exports = function (db, config) {
     return {
         create: require('./create')(db, config),
-        getAll: require('./getAll')(db, config)
+        getAll: require('./getAll')(db, config),
+        remove: require('./remove')(db, config)
     };
 };

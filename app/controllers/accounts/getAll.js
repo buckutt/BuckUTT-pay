@@ -42,7 +42,7 @@ module.exports = function (db, config) {
                         return;
                     }
 
-                    var newlyAccount = [displayName];
+                    var newlyAccount = [displayName, account.id];
 
                     account.getRight().complete(function (err, right) {
                         if (err) {

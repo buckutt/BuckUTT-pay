@@ -254,7 +254,10 @@
                             <tr ng-repeat="vendor in vendors">
                                 <td>{{ vendor[0] }}</td>
                                 <td>{{ vendor[1] }}</td>
-                                <td class="cross">&times;</td>
+                                <td class="cross"
+                                    data-vendor
+                                    data-index="{{ $index }}"
+                                    ng-click="adminEvent.removeAccount($event, vendor[2])">&times;</td>
                             </tr>
                         </tbody>
                     </table>
@@ -285,7 +288,10 @@
                             <tr ng-repeat="admin in admins">
                                 <td>{{ admin[0] }}</td>
                                 <td>{{ admin[1] }}</td>
-                                <td class="cross">&times;</td>
+                                <td class="cross"
+                                    data-admin
+                                    data-index="$index"
+                                    ng-click="adminEvent.removeAccount($event, admin[2])">&times;</td>
                             </tr>
                         </tbody>
                     </table>

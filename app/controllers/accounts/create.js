@@ -13,14 +13,15 @@ module.exports = function (db, config) {
             return;
         }
 
-        db.Account.create(req.form).complete(function (err) {
+        db.Account.create(req.form).complete(function (err, user) {
             if (err) {
                 Error.emit(res, 500, '500 - SQL Server error', err.toString());
                 return;
             }
 
             res.json({
-                status: 200
+                status: 200,
+                id: user.id
             });
         });
     };

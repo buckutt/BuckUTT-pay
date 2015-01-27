@@ -8,6 +8,7 @@ pay.controller('AdminEvent', [
     '$scope',
     '$timeout',
     '$routeParams',
+    '$http',
     'ParsePrices',
     'PayAuth',
     'Event',
@@ -15,7 +16,7 @@ pay.controller('AdminEvent', [
     'EventTickets',
     'FormValidator',
     'Error',
-    function ($scope, $timeout, $routeParams, ParsePrices, PayAuth, Event, Account, EventTickets, FormValidator, Error) {
+    function ($scope, $timeout, $routeParams, $http, ParsePrices, PayAuth, Event, Account, EventTickets, FormValidator, Error) {
         if (!PayAuth.needUser()) { return; }
 
         var eventId = $routeParams.eventId;
@@ -43,7 +44,9 @@ pay.controller('AdminEvent', [
                 }
             },
             onSearchError: function (v, e) {
-                Error('Erreur', JSON.parse(e.responseText).error);
+                if (e.responseText) {
+                    Error('Erreur', JSON.parse(e.responseText).error);
+                }
             },
             transformResult: function (response) {
                 var fullNames = JSON.parse(response).map(function (v) {
@@ -117,7 +120,7 @@ pay.controller('AdminEvent', [
                             diff.hours() + ' heure(s)';
 
             $scope.currentEvent.date = b.format('DD/MM/YYYY HH:mm');
-            $('.date').data('DateTimePicker').setDate($scope.currentEvent.date);
+            $('.date').data('DateTimePicker').date($scope.currentEvent.date);
             $scope.remainingTime = formatted;
 
             // Parse the prices
@@ -160,10 +163,12 @@ pay.controller('AdminEvent', [
             id: eventId
         }, function (accounts) {
             accounts.forEach(function (account) {
-                if (account[1] === 1) {
-                    $scope.admins.push(account[0].split(' '));
+                var nameSplitted = account[0].split(' ');
+                nameSplitted.push(account[1]);
+                if (account[2] === 1) {
+                    $scope.admins.push(nameSplitted);
                 } else {
-                    $scope.vendors.push(account[0].split(' '));
+                    $scope.vendors.push(nameSplitted);
                 }
             });
         });
@@ -216,7 +221,7 @@ pay.controller('AdminEvent', [
                     $scope.currentEvent = this;
                     var dateDiff = new Date($scope.currentEvent.date) - new Date();
                     $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');
-                    $('.date').data('DateTimePicker').setDate($scope.currentEvent.date);
+                    $('.date').data('DateTimePicker').date($scope.currentEvent.date);
                     $scope.remainingTime = moment(new Date(dateDiff)).format('D [jour(s) et] H [heure(s)]');
                     $('#modalEdit').modal('hide');
                 }, function (res) {
@@ -290,7 +295,8 @@ pay.controller('AdminEvent', [
                 var firstName = splitted.shift();
                 var lastName = splitted.join(' ');
 
-                $scope.vendors.push([firstName, lastName]);
+                $scope.vendorToAdd = '';
+                $scope.vendors.push([firstName, lastName, newAccount.id]);
             }, function (res) {
                 Error('Erreur', res.data.error);
             });
@@ -316,9 +322,23 @@ pay.controller('AdminEvent', [
                 var firstName = splitted.shift();
                 var lastName = splitted.join(' ');
 
-                $scope.admins.push([firstName, lastName]);
+                $scope.adminToAdd = '';
+                $scope.admins.push([firstName, lastName, newAccount.id]);
             }, function (res) {
                 Error('Erreur', res.data.error);
+            });
+        };
+
+        this.removeAccount = function (e, accountId) {
+            e.preventDefault();
+            $http.delete('/api/accounts/' + accountId).then(function () {
+                if (e.currentTarget.dataset.hasOwnProperty('vendor')) {
+                    $scope.vendors.splice(e.currentTarget.dataset.index, 1);
+                } else {
+                    $scope.admins.splice(e.currentTarget.dataset.index, 1);
+                }
+            }, function () {
+                Error('Erreur', 0);
             });
         };
     }
