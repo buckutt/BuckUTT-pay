@@ -95,6 +95,7 @@ pay.controller('Login', [
           */
         this.authUser = function (e) {
             e.preventDefault();
+            $('#password').blur();
             PayAuth.auth($('#username').val(), $('#password').val()).then(function (etu) {
                 $scope.etu = etu;
             }, function (wrongAuth) {
