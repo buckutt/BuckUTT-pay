@@ -1,0 +1,35 @@
+{
+  "name": "pay",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ungdev/pay",
+  "authors": [
+    "Gabriel Juchault <gabriel.juchault@gmail.com>"
+  ],
+  "main": "server.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/public/static/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "bootstrap": "~3.3.2",
+    "animate.css": "~3.2.0",
+    "eonasdan-bootstrap-datetimepicker": "~4.0.0",
+    "clamp.js": "*",
+    "moment": "~2.9.0",
+    "devbridge-autocomplete": "~1.2.16",
+    "angular": "~1.3.11",
+    "angular-route": "~1.3.11",
+    "angular-resource": "~1.3.11",
+    "fontawesome": "~4.3.0"
+  }
+}
