@@ -61,15 +61,11 @@ pay.config(['$httpProvider', function ($httpProvider) {
 // Set min date to now + 1 hour
 var minDate = moment().add(1, 'hour').toDate();
 $.extend($.fn.datetimepicker.defaults, {
-    pickDate: true,
-    pickTime: true,
-    useMinutes: true,
-    useSeconds: false,
     useCurrent: true,
-    minuteStepping: 15,
+    stepping: 15,
     minDate: minDate,
-    showToday: true,
-    language: 'fr',
+    showTodayButton: false,
+    locale: 'fr',
     useStrict: true,
     sideBySide: true,
     daysOfWeekDisabled: [0, 7]
