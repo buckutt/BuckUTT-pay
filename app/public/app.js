@@ -41,19 +41,16 @@ pay.config(['$routeProvider', function ($routeProvider) {
 
 // Auth token
 pay.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.transformRequest.unshift(function (data, headersGetter, status) {
-        if (pay.hasOwnProperty('auth') && pay.auth.token) {
-            if (data) {
-                data.token = pay.auth.etu.token
-                data.username = pay.auth.etu.username
-            } else {
-                data = {
-                    token: pay.auth.etu.token,
-                    username: pay.auth.etu.username
-                };
+    $httpProvider.interceptors.push(function () {
+        return {
+            request: function (config) {
+                if (pay.auth && pay.auth.etu && pay.auth.etu.token) {
+                    config.headers['Auth-User'] = pay.auth.etu.id;
+                    config.headers['Auth-Token'] = pay.auth.etu.token;
+                }
+                return config;
             }
-        }
-        return data;
+        };
     });
 }]);
 
