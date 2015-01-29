@@ -13,7 +13,7 @@ module.exports = function (db) {
         maximumTickets: 3600,
         opened: true,
         fundationId: 1
-    }).complete(function (err, gala2015) {
+    }).complete(function (err) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error ', err.toString());
         }
@@ -26,7 +26,7 @@ module.exports = function (db) {
             maximumTickets: 1600,
             opened: false,
             fundationId: 1
-        }).complete(function (err, r2d2015) {
+        }).complete(function (err) {
             if (err) {
                 Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }
