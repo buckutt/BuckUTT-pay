@@ -22,7 +22,6 @@ module.exports = function (db) {
 
             account.destroy().complete(function (errDestroy) {
                 if (errDestroy) {
-                    console.log('account not destroyed', errDestroy);
                     Error.emit(res, 500, '500 - SQL Error', errDestroy.toString());
                     return;
                 }

@@ -98,7 +98,6 @@ pay.controller('AdminEvent', [
         }, function (e) {
             if (!e.hasOwnProperty('id')) {
                 location.hash = '#/admin/';
-                console.log(e);
                 Error('Erreur', 0);
             }
             $scope.currentEvent = e;
