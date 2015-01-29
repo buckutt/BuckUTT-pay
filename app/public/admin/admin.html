@@ -13,6 +13,19 @@
                 <h4 ng-repeat="event in events">
                     <a href="#/admin/event/{{ event.id }}">{{ event.name }}</a>
                 </h4>
+                <div ng-if="events.length === 0">
+                    Aucun événement à gérer.
+                </div>
+            </div>
+
+            <h3>Vendre les événements</h3>
+            <div class="subPanel">
+                <h4 ng-repeat="event in eventsSeller">
+                    <a href="#/admin/event/{{ event.id }}">{{ event.name }}</a>
+                </h4>
+                <div ng-if="events.length === 0">
+                    Aucune place d'événement à vendre.
+                </div>
             </div>
         </div>
         <div class="panel panel-default col-sm-5 col-sm-offset-2">
@@ -27,7 +40,6 @@
                 </div>
                 <div ng-if="fundation">
                     <strong>Association :</strong> <span>{{ fundation.name }}</span>
-                    <input type="hidden" name="fundationId" value="{{ fundation.id }}">
                 </div>
                 <div>
                     <div class="input-group date">

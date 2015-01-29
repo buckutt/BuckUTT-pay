@@ -6,12 +6,13 @@
 
 pay.controller('Admin', [
     '$scope',
+    '$http',
     '$timeout',
     'PayAuth',
     'Event',
     'FormValidator',
     'Error',
-    function ($scope, $timeout, PayAuth, Event, FormValidator, Error) {
+    function ($scope, $http, $timeout, PayAuth, Event, FormValidator, Error) {
         if (!PayAuth.needUser()) { return; }
 
         $scope.isAdmin = PayAuth.etu.isAdmin === true;
@@ -19,7 +20,29 @@ pay.controller('Admin', [
 
         // Shows events list
         Event.query(function (events) {
-            $scope.events = events;
+            var keptEvents = [];
+            var keptEventsSeller = [];
+            $http.get('/api/accounts/' + PayAuth.etu.id).then(function (data) {
+                data.data.forEach(function (account) {
+                    events.forEach(function (event) {
+                        if (event.id === account.event) {
+                            if (PayAuth.etu.isAdmin) {
+                                keptEvents.push(event);
+                                keptEventsSeller.push(event);
+                            } else if (account.admin) {
+                                keptEvents.push(event);
+                            } else {
+                                keptEventsSeller.push(event);
+                            }
+                        }
+                    });
+                });
+            }, function () {
+                Error('Erreur', 0);
+            });
+
+            $scope.events = keptEvents;
+            $scope.eventsSeller = keptEventsSeller;
         });
 
         // Model for the new event
@@ -61,6 +84,7 @@ pay.controller('Admin', [
 
                 newEventData.image = result;
                 newEventData.date = moment(newEventData.date, 'DD/MM/YYYY HH:mm').toDate();
+                newEventData.fundationId = $scope.fundation.id;
                 var newEvent = new Event(newEventData);
                 newEvent.$save(function (res) {
                     location.hash = '/admin/event/' + res.id

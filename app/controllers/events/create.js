@@ -53,6 +53,15 @@ module.exports = function (db) {
                     return;
                 }
 
+
+                // Create first admin account
+                db.Account.create({
+                    username: req.get('Auth-User')
+                }).complete(function (err, adminUser) {
+                    adminUser.setRight(1);
+                    adminUser.setEvent(newEvent.id);
+                });
+
                 // Create prices
                 // Price Etu cott in presale :
                 db.Price.create({

@@ -116,6 +116,10 @@ module.exports = function (router, db, config) {
         '/accounts/:accountId',
         controllers.accounts.remove
     );
+    router.get(
+        '/accounts/:userId',
+        controllers.accounts.getAllFromUserId
+    );
 
     // Ticket printer
     router.get(
@@ -124,7 +128,7 @@ module.exports = function (router, db, config) {
     );
 
     /* Params filters */
-    var justIds = ['eventId', 'priceId', 'domainId', 'accountId'];
+    var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId'];
     justIds.forEach(function (idName) {
         router.param(idName, function (req, res, next, id) {
             if (Number.isPositiveNumeric(id)) {
