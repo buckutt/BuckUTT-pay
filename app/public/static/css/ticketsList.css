@@ -38,6 +38,11 @@
     width: calc(100% - 128px);
 }
 
+.title p {
+    max-height: 40px;
+    overflow: hidden;
+}
+
 .title small {
     display: block;
 }
