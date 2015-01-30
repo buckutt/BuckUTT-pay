@@ -12,6 +12,10 @@ h1 a, h2 a {
   padding-bottom: 10px;
 }
 
+.table-responsive {
+  overflow-y: hidden;
+}
+
 table th:last-child {
     width: 10%;
 }
