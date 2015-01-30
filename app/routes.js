@@ -127,6 +127,16 @@ module.exports = function (router, db, config) {
         controllers.tickets.print
     );
 
+    // Buckutt History
+    router.get(
+        '/purchases/',
+        controllers.buckuttHistory.getPurchasesHistory
+    );
+    router.get(
+        '/reloads/',
+        controllers.buckuttHistory.getReloadsHistory
+    );
+
     /* Params filters */
     var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId'];
     justIds.forEach(function (idName) {

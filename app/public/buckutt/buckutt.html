@@ -16,7 +16,7 @@
         <div class="col-sm-4">
             <div class="panel panel-default">
                 <h1>Solde</h1>
-                <h2>{{ sold | currency : '€' : 2}}</h2>
+                <h2>{{ sold }}</h2>
             </div>
         </div>
         <div class="col-sm-4">
@@ -50,16 +50,21 @@
                                         {{ action.name }}
                                     </div>
                                     <div class="infos" style="display: none;">
-                                        <p>
+                                        <p class="text-muted">
                                             <span ng-if="action.sold > 0">Rechargement</span>
                                             <span ng-if="action.sold < 0">Achat</span>
                                             effectué le
                                             {{ action.date | date: 'dd/MM/yyyy à HH:mm:ss' }}
+                                            {{ action.details }}
                                         </p>
                                     </div>
                                 </td>
-                                <td ng-if="action.sold > 0">+{{ action.sold }}€</td>
-                                <td ng-if="action.sold < 0">{{ action.sold }}€</td>
+                                <td ng-if="action.sold > 0">
+                                    <span class="text-success">+{{ action.sold }}€</span>
+                                </td>
+                                <td ng-if="action.sold < 0">
+                                    <span class="text-danger">{{ action.sold }}€</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
