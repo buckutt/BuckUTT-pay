@@ -26,6 +26,7 @@ module.exports = function (config) {
             from: config.mail.sender,
             to: dest,
             subject: subject,
+            text: objectToText(places),
             html: finalMail
         };
 
@@ -61,6 +62,24 @@ module.exports = function (config) {
         }
 
         return lis;
+    }
+
+    /**
+     * Converts places to text
+     * @param  {object} places Places object like "name:link"
+     * @return {string}        Formatted text
+     */
+    function objectToText (places) {
+        var keys = Object.keys(places);
+        var text = '';
+        for (var i = keys.length - 1; i >= 0; i--) {
+            var placeTitle = keys[i];
+            var link = places[keys[i]];
+
+            text += '* ' + placeTitle + ' : ' + link + '\n';
+        }
+
+        return text;
     }
 
     return mail;
