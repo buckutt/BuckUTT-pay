@@ -36,7 +36,7 @@ pay.controller('TicketsList', [
 
         /**
          * Shows the three means of payment for the event
-         * @param {object} e - The click event 
+         * @param {object} e The click event 
          */
         this.showBuyingCards = function (e) {
             // Hide others buying tiles
@@ -61,7 +61,7 @@ pay.controller('TicketsList', [
 
         /**
          * Hides the three means of payment for the event
-         * @param {object} e - The click event 
+         * @param {object} e The click event 
          */
         this.hideBuyingCards = function (e) {
             $(e.currentTarget)
@@ -77,8 +77,8 @@ pay.controller('TicketsList', [
 
         /**
          * Shows the form for the mean of payment
-         * @param {object} e - The click event 
-         * @param {string} meanOfPayment - The mean of payment (buckutt, card)
+         * @param {object} e             The click event 
+         * @param {string} meanOfPayment The mean of payment (buckutt, card)
          */
         this.expendBuy = function (e, meanOfPayment) {
             var $self = $(e.currentTarget);
@@ -102,8 +102,8 @@ pay.controller('TicketsList', [
 
         /**
          * Prints the ticket
-         * @param  {object} e              The click event
-         * @param  {number} ticketBoughtId The ticket id
+         * @param {object} e              The click event
+         * @param {number} ticketBoughtId The ticket id
          */
         this.print = function (e, ticketBoughtId) {
             e.preventDefault();

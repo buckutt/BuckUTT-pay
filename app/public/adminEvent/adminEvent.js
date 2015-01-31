@@ -78,10 +78,10 @@ pay.controller('AdminEvent', [
         });
 
         /**
-          * Checks whether the given string is an positive integer or not
-          * @param {string} str - The integer as a strign
-          * @return {bool} True if the given string is an integer
-          */
+         * Checks whether the given string is a positive integer or not
+         * @param  {string}  str The integer as a string
+         * @return {Boolean}     True if the given string is an integer
+         */
         function isInteger (str) {
             var n = ~~Number(str);
             return String(n) === str && n >= 0;
@@ -173,18 +173,18 @@ pay.controller('AdminEvent', [
         });
 
         /**
-          * Edits the event parameters
-          * @param {object} e - The click event
-          */
+         * Edits the event parameters
+         * @param {object} e The click event
+         */
         this.editParameters = function (e) {
             e.preventDefault();
             $('#modalEdit').modal();
         };
 
         /**
-          * Edits the event
-          * @param {object} e - The click event
-          */
+         * Edits the event
+         * @param {object} e The click event
+         */
         this.editEvent = function (e) {
             var fileDisabled = eventForm.file.files.length === 0;
             if (fileDisabled) {
@@ -230,18 +230,18 @@ pay.controller('AdminEvent', [
         };
 
         /**
-          * Shows the modal to prevent from miss clicks
-          * @param {string} e - The click event
-          */
+         * Shows the modal to prevent from miss clicks
+         * @param {string} e The click event
+         */
         this.confirmDeleteEvent = function (e) {
             e.preventDefault();
             $('#modalConfirm').modal();
         };
 
         /**
-          * Deletes the event
-          * @param {object} e - The click event
-          */
+         * Deletes the event
+         * @param {object} e The click event
+         */
         this.deleteEvent = function (e) {
             e.preventDefault();
             $scope.currentEvent.$remove({
@@ -256,27 +256,27 @@ pay.controller('AdminEvent', [
         };
 
         /**
-          * Shows the modal to changes the event prices
-          * @param {object} e - The click event
-          */
+         * Shows the modal to changes the event prices
+         * @param {object} e The click event
+         */
         this.showChangePrices = function (e) {
             e.preventDefault();
             $('#modalPrices').modal();
         };
 
         /**
-          * Changes the event prices
-          * @param {object} e - The click event
-          */
+         * Changes the event prices
+         * @param {object} e The click event
+         */
         this.changePrices = function (e) {
             e.preventDefault();
             ParsePrices.toEvent($scope.currentEvent, $scope.newPrices);
         };
 
         /**
-          * Adds a vendor to the event
-          * @param {object} e - The submit event
-          */
+         * Adds a vendor to the event
+         * @param {object} e The submit event
+         */
         this.addVendor = function (e) {
             e.preventDefault();
             var username = $scope.foundUsers[$scope.vendorToAdd];
@@ -302,9 +302,9 @@ pay.controller('AdminEvent', [
         };
 
         /**
-          * Adds an admin to the event
-          * @param {object} e - The submit event
-          */
+         * Adds an admin to the event
+         * @param {object} e The submit event
+         */
         this.addAdmin = function (e) {
             e.preventDefault();
             var username = $scope.foundUsers[$scope.adminToAdd];
@@ -328,6 +328,11 @@ pay.controller('AdminEvent', [
             });
         };
 
+        /**
+         * Removes an account (admin or vendor)
+         * @param  {object} e         The submit event
+         * @param  {number} accountId The account id
+         */
         this.removeAccount = function (e, accountId) {
             e.preventDefault();
             $http.delete('/api/accounts/' + accountId).then(function () {

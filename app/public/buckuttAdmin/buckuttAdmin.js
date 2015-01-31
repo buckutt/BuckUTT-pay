@@ -24,9 +24,9 @@ pay.controller('BuckuttAdmin', [
         });
 
         /**
-          * Edit the bank price
-          * @param {object} e - The submit event
-          */
+         * Edit the bank price
+         * @param {object} e The submit event
+         */
         this.editBankPrice = function (e) {
             var bankPrice = new BankPrice();
             bankPrice.value = $scope.bankPrice;
@@ -38,9 +38,9 @@ pay.controller('BuckuttAdmin', [
         };
 
         /**
-          * Creates a domain
-          * @param {object} e - The submit event
-          */
+         * Creates a domain
+         * @param {object} e The submit event
+         */
         this.addDomain = function (e) {
             e.preventDefault();
 
@@ -58,10 +58,10 @@ pay.controller('BuckuttAdmin', [
         };
 
         /**
-          * Removes one domain
-          * @param {object} e - The click event
-          * @param {int} id - The domain id
-          */
+         * Removes one domain
+         * @param {object} e  The click event
+         * @param {number} id The domain id
+         */
         this.removeDomain = function (e, id) {
             e.preventDefault();
 

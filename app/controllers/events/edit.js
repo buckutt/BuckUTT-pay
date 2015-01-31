@@ -12,10 +12,10 @@ module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
 
     /**
-      * Gets the file extension
-      * @param {string} filename - The file name
-      * @return {string} The file extension
-      */
+     * Gets the file extension
+     * @param  {string} filename The file name
+     * @return {string}          The file extension
+     */
     function getExtension (filename) {
         var ext = path.extname(filename || '').split('.');
         return ext[ext.length - 1];

@@ -19,10 +19,10 @@ pay.factory('PayAuth', [
             pay.auth = self;
 
             /**
-              * Authenticates the user via username and password
-              * @param {string} username - The username
-              * @param {string} password - The password
-              */
+             * Authenticates the user via username and password
+             * @param {string} username The username
+             * @param {string} password The password
+             */
             this.auth = function (username, password) {
                 return $q(function (resolve, reject) {
                     $http.post('api/etu/auth', {
@@ -50,9 +50,9 @@ pay.factory('PayAuth', [
             };
 
             /**
-              * Makes the controller require auth
-              * @return {bool} True if the user is auth
-              */
+             * Makes the controller require auth
+             * @return {Boolean} True if the user is auth
+             */
             this.needUser = function () {
                 if (!this.etu) {
                     location.hash = '#/';
@@ -63,7 +63,7 @@ pay.factory('PayAuth', [
 
             /**
               * Makes the controller require admin rights
-              * @return {bool} True if the user is admin
+              * @return {Boolean} True if the user is admin
               */
             this.needAdmin = function () {
                 if (!this.etu || !this.etu.isAdmin) {

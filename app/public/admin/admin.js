@@ -66,8 +66,8 @@ pay.controller('Admin', [
         });
 
         /**
-          * Creates a event
-          */
+         * Creates a event
+         */
         this.createEvent = function () {
             if (!FormValidator(newEventForm, 'file')) {
                 return;

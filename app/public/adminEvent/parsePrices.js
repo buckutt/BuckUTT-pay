@@ -1,6 +1,6 @@
-// Pay - /app/public/adminEvent/parsePrices.js
-
-// Factory to parse prices from database
+///////////////////////////////////////////
+// Factory to parse prices from database //
+///////////////////////////////////////////
 
 'use strict';
 

@@ -7,21 +7,21 @@
 var fs = require('fs');
 
 /**
-  * Ensures that the numeric is two-characters long
-  * Else adds a trailing 0
-  * @param {int} num - The number
-  * @return {string} The padded number
-  */
+ * Ensures that the numeric is two-characters long
+ * Else adds a trailing 0
+ * @param  {number} num The number
+ * @return {string}     The padded number
+ */
 function pad2 (num) {
     num = parseInt(num, 10);
     return (num < 10) ? '0' + num : '' + num;
 }
 
 /**
-  * Logs a formatted text message
-  * this.outTo : where to out the message (console or filepath)
-  * this.minLevel : the minimum level to output (0, 1, 2, 3)
-  */
+ * Logs a formatted text message
+ * this.outTo : where to out the message (console or filepath)
+ * this.minLevel : the minimum level to output (0, 1, 2, 3)
+ */
 function Log () {
     this.outTo = null;
     this.minLevel = null;
@@ -42,10 +42,10 @@ function Log () {
     };
 
     /**
-      * Generic write. Writes to console or to file, depending on outTo
-      * @param {string} lvl - The message level
-      * @param {string} msg - The log message
-      */
+     * Generic write. Writes to console or to file, depending on outTo
+     * @param {string} lvl The message level
+     * @param {string} msg The log message
+     */
     this.write = function (lvl, msg) {
         // If the log message does not have enough level, stops
         if (levels[lvl] < this.minLevel) {
@@ -80,33 +80,33 @@ function Log () {
     };
 
     /**
-      * Debug message
-      * @param {string} msg - The message to log
-      */
+     * Debug message
+     * @param {string} msg The message to log
+     */
     this.debug = function (msg) {
         this.write('debug', msg);
     };
 
     /**
-      * Info message
-      * @param {string} msg - The message to log
-      */
+     * Info message
+     * @param {string} msg The message to log
+     */
     this.info = function (msg) {
         this.write('info', msg);
     };
 
     /**
-      * Warning message
-      * @param {string} msg - The message to log
-      */
+     * Warning message
+     * @param {string} msg The message to log
+     */
     this.warn = function (msg) {
         this.write('warn', msg);
     };
 
     /**
-      * Error message
-      * @param {string} msg - The message to log
-      */
+     * Error message
+     * @param {string} msg The message to log
+     */
     this.error = function (msg) {
         this.write('err', msg);
     };

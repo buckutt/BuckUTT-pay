@@ -27,10 +27,10 @@ pay.controller('Login', [
         }
 
         /**
-          * Animate the circles to a given size
-          * @param {int} to - The size to give to the circle
-          * @param {function} callback - Called when the animation is done
-          */
+         * Animates the circles to a given size
+         * @param {number}   to       The size to give to the circle
+         * @param {function} callback Called when the animation is done
+         */
         function animLoad (to, callback) {
             $('#loginLoader').animate({
                 height: to,
@@ -48,10 +48,10 @@ pay.controller('Login', [
         }
 
         /**
-          * Triggered when the login has been done or not
-          * @param {bool} fail - True when the login has failed
-          * @param {bool} wrongAuth - True when the login has failed because of the username/password
-          */
+         * Triggered when the login has been done or not
+         * @param {Boolean} fail      True when the login has failed
+         * @param {Boolean} wrongAuth True when the login has failed because of the username/password
+         */
         function animEnd (fail, wrongAuth) {
             $('.logging').fadeOut();
             $('#okayIcon').animate({
@@ -79,9 +79,9 @@ pay.controller('Login', [
         }
 
         /**
-          * Shows the modal related to the ticket lost
-          * @param {object} e - The click event
-          */
+         * Shows the modal related to the ticket lost
+         * @param {object} e The click event
+         */
         this.showModal = function (e) {
             e.preventDefault();
             $timeout(function () {
@@ -90,9 +90,9 @@ pay.controller('Login', [
         };
 
         /**
-          * Authenticates the user via site etu
-          * @param {object} e - The click event
-          */
+         * Authenticates the user via site etu
+         * @param {object} e The click event
+         */
         this.authUser = function (e) {
             e.preventDefault();
             $('#password').blur();
@@ -125,12 +125,20 @@ pay.controller('Login', [
         };
 
         /**
-          * Logs out the user
-          * @param {object} e - The click event
-          */
+         * Logs out the user
+         * @param {object} e The click event
+         */
         this.logout = function (e) {
             e.preventDefault();
             window.location.reload();
+        };
+
+        /**
+         * Sends the tickets to the user mail
+         * @param {object} e The click event
+         */
+        this.forgot = function (e) {
+
         };
     }
 ]);
