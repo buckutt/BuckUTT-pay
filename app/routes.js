@@ -5,6 +5,7 @@
 'use strict';
 
 var validators = require('./controllers/validators');
+var validator  = require('validator');
 
 module.exports = function (router, db, config) {
     var controllers = require('./controllers')(db, config);
@@ -127,6 +128,12 @@ module.exports = function (router, db, config) {
         controllers.tickets.print
     );
 
+    // Forgot tickets
+    router.get(
+        '/forgot/:mail',
+        controllers.tickets.forgot
+    );
+
     // Buckutt History
     router.get(
         '/purchases/',
@@ -152,9 +159,17 @@ module.exports = function (router, db, config) {
 
     router.param('token', function (req, res, next, token) {
         var reg = /^([\w-]+\.){2}([\w-]+)$/;
-        console.log(token);
         if (reg.test(token)) {
             req.params.token = token;
+            next();
+        } else {
+            Error.emit(res, 400, '400 - Bad Request');
+        }
+    });
+
+    router.param('mail', function (req, res, next, mail) {
+        if (validator.isEmail(mail)) {
+            req.params.mail = mail;
             next();
         } else {
             Error.emit(res, 400, '400 - Bad Request');

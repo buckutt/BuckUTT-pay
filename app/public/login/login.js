@@ -7,8 +7,9 @@
 pay.controller('Login', [
     '$scope',
     '$timeout',
+    '$http',
     'PayAuth',
-    function ($scope, $timeout, PayAuth) {
+    function ($scope, $timeout, $http, PayAuth) {
         // Account already connected, hide the login form and auto show the connecter header
         if (!!PayAuth.etu) {
             $('.loginForm').hide();
@@ -87,6 +88,12 @@ pay.controller('Login', [
             $timeout(function () {
                 $('#modalLost').modal();
             });
+
+            $timeout(function () {
+                $('#lostTicketsEmail').focus();
+            }, 600);
+
+            $('#lostButton').click(this.forgot);
         };
 
         /**
@@ -96,9 +103,7 @@ pay.controller('Login', [
         this.authUser = function (e) {
             e.preventDefault();
             $('#password').blur();
-            PayAuth.auth($('#username').val(), $('#password').val()).then(function (etu) {
-                $scope.etu = etu;
-            }, function (wrongAuth) {
+            PayAuth.auth($('#username').val(), $('#password').val()).then(angular.noop, function (wrongAuth) {
                 animEnd(true, wrongAuth);
             });
 
@@ -110,7 +115,7 @@ pay.controller('Login', [
             };
 
             var callbackOut = function () {
-                if (!$scope.etu) {
+                if (!PayAuth.etu) {
                     animLoad(65, callbackIn);
                 } else {
                     $('#okayIcon').animate({
@@ -138,7 +143,14 @@ pay.controller('Login', [
          * @param {object} e The click event
          */
         this.forgot = function (e) {
-
+            var $lostTicketsEmail = $('#lostTicketsEmail');
+            var $forgotOk = $('#forgotOk');
+            var mail = $lostTicketsEmail.val();
+            $http.get('/api/forgot/' + mail).then(function () {
+                $forgotOk.slideDown().delay(2000).slideUp();
+            }, function (data) {
+                $('#forgotFail').html('<br>Échec de l\'envoi de mail').slideDown().delay(2000).slideUp();
+            });
         };
     }
 ]);

@@ -65,6 +65,10 @@ input.form-control, textarea.form-control, input.form-control:focus, textarea.fo
             box-shadow: none;
 }
 
+#forgotOk, #forgotFail {
+    display: none;
+}
+
 .btn {
     border-radius: 0;
 }

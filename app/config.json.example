@@ -21,5 +21,16 @@
     "backend": {
         "host": "http://127.0.0.1/",
         "path": "api/"
+    },
+    "mail": {
+        "config": {
+            "host": "localhost",
+            "port": 2525,
+            "auth": {
+                "user": "",
+                "pass": ""
+            }
+        },
+        "sender": "Buckutt <donotreply@buck.utt.fr>"
     }
 }

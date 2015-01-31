@@ -52,13 +52,17 @@
                             Si vous avez oublié l'un de vos tickets, veuillez entrez votre e-mail.<br>
                             Un mail sera envoyé avec des liens pour chaque place encore valide.
                         </p>
-                        <input type="email" class="form-control" name="lostTicketsEmail"
-                               ng-model="lostEmail"
+                        <input type="email" id="lostTicketsEmail" class="form-control" name="lostTicketsEmail"
                                placeholder="E-Mail">
+                        <p id="forgotOk" class="text-success">
+                            <br>
+                            Places envoyées !
+                        </p>
+                        <p id="forgotFail" class="text-danger"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn btn-primary" ng-click="login.forgot()">Envoyer les places</button>
+                        <button type="button" class="btn btn-primary" id="lostButton">Envoyer les places</button>
                     </div>
                 </div>
             </div>
