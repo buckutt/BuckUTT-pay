@@ -6,7 +6,7 @@
 
 var jwt = require('jsonwebtoken');
 
-module.exports = function (config, logger) {
+module.exports = function (config) {
     var logger = require('./log')(config);
 
     /**
