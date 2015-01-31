@@ -4,10 +4,11 @@
 
 'use strict';
 
-module.exports = function (db) {
+module.exports = function (db, config) {
     return {
-        getAll: require('./getAll')(db),
+        getAll:          require('./getAll')(db),
         getAllFromEvent: require('./getAllFromEvent')(db),
-        print: require('./print')(db)
+        print:           require('./print')(db),
+        forgot:          require('./forgot')(db, config)
     };
 };

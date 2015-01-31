@@ -6,11 +6,11 @@
 
 module.exports = {
     createAccount: require('./createAccount'),
-    createDomain: require('./createDomain'),
-    createEvent: require('./createEvent'),
-    createPrice: require('./createPrice'),
+    createDomain:  require('./createDomain'),
+    createEvent:   require('./createEvent'),
+    createPrice:   require('./createPrice'),
     editBankprice: require('./editBankprice'),
-    editEvent: require('./editEvent'),
-    editPrice: require('./editPrice'),
-    etuAuth: require('./etuAuth')
+    editEvent:     require('./editEvent'),
+    editPrice:     require('./editPrice'),
+    etuAuth:       require('./etuAuth')
 };
