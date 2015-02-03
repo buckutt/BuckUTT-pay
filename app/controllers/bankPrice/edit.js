@@ -9,14 +9,17 @@ module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
 
     return function (req, res) {
-        config.bankPrice = req.body.value;
+        if (!req.form.isValid) {
+            return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
+        }
+
+        config.bankPrice = req.form.value;
         var configPath = './app/config.json';
 
         if (fs.existsSync(configPath)) {
             fs.writeFile(configPath, JSON.stringify(config, null, 4), function (err) {
                 if (err) {
-                    Error.emit(res, 500, '500 - Cannot write config file', 'Error during file write');
-                    return;
+                    return Error.emit(res, 500, '500 - Cannot write config file', 'Error during file write');
                 }
             });
 
@@ -25,8 +28,7 @@ module.exports = function (db, config) {
                 status: 200
             });
         } else {
-            Error.emit(res, 500, '500 - Cannot write config file', 'Config file inexistant');
-            return;
+            return Error.emit(res, 500, '500 - Cannot write config file', 'Config file inexistant');
         }
     };
 };

@@ -11,8 +11,7 @@ var moment = require('moment');
 module.exports = function (db) {
     return function (req, res) {
         if (!req.form.isValid) {
-            Error.emit(res, 400, '400 - Bad Request', req.form.errors);
-            return;
+            return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
         }
 
         var form = req.form;
@@ -31,8 +30,7 @@ module.exports = function (db) {
         opath = (opath + '/' + oname.toLowerCase());
         fs.writeFile(opath, buffer, function (err) {
             if (err) {
-                Error.emit(res, 500, '500 - Cannot write file', err.toString());
-                return;
+                return Error.emit(res, 500, '500 - Cannot write file', err.toString());
             }
 
             db.Event.create({
@@ -46,11 +44,9 @@ module.exports = function (db) {
             }).complete(function (err, newEvent) {
                 if (err) {
                     if (err.name === 'SequelizeUniqueConstraintError') {
-                        Error.emit(res, 400, '400 - Duplicate event');
-                        return;
+                        return Error.emit(res, 400, '400 - Duplicate event');
                     }
-                    Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                    return;
+                    return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                 }
 
 
@@ -69,8 +65,7 @@ module.exports = function (db) {
                     price: form.priceEtuCottPresale
                 }).complete(function (err, priceEtuCottPresale) {
                     if (err) {
-                        Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                        return;
+                        return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                     }
 
                     newEvent.addPrice(priceEtuCottPresale);
@@ -81,8 +76,7 @@ module.exports = function (db) {
                     price: form.priceEtuCott
                 }).complete(function (err, priceEtuCott) {
                     if (err) {
-                        Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                        return;
+                        return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                     }
 
                     newEvent.addPrice(priceEtuCott);
@@ -94,8 +88,7 @@ module.exports = function (db) {
                         price: form.priceEtuPresale
                     }).complete(function (err, priceEtuPresale) {
                         if (err) {
-                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                            return;
+                            return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
                         newEvent.addPrice(priceEtuPresale);
@@ -108,8 +101,7 @@ module.exports = function (db) {
                         price: form.priceEtu
                     }).complete(function (err, priceEtu) {
                         if (err) {
-                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                            return;
+                            return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
                         newEvent.addPrice(priceEtu);
@@ -122,8 +114,7 @@ module.exports = function (db) {
                         price: form.priceExtPresale
                     }).complete(function (err, priceExtPresale) {
                         if (err) {
-                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                            return;
+                            return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
                         newEvent.addPrice(priceExtPresale);
@@ -136,8 +127,7 @@ module.exports = function (db) {
                         price: form.priceExt
                     }).complete(function (err, priceExt) {
                         if (err) {
-                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                            return;
+                            return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
                         newEvent.addPrice(priceExt);
@@ -150,8 +140,7 @@ module.exports = function (db) {
                         price: form.pricePartnerPresale
                     }).complete(function (err, pricePartnerPresale) {
                         if (err) {
-                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                            return;
+                            return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
                         newEvent.addPrice(pricePartnerPresale);
@@ -164,8 +153,7 @@ module.exports = function (db) {
                         price: form.pricePartner
                     }).complete(function (err, pricePartner) {
                         if (err) {
-                            Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                            return;
+                            return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
                         newEvent.addPrice(pricePartner);

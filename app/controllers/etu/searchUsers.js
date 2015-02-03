@@ -48,8 +48,7 @@ module.exports = function (db, config) {
 
             res.json(_.uniq(responseData, 'id'));
         }).error(function () {
-            Error.emit(res, 500, '500 - Buckutt server error', 'Search failed');
-            return;
+            return Error.emit(res, 500, '500 - Buckutt server error', 'Search failed');
         });
     }
 };

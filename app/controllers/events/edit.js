@@ -25,8 +25,7 @@ module.exports = function (db, config) {
         var newEvent = req.body;
 
         if (!req.form.isValid) {
-            Error.emit(res, 400, '400 - Bad Request', req.form.errors);
-            return;
+            return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
         }
 
         var form = req.form;
@@ -58,11 +57,9 @@ module.exports = function (db, config) {
             db.Event.find(form.id).complete(function (err, event) {
                 if (err) {
                     if (err.name === 'SequelizeUniqueConstraintError') {
-                        Error.emit(res, 400, '400 - Duplicate event');
-                        return;
+                        return Error.emit(res, 400, '400 - Duplicate event');
                     }
-                    Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                    return;
+                    return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                 }
 
                 var picturePath = path.resolve(process.cwd() + '/app/public/static/img/upload') + '/' + event.picture;
@@ -87,8 +84,7 @@ module.exports = function (db, config) {
 
                 event.save().complete(function (err) {
                     if (err) {
-                        Error.emit(res, 500, '500 - SQL Server error', err.toString());
-                        return;
+                        return Error.emit(res, 500, '500 - SQL Server error', err.toString());
                     }
                     res.json({
                         status: 200

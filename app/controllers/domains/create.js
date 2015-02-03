@@ -9,14 +9,12 @@ module.exports = function (db, config) {
 
     return function (req, res) {
         if (!req.form.isValid) {
-            Error.emit(res, 400, '400 - Bad Request', req.form.errors);
-            return;
+            return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
         }
 
         db.SchoolDomain.create(req.form).complete(function (err) {
             if (err) {
-                Error.emit(res, 500, '500 - SQL Server error', err.toString());
-                return;
+                return Error.emit(res, 500, '500 - SQL Server error', err.toString());
             }
 
             res.json({

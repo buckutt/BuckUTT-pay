@@ -13,8 +13,7 @@ module.exports = function (db, config) {
         // Get username from mail
         rest.get('users?mail=' + req.params.mail).success(function (user) {
             if (!user) {
-                Error.emit(res, 400, '400 - Bad Request', 'No mail');
-                return;
+                return Error.emit(res, 400, '400 - Bad Request', 'No mail');
             }
 
             var username = user.id;
@@ -26,8 +25,7 @@ module.exports = function (db, config) {
                 }
             }).done(function (err, tickets) {
                 if (err) {
-                    Error.emit(res, 500, '500 - SQL Server error', err);
-                    return;
+                    return Error.emit(res, 500, '500 - SQL Server error', err);
                 }
 
                 if (!tickets) {

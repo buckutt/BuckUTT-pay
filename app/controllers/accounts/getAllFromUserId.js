@@ -14,8 +14,7 @@ module.exports = function (db, config) {
             }
         }).done(function (err, accounts) {
             if (err) {
-                Error.emit(res, 500, '500 - SQL Server error', err);
-                return;
+                return Error.emit(res, 500, '500 - SQL Server error', err);
             }
 
             var sentAccounts = [];

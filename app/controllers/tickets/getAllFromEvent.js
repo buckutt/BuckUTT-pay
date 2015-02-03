@@ -12,8 +12,7 @@ module.exports = function (db) {
             }
         }).done(function (err, tickets) {
             if (err) {
-                Error.emit(res, 500, '500 - SQL Server error', err);
-                return;
+                return Error.emit(res, 500, '500 - SQL Server error', err);
             }
 
             if (!tickets) {

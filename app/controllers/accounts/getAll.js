@@ -24,8 +24,7 @@ module.exports = function (db, config) {
             }
         }).done(function (err, accounts) {
             if (err) {
-                Error.emit(res, 500, '500 - SQL Server error', err);
-                return;
+                return Error.emit(res, 500, '500 - SQL Server error', err);
             }
 
             if (accounts.length === 0) {
@@ -46,8 +45,7 @@ module.exports = function (db, config) {
 
                     account.getRight().complete(function (err, right) {
                         if (err) {
-                            Error.emit(null, 500, '500 - SQL Server error ', err.toString());
-                            return;
+                            return Error.emit(null, 500, '500 - SQL Server error ', err.toString());
                         }
 
                         newlyAccount.push(right.id);

@@ -14,8 +14,7 @@ module.exports = function (db, config) {
 
     return function (req, res, next) {
         if (!req.form.isValid) {
-            Error.emit(res, 400, '400 - Bad Request', req.form.errors);
-            return;
+            return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
         }
 
         var username = req.form.username;
@@ -34,8 +33,7 @@ module.exports = function (db, config) {
             result = rest.get('users?mail=' + username).success(function (data) {
                 goAhead(data, checkPassword);
             }).error(function () {
-                Error.emit(res, 500, '500 - Buckutt server error', 'Mail failed');
-                return;
+                return Error.emit(res, 500, '500 - Buckutt server error', 'Mail failed');
             });
         } else {
             // First get the user id (via its meanoflogin)
@@ -45,13 +43,11 @@ module.exports = function (db, config) {
                     rest.get('users?id=' + data.UserId).success(function (data) {
                         goAhead(data, checkPassword);
                     }).error(function () {
-                        Error.emit(res, 500, '500 - Buckutt server error', 'User data after etu card failed');
-                        return;
+                        return Error.emit(res, 500, '500 - Buckutt server error', 'User data after etu card failed');
                     });
                 });
             }).error(function () {
-                Error.emit(res, 500, '500 - Buckutt server error', 'Etu card number failed');
-                return;
+                return Error.emit(res, 500, '500 - Buckutt server error', 'Etu card number failed');
             });
         }
 
@@ -62,8 +58,7 @@ module.exports = function (db, config) {
          */
         function goAhead (data, next) {
             if (data === null) {
-                Error.emit(res, 400, '400 - Invalid username/password');
-                return;
+                return Error.emit(res, 400, '400 - Invalid username/password');
             }
             next(data);
         }
@@ -83,8 +78,7 @@ module.exports = function (db, config) {
 
                 getTickets();
             } else {
-                Error.emit(res, 400, '400 - Invalid username/password');
-                return;
+                return Error.emit(res, 400, '400 - Invalid username/password');
             }
         }
 
@@ -98,8 +92,7 @@ module.exports = function (db, config) {
                 }
             }).done(function (err, tickets) {
                 if (err) {
-                    Error.emit(res, 500, '500 - SQL Server error', err);
-                    return;
+                    return Error.emit(res, 500, '500 - SQL Server error', err);
                 }
 
                 req.user.tickets = tickets;
@@ -114,8 +107,7 @@ module.exports = function (db, config) {
         function checkIfFundationAccount () {
             rest.get('users/' + req.user.id + '/rights').success(function (rights) {
                 if (!rights || rights.length === 0) {
-                    checkIfAdmin(rights);
-                    return;
+                    return checkIfAdmin(rights);
                 }
 
                 rights.forEach(function (right) {
@@ -129,14 +121,12 @@ module.exports = function (db, config) {
                             req.user.fundation.name = fundationData.name;
                             checkIfAdmin(rights);
                         }).error(function () {
-                            Error.emit(res, 500, '500 - Buckutt server error', 'Fundation failed');
-                            return;
+                            return Error.emit(res, 500, '500 - Buckutt server error', 'Fundation failed');
                         });
                     }
                 });
             }).error(function () {
-                Error.emit(res, 500, '500 - Buckutt server error', 'Rights failed');
-                return;
+                return Error.emit(res, 500, '500 - Buckutt server error', 'Rights failed');
             });
         }
 
