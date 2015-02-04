@@ -19,18 +19,13 @@ module.exports = function (db, config) {
 
         var username = req.form.username;
         var password = req.form.password;
-        var hash = bcrypt.hashSync(password);
-        var sha512 = crypto.createHash('sha512');
-        sha512.update(username + ':' + password);
-        var token = sha512.digest('hex');
 
         logger.info('Asking axel back end with : ' + username + '/' + password);
 
-        var result;
         // username is a positive number => auth with card number
         if (!Number.isPositiveNumeric(username)) {
             // Auth with email
-            result = rest.get('users?mail=' + username).success(function (data) {
+            rest.get('users?mail=' + username).success(function (data) {
                 goAhead(data, checkPassword);
             }).error(function () {
                 return Error.emit(res, 500, '500 - Buckutt server error', 'Mail failed');
@@ -74,8 +69,6 @@ module.exports = function (db, config) {
                 req.user.firstname = req.user.firstname.nameCapitalize();
                 req.user.lastname  = req.user.lastname.nameCapitalize();
 
-                req.user.token = token;
-
                 getTickets();
             } else {
                 return Error.emit(res, 400, '400 - Invalid username/password');
@@ -95,7 +88,12 @@ module.exports = function (db, config) {
                     return Error.emit(res, 500, '500 - SQL Server error', err);
                 }
 
-                req.user.tickets = tickets;
+                var realTickets = [];
+                tickets.forEach(function (ticket) {
+                    realTickets.push(ticket.dataValues);
+                });
+
+                req.user.tickets = realTickets;
 
                 checkIfFundationAccount();
             });
