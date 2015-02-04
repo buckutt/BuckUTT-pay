@@ -14,6 +14,7 @@ module.exports = function (config, log) {
      * @param  {string} Additionnal log to be out on the logger
      */
     Error.emit = function (res, status, msg, additionnalLog) {
+        console.trace();
         var msgCodes = {
             '404 - Not Found'                 : 1,
             '400 - Bad Request'               : 2,
