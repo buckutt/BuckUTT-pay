@@ -14,7 +14,7 @@ Date.prototype.toDateTime = function () {
 
 /**
  * Returns true if the given string is a positive number
- * @param  {string} The string to test
+ * @param  {string}  The string to test
  * @return {boolean} true if the given string is a positive number
  */
 Number.isPositiveNumeric = function (str) {
