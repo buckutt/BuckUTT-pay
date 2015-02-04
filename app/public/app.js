@@ -44,9 +44,8 @@ pay.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push(function () {
         return {
             request: function (config) {
-                if (pay.auth && pay.auth.etu && pay.auth.etu.token) {
-                    config.headers['Auth-User'] = pay.auth.etu.id;
-                    config.headers['Auth-Token'] = pay.auth.etu.token;
+                if (pay.auth && pay.auth.etu && pay.auth.etu.jwt) {
+                    config.headers['Auth-JWT'] = pay.auth.etu.jwt;
                 }
                 return config;
             }
