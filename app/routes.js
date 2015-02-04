@@ -23,6 +23,7 @@ module.exports = function (router, db, config) {
             controllers.events.getAll
         )
         .post(
+            auth.checkAuth,
             validators.createEvent,
             controllers.events.create
         )
@@ -137,10 +138,12 @@ module.exports = function (router, db, config) {
     // Buckutt History
     router.get(
         '/purchases/',
+        auth.checkAuth,
         controllers.buckuttHistory.getPurchasesHistory
     );
     router.get(
         '/reloads/',
+        auth.checkAuth,
         controllers.buckuttHistory.getReloadsHistory
     );
 
@@ -158,7 +161,7 @@ module.exports = function (router, db, config) {
     });
 
     router.param('token', function (req, res, next, token) {
-        var reg = /^([\w-]+\.){2}([\w-]+)$/;
+        var reg = /^.+$/;
         if (reg.test(token)) {
             req.params.token = token;
             next();
