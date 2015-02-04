@@ -8,6 +8,7 @@ var jwt = require('jsonwebtoken');
 
 module.exports = function (config) {
     var logger = require('./log')(config);
+    var rest   = require('./rest')(config, logger);
 
     /**
      * Checks for the token to be present on the request. If it is, add the token value (ie. the user data) to the request.
@@ -16,25 +17,41 @@ module.exports = function (config) {
      * @param  {Function} next Next middleware to call
      */
     var checkAuth = function (req, res, next) {
-        var encodedToken = req.params.token;
+        var encodedToken = req.get('Auth-JWT');
         if (encodedToken === -1) {
-            Error.emit(res, status, '401 - Unauthorized');
-            return;
+            return Error.emit(res, 401, '401 - Unauthorized');
         }
 
         jwt.verify(encodedToken, config.secret, function (err, decoded) {
             if (err) {
-                Error.emit(res, status, '401 - Unauthorized');
-                return;
+                return Error.emit(res, 401, '401 - Unauthorized', err);
             }
-            req.user = decoded;
+
+            if (!decoded.id || !decoded.mail || !decoded.password) {
+                return Error.emit(res, 401, '401 - Unauthorized');
+            }
+
+            if (!Number.isPositiveNumeric(decoded.id + '')) {
+                return Error.emit(res, 401, '401 - Unauthorized');
+            }
 
             // Verify user token
-            logger.info('Getting username');
-            logger.info('Getting his token');
+            var mail = decoded.mail;
+            var token = decoded.token;
 
+            rest.get('users?mail=' + mail).success(function (data) {
+                var idOkay = data.id === decoded.id;
+                var hashOkay = data.password === decoded.password;
 
-            next();
+                if (!idOkay || !hashOkay) {
+                    return Error.emit(res, 401, '401 - Unauthorized');
+                }
+
+                req.user = decoded;
+                next();
+            }).error(function () {
+                return Error.emit(res, 500, '500 - Buckutt server error', 'Auth failed');
+            });
         });
     };
 
@@ -47,6 +64,8 @@ module.exports = function (config) {
         var token = jwt.sign(req.user, config.secret, {
             algorithm: config.tokenAlgorithm
         });
+
+        req.user.jwt = token;
 
         if (typeof token === 'string' && token.split('.').length === 3) {
             res.json(req.user);
