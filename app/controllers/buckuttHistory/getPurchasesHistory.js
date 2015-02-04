@@ -9,7 +9,7 @@ module.exports = function (db, config) {
     var rest   = require('../../lib/rest')(config, logger);
 
     return function (req, res) {
-        var url = 'purchases?buyerid=' + req.get('Auth-User') +
+        var url = 'purchases?buyerid=' + req.user.id +
                   '&embed=article,point,seller'
         rest.get(url).success(function (data) {
             var purchases = [];

@@ -52,7 +52,7 @@ module.exports = function (db) {
 
                 // Create first admin account
                 db.Account.create({
-                    username: req.get('Auth-User')
+                    username: req.user.id
                 }).complete(function (err, adminUser) {
                     adminUser.setRight(1);
                     adminUser.setEvent(newEvent.id);
