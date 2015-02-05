@@ -76,7 +76,7 @@ module.exports = function (config) {
             .sync(syncOptions)
             .complete(function (err) {
                 if (err) {
-                    Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                    return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                 }
 
                 // Database seeding

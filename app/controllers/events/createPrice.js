@@ -19,7 +19,7 @@ module.exports = function (db, config) {
 
             db.Event.find({ id: req.params.eventId }).complete(function (evErr, concernedEvent) {
                 if (evErr) {
-                    Error.emit(res, 500, '500 - SQL Server error', evErr.toString());
+                    return Error.emit(res, 500, '500 - SQL Server error', evErr.toString());
                 }
 
                 concernedEvent.addPrice(newPrice);

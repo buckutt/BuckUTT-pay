@@ -51,7 +51,7 @@ module.exports = function (db, config) {
 
         function callback (err) {
             if (err) {
-                Error.emit(res, 500, '500 - Cannot write file', err.toString());
+                return Error.emit(res, 500, '500 - Cannot write file', err.toString());
             }
 
             db.Event.find(form.id).complete(function (err, event) {
