@@ -9,7 +9,7 @@ var validator  = require('validator');
 
 module.exports = function (router, db, config) {
     var controllers = require('./controllers')(db, config);
-    var auth       = require('./lib/auth')(config);
+    var auth       = require('./lib/auth')(db, config);
 
     // Tickets
     router.get(
@@ -37,6 +37,8 @@ module.exports = function (router, db, config) {
             controllers.events.remove
         )
         .get(
+            auth.checkAuth,
+            auth.isEventAdmin,
             controllers.events.getOne
         );
 
@@ -60,9 +62,9 @@ module.exports = function (router, db, config) {
 
     // Auth etu
     router.post(
-        '/etu/auth',
-        validators.etuAuth,
-        controllers.etu.auth,
+        '/etu/login',
+        validators.etuLogin,
+        controllers.etu.login,
         auth.addAuth
     );
 
@@ -70,15 +72,6 @@ module.exports = function (router, db, config) {
     router.get(
         '/etu/search/',
         controllers.etu.searchUsers
-    );
-
-    // Token demo
-    router.get(
-        '/token/:token',
-        auth.checkAuth,
-        function (req, res) {
-            res.json(req.user);
-        }
     );
 
     // School domains
