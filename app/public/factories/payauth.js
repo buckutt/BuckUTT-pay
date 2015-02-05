@@ -25,7 +25,7 @@ pay.factory('PayAuth', [
              */
             this.auth = function (username, password) {
                 return $q(function (resolve, reject) {
-                    $http.post('api/etu/auth', {
+                    $http.post('api/etu/login', {
                         username: username,
                         password: password
                     }).success(function (data) {

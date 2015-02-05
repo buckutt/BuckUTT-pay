@@ -6,7 +6,7 @@
 
 module.exports = function (db, config) {
     return {
-        auth:        require('./auth')(db, config),
+        login:       require('./login')(db, config),
         searchUsers: require('./searchUsers')(db, config)
     };
 };

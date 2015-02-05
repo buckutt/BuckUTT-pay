@@ -12,5 +12,5 @@ module.exports = {
     editBankprice: require('./editBankprice'),
     editEvent:     require('./editEvent'),
     editPrice:     require('./editPrice'),
-    etuAuth:       require('./etuAuth')
+    etuLogin:      require('./etuLogin')
 };
