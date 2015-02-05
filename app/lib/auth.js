@@ -123,6 +123,6 @@ module.exports = function (db, config) {
     return {
         addAuth: addAuth,
         checkAuth: checkAuth,
-        isEventAdmin: isEventAdmin
+        isInEvent: isInEvent
     };
 };
