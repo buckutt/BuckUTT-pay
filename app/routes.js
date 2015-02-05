@@ -38,7 +38,7 @@ module.exports = function (router, db, config) {
         )
         .get(
             auth.checkAuth,
-            auth.isEventAdmin,
+            auth.isInEvent(1),
             controllers.events.getOne
         );
 

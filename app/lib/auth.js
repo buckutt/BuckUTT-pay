@@ -75,42 +75,49 @@ module.exports = function (db, config) {
         }
     };
 
-    var isEventAdmin = function (req, res, next) {
-        var eventId = req.params.eventId;
-        db.Account.count({
-            where: {
-                username: req.user.id,
-                event_id: req.params.eventId,
-                right_id: 1
-            }
-        }).complete(function (err, countAc) {
-            if (err) {
-                return Error.emit(res, 500, '500 - Buckutt server error', err);
-            }
+    /**
+     * Checks if the user has an account for the event
+     * Can do admin or seller by returning the middleware
+     * @param  {number}  right 1 for admin, 2 for vendor
+     * @return {Function}      The middleware
+     */
+    var isInEvent = function (right) {
+        return function (req, res, next) {
+            var eventId = req.params.eventId;
+            db.Account.count({
+                where: {
+                    username: req.user.id,
+                    event_id: req.params.eventId,
+                    right_id: 1
+                }
+            }).complete(function (err, countAc) {
+                if (err) {
+                    return Error.emit(res, 500, '500 - Buckutt server error', err);
+                }
 
-            if (countAc === 0) {
-                // If there is no account, don't emit already,
-                // Find out if it's because of the account, or the event.
-                db.Event.count({
-                    where: {
-                        id: req.params.eventId
-                    }
-                }).complete(function (err, countEv) {
-                    if (err) {
-                        return Error.emit(res, 500, '500 - Buckutt server error', err);
-                    }
+                if (countAc === 0) {
+                    // If there is no account, don't emit already,
+                    // Find out if it's because of the account, or the event.
+                    db.Event.count({
+                        where: {
+                            id: req.params.eventId
+                        }
+                    }).complete(function (err, countEv) {
+                        if (err) {
+                            return Error.emit(res, 500, '500 - Buckutt server error', err);
+                        }
 
-                    console.log(countAc, countEv);
-                    if (countEv === 0) {
-                        return Error.emit(res, 404, '404 - Not Found', 'No event');
-                    }
+                        if (countEv === 0) {
+                            return Error.emit(res, 404, '404 - Not Found', 'No event');
+                        }
 
-                    return Error.emit(res, 401, '401 - Unauthorized', 'No admin account');
-                });
-            } else {
-                next();
-            }
-        });
+                        return Error.emit(res, 401, '401 - Unauthorized', 'No admin account');
+                    });
+                } else {
+                    next();
+                }
+            });
+        };
     };
 
     return {
