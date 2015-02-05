@@ -1,12 +1,12 @@
-/////////////////////
-// Auth middleware //
-/////////////////////
+//////////////////////
+// Auth middlewares //
+//////////////////////
 
 'use strict';
 
 var jwt = require('jsonwebtoken');
 
-module.exports = function (config) {
+module.exports = function (db, config) {
     var logger = require('./log')(config);
     var rest   = require('./rest')(config, logger);
 
@@ -71,13 +71,51 @@ module.exports = function (config) {
             res.json(req.user);
             res.end();
         } else {
-            Error.emit(res, status, '401 - Unauthorized');
-            return;
+            return Error.emit(res, status, '401 - Unauthorized');
         }
     };
 
+    var isEventAdmin = function (req, res, next) {
+        var eventId = req.params.eventId;
+        db.Account.count({
+            where: {
+                username: req.user.id,
+                event_id: req.params.eventId,
+                right_id: 1
+            }
+        }).complete(function (err, countAc) {
+            if (err) {
+                return Error.emit(res, 500, '500 - Buckutt server error', err);
+            }
+
+            if (countAc === 0) {
+                // If there is no account, don't emit already,
+                // Find out if it's because of the account, or the event.
+                db.Event.count({
+                    where: {
+                        id: req.params.eventId
+                    }
+                }).complete(function (err, countEv) {
+                    if (err) {
+                        return Error.emit(res, 500, '500 - Buckutt server error', err);
+                    }
+
+                    console.log(countAc, countEv);
+                    if (countEv === 0) {
+                        return Error.emit(res, 404, '404 - Not Found', 'No event');
+                    }
+
+                    return Error.emit(res, 401, '401 - Unauthorized', 'No admin account');
+                });
+            } else {
+                next();
+            }
+        });
+    };
+
     return {
+        addAuth: addAuth,
         checkAuth: checkAuth,
-        addAuth: addAuth
+        isEventAdmin: isEventAdmin
     };
 };

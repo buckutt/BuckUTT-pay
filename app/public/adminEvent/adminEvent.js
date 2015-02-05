@@ -124,8 +124,12 @@ pay.controller('AdminEvent', [
 
             // Parse the prices
             ParsePrices.fromEvent(e);
-        }, function () {
+        }, function (res) {
             location.hash = '#/admin/';
+
+            if (res.data && res.data.status) {
+                return Error('Erreur', res.data.error);
+            }
             Error('Erreur', 6);
         });
 
