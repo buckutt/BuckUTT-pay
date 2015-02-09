@@ -47,8 +47,8 @@ models(function (db) {
     app.use('/api', router);
 
     app.use(function (req, res) {
-        log.warn('404 on ' + req.originalUrl + ' (XHR : ' + req.xhr + ')');
         if (!req.xhr) {
+            log.warn('404 on ' + req.originalUrl + ' (XHR : ' + req.xhr + ')');
             res.status(404).sendFile(path.resolve('./app/public/404.html'), {}, function () {
                 res.end();
             });
