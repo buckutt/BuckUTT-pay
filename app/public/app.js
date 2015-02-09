@@ -41,6 +41,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
 
 // Auth token
 pay.config(['$httpProvider', function ($httpProvider) {
+    // Bring back the xhr header
+    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
     $httpProvider.interceptors.push(function () {
         return {
             request: function (config) {

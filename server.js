@@ -47,9 +47,10 @@ models(function (db) {
     app.use('/api', router);
 
     app.use(function (req, res) {
+        log.warn('404 on ' + req.originalUrl + ' (XHR : ' + req.xhr + ')');
         if (!req.xhr) {
-            res.sendFile(path.resolve('./app/public/404.html'), {}, function () {
-                res.status(404).end();
+            res.status(404).sendFile(path.resolve('./app/public/404.html'), {}, function () {
+                res.end();
             });
         } else {
             Error.emit(res, 404, '404 - Not Found', req.originalUrl);
