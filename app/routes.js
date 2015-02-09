@@ -11,134 +11,203 @@ module.exports = function (router, db, config) {
     var controllers = require('./controllers')(db, config);
     var auth       = require('./lib/auth')(db, config);
 
-    // Tickets
-    router.get(
-        '/tickets',
-        controllers.tickets.getAll
-    );
+    // Main auth
+    // Checks if there is a token every request
+    router.use(auth.checkToken);
 
-    // Events
+    ////////////
+    // Events //
+    ////////////
+
     router.route('/events').
+        // Gets all events
         get(
+            auth.noAuth,
             controllers.events.getAll
         )
+        // Creates an event
         .post(
-            auth.checkAuth,
+            auth.isFundationAccount,
             validators.createEvent,
             controllers.events.create
         )
+        // Updates an event
         .put(
+            auth.isInEvent('admin'),
             validators.editEvent,
             controllers.events.edit
         );
 
     router.route('/events/:eventId')
+        // Deletes an event
         .delete(
+            auth.isInEvent('admin'),
             controllers.events.remove
         )
+        // Gets an event's details
         .get(
             auth.checkAuth,
-            auth.isInEvent(1),
+            auth.isInEvent('admin'),
             controllers.events.getOne
         );
 
-    // Events ticket
-    router.get(
-        '/events/:eventId/tickets',
-        controllers.tickets.getAllFromEvent
-    );
+    /////////////////////
+    // Event's tickets //
+    /////////////////////
 
-    // Events prices
-    router.put(
-        '/events/:eventId/prices',
-        validators.createPrice,
-        controllers.events.createPrice
-    );
-    router.post(
-        '/events/:eventId/prices/:priceId',
-        validators.editPrice,
-        controllers.events.editPrice
-    );
-
-    // Auth etu
-    router.post(
-        '/etu/login',
-        validators.etuLogin,
-        controllers.etu.login,
-        auth.addAuth
-    );
-
-    // Search among users list
-    router.get(
-        '/etu/search/',
-        controllers.etu.searchUsers
-    );
-
-    // School domains
-    router.route('/domains/')
+    router.route('/events/:eventId/tickets')
+        // Gets all tickets from an event (stats)
         .get(
+            auth.isInEvent('admin'),
+            controllers.tickets.getAllFromEvent
+        );
+
+    ////////////////////
+    // Event's prices //
+    ////////////////////
+
+    router.route('/events/:eventId/prices')
+        // Gets all prices from an event
+        // Can be used by no-auth clients to buy a ticket (and they need the price)
+        .put(
+            auth.noAuth,
+            validators.createPrice,
+            controllers.events.createPrice
+        );
+
+    router.route('/events/:eventId/prices/:priceId')
+        // Updates an event price
+        .post(
+            auth.isInEvent("admin"),
+            validators.editPrice,
+            controllers.events.editPrice
+        );
+
+
+    //////////////////////
+    // Event's accounts //
+    //////////////////////
+
+    router.route('/etu/search/')
+        // Searches among users list
+        .get(
+            auth.isInEvent('admin'),
+            controllers.etu.searchUsers
+        );
+
+    router.route('/events/:eventId/accounts')
+        // Create an account
+        .post(
+            auth.isFundationAccount,
+            validators.createAccount,
+            controllers.accounts.create
+        )
+        // Get all the accounts
+        .get(
+            auth.isFundationAccount,
+            controllers.accounts.getAll
+        );
+    router.route('/accounts/:accountId')
+        // Deletes an account
+        .delete(
+            auth.isFundationAccount,
+            controllers.accounts.remove
+        );
+    router.route('/accounts/:userId')
+        // Gets all accounts with a given user id
+        .get(
+            auth.noAuth,
+            controllers.accounts.getAllFromUserId
+        );
+
+    /////////////
+    // Tickets //
+    /////////////
+
+    router.route('/tickets')
+        // Gets all tickets from tickets list
+        .get(
+            auth.noAuth,
+            controllers.tickets.getAll
+        );
+
+    //////////////
+    // Auth etu //
+    //////////////
+
+    router.route('/etu/login')
+        .post(
+            auth.noAuth,
+            validators.etuLogin,
+            controllers.etu.login,
+            auth.addAuth
+        );
+
+    ////////////////////
+    // School domains //
+    ////////////////////
+
+    router.route('/domains/')
+        // Gets all domains
+        .get(
+            auth.isSuperAdmin,
             controllers.domains.getAll
         )
+        // Creates a domain
         .post(
+            auth.isSuperAdmin,
             validators.createDomain,
             controllers.domains.create
         );
     router.route('/domains/:domainId')
+        // Deletes a domain
         .delete(
+            auth.isSuperAdmin,
             controllers.domains.remove
         );
 
-    // Back Price
+    // Bank Price
     router.route('/bankPrice/')
         .get(
+            auth.isSuperAdmin,
             controllers.bankPrice.get
         )
         .post(
+            auth.isSuperAdmin,
             validators.editBankprice,
             controllers.bankPrice.edit
         );
 
-    // Event accounts
-    router.route('/events/:eventId/accounts')
-        .post(
-            validators.createAccount,
-            controllers.accounts.create
-        )
+    //////////
+    // User //
+    //////////
+
+    router.route('/print/')
+        // Ticket printer
         .get(
-            controllers.accounts.getAll
+            auth.checkAuth,
+            controllers.tickets.print
         );
-    router.delete(
-        '/accounts/:accountId',
-        controllers.accounts.remove
-    );
-    router.get(
-        '/accounts/:userId',
-        controllers.accounts.getAllFromUserId
-    );
 
-    // Ticket printer
-    router.get(
-        '/print/',
-        controllers.tickets.print
-    );
+    router.route('/forgot/:mail')
+        // Forgot tickets
+        .get(
+            auth.checkAuth,
+            controllers.tickets.forgot
+        );
 
-    // Forgot tickets
-    router.get(
-        '/forgot/:mail',
-        controllers.tickets.forgot
-    );
-
-    // Buckutt History
-    router.get(
-        '/purchases/',
-        auth.checkAuth,
-        controllers.buckuttHistory.getPurchasesHistory
-    );
-    router.get(
-        '/reloads/',
-        auth.checkAuth,
-        controllers.buckuttHistory.getReloadsHistory
-    );
+    router.route('/purchases/')
+        // Buckutt History - Purchases
+        .get(
+            auth.checkAuth,
+            controllers.buckuttHistory.getPurchasesHistory
+        );
+    router.route('/reloads/')
+        // Buckutt History - Reloads
+        .get(
+            auth.checkAuth,
+            controllers.buckuttHistory.getReloadsHistory
+        );
 
     /* Params filters */
     var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId'];

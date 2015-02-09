@@ -16,23 +16,27 @@ module.exports = function (db, config) {
      * @param  {object}   res  Response object
      * @param  {Function} next Next middleware to call
      */
-    var checkAuth = function (req, res, next) {
+    var checkToken = function (req, res, next) {
         var encodedToken = req.get('Auth-JWT');
         if (encodedToken === -1) {
-            return Error.emit(res, 401, '401 - Unauthorized');
+            return next();
         }
 
         jwt.verify(encodedToken, config.secret, function (err, decoded) {
             if (err) {
-                return Error.emit(res, 401, '401 - Unauthorized', err);
+                logger.warn('Auth - JWT failed');
+                logger.warn(err);
+                return next();
             }
 
             if (!decoded.id || !decoded.mail || !decoded.password) {
-                return Error.emit(res, 401, '401 - Unauthorized');
+                logger.warn('Auth - Fields missing')
+                return next();
             }
 
             if (!Number.isPositiveNumeric(decoded.id + '')) {
-                return Error.emit(res, 401, '401 - Unauthorized');
+                logger.warn('Auth - Id is not numeric');
+                return next();
             }
 
             // Verify user token
@@ -44,15 +48,30 @@ module.exports = function (db, config) {
                 var hashOkay = data.password === decoded.password;
 
                 if (!idOkay || !hashOkay) {
-                    return Error.emit(res, 401, '401 - Unauthorized');
+                    logger.warn('Auth - Password or id do not match');
+                    return next();
                 }
 
                 req.user = decoded;
                 next();
             }).error(function () {
-                return Error.emit(res, 500, '500 - Buckutt server error', 'Auth failed');
+                logger.warn('Auth - No email in database');
+                return next();
             });
         });
+    };
+
+    /**
+     * Checks for the token to be present on the request. If it is, add the token value (ie. the user data) to the request.
+     * @param  {object}   req  Request object
+     * @param  {object}   res  Response object
+     * @param  {Function} next Next middleware to call
+     */
+    var checkAuth = function (req, res, next) {
+        if (!req.user) {
+            return Error.emit(res, 401, '401 - Unauthorized', 'No user');
+        }
+        next();
     };
 
     /**
@@ -78,17 +97,18 @@ module.exports = function (db, config) {
     /**
      * Checks if the user has an account for the event
      * Can do admin or seller by returning the middleware
-     * @param  {number}  right 1 for admin, 2 for vendor
+     * @param  {string}   right "admin" or "vendor"
      * @return {Function}      The middleware
      */
     var isInEvent = function (right) {
         return function (req, res, next) {
+            checkAuth();
             var eventId = req.params.eventId;
             db.Account.count({
                 where: {
                     username: req.user.id,
                     event_id: req.params.eventId,
-                    right_id: 1
+                    right_id: (right === "admin") ? 1 : 2
                 }
             }).complete(function (err, countAc) {
                 if (err) {
@@ -120,9 +140,33 @@ module.exports = function (db, config) {
         };
     };
 
+    var isSuperAdmin = function (req, res, next) {
+        checkAuth();
+        if (!req.user.isAdmin) {
+            return Error.emit(res, 401, '401 - Unauthorized', 'No super admin');
+        }
+        next();
+    };
+
+    var isFundationAccount = function (req, res, next) {
+        checkAuth();
+        if (!req.user.fundation) {
+            return Error.emit(res, 401, '401 - Unauthorized', 'No fundation account');
+        }
+        next();
+    };
+
+    var noAuth = function (req, res, next) {
+        next();
+    };
+
     return {
         addAuth: addAuth,
         checkAuth: checkAuth,
-        isInEvent: isInEvent
+        checkToken: checkToken,
+        isFundationAccount: isFundationAccount,
+        isInEvent: isInEvent,
+        isSuperAdmin: isSuperAdmin,
+        noAuth: noAuth
     };
 };
