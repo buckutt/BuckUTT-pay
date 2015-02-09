@@ -31,3 +31,12 @@ String.prototype.nameCapitalize = function () {
         return p1 + p2.toUpperCase();
     });
 };
+
+/**
+ * Ensures that the numeric is two-characters long
+ * Else adds a trailing 0
+ * @return {string}     The padded number
+ */
+Number.prototype.pad2 = function (nu) {
+    return (this < 10) ? '0' + this : '' + this;
+};

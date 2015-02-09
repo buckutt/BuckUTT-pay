@@ -7,17 +7,6 @@
 var fs = require('fs');
 
 /**
- * Ensures that the numeric is two-characters long
- * Else adds a trailing 0
- * @param  {number} num The number
- * @return {string}     The padded number
- */
-function pad2 (num) {
-    num = parseInt(num, 10);
-    return (num < 10) ? '0' + num : '' + num;
-}
-
-/**
  * Logs a formatted text message
  * this.outTo : where to out the message (console or filepath)
  * this.minLevel : the minimum level to output (0, 1, 2, 3)
@@ -56,11 +45,11 @@ function Log () {
         var date = new Date();
         var formattedDate =
             date.getFullYear() + '/' +
-            pad2(date.getMonth() + 1) + '/' +
-            pad2(date.getDate()) + ' - ' +
-            pad2(date.getHours()) + ':' +
-            pad2(date.getMinutes()) + ':' +
-            pad2(date.getSeconds());
+            (date.getMonth() + 1).pad2() + '/' +
+            (date.getDate()).pad2() + ' - ' +
+            (date.getHours()).pad2() + ':' +
+            (date.getMinutes()).pad2() + ':' +
+            (date.getSeconds()).pad2();
 
         // Message outs to console
         if (this.outTo === 'console') {
