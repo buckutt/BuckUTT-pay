@@ -86,12 +86,10 @@ pay.controller('Login', [
         this.showModal = function (e) {
             e.preventDefault();
             $timeout(function () {
-                $('#modalLost').modal();
+                $('#modalLost').modal().one('shown.bs.modal', function () {
+                    $('#lostTicketsEmail').focus();
+                });
             });
-
-            $timeout(function () {
-                $('#lostTicketsEmail').focus();
-            }, 600);
 
             $('#lostButton').click(this.forgot);
         };
