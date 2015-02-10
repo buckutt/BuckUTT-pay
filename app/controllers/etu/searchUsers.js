@@ -50,5 +50,5 @@ module.exports = function (db, config) {
         }).error(function () {
             return Error.emit(res, 500, '500 - Buckutt server error', 'Search failed');
         });
-    }
+    };
 };

@@ -23,7 +23,7 @@ pay.controller('Buckutt', [
             var toAdd = [];
             reloads.forEach(function (reload) {
                 toAdd.push({
-                    name: "Rechargement",
+                    name: 'Rechargement',
                     details: reload.where,
                     date: new Date(reload.date),
                     sold: reload.price
