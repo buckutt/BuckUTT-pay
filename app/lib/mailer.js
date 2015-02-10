@@ -17,7 +17,7 @@ module.exports = function (config) {
      * @param  {string} subject Mail subject
      * @param  {object} places  Places object like "name:link"
      */
-    function mail (dest, subject, places) {
+    function mailPlaces (dest, subject, places) {
         var baseMail = fs.readFileSync('./app/public/mail.html', { encoding: 'utf8' });
         var content = objectToLis(places);
         var finalMail = baseMail.replace('{{places}}', content);
@@ -25,7 +25,31 @@ module.exports = function (config) {
         var mailOptions = {
             from: config.mail.sender,
             to: dest,
-            subject: subject,
+            subject: 'Places Buckutt',
+            text: objectToText(places),
+            html: finalMail
+        };
+
+        transporter.sendMail(mailOptions, function (err, infos) {
+            if (err) {
+                console.log('ERROR MAIL');
+                console.log(err);
+            } else {
+                console.log('SENT');
+                console.log(infos.response);
+            }
+        });
+    }
+
+    function mailPasswordResetter (dest, link) {
+        var baseMail = fs.readFileSync('./app/public/mail.html', { encoding: 'utf8' });
+        var content = objectToLis(places);
+        var finalMail = baseMail.replace('{{places}}', content);
+
+        var mailOptions = {
+            from: config.mail.sender,
+            to: dest,
+            subject: 'Places Buckutt',
             text: objectToText(places),
             html: finalMail
         };
@@ -82,5 +106,7 @@ module.exports = function (config) {
         return text;
     }
 
-    return mail;
+    return {
+        places: mailPlaces
+    };
 };

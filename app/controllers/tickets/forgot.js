@@ -43,7 +43,7 @@ module.exports = function (db, config) {
                         places[event.name] = 'http//www.google.fr/';
 
                         if (todo === 0) {
-                            mailer('gabriel.juchault@gmail.com', 'Places Buckutt', places);
+                            mailer.places('gabriel.juchault@gmail.com', places);
                             res.json({
                                 status: 200
                             });
