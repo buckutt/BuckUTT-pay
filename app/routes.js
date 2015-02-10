@@ -194,8 +194,20 @@ module.exports = function (router, db, config) {
     router.route('/forgot/:mail')
         // Forgot tickets
         .get(
-            auth.isAuth,
+            auth.noAuth,
             controllers.tickets.forgot
+        );
+
+    router.route('/reset/:mail')
+        // Send the reset mail
+        .post(
+            auth.noAuth
+            controllers.etu.sendReset
+        )
+        // Checks the reset token and updates password
+        .put(
+            auth.noAuth,
+            controllers.etu.resetPwd
         );
 
     router.route('/purchases/')

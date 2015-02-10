@@ -32,7 +32,7 @@
                         <p id="modalErrorText"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Ok</button>
+                        <button type="button" class="btn bt-ndanger" data-dismiss="modal">Ok</button>
                     </div>
                 </div>
             </div>
@@ -58,11 +58,41 @@
                             <br>
                             Places envoyées !
                         </p>
-                        <p id="forgotFail" class="text-danger"></p>
+                        <p id="forgotFail" class="text-danger"><br>Échec de l'envoi de mail</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                         <button type="button" class="btn btn-primary" id="lostButton">Envoyer les places</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalPassword" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Oubli de mot de passe</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Si vous avez oublié votre mot de passe, veuillez entrez votre e-mail.<br>
+                            Un mail sera envoyé avec un lien pour changer votre mot de passe.
+                        </p>
+                        <input type="email" id="lostPasswordEmail" class="form-control" name="lostPasswordEmail"
+                               placeholder="E-Mail">
+                        <p id="resetOk" class="text-success">
+                            <br>
+                            Vérifiez votre e-mail (ainsi que le dossier spam) !
+                        </p>
+                        <p id="resetFail" class="text-danger"><br>Échec de l'envoi de mail</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" id="lostPasswordButton">Retrouver mon mot de passe</button>
                     </div>
                 </div>
             </div>

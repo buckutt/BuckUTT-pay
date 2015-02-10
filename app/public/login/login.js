@@ -21,7 +21,7 @@ pay.controller('Login', [
                 maxHeight: 75,
                 minHeight: 75
             };
-            
+
             $loginPanel.css(fixedHeight);
             $loginPanel.children().css(fixedHeight);
             $loginPanel.children().children().css(fixedHeight);
@@ -54,36 +54,47 @@ pay.controller('Login', [
          * @param {Boolean} wrongAuth True when the login has failed because of the username/password
          */
         function animEnd (fail, wrongAuth) {
+            var $loginControllerWrapper = $('#loginControllerWrapper');
+            var $loginForm = $('.loginForm');
+            var $password = $('#password');
+            var $loginController = $('#loginController');
+
             $('.logging').fadeOut();
             $('#okayIcon').animate({
                 fontSize: 0
             }, function () {
                 if (fail) {
                     if (wrongAuth) {
-                        $('#password').val('');
-                        $('#loginControllerWrapper').css('backgroundColor', '#e74c3c');
+                        $password.val('');
+                        $loginControllerWrapper.css('backgroundColor', '#e74c3c');
                         setTimeout(function () {
-                            $('#loginControllerWrapper').removeAttr('style');
-                            $('.loginForm').fadeIn();
-                            $('#password').focus();
+                            $loginControllerWrapper.removeAttr('style');
+                            $loginForm.fadeIn();
+                            $password.focus();
                         }, 600);
                         return;
                     }
-                    $('.loginForm').fadeIn();
+                    $loginController.css('overflow', 'hidden');
+                    $loginForm.fadeIn(function () {
+                        $loginController.removeAttr('style');
+                    });
                 } else {
-                    $('#logged').fadeIn();
+                    $loginController.css('overflow', 'hidden');
+                    $('#logged').fadeIn(function () {
+                        $loginController.removeAttr('style');
+                    });
                 }
             });
 
             $('.loginPanel').height(75);
-            $('#loginControllerWrapper').css('minHeight', 0);
+            $loginControllerWrapper.css('minHeight', 0);
         }
 
         /**
          * Shows the modal related to the ticket lost
          * @param {object} e The click event
          */
-        this.showModal = function (e) {
+        this.showModalLost = function (e) {
             e.preventDefault();
             $timeout(function () {
                 $('#modalLost').modal().one('shown.bs.modal', function () {
@@ -91,7 +102,7 @@ pay.controller('Login', [
                 });
             });
 
-            $('#lostButton').click(this.forgot);
+            $('#lostButton').off('click').click(this.forgot);
         };
 
         /**
@@ -100,9 +111,11 @@ pay.controller('Login', [
          */
         this.authUser = function (e) {
             e.preventDefault();
-            $('#password').blur();
-            PayAuth.auth($('#username').val(), $('#password').val()).then(angular.noop, function (wrongAuth) {
-                animEnd(true, wrongAuth);
+            var $password = $('#password').blur();
+            PayAuth.auth($('#username').val(), $password.val()).then(angular.noop, function (wrongAuth) {
+                setTimeout(function () {
+                    animEnd(true, wrongAuth);
+                }, 400);
             });
 
             $('.loginForm').fadeOut(function () {
@@ -139,16 +152,41 @@ pay.controller('Login', [
 
         /**
          * Sends the tickets to the user mail
-         * @param {object} e The click event
          */
-        this.forgot = function (e) {
-            var $lostTicketsEmail = $('#lostTicketsEmail');
-            var $forgotOk = $('#forgotOk');
-            var mail = $lostTicketsEmail.val();
+        this.forgot = function () {
+            var mail = $('#lostTicketsEmail').val();
             $http.get('/api/forgot/' + mail).then(function () {
-                $forgotOk.slideDown().delay(2000).slideUp();
+                $('#forgotOk').slideDown().delay(2000).slideUp();
             }, function (data) {
-                $('#forgotFail').html('<br>Échec de l\'envoi de mail').slideDown().delay(2000).slideUp();
+                $('#forgotFail').slideDown().delay(2000).slideUp();
+            });
+        };
+
+
+        /**
+         * Shows the modal related to the password lost
+         * @param {object} e The click event
+         */
+        this.showModalReset = function (e) {
+            e.preventDefault();
+            $timeout(function () {
+                $('#modalPassword').modal().one('shown.bs.modal', function () {
+                    $('#lostPasswordEmail').focus();
+                });
+            });
+
+            $('#lostPasswordButton').off('click').click(this.reset);
+        };
+
+        /**
+         * Sens the password reset link
+         */
+        this.reset = function () {
+            var mail = $('#lostPasswordEmail').val();
+            $http.post('/api/reset/' + mail).then(function () {
+                $('#resetOk').slideDown().delay(2000).slideUp();
+            }, function (data) {
+                $('#resetFail').slideDown().delay(2000).slideUp();
             });
         };
     }

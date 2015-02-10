@@ -18,7 +18,7 @@ module.exports = function (config, log) {
             '404 - Not Found'                 : 1,
             '400 - Bad Request'               : 2,
             '500 - SQL Server error'          : 3,
-            '400 - Invalid username/password' : 4,
+            '401 - Invalid username/password' : 4,
             '400 - Duplicate event'           : 7,
             '500 - Cannot write file'         : 8,
             '500 - Invalid token'             : 10,

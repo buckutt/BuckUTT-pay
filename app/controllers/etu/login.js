@@ -53,7 +53,7 @@ module.exports = function (db, config) {
          */
         function goAhead (data, next) {
             if (data === null) {
-                return Error.emit(res, 400, '400 - Invalid username/password');
+                return Error.emit(res, 401, '401 - Invalid username/password');
             }
             next(data);
         }
@@ -71,7 +71,7 @@ module.exports = function (db, config) {
 
                 getTickets();
             } else {
-                return Error.emit(res, 400, '400 - Invalid username/password');
+                return Error.emit(res, 401, '401 - Invalid username/password');
             }
         }
 
