@@ -4,8 +4,15 @@
                 <input type="text" id="username" class="form-control" placeholder="Nom d'utilisateur">
                 <input type="password" id="password" class="form-control" placeholder="Mot de passe">
                 <input type="submit" class="btn btn-success" ng-click="login.authUser($event)">
-                <button id="buttonLost" class="btn btn-default pull-right"
-                        ng-click="login.showModal($event)">J'ai perdu mon billet</button>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Oubli <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" ng-click="login.showModal($event)">Ticket</a></li>
+                        <li><a href="#">Mot de passe</a></li>
+                    </ul>
+                </div>
             </form>
     </div>
     <div class="logging">

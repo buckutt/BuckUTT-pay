@@ -1,6 +1,7 @@
 /* Main panel */
 .loginPanel.loginPanel {
     height: 145px;
+    overflow: visible;
 }
 
 #loginController {
@@ -25,11 +26,16 @@
     margin-bottom: 5px;
 }
 
+.dropdown-menu {
+    z-index: 20;
+}
+
 /* Loading panel */
 .logging {
     background-color: #2ecc71;
     display: none;
     height: 100%;
+    overflow: hidden;
     width: 100%;
 }
 

@@ -105,26 +105,27 @@ pay.controller('Login', [
                 animEnd(true, wrongAuth);
             });
 
-            $('.loginForm').fadeOut();
-            $('.logging').fadeIn();
+            $('.loginForm').fadeOut(function () {
+                $('.logging').fadeIn(function () {
+                    var callbackIn = function () {
+                        animLoad(0, callbackOut);
+                    };
 
-            var callbackIn = function () {
-                animLoad(0, callbackOut);
-            };
+                    var callbackOut = function () {
+                        if (!PayAuth.etu) {
+                            animLoad(65, callbackIn);
+                        } else {
+                            $('#okayIcon').animate({
+                                fontSize: 60
+                            }, function () {
+                                setTimeout(animEnd, 400);
+                            });
+                        }
+                    };
 
-            var callbackOut = function () {
-                if (!PayAuth.etu) {
                     animLoad(65, callbackIn);
-                } else {
-                    $('#okayIcon').animate({
-                        fontSize: 60
-                    }, function () {
-                        setTimeout(animEnd, 400);
-                    });
-                }
-            };
-
-            animLoad(65, callbackIn);
+                });
+            });
         };
 
         /**
