@@ -46,7 +46,6 @@ module.exports = function (router, db, config) {
         )
         // Gets an event's details
         .get(
-            auth.checkAuth,
             auth.isInEvent('admin'),
             controllers.events.getOne
         );
@@ -131,18 +130,6 @@ module.exports = function (router, db, config) {
             controllers.tickets.getAll
         );
 
-    //////////////
-    // Auth etu //
-    //////////////
-
-    router.route('/etu/login')
-        .post(
-            auth.noAuth,
-            validators.etuLogin,
-            controllers.etu.login,
-            auth.addAuth
-        );
-
     ////////////////////
     // School domains //
     ////////////////////
@@ -182,30 +169,45 @@ module.exports = function (router, db, config) {
     // User //
     //////////
 
+    router.route('/etu/login')
+        // Auth etu
+        .post(
+            auth.noAuth,
+            validators.etuLogin,
+            controllers.etu.login,
+            auth.addAuth
+        );
+
+    router.route('/etu/block')
+        .put(
+            auth.isAuth,
+            controllers.etu.block
+        );
+
     router.route('/print/')
         // Ticket printer
         .get(
-            auth.checkAuth,
+            auth.isAuth,
             controllers.tickets.print
         );
 
     router.route('/forgot/:mail')
         // Forgot tickets
         .get(
-            auth.checkAuth,
+            auth.isAuth,
             controllers.tickets.forgot
         );
 
     router.route('/purchases/')
         // Buckutt History - Purchases
         .get(
-            auth.checkAuth,
+            auth.isAuth,
             controllers.buckuttHistory.getPurchasesHistory
         );
     router.route('/reloads/')
         // Buckutt History - Reloads
         .get(
-            auth.checkAuth,
+            auth.isAuth,
             controllers.buckuttHistory.getReloadsHistory
         );
 
