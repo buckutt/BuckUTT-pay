@@ -67,7 +67,7 @@ module.exports = function (db, config) {
      * @param  {object}   res  Response object
      * @param  {Function} next Next middleware to call
      */
-    var checkAuth = function (req, res, next) {
+    var isAuth = function (req, res, next) {
         if (!req.user) {
             return Error.emit(res, 401, '401 - Unauthorized', 'No user');
         }
@@ -102,7 +102,7 @@ module.exports = function (db, config) {
      */
     var isInEvent = function (right) {
         return function (req, res, next) {
-            checkAuth();
+            isAuth();
             var eventId = req.params.eventId;
             db.Account.count({
                 where: {
@@ -141,7 +141,7 @@ module.exports = function (db, config) {
     };
 
     var isSuperAdmin = function (req, res, next) {
-        checkAuth();
+        isAuth();
         if (!req.user.isAdmin) {
             return Error.emit(res, 401, '401 - Unauthorized', 'No super admin');
         }
@@ -149,7 +149,7 @@ module.exports = function (db, config) {
     };
 
     var isFundationAccount = function (req, res, next) {
-        checkAuth();
+        isAuth();
         if (!req.user.fundation) {
             return Error.emit(res, 401, '401 - Unauthorized', 'No fundation account');
         }
@@ -162,7 +162,7 @@ module.exports = function (db, config) {
 
     return {
         addAuth: addAuth,
-        checkAuth: checkAuth,
+        isAuth: isAuth,
         checkToken: checkToken,
         isFundationAccount: isFundationAccount,
         isInEvent: isInEvent,
