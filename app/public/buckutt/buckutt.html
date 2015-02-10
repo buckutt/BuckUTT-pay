@@ -1,6 +1,32 @@
 <link rel="stylesheet" href="static/css/buckutt.css">
 
 <div ng-controller="Buckutt as buckutt">
+
+    <div id="modalConfirm" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Confirmation de désactivation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Êtes-vous sûr de vouloir désactiver votre compte ?<br>
+                        La désactivation entraîne la non-disponnibilité de votre carte étudiant <strong>pour le système BuckUTT uniquement</strong>.<br>
+                        La réactivation ne se fait qu'uniquement au BDE.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            ng-click="buckutt.desactivate($event)">Désactiver mon compte</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1 class="text-center">
         <a href="#/">BuckUTT</a>
     </h1>
@@ -21,13 +47,21 @@
         </div>
         <div class="col-sm-4">
             <div class="panel panel-default">
-                <p class="text-danger">
-                    <br>
-                    Si votre carte est perdue, bloquez toute dépense non désirée.
-                </p>
-                <h2>
-                    <a class="text-danger">Bloquer ma carte étu</a>
-                </h2>
+                <div ng-if="!isRemoved">
+                    <p class="text-danger">
+                        <br>
+                        Si votre carte est perdue, bloquez toute dépense non désirée.
+                    </p>
+                    <h2>
+                        <a class="text-danger" ng-click="buckutt.confirmBlock($event)">Bloquer ma carte étu</a>
+                    </h2>
+                </div>
+                <div ng-if="isRemoved">
+                    <h2 class="text-danger">Compte désactivé</h2>
+                    <p>
+                    Passez au BDE pour le faire désactiver
+                    </p>
+                </div>
             </div>
         </div>
     </div>

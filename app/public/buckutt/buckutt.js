@@ -6,12 +6,15 @@
 
 pay.controller('Buckutt', [
     '$scope',
+    '$http',
     '$filter',
     'PayAuth',
     'Reloads',
     'Purchases',
-    function ($scope, $filter, PayAuth, Reloads, Purchases) {
+    function ($scope, $http, $filter, PayAuth, Reloads, Purchases) {
         if (!PayAuth.needUser()) { return; }
+
+        $scope.isRemoved = PayAuth.etu.isRemoved;
 
         $scope.history = [];
 
@@ -88,7 +91,29 @@ pay.controller('Buckutt', [
             var action = $scope.history[index];
             var $tr = $(e.currentTarget);
             $tr.children().eq(0).children().eq(1).slideToggle('fast');
-        }
+        };
+
+        /**
+         * Confirms the user when he wants to desactivate his account
+         * @param  {object} e The click event
+         */
+        this.confirmBlock = function (e) {
+            e.preventDefault();
+            $('#modalConfirm').modal();
+        };
+
+        /**
+         * Desactivates the user account
+         * @param  {object} e The click event
+         */
+        this.desactivate = function (e) {
+            e.preventDefault();
+            $http.put('/api/etu/block').then(function () {
+                $scope.isRemoved = true;
+            }, function () {
+                Error('Erreur', 0)
+            });
+        };
 
         /**
          * Sort the history array by the dates inside the object
