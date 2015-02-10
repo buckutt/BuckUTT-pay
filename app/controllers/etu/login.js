@@ -5,7 +5,6 @@
 'use strict';
 
 var crypto  = require('crypto');
-var request = require('request');
 var bcrypt  = require('bcryptjs');
 
 module.exports = function (db, config) {

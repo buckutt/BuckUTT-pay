@@ -4,8 +4,6 @@
 
 'use strict';
 
-var request = require('request');
-
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
     var rest   = require('../../lib/rest')(config, logger);
