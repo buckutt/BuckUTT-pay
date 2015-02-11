@@ -40,3 +40,18 @@ String.prototype.nameCapitalize = function () {
 Number.prototype.pad2 = function (nu) {
     return (this < 10) ? '0' + this : '' + this;
 };
+
+/**
+ * Generates a random string, alpha-numeric
+ * @param  {number} size The string size
+ * @return {string}      The random string
+ */
+String.random = function (size) {
+    var crypto = require('crypto');
+    var b64 = crypto.randomBytes(size).toString('base64');
+    b64 = b64.replace(/=/g, '')
+             .replace(/\+/g, '')
+             .replace(/\//g, '');
+
+    return b64.slice(0, size);
+};
