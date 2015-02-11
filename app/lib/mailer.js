@@ -9,16 +9,16 @@ var nodemailer    = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 
 module.exports = function (config) {
+    var logger = require('./log')(config);
     var transporter = nodemailer.createTransport(smtpTransport(config.mail.config));
 
     /**
      * Sends places to the dest
      * @param  {string} dest    Dest e-mail
-     * @param  {string} subject Mail subject
      * @param  {object} places  Places object like "name:link"
      */
-    function mailPlaces (dest, subject, places) {
-        var baseMail = fs.readFileSync('./app/public/mail.html', { encoding: 'utf8' });
+    function mailPlaces (dest, places, cb) {
+        var baseMail = fs.readFileSync('./app/public/mail.places.html', { encoding: 'utf8' });
         var content = objectToLis(places);
         var finalMail = baseMail.replace('{{places}}', content);
 
@@ -32,36 +32,41 @@ module.exports = function (config) {
 
         transporter.sendMail(mailOptions, function (err, infos) {
             if (err) {
-                console.log('ERROR MAIL');
-                console.log(err);
-            } else {
-                console.log('SENT');
-                console.log(infos.response);
+                logger.error(err);
+                return cb(false);
             }
+            logger.debug('Mail sent with success');
+            cb ? cb(true) : 0;
         });
     }
 
-    function mailPasswordResetter (dest, link) {
-        var baseMail = fs.readFileSync('./app/public/mail.html', { encoding: 'utf8' });
-        var content = objectToLis(places);
-        var finalMail = baseMail.replace('{{places}}', content);
+    /**
+     * Sends the mail with the password reset link
+     * @param  {string} dest The user mail
+     * @param  {string} link The password reset link
+     */
+    function mailPasswordResetter (dest, link, cb) {
+        var baseMail = fs.readFileSync('./app/public/mail.reset.html', { encoding: 'utf8' });
+        var finalMail = baseMail.replace('{{link}}', link)
+                                .replace('{{linkText}}', link);
+
+        var textMail = 'Voici le lien pour changer votre mot de passe Buckutt : ' + link;
 
         var mailOptions = {
             from: config.mail.sender,
             to: dest,
-            subject: 'Places Buckutt',
-            text: objectToText(places),
+            subject: 'Changement de mot de passe Buckutt',
+            text: textMail,
             html: finalMail
         };
 
         transporter.sendMail(mailOptions, function (err, infos) {
             if (err) {
-                console.log('ERROR MAIL');
-                console.log(err);
-            } else {
-                console.log('SENT');
-                console.log(infos.response);
+                logger.error(err);
+                return cb(false);
             }
+            logger.debug('Mail sent with success');
+            cb ? cb(true) : 0;
         });
     }
 
@@ -79,7 +84,6 @@ module.exports = function (config) {
 
             var li = '<li style="Margin-top: 0;padding-left: 3px">';
             li += placeTitle;
-            li += ' <a href="' + link + '">Téléchargement</a>';
             li += '</li>';
 
             lis += li;
@@ -100,13 +104,14 @@ module.exports = function (config) {
             var placeTitle = keys[i];
             var link = places[keys[i]];
 
-            text += '* ' + placeTitle + ' : ' + link + '\n';
+            text += '* ' + placeTitle + '\n';
         }
 
         return text;
     }
 
     return {
-        places: mailPlaces
+        places: mailPlaces,
+        reset: mailPasswordResetter
     };
 };
