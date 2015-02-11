@@ -24,7 +24,8 @@ module.exports = function (config, log) {
             '500 - Invalid token'             : 10,
             '500 - Cannot write config file'  : 13,
             '401 - Unauthorized'              : 14,
-            '500 - Buckutt server error'      : 17
+            '500 - Buckutt server error'      : 17,
+            '500 - Could\'t send mail'        : 18
         };
 
         log.error(msg);

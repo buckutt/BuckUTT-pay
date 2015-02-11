@@ -27,7 +27,8 @@ pay.factory('Error', [function () {
         14: 'Erreur d\'authentification',
         15: 'Serveur injoignable',
         16: 'L\'image est trop volumineuse.',
-        17: 'Les serveurs Buckutt ne sont plus en fonctionnement'
+        17: 'Les serveurs Buckutt ne sont plus en fonctionnement',
+        18: 'Impossible d\'envoyer le mail'
     };
 
     return function (title, message) {
