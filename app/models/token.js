@@ -15,13 +15,12 @@ module.exports = function (sequelize, DataTypes) {
 
         ticket: {
             type: DataTypes.INTEGER(10).UNSIGNED,
-            allowNull: false,
-            unique: true
+            allowNull: true
         },
 
-        remove: {
-            type: DataTypes.STRING(255),
-            unique: true
+        usermail: {
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: true
         },
 
         reprint: {
@@ -30,6 +29,11 @@ module.exports = function (sequelize, DataTypes) {
         },
 
         schoolValidation: {
+            type: DataTypes.STRING(255),
+            unique: true
+        },
+
+        reset: {
             type: DataTypes.STRING(255),
             unique: true
         }
