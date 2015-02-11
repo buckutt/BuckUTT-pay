@@ -201,7 +201,7 @@ module.exports = function (router, db, config) {
     router.route('/reset/:mail')
         // Send the reset mail
         .post(
-            auth.noAuth
+            auth.noAuth,
             controllers.etu.sendReset
         )
         // Checks the reset token and updates password
