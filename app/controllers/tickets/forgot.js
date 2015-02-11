@@ -43,9 +43,14 @@ module.exports = function (db, config) {
                         places[event.name] = 'http//www.google.fr/';
 
                         if (todo === 0) {
-                            mailer.places('gabriel.juchault@gmail.com', places);
-                            res.json({
-                                status: 200
+                            mailer.places(req.params.mail, places, function (okay) {
+                                if (!okay) {
+                                    return Error.emit(res, 500, '500 - Could\'t send mail');
+                                }
+
+                                res.json({
+                                    status: 200
+                                });
                             });
                         }
                     }, function (err) {
