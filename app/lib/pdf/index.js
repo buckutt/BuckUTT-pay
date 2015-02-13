@@ -1,0 +1,7 @@
+//////////////////////////
+// PDF Regroupment file //
+//////////////////////////
+
+module.exports = {
+    lights: require('./lights')
+};

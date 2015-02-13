@@ -2,7 +2,7 @@
 
 ## Installation
 
-* Install mysql server, install node & npm
+* Install mysql server, install node & npm, install graphicsmagick
 * Install bower : `sudo npm install -g bower̀
 * Clone the repo
 * Run `npm install`
