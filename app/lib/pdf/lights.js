@@ -8,10 +8,10 @@ var fs      = require('fs');
 
 /**
  * Generates a PDF and exports it to a Buffer from data object
- * @param  {object} data The ticket data
- * @return {Buffer}      The buffered file
+ * @param {object}   data     The ticket data
+ * @param {Function} callback The callback (one argument : buffered pdf)
  */
-module.exports = function (data) {
+module.exports = function (data, callback) {
     /**
      * Data structure :
      * {
@@ -25,27 +25,36 @@ module.exports = function (data) {
      *      purchaseDate: string,
      *      association: string,
      *      website: string,
-     *      mail: string
+     *      mail: string,
+     *      logo: string
      * }
      */
 
-    // Path to pay/
-    var basePath = '../../';
+    // Path to app/
+    var basePath = fs.realpathSync(__dirname + '/../../');
 
     var doc = new PDFKit({
         size: 'a2' // 1190.55 * 1683.78 
     });
 
     // Fonts
-    doc.registerFont('Lato-Regular', '../../public/static/fonts/lato/lato-regular.ttf');
-    doc.registerFont('Lato-Bold',    '../../public/static/fonts/lato/lato-bold.ttf');
+    doc.registerFont('Lato-Regular', basePath + '/public/static/fonts/lato/lato-regular.ttf');
+    doc.registerFont('Lato-Bold',    basePath + '/public/static/fonts/lato/lato-bold.ttf');
     doc.font('Lato-Regular')
 
     // Pipe to output
-    doc.pipe(fs.createWriteStream('lights.pdf'));
+    var bytes = [];
+    var file = null;
+    doc.on('data', function (chunk) {
+        bytes.push(chunk);
+    });
+    doc.on('end', function () {
+        file = Buffer.concat(bytes);
+        fs.writeFile('lights.pdf', file);
+    });
 
     // Background image
-    doc.image('lights.png', 65, 65, {
+    doc.image(__dirname + '/lights.png', 65, 65, {
         width: 1064,
         height: 599
     });
@@ -96,7 +105,7 @@ module.exports = function (data) {
        })
        .fontSize(26)
        .font('Lato-Bold')
-       .text('Merci de ne pas plier le billet sur les codes barres !', 105, 830);
+       .text('Merci de ne pas plier le billet sur les codes-barres !', 105, 830);
 
     // Terms
     doc.font('Lato-Regular')
@@ -143,6 +152,8 @@ if (require.main === module) {
         association: 'BDE',
         website: 'http://bde.utt.fr',
         mail: 'bde@utt.fr',
-        logo: 'public/static/img/upload/gala2015.png'
+        logo: '/public/static/img/upload/gala2015.png'
+    }, function (buffer) {
+        fs.writeFile('lights.pdf', buffer);
     });
 }
