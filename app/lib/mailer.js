@@ -27,7 +27,8 @@ module.exports = function (config) {
             to: dest,
             subject: 'Places Buckutt',
             text: objectToText(places),
-            html: finalMail
+            html: finalMail,
+            attachments: placesToAttachements(places)
         };
 
         transporter.sendMail(mailOptions, function (err, infos) {
@@ -72,42 +73,45 @@ module.exports = function (config) {
 
     /**
      * Converts places to multiple <li>
-     * @param  {object} places Places object like "name:link"
+     * @param  {object} places Places object like "name:buffer"
      * @return {string}        Formatted HTML
      */
     function objectToLis (places) {
-        var keys = Object.keys(places);
-        var lis = '';
-        for (var i = keys.length - 1; i >= 0; i--) {
-            var placeTitle = keys[i];
-            var link = places[keys[i]];
-
-            var li = '<li style="Margin-top: 0;padding-left: 3px">';
-            li += placeTitle;
-            li += '</li>';
-
-            lis += li;
-        }
-
-        return lis;
+        return Object.keys(places)
+            .map(function (name) {
+                return '<li style="Margin-top: 0;padding-left: 3px">' + name + '</li>';
+            })
+            .join('');
     }
 
     /**
      * Converts places to text
-     * @param  {object} places Places object like "name:link"
+     * @param  {object} places Places object like "name:buffer"
      * @return {string}        Formatted text
      */
     function objectToText (places) {
-        var keys = Object.keys(places);
-        var text = '';
-        for (var i = keys.length - 1; i >= 0; i--) {
-            var placeTitle = keys[i];
-            var link = places[keys[i]];
+        return Object.keys(places)
+            .map(function (name) {
+                return '* ' + name;
+            })
+            .join('\n');
+    }
 
-            text += '* ' + placeTitle + '\n';
-        }
+    /**
+     * Converts places to attachements
+     * @param  {object} places Places object like "name:buffer"
+     * @return {array}         Attachements array
+     */
+    function placesToAttachements (places) {
+        var attachements = [];
+        Object.keys(places).forEach(function (placeName) {
+            attachements.push({
+                filename: placeName + '.pdf',
+                content: places[placeName]
+            });
+        });
 
-        return text;
+        return attachements;
     }
 
     return {
