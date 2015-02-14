@@ -4,11 +4,14 @@
 
 'use strict';
 
+var moment = require('moment');
+
 module.exports = function (db, config) {
     return function (req, res) {
         var logger = require('../../lib/log')(config);
         var mailer = require('../../lib/mailer')(config);
         var rest   = require('../../lib/rest')(config, logger);
+        var pdf    = require('../../lib/pdf');
 
         // Get username from mail
         rest.get('users?mail=' + req.params.mail).success(function (user) {
@@ -38,23 +41,44 @@ module.exports = function (db, config) {
                 var todo = tickets.length;
                 tickets.forEach(function (ticket) {
                     ticket.getEvent().then(function (event) {
-                        --todo;
+                        ticket.event = event;
+                    }).then(function () {
+                        rest.get('fundations/' + ticket.event.fundationId).success(function (data) {
 
-                        places[event.name] = 'http//www.google.fr/';
+                            pdf.lights({
+                                firstname: user.firstname.nameCapitalize(),
+                                lastname: user.lastname.nameCapitalize(),
+                                eventname: ticket.event.name,
+                                date: moment(ticket.event.date).format('DD/MM/YYYY à HH:mm'),
+                                place: '',
+                                price: ticket.price,
+                                barcode: ticket.barcode,
+                                purchaseDate: moment(ticket.event.paid_at).format('DD/MM/YYYY à HH:mm'),
+                                association: data.name,
+                                website: data.website,
+                                mail: data.mail,
+                                logo: '/public/static/img/upload/' + ticket.event.picture
+                            }, function (buffer) {
+                                --todo;
 
-                        if (todo === 0) {
-                            mailer.places(req.params.mail, places, function (okay) {
-                                if (!okay) {
-                                    return Error.emit(res, 500, '500 - Could\'t send mail');
+                                places[ticket.event.name] = buffer;
+
+                                if (todo === 0) {
+                                    console.log('- let\'s do it')
+                                    mailer.places(req.params.mail, places, function (okay) {
+                                        if (!okay) {
+                                            return Error.emit(res, 500, '500 - Could\'t send mail');
+                                        }
+
+                                        res.json({
+                                            status: 200
+                                        });
+                                    });
                                 }
-
-                                res.json({
-                                    status: 200
-                                });
                             });
-                        }
-                    }, function (err) {
-                        console.log(err);
+                        }).error(function () {
+                            Error.emit(res, 500, '500 - Buckutt server error', 'Get fundaton data');
+                        });
                     });
                 });
             });
