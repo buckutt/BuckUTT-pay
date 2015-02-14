@@ -91,21 +91,6 @@ pay.controller('Login', [
         }
 
         /**
-         * Shows the modal related to the ticket lost
-         * @param {object} e The click event
-         */
-        this.showModalLost = function (e) {
-            e.preventDefault();
-            $timeout(function () {
-                $('#modalLost').modal().one('shown.bs.modal', function () {
-                    $('#lostTicketsEmail').focus();
-                });
-            });
-
-            $('#lostButton').off('click').click(this.forgot);
-        };
-
-        /**
          * Authenticates the user via site etu
          * @param {object} e The click event
          */
@@ -151,13 +136,32 @@ pay.controller('Login', [
         };
 
         /**
+         * Shows the modal related to the ticket lost
+         * @param {object} e The click event
+         */
+        this.showModalLost = function (e) {
+            e.preventDefault();
+            $timeout(function () {
+                $('#modalLost').modal().one('shown.bs.modal', function () {
+                    $('#lostTicketsEmail').focus();
+                });
+            });
+
+            $('#lostButton').off('click').click(this.forgot);
+        };
+
+        /**
          * Sends the tickets to the user mail
          */
         this.forgot = function () {
+            var self = this;
             var mail = $('#lostTicketsEmail').val();
+            self.setAttribute('disabled', '');
             $http.get('/api/forgot/' + mail).then(function () {
+                self.removeAttribute('disabled');
                 $('#forgotOk').slideDown().delay(2000).slideUp();
             }, function (data) {
+                self.removeAttribute('disabled');
                 $('#forgotFail').slideDown().delay(2000).slideUp();
             });
         };
