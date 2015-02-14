@@ -50,7 +50,7 @@ module.exports = function (data, callback) {
     });
     doc.on('end', function () {
         file = Buffer.concat(bytes);
-        fs.writeFile('lights.pdf', file);
+        callback(file);
     });
 
     // Background image
