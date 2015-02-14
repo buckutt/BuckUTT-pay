@@ -203,10 +203,12 @@ module.exports = function (router, db, config) {
         .post(
             auth.noAuth,
             controllers.etu.sendReset
-        )
-        // Checks the reset token and updates password
+        );
+    router.route('/reset/:token')
+        // Changes the password (needs :token to avoid validation)
         .put(
             auth.noAuth,
+            validators.resetPwd,
             controllers.etu.resetPwd
         );
 
@@ -231,7 +233,7 @@ module.exports = function (router, db, config) {
                 req.body[idName] = id;
                 next();
             } else {
-                Error.emit(res, 400, '400 - Bad Request');
+                Error.emit(res, 400, '400 - Bad Request', 'Bad id');
             }
         });
     });
@@ -242,7 +244,7 @@ module.exports = function (router, db, config) {
             req.params.token = token;
             next();
         } else {
-            Error.emit(res, 400, '400 - Bad Request');
+            Error.emit(res, 400, '400 - Bad Request', 'Bad token');
         }
     });
 
@@ -251,7 +253,7 @@ module.exports = function (router, db, config) {
             req.params.mail = mail;
             next();
         } else {
-            Error.emit(res, 400, '400 - Bad Request');
+            Error.emit(res, 400, '400 - Bad Request', 'Bad mail');
         }
     });
 };

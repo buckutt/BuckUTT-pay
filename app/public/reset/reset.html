@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="static/css/reset.css">
+
+<div ng-controller="Reset as reset">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Changement de mot de passe BuckUTT</h2>
+    <div class="col-xs-8 col-xs-offset-2">
+        <p>
+            <br>
+            Le mot de passe doit contenir au minimum 8 caractères.<br>
+            Préférez les mots de passes plus longs tel des phrases.<br>
+            Vous pouvez aussi complexifier le mot de passe avec des chiffres ou des symboles.<br>
+            Exemples de mots de passe sécurisés :<br>
+            <ul>
+                <li><em>Mon chat s'appelle Jacques</em> (très long, facile à retenir)</li>
+                <li><em>aT4IeiwWw$t</em> (assez long, caractères contenant minuscules, majuscules, chiffres et symboles)</li>
+            </ul>
+            <br>
+            Status : <span id="status">En attente des mots de passe.</span>
+            <br>
+        </p>
+        <div ng-if="classic">
+            
+        </div>
+        <div ng-if="!classic">
+            <label for="newpwd1">Veuillez saisir ci-dessous votre nouveau mot de passe :</label>
+            <input type="password" id="newpwd1" class="form-control input-lg" autofocus
+                   ng-minlength="8"
+                   ng-keyup="reset.validatePwds($event)"
+                   ng-keypress="reset.next($event)">
+            <br>
+            <label for="newpwd2">Veuillez saisir à nouveau votre nouveau mot de passe (validez avec &crarr;) :</label>
+            <input type="password" id="newpwd2" class="form-control input-lg"
+                   ng-minlength="8"
+                   ng-keyup="reset.validatePwds($event)"
+                   ng-keypress="reset.reset($event)">
+            <br>
+        </div>
+    </div>
+</div>

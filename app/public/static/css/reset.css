@@ -1,0 +1,11 @@
+.ng-invalid.ng-invalid {
+    border-color: #a94442;
+}
+
+.ng-valid.ng-valid {
+    border-color: #3c763d;
+}
+
+.ng-pristine.ng-pristine {
+    border-color: #ccc;
+}
