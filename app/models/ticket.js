@@ -48,6 +48,12 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
+        },
+
+        barcode: {
+            type: DataTypes.STRING(13),
+            allowNull: false,
+            unique: true
         }
 
         // Association with Price
