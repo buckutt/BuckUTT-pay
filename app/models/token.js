@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
         },
 
         usermail: {
-            type: DataTypes.INTEGER(10).UNSIGNED,
+            type: DataTypes.STRING(255),
             allowNull: true
         },
 
