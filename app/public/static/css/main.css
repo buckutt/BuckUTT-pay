@@ -17,6 +17,12 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
+/* Label */
+label {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+
 /* Autocomplete */
 .autocomplete-suggestions {
     background: #FFF;
@@ -110,16 +116,14 @@ input.form-control, textarea.form-control, input.form-control:focus, textarea.fo
 /* Fonts */
 @font-face {
     font-family: 'RobotoSlab';
-    src: url('../fonts/robotoSlab/RobotoSlab-Regular-webfont.eot');
-    src: url('../fonts/robotoSlab/RobotoSlab-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/robotoSlab/RobotoSlab-Regular-webfont.woff') format('woff'),
-         url('../fonts/robotoSlab/RobotoSlab-Regular-webfont.ttf') format('truetype'),
-         url('../fonts/robotoSlab/RobotoSlab-Regular-webfont.svg#RobotoSlab') format('svg');
+    src: url('../fonts/robotoSlab/robotoslab-light-webfont.eot');
+    src: url('../fonts/robotoSlab/robotoslab-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/robotoSlab/robotoslab-light-webfont.woff') format('woff'),
+         url('../fonts/robotoSlab/robotoslab-light-webfont.ttf') format('truetype'),
+         url('../fonts/robotoSlab/robotoslab-light-webfont.svg#RobotoSlab') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
-
 
 @font-face {
     font-family: 'Lato';
