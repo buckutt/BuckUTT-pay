@@ -186,10 +186,14 @@ pay.controller('Login', [
          * Sens the password reset link
          */
         this.reset = function () {
+            var self = this;
             var mail = $('#lostPasswordEmail').val();
+            self.setAttribute('disabled', '');
             $http.post('/api/reset/' + mail).then(function () {
+                self.removeAttribute('disabled');
                 $('#resetOk').slideDown().delay(2000).slideUp();
             }, function (data) {
+                self.removeAttribute('disabled');
                 $('#resetFail').slideDown().delay(2000).slideUp();
             });
         };
