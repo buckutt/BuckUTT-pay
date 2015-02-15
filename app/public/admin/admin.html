@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <h3>Vendre les événements</h3>
+            <h3>Vendre des places</h3>
             <div class="subPanel">
                 <h4 ng-repeat="event in eventsSeller">
                     <a href="#/admin/event/{{ event.id }}">{{ event.name }}</a>
@@ -28,9 +28,9 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default col-sm-5 col-sm-offset-2" ng-if="fundation">
+        <div class="panel panel-default col-sm-5 col-sm-offset-2">
             <h3 ng-click="admin.expendPanel($event)">Créer un événement</h3>
-            <form name="newEventForm" class="subPanel">
+            <form name="newEventForm" class="subPanel" ng-if="fundation">
                 <div>
                     <input type="text" name="name" class="form-control" placeholder="Nom de l'event (taille minimum : 5 caractères)"
                            ng-maxlength="255"
@@ -141,6 +141,9 @@
                     <button class="btn btn-block btn-primary" ng-click="admin.createEvent()">Créer l'événement</button>
                 </div>
             </form>
+            <div class="subPanel" ng-if="!fundation">
+                Connectez vous avec un compte associatif pour créer un événement.
+            </div>
         </div>
     </div>
 
