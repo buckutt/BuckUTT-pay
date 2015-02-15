@@ -40,7 +40,13 @@ module.exports = function (data, callback) {
     // Fonts
     doc.registerFont('Lato-Regular', basePath + '/public/static/fonts/lato/lato-regular.ttf');
     doc.registerFont('Lato-Bold',    basePath + '/public/static/fonts/lato/lato-bold.ttf');
-    doc.font('Lato-Regular')
+    doc.font('Lato-Regular');
+
+    doc.info = {
+        Title: 'Place ' + data.eventname,
+        Author: 'BuckUTT',
+        Subject: 'Contient votre place pour l\'événement ' + data.eventname,
+    };
 
     // Pipe to output
     var bytes = [];
