@@ -59,6 +59,19 @@ pay.config(['$httpProvider', function ($httpProvider) {
     });
 }]);
 
+// Auth token for jQuery
+$.ajaxSetup({
+    beforeSend: function(xhr, options) {
+        if (pay.auth && pay.auth.etu && pay.auth.etu.jwt) {
+            xhr.setRequestHeader('Auth-JWT', pay.auth.etu.jwt);
+            if (options.url.indexOf('/api/etu/search/?query=') === 0) {
+                var matches = location.hash.match(/\/event\/(\d+)/i);
+                xhr.setRequestHeader('PassEventIdEvenWithCustomAutocompletePlugin', matches[1]);
+            }
+        }
+    }
+});
+
 // Datepickers
 // Set min date to now + 1 hour
 var minDate = moment().add(1, 'hour').toDate();

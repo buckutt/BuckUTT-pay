@@ -43,7 +43,8 @@ module.exports = function (db, config) {
             var mail = decoded.mail;
             var token = decoded.token;
 
-            rest.get('users?mail=' + mail).success(function (data) {
+            rest.get('users?mail=' + mail).then(function (uRes) {
+                var data = uRes.data.data;
                 var idOkay = data.id === decoded.id;
                 var hashOkay = data.password === decoded.password;
 
@@ -54,7 +55,7 @@ module.exports = function (db, config) {
 
                 req.user = decoded;
                 next();
-            }).error(function () {
+            }, function () {
                 logger.warn('Auth - No email in database');
                 return next();
             });
@@ -71,7 +72,9 @@ module.exports = function (db, config) {
         if (!req.user) {
             return Error.emit(res, 401, '401 - Unauthorized', 'No user');
         }
-        next();
+        if (next) {
+            next();
+        }
     };
 
     /**
@@ -102,13 +105,13 @@ module.exports = function (db, config) {
      */
     var isInEvent = function (right) {
         return function (req, res, next) {
-            isAuth();
-            var eventId = req.params.eventId;
+            isAuth(req, res);
+            var eventId = req.params.eventId || req.get('PassEventIdEvenWithCustomAutocompletePlugin');
             db.Account.count({
                 where: {
                     username: req.user.id,
-                    event_id: req.params.eventId,
-                    right_id: (right === "admin") ? 1 : 2
+                    event_id: eventId,
+                    right_id: (right === 'admin') ? 1 : 2
                 }
             }).complete(function (err, countAc) {
                 if (err) {
@@ -120,7 +123,7 @@ module.exports = function (db, config) {
                     // Find out if it's because of the account, or the event.
                     db.Event.count({
                         where: {
-                            id: req.params.eventId
+                            id: eventId
                         }
                     }).complete(function (err, countEv) {
                         if (err) {
@@ -141,7 +144,7 @@ module.exports = function (db, config) {
     };
 
     var isSuperAdmin = function (req, res, next) {
-        isAuth();
+        isAuth(req, res);
         if (!req.user.isAdmin) {
             return Error.emit(res, 401, '401 - Unauthorized', 'No super admin');
         }
@@ -149,7 +152,7 @@ module.exports = function (db, config) {
     };
 
     var isFundationAccount = function (req, res, next) {
-        isAuth();
+        isAuth(req, res);
         if (!req.user.fundation) {
             return Error.emit(res, 401, '401 - Unauthorized', 'No fundation account');
         }
