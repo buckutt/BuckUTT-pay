@@ -9,7 +9,7 @@ var validator  = require('validator');
 
 module.exports = function (router, db, config) {
     var controllers = require('./controllers')(db, config);
-    var auth       = require('./lib/auth')(db, config);
+    var auth        = require('./lib/auth')(db, config);
 
     // Main auth
     // Checks if there is a token every request
