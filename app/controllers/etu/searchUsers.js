@@ -12,8 +12,9 @@ module.exports = function (db, config) {
     var rest   = require('../../lib/rest')(config, logger);
 
     return function (req, res) {
-        rest.get('users/?lastname=%' + req.query.query + '%').success(function (data) {
+        rest.get('users/?lastname=%' + req.query.query + '%').then(function (uRes) {
             var responseData;
+            var data = uRes.data.data;
 
             if (!data) {
                 res.json([]);
@@ -47,7 +48,7 @@ module.exports = function (db, config) {
             }
 
             res.json(_.uniq(responseData, 'id'));
-        }).error(function () {
+        }, function () {
             return Error.emit(res, 500, '500 - Buckutt server error', 'Search failed');
         });
     };

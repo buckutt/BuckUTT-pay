@@ -7,6 +7,7 @@
   "dependencies": {
     "barcode": "^0.1.0",
     "bcryptjs": "^2.1.0",
+    "bluebird": "^2.9.9",
     "body-parser": "^1.8.2",
     "colors": "^0.6.2",
     "compression": "^1.1.0",
@@ -20,7 +21,7 @@
     "nodemailer-smtp-transport": "^0.1.13",
     "pdfkit": "^0.7.0",
     "request": "^2.44.0",
-    "restler": "^3.2.2",
+    "restling": "^0.8.0",
     "sequelize": "^2.0.0-rc1",
     "validator": "^3.28.0"
   },

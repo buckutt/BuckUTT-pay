@@ -35,21 +35,21 @@ module.exports = function (db, config) {
 
             var hash = bcrypt.hashSync(pwd, config.bcryptCost);
 
-            rest.get('users?mail=' + mail).success(function (data) {
-                var id = data.id;
-
+            rest.get('users?mail=' + mail).then(function (uRes) {
+                return uRes.data.id;
+            }, function () {
+                return Error.emit(res, 500, '500 - Buckutt server error', 'Get id from email failed');
+            }).then(function (id) {
                 rest.put('users/' + id, {
                     password: hash
-                }).success(function () {
+                }).then(function () {
                     res.json({
                         status: 200
                     });
-                }).error(function () {
+                }, function () {
                     return Error.emit(res, 500, '500 - Buckutt server error', 'Password change failed');
                 })
-            }).error(function () {
-                return Error.emit(res, 500, '500 - Buckutt server error', 'Get id from email failed');
-            });
+            })
         });
     };
 };

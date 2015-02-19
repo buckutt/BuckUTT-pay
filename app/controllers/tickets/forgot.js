@@ -14,7 +14,8 @@ module.exports = function (db, config) {
         var pdf    = require('../../lib/pdf');
 
         // Get username from mail
-        rest.get('users?mail=' + req.params.mail).success(function (user) {
+        rest.get('users?mail=' + req.params.mail).then(function (uRes) {
+            var user = uRes.data;
             if (!user) {
                 return Error.emit(res, 400, '400 - Bad Request', 'No mail');
             }

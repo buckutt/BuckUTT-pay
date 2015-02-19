@@ -6,6 +6,7 @@
 
 var crypto  = require('crypto');
 var bcrypt  = require('bcryptjs');
+var Promise = require('bluebird');
 
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
@@ -24,77 +25,92 @@ module.exports = function (db, config) {
         // username is a positive number => auth with card number
         if (!Number.isPositiveNumeric(username)) {
             // Auth with email
-            rest.get('users?mail=' + username).success(function (data) {
-                goAhead(data, checkPassword);
-            }).error(function () {
-                return Error.emit(res, 500, '500 - Buckutt server error', 'Mail failed');
+            rest.get('users?mail=' + username)
+            .then(function (uRes) {
+                return uRes.data;
+            })
+            .then(checkPassword)
+            .then(getTickets)
+            .then(checkIfFundationAccount)
+            .then(checkIfAdmin)
+            .catch(function () {
+                return Error.emit(res, 500, '500 - Buckutt server error', 'Mail auth failed');
             });
         } else {
             // First get the user id (via its meanoflogin)
-            rest.get('meanofloginsusers?data=' + username).success(function (data) {
-                goAhead(data, function (data) {
+            rest.get('meanofloginsusers?data=' + username)
+            .then(function (mRes) {
+                return mRes.data.data;
+            })
+            .then(function (mol) {
+                return new Promise(function (resolve, reject) {
                     // Then auth with userid
-                    rest.get('users?id=' + data.UserId).success(function (data) {
-                        goAhead(data, checkPassword);
-                    }).error(function () {
-                        return Error.emit(res, 500, '500 - Buckutt server error', 'User data after etu card failed');
-                    });
+                    rest.get('users?id=' + mol.UserId).then(function (uRes) {
+                        req.wantedUser = uRes.data.data;
+                        resolve(uRes.data.data);
+                    }, reject);
                 });
-            }).error(function () {
-                return Error.emit(res, 500, '500 - Buckutt server error', 'Etu card number failed');
+            })
+            .then(checkPassword)
+            .then(getTickets)
+            .then(checkIfFundationAccount)
+            .then(checkIfAdmin)
+            .catch(function (err) {
+                if (err === 'bcrypt') {
+                    return Error.emit(res, 401, '401 - Invalid username/password');
+                }
+                return Error.emit(res, 500, '500 - Buckutt server error');
+            })
+        }
+
+        /**
+         * Checks if the passwords matches
+         * @param  {object}   
+         * @return {function} Bluebird instance
+         */
+        /**
+         * Checks if the passwords matches
+         * @param  {object} wantedUser [description]
+         * @return {[type]}            [description]
+         */
+        function checkPassword (wantedUser) {
+            return new Promise(function (resolve, reject) {
+                var t = bcrypt.compareSync(req.form.password, wantedUser.password);
+                if (bcrypt.compareSync(req.form.password, wantedUser.password)) {
+                    req.user = wantedUser;
+
+                    req.user.firstname = req.user.firstname.nameCapitalize();
+                    req.user.lastname  = req.user.lastname.nameCapitalize();
+                    resolve();
+                } else {
+                    reject('bcrypt');
+                }
             });
-        }
-
-        /**
-         * Callback wrapper
-         * @param  {object}   data Data to pass to next callback
-         * @param  {Function} next Callback
-         */
-        function goAhead (data, next) {
-            if (data === null) {
-                return Error.emit(res, 401, '401 - Invalid username/password');
-            }
-            next(data);
-        }
-
-        /**
-         * Checks if the passwords matches and call getTickets
-         * @param  {object} data User data
-         */
-        function checkPassword (data) {
-            if (bcrypt.compareSync(req.form.password, data.password)) {
-                req.user = data;
-
-                req.user.firstname = req.user.firstname.nameCapitalize();
-                req.user.lastname  = req.user.lastname.nameCapitalize();
-
-                getTickets();
-            } else {
-                return Error.emit(res, 401, '401 - Invalid username/password');
-            }
         }
 
         /**
          * Gets the user tickets and call checkIfFundationAccount
          */
         function getTickets () {
-            db.Ticket.findAll({
-                where: {
-                    username: req.user.id
-                }
-            }).done(function (err, tickets) {
-                if (err) {
-                    return Error.emit(res, 500, '500 - SQL Server error', err);
-                }
+            return new Promise(function (resolve, reject) {
+                db.Ticket.findAll({
+                    where: {
+                        username: req.user.id
+                    }
+                }).done(function (err, tickets) {
+                    if (err) {
+                        reject(err);
+                    }
 
-                var realTickets = [];
-                tickets.forEach(function (ticket) {
-                    realTickets.push(ticket.dataValues);
+                    var realTickets = [];
+                    tickets.forEach(function (ticket) {
+                        realTickets.push(ticket.dataValues);
+                    });
+
+                    req.user.tickets = realTickets;
+
+                    resolve();
                 });
-
-                req.user.tickets = realTickets;
-
-                checkIfFundationAccount();
             });
         }
 
@@ -102,28 +118,35 @@ module.exports = function (db, config) {
          * Checks if the user is an account user (with fund_user right) and call checkIfAdmin
          */
         function checkIfFundationAccount () {
-            rest.get('users/' + req.user.id + '/rights').success(function (rights) {
-                if (!rights || rights.length === 0) {
-                    return checkIfAdmin(rights);
-                }
-
-                rights.forEach(function (right) {
-                    if (right.name === 'fund_user') {
-                        req.user.fundation = {
-                            id: right.UsersRights.FundationId
-                        };
-
-                        // Récupérer le nom de l'asso
-                        rest.get('fundations/' + right.UsersRights.FundationId).success(function (fundationData) {
-                            req.user.fundation.name = fundationData.name;
-                            checkIfAdmin(rights);
-                        }).error(function () {
-                            return Error.emit(res, 500, '500 - Buckutt server error', 'Fundation failed');
-                        });
+            return new Promise(function (resolve, reject) {
+                rest.get('users/' + req.user.id + '/rights').then(function (uRes) {
+                    var rights = uRes.data.data;
+                    if (!rights || rights.length === 0) {
+                        resolve(rights);
                     }
-                });
-            }).error(function () {
-                return Error.emit(res, 500, '500 - Buckutt server error', 'Rights failed');
+
+                    var work = false;
+                    rights.forEach(function (right) {
+                        if (right.name === 'fund_chef') {
+                            req.user.fundation = {
+                                id: right.UsersRights.FundationId
+                            };
+
+                            // Récupérer le nom de l'asso
+                            work = true;
+                            rest.get('fundations/' + right.UsersRights.FundationId).then(function (fRes) {
+                                req.user.fundation.name = fRes.data.data.name;
+                                resolve(rights);
+                            }, function () {
+                                reject()
+                            });
+                        }
+                    });
+
+                    if (!work) {
+                        resolve(rights);
+                    }
+                }, reject);
             });
         }
 

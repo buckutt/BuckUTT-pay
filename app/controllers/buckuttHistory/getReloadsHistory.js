@@ -9,9 +9,9 @@ module.exports = function (db, config) {
     var rest   = require('../../lib/rest')(config, logger);
 
     return function (req, res) {
-        rest.get('reloads?buyerid=' + req.user.id + '&embed=point').success(function (data) {
+        rest.get('reloads?buyerid=' + req.user.id + '&embed=point').then(function (rRes) {
             var reloads = [];
-            data.forEach(function (reloadData) {
+            rRes.data.data.forEach(function (reloadData) {
                 var newReload = {
                     date: reloadData.date,
                     price: reloadData.credit / 100,
@@ -22,7 +22,7 @@ module.exports = function (db, config) {
             });
 
             res.json(reloads);
-        }).error(function () {
+        }, function () {
             Error.emit(res, 500, '500 - Buckutt server error', 'Get reloads');
         });
     };

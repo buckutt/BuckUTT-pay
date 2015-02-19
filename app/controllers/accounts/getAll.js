@@ -8,15 +8,6 @@ module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
     var rest   = require('../../lib/rest')(config, logger);
 
-    function getDisplayName (id, callback) {
-        rest.get('users/' + id).success(function (user) {
-            callback(user.firstname.nameCapitalize() + ' ' + user.lastname.nameCapitalize());
-        }).error(function () {
-            Error.emit(res, 500, '500 - Buckutt server error', 'Get mail');
-            callback(false);
-        });
-    }
-
     return function (req, res) {
         db.Account.findAll({
             where: {
@@ -36,7 +27,13 @@ module.exports = function (db, config) {
             var sentAccounts = [];
 
             accounts.forEach(function (account, i) {
-                getDisplayName(account.username, function (displayName) {
+                rest.get('users/' + account.username).then(function (uRes) {
+                    return uRes.data.data.firstname.nameCapitalize() + ' '
+                         + uRes.data.data.lastname.nameCapitalize();
+                }, function () {
+                    Error.emit(res, 500, '500 - Buckutt server error', 'Get mail');
+                    return false;
+                }).then(function (displayName) {
                     if (!displayName) {
                         return;
                     }

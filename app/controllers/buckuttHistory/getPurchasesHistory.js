@@ -11,9 +11,9 @@ module.exports = function (db, config) {
     return function (req, res) {
         var url = 'purchases?buyerid=' + req.user.id +
                   '&embed=article,point,seller'
-        rest.get(url).success(function (data) {
+        rest.get(url).then(function (pRes) {
             var purchases = [];
-            data.forEach(function (purchaseData) {
+            pRes.data.data.forEach(function (purchaseData) {
                 var newPurchase = {
                     date: purchaseData.date,
                     price: purchaseData.price / 100,
@@ -28,7 +28,7 @@ module.exports = function (db, config) {
             });
 
             res.json(purchases);
-        }).error(function () {
+        }, function () {
             Error.emit(res, 500, '500 - Buckutt server error', 'Get purchases');
         });
     };

@@ -11,9 +11,9 @@ module.exports = function (db, config) {
     return function (req, res) {
         rest.put('users/' + req.user.id, {
             isRemoved: true
-        }).success(function (data) {
+        }).then(function () {
             res.end();
-        }).error(function () {
+        }, function () {
             Error.emit(res, 500, '500 - Buckutt server error', 'isRemoved failed');
         });
     };

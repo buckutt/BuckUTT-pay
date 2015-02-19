@@ -14,13 +14,13 @@ module.exports = function (db, config) {
         /**
          * Step 1 - Checks if email exists
          */
-        rest.get('users/?mail=' + req.params.mail).success(function (data) {
+        rest.get('users?mail=' + req.params.mail).then(function (uRes) {
             if (!data) {
                 return Error.emit(res, 401, '401 - Unauthorized', 'Mail not found');
             }
 
             generateToken();
-        }).error(function () {
+        }, function () {
             Error.emit(res, 500, '500 - Buckutt server error', 'Mail fail');
         });
 
