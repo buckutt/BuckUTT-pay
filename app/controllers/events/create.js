@@ -48,10 +48,8 @@ module.exports = function (db, config) {
                 isRemoved: false,
                 FundationId: form.fundationId
             }).then(function (aRes) {
-                console.log(aRes.data);
                 req.currentArticle = aRes.data.data;
             }).then(function () {
-                console.log(req.currentArticle);
                 return rest.post('articlespoints', {
                     priority: 0,
                     isRemoved: false,
@@ -63,7 +61,7 @@ module.exports = function (db, config) {
                     priority: 0,
                     isRemoved: false,
                     ArticleId: req.currentArticle.id,
-                    PointId: 1
+                    PointId: 2
                 });
             }).then(function () {
                 return rest.post('periods', {
@@ -73,24 +71,27 @@ module.exports = function (db, config) {
                     isRemoved: true,
                     FundationId: form.fundationId
                 });
-            }).then(function () {
+            }).then(function (pReq) {
+                req.periodId = pReq.data.data.id;
                 return rest.post('prices', {
-                    credit: form.priceEtuCottPresale,
+                    credit: form.priceEtuCottPresale * 10,
                     isRemoved: 0,
                     ArticleId: req.currentArticle.id,
-                    GroupId: 1
+                    GroupId: 1,
+                    PeriodId: req.periodId
                 });
             }).then(function () {
                 return rest.post('prices', {
-                    credit: form.priceEtuCott,
+                    credit: form.priceEtuCott * 10,
                     isRemoved: 0,
                     ArticleId: req.currentArticle.id,
-                    GroupId: 1
+                    GroupId: 1,
+                    PeriodId: req.periodId
                 });
             }).then(function () {
                 if (form.priceEtuPresaleActive) {
                     return rest.post('prices', {
-                        credit: form.priceEtuPresale,
+                        credit: form.priceEtuPresale * 10,
                         isRemoved: 0,
                         ArticleId: req.currentArticle.id,
                         GroupId: 5
@@ -99,7 +100,7 @@ module.exports = function (db, config) {
             }).then(function () {
                 if (form.priceEtuActive) {
                     return rest.post('prices', {
-                        credit: form.priceEtu,
+                        credit: form.priceEtu * 10,
                         isRemoved: 0, ArticleId: req.currentArticle.id, GroupId: 5
                     });
                 }
@@ -120,7 +121,6 @@ module.exports = function (db, config) {
                         if (err.name === 'SequelizeUniqueConstraintError') {
                             return Error.emit(res, 400, '400 - Duplicate event');
                         }
-                        console.dir(err);
                         return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                     }
 
