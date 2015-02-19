@@ -98,6 +98,7 @@ function Log () {
      */
     this.error = function (msg) {
         this.write('err', msg);
+        console.trace();
     };
 };
 
