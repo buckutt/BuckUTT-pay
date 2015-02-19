@@ -18,7 +18,7 @@ module.exports = function (db) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error ', err.toString());
         }
-    
+
         db.Event.create({
             name: 'R2D A2015',
             picture: 'gala2015.png',
