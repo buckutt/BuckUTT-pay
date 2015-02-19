@@ -12,7 +12,8 @@ module.exports = function (db) {
         date: new Date(2015, 5, 20, 20, 0, 0),
         maximumTickets: 3600,
         opened: true,
-        fundationId: 1
+        fundationId: 1,
+        backendId: 1
     }).complete(function (err) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error ', err.toString());
@@ -25,7 +26,8 @@ module.exports = function (db) {
             date: new Date(2015, 5, 20, 20, 0, 0),
             maximumTickets: 1600,
             opened: false,
-            fundationId: 1
+            fundationId: 1,
+            backendId: 1
         }).complete(function (err) {
             if (err) {
                 Error.emit(null, 500, '500 - SQL Server error', err.toString());

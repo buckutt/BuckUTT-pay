@@ -46,6 +46,11 @@ module.exports = function (sequelize, DataTypes) {
         fundationId: {
             type: DataTypes.INTEGER(10).UNSIGNED,
             allowNull: false
+        },
+
+        backendId: {
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: false
         }
     }, {
         underscored: true,
