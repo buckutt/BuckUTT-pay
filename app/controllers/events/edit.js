@@ -10,6 +10,7 @@ var moment = require('moment');
 
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
+    var rest   = require('../../lib/rest')(config, logger);
 
     /**
      * Gets the file extension
@@ -59,6 +60,7 @@ module.exports = function (db, config) {
                     if (err.name === 'SequelizeUniqueConstraintError') {
                         return Error.emit(res, 400, '400 - Duplicate event');
                     }
+                    console.dir(err);
                     return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                 }
 
@@ -82,12 +84,31 @@ module.exports = function (db, config) {
                     event[k] = form[k];
                 });
 
-                event.save().complete(function (err) {
+                event.save().complete(function (err, savedEvent) {
                     if (err) {
                         return Error.emit(res, 500, '500 - SQL Server error', err.toString());
                     }
-                    res.json({
-                        status: 200
+                    // Update article name in back-end
+                    rest.put('articles/' + savedEvent.backendId, {
+                        name: savedEvent.name
+                    }).then(function (aRes) {
+                        // Can't get directly period id (articleid in Prices => PeriodId of price)
+                        var articleId = savedEvent.backendId;
+                        console.log(articleId);
+                        return rest.get('prices?ArticleId=' + articleId);
+                    }).then(function (prRes) {
+                        var prices = prRes.data.data;
+                        // Take the first price to get the PeriodId (unique periodid for all prices)
+                        return rest.put('periods/' + prices[0].PeriodId, {
+                            name: 'Ventes pay - ' + savedEvent.name,
+                            isRemoved: !savedEvent.opened
+                        });
+                    }).then(function () {
+                        res.json({
+                            status: 200
+                        });
+                    }).catch(function (err) {
+                        console.dir(err);
                     });
                 });
             });
