@@ -23,7 +23,8 @@ pay.factory('FormValidator', [function () {
             // Input validation
             var $invalids = $('.ng-pristine, .ng-invalid', form);
             var emptyForms = $invalids.filter(function () {
-                if ($(this).is(':visible') === false) {
+                var $self = $(this);
+                if ($self.is(':visible') === false || $self.attr('useless-validation') !== undefined) {
                     return false;
                 }
                 return this.value.length === 0;

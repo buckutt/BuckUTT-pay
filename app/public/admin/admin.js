@@ -50,20 +50,30 @@ pay.controller('Admin', [
         $scope.fileInfo = null;
         $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4} [0-2][0-9]?:[0-5]?[0-9]$/;
 
-        // Activate the datepicker, and ng-validate when the date changes
-        $('.date').datetimepicker().on('dp.change', function () {
-            var $self = $(this).children().first();
-            $timeout(function () {
-                $self.data().$ngModelController.$setViewValue($self.val());
-            }, 0);
-        });
+        /**
+         * Called when the ng-if has been evaluted
+         */
+        this.activateDate = function () {
+            // Activate the datepicker, and ng-validate when the date changes
+            $('.date').datetimepicker().on('dp.change', function () {
+                var $self = $(this).children().first();
+                $timeout(function () {
+                    $self.data().$ngModelController.$setViewValue($self.val());
+                }, 0);
+            });
+        };
 
-        // Updates the input text with the input file name
-        $('input[type=file]').on('change', function (e) {
-            if (this.files.length === 1) {
-                $(this).parent().parent().next().val(this.files[0].name);
-            }
-        });
+        /**
+         * Called when the ng-if has been evaluated
+         */
+        this.activateFile = function () {
+            // Updates the input text with the input file name
+            $('input[type=file]').on('change', function (e) {
+                if (this.files.length === 1) {
+                    $(this).parent().parent().next().val(this.files[0].name);
+                }
+            });
+        };
 
         /**
          * Creates a event
