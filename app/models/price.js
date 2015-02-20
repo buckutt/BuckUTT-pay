@@ -21,6 +21,11 @@ module.exports = function (sequelize, DataTypes) {
         price: {
             type: DataTypes.DECIMAL(5, 2),
             allowNull: false
+        },
+
+        backendId: {
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: false
         }
 
         // Association with Event
