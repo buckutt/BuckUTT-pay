@@ -20,14 +20,21 @@ module.exports = function (db, config) {
                 return Error.emit(res, 500, '500 - SQL Server error', err.toString());
             }
 
-            var oldPrice = req.form.price * 10;
             price.price = req.form.price;
             price.save().complete(function (saveErr) {
                 if (saveErr) {
                     return Error.emit(res, 500, '500 - SQL Server error', saveErr.toString());
                 }
 
-                res.json(req.form);
+                // Update prices
+                rest.put('prices/' + price.backendId, {
+                    credit: req.form.price * 100
+                }).then(function (prRes) {
+                    res.json(req.form);
+                }).catch(function (err) {
+                    console.dir(err);
+                    Error.emit(res, 500, '500 - Buckutt server error', 'update prices');
+                });
             });
         });
     };
