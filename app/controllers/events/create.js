@@ -28,10 +28,6 @@ module.exports = function (db, config) {
 
         var buffer = new Buffer(data, 'base64');
 
-        var classicError = function () {
-            Error.emit(res, 500, '500 - Buckutt server error', this);
-        };
-
         var opath = path.resolve(process.cwd() + '/app/public/static/img/upload');
         var oname = form.name.replace(/\W+/ig, '-') + '.' + ext;
         opath = (opath + '/' + oname.toLowerCase());
@@ -39,6 +35,8 @@ module.exports = function (db, config) {
             if (err) {
                 return Error.emit(res, 500, '500 - Cannot write file', err.toString());
             }
+
+            req.ids = {};
 
             rest.post('articles', {
                 name: form.name,
@@ -80,7 +78,8 @@ module.exports = function (db, config) {
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
-            }).then(function () {
+            }).then(function (prResEtuCottPresale) {
+                req.ids.etuCottPresale = prResEtuCottPresale.data.data.id;
                 return rest.post('prices', {
                     credit: form.priceEtuCott * 10,
                     isRemoved: 0,
@@ -88,7 +87,8 @@ module.exports = function (db, config) {
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
-            }).then(function () {
+            }).then(function (prResEtuCott) {
+                req.ids.etuCott = prResEtuCott.data.data.id;
                 if (form.priceEtuPresaleActive) {
                     return rest.post('prices', {
                         credit: form.priceEtuPresale * 10,
@@ -97,14 +97,22 @@ module.exports = function (db, config) {
                         GroupId: 5
                     });
                 }
-            }).then(function () {
+            }).then(function (prResEtuPresale) {
+                if (form.priceEtuPresaleActive) {
+                    req.ids.etuPresale = prResEtuPresale.data.data.id;
+                }
                 if (form.priceEtuActive) {
                     return rest.post('prices', {
                         credit: form.priceEtu * 10,
                         isRemoved: 0, ArticleId: req.currentArticle.id, GroupId: 5
                     });
                 }
+            }).then(function (prResEtu) {
+                if (form.priceEtuActive) {
+                    req.ids.etu = prResEtu.data.data.id;
+                }
             }).catch(function (err) {
+                console.dir(err);
                 Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }).then(function () {
                 return db.Event.create({
@@ -136,7 +144,8 @@ module.exports = function (db, config) {
                     // Price Etu cott in presale :
                     db.Price.create({
                         name: form.name + ' - Prix étudiant cottisant en prévente',
-                        price: form.priceEtuCottPresale
+                        price: form.priceEtuCottPresale,
+                        backendId: req.ids.etuCottPresale
                     }).complete(function (err, priceEtuCottPresale) {
                         if (err) {
                             return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -147,7 +156,8 @@ module.exports = function (db, config) {
                     // Price Etu cott not in presale :
                     db.Price.create({
                         name: form.name + ' - Prix étudiant cottisant hors prévente',
-                        price: form.priceEtuCott
+                        price: form.priceEtuCott,
+                        backendId: req.ids.etuCott
                     }).complete(function (err, priceEtuCott) {
                         if (err) {
                             return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -159,7 +169,8 @@ module.exports = function (db, config) {
                     if (form.priceEtuPresaleActive) {
                         db.Price.create({
                             name: form.name + ' - Prix étudiant non-cottisant en prévente',
-                            price: form.priceEtuPresale
+                            price: form.priceEtuPresale,
+                            backendId: req.ids.etuPresale
                         }).complete(function (err, priceEtuPresale) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -172,7 +183,8 @@ module.exports = function (db, config) {
                     if (form.priceEtuActive) {
                         db.Price.create({
                             name: form.name + ' - Prix étudiant non-cottisant hors prévente',
-                            price: form.priceEtu
+                            price: form.priceEtu,
+                            backendId: req.ids.etu
                         }).complete(function (err, priceEtu) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
