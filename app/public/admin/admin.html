@@ -23,7 +23,7 @@
                 <h4 ng-repeat="event in eventsSeller">
                     <a href="#/admin/event/{{ event.id }}">{{ event.name }}</a>
                 </h4>
-                <div ng-if="events.length === 0">
+                <div ng-if="eventsSeller.length === 0">
                     Aucune place d'événement à vendre.
                 </div>
             </div>
