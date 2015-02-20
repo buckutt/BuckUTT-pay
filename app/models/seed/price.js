@@ -7,7 +7,8 @@
 module.exports = function (db) {
     db.Price.create({
         name: 'Gala 2015 - Prix étudiant cottisant en prévente',
-        price: 25.0
+        price: 25.0,
+        backendId: 0
     }).complete(function (err, priceGalaEtuCotisant) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -15,7 +16,8 @@ module.exports = function (db) {
 
         db.Price.create({
             name: 'Gala 2015 - Prix étudiant cottisant hors prévente',
-            price: 25.0
+            price: 25.0,
+            backendId: 0
         }).complete(function (err, priceGalaEtu) {
             if (err) {
                 Error.emit(null, 500, '500 - SQL Server error', err.toString());
