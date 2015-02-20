@@ -275,6 +275,7 @@ pay.controller('AdminEvent', [
         this.changePrices = function (e) {
             e.preventDefault();
             ParsePrices.toEvent($scope.currentEvent, $scope.newPrices);
+            $('#modalPrices').modal('hide');
         };
 
         /**
