@@ -72,7 +72,7 @@ module.exports = function (db, config) {
             }).then(function (pReq) {
                 req.periodId = pReq.data.data.id;
                 return rest.post('prices', {
-                    credit: form.priceEtuCottPresale * 10,
+                    credit: form.priceEtuCottPresale * 100,
                     isRemoved: 0,
                     ArticleId: req.currentArticle.id,
                     GroupId: 1,
@@ -81,7 +81,7 @@ module.exports = function (db, config) {
             }).then(function (prResEtuCottPresale) {
                 req.ids.etuCottPresale = prResEtuCottPresale.data.data.id;
                 return rest.post('prices', {
-                    credit: form.priceEtuCott * 10,
+                    credit: form.priceEtuCott * 100,
                     isRemoved: 0,
                     ArticleId: req.currentArticle.id,
                     GroupId: 1,
@@ -91,7 +91,7 @@ module.exports = function (db, config) {
                 req.ids.etuCott = prResEtuCott.data.data.id;
                 if (form.priceEtuPresaleActive) {
                     return rest.post('prices', {
-                        credit: form.priceEtuPresale * 10,
+                        credit: form.priceEtuPresale * 100,
                         isRemoved: 0,
                         ArticleId: req.currentArticle.id,
                         GroupId: 5
@@ -103,7 +103,7 @@ module.exports = function (db, config) {
                 }
                 if (form.priceEtuActive) {
                     return rest.post('prices', {
-                        credit: form.priceEtu * 10,
+                        credit: form.priceEtu * 100,
                         isRemoved: 0, ArticleId: req.currentArticle.id, GroupId: 5
                     });
                 }
@@ -113,7 +113,7 @@ module.exports = function (db, config) {
                 }
             }).catch(function (err) {
                 console.dir(err);
-                Error.emit(null, 500, '500 - SQL Server error', err.toString());
+                Error.emit(res, 500, '500 - Buckutt server error', 'Create prices');
             }).then(function () {
                 return db.Event.create({
                     name: form.name,
