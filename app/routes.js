@@ -77,7 +77,7 @@ module.exports = function (router, db, config) {
     router.route('/events/:eventId/prices/:priceId')
         // Updates an event price
         .post(
-            auth.isInEvent("admin"),
+            auth.isInEvent('admin'),
             validators.editPrice,
             controllers.events.editPrice
         );
@@ -153,10 +153,13 @@ module.exports = function (router, db, config) {
             controllers.domains.remove
         );
 
-    // Bank Price
+    ////////////////
+    // Bank Price //
+    ////////////////
+
     router.route('/bankPrice/')
         .get(
-            auth.isSuperAdmin,
+            auth.isAuth,
             controllers.bankPrice.get
         )
         .post(
