@@ -94,7 +94,6 @@ module.exports = function (db, config) {
                     }).then(function (aRes) {
                         // Can't get directly period id (articleid in Prices => PeriodId of price)
                         var articleId = savedEvent.backendId;
-                        console.log(articleId);
                         return rest.get('prices?ArticleId=' + articleId);
                     }).then(function (prRes) {
                         var prices = prRes.data.data;
