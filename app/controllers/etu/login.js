@@ -22,8 +22,8 @@ module.exports = function (db, config) {
 
         logger.info('Asking axel back end with : ' + username + '/' + password);
 
-        // username is a positive number => auth with card number
-        if (!Number.isPositiveNumeric(username)) {
+        // username is a positive number and not login etu => auth with card number
+        if (!Number.isPositiveNumeric(username) && !/^\w[\w_]+\d?$/i.test(username)) {
             // Auth with email
             rest.get('users?mail=' + username)
             .then(function (uRes) {
@@ -38,6 +38,7 @@ module.exports = function (db, config) {
             });
         } else {
             // First get the user id (via its meanoflogin)
+            // can be carte etu number or login
             rest.get('meanofloginsusers?data=' + username)
             .then(function (mRes) {
                 return mRes.data.data;
@@ -60,7 +61,7 @@ module.exports = function (db, config) {
                     return Error.emit(res, 401, '401 - Invalid username/password');
                 }
                 return Error.emit(res, 500, '500 - Buckutt server error');
-            })
+            });
         }
 
         /**
