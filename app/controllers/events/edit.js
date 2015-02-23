@@ -101,6 +101,7 @@ module.exports = function (db, config) {
                         // Take the first price to get the PeriodId (unique periodid for all prices)
                         return rest.put('periods/' + prices[0].PeriodId, {
                             name: 'Ventes pay - ' + savedEvent.name,
+                            endDate: moment(new Date(savedEvent.date)).add(1, 'd').toDate(),
                             isRemoved: !savedEvent.opened
                         });
                     }).then(function () {
