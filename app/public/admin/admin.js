@@ -96,9 +96,7 @@ pay.controller('Admin', [
                 newEventData.date = moment(newEventData.date, 'DD/MM/YYYY HH:mm').toDate();
                 newEventData.fundationId = $scope.fundation.id;
                 var newEvent = new Event(newEventData);
-                newEvent.$save(function (res) {
-                    location.hash = '/admin/event/' + res.id
-                }, function (res) {
+                newEvent.$save(function () {}, function (res) {
                     // Request entity too large => file size too large
                     if (res.status === 413) {
                         Error('Erreur', 16);
