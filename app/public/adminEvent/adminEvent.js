@@ -7,16 +7,18 @@
 pay.controller('AdminEvent', [
     '$scope',
     '$timeout',
+    '$filter',
     '$routeParams',
     '$http',
     'ParsePrices',
     'PayAuth',
     'Event',
     'Account',
+    'BankPrice',
     'EventTickets',
     'FormValidator',
     'Error',
-    function ($scope, $timeout, $routeParams, $http, ParsePrices, PayAuth, Event, Account, EventTickets, FormValidator, Error) {
+    function ($scope, $timeout, $filter, $routeParams, $http, ParsePrices, PayAuth, Event, Account, BankPrice, EventTickets, FormValidator, Error) {
         if (!PayAuth.needUser()) { return; }
 
         var eventId = $routeParams.eventId;
@@ -160,6 +162,23 @@ pay.controller('AdminEvent', [
 
             // Amount of paid tickets
             $scope.paidTickets = tickets.length - $scope.ticketsNotPaid.length;
+
+            // Tickets bought with card
+            $scope.ticketsByCard = tickets.filter(function (ticket) {
+                return ticket.paid_with !== 'card';
+            });
+
+            // Bank cost
+            BankPrice.get(function (data) {
+                var bankPrice = data.bankPrice;
+                var bdeCost = $scope.ticketsByCard.length * bankPrice / 100;
+                bdeCost = $filter('currency')(bdeCost, '€', 2);
+                // Handles "(€XX.XX)" (ie. negative sold)
+                bdeCost = bdeCost.replace(/^\(€(.*)\)$/i, '-$1€');
+                // Handles "€XX.XX" (ie. positive sold)
+                bdeCost = bdeCost.replace(/^€(.*)$/i, '$1€');
+                $scope.bdeCost = bdeCost;
+            });
         });
 
         Account.query({
