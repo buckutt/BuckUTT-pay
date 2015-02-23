@@ -31,6 +31,6 @@ module.exports = function (config, logger) {
         get: maker.bind('get'),
         post: maker.bind('post'),
         put: maker.bind('put'),
-        delete: maker.bind('delete')
+        delete: maker.bind('del')
     };
 };
