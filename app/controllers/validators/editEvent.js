@@ -39,5 +39,10 @@ module.exports = form(
     field('opened')
         .trim()
         .required()
+        .toBoolean(),
+
+    field('bdeCard')
+        .trim()
+        .required()
         .toBoolean()
 );

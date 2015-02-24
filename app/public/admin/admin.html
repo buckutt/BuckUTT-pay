@@ -58,6 +58,14 @@
                               ng-required="true"></textarea>
                 </div>
                 <div>
+                    <input type="checkbox" name="bdeCard" id="bdeCard" class="customCheckbox"
+                           ng-model="newEvent.bdeCard"
+                           ng-require="true">
+                    <label for="bdeCard">
+                        Cartes BDE
+                    </label>
+                </div>
+                <div>
                     <input type="number" name="maximumTickets" class="form-control" placeholder="Nombre maximum de places"
                            min="0" max="10000"
                            ng-model="newEvent.maximumTickets"

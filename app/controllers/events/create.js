@@ -122,6 +122,7 @@ module.exports = function (db, config) {
                     date: new Date(form.date),
                     maximumTickets: form.maximumTickets,
                     opened: false,
+                    bdeCard: form.bdeCard,
                     fundationId: form.fundationId,
                     backendId: req.currentArticle.id
                 }).complete(function (err, newEvent) {

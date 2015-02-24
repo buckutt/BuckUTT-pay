@@ -27,6 +27,11 @@ module.exports = form(
         .required()
         .is(/[0-9]{1,4}/),
 
+    field('bdeCard')
+        .trim()
+        .required()
+        .toBoolean(),
+
     field('image')
         .trim()
         .required()

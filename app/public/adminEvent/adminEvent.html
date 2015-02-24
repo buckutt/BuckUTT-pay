@@ -44,6 +44,14 @@
                                    ng-required="true">
                         </div>
                         <div>
+                            <input type="checkbox" name="bdeCard" id="bdeCard" class="customCheckbox"
+                                   ng-model="currentEvent.bdeCard"
+                                   ng-require="true">
+                            <label for="bdeCard">
+                                Cartes BDE
+                            </label>
+                        </div>
+                        <div>
                             <input type="checkbox" name="opened" id="opened" class="customCheckbox"
                                    ng-model="currentEvent.opened"
                                    ng-require="true">
@@ -293,6 +301,7 @@
                                 <td class="cross"
                                     data-admin
                                     data-index="$index"
+                                    ng-if="!$first"
                                     ng-click="adminEvent.removeAccount($event, admin[2])">&times;</td>
                             </tr>
                         </tbody>
