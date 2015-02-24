@@ -1,6 +1,6 @@
 <div id="loginController" ng-controller="Login as login">
     <div class="loginForm">
-            <form class="form-inline" ng-submit="login.authUser($event)">
+            <form class="form-inline" ng-submit="login.authUser($event)" autocomplete="off">
                 <input type="text" id="username" class="form-control" placeholder="Nom d'utilisateur">
                 <input type="password" id="password" class="form-control" placeholder="Mot de passe">
                 <input type="submit" class="btn btn-success" ng-click="login.authUser($event)">
