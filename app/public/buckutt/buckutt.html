@@ -78,7 +78,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="(i, action) in history" ng-click="buckutt.expand($event, i)">
+                            <tr ng-repeat="(i, action) in visibleHistory" ng-click="buckutt.expand($event, i)">
                                 <td>
                                     <div class="visible">
                                         {{ action.name }}
@@ -103,6 +103,17 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="panelMore" class="panel panel-default">
+                <h4>
+                    <a href="#" ng-click="buckutt.loadMore($event)">
+                        Afficher plus d'entrées
+                    </a>
+                </h4>
             </div>
         </div>
     </div>

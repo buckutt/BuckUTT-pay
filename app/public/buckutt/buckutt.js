@@ -16,6 +16,9 @@ pay.controller('Buckutt', [
 
         $scope.isRemoved = PayAuth.etu.isRemoved;
 
+        var spyStep         = 20;
+        var spyActualLength = 20;
+
         $scope.history = [];
 
         Reloads.query(function (reloads) {
@@ -79,10 +82,22 @@ pay.controller('Buckutt', [
             $scope.sold = $scope.sold.replace(/^\(€(.*)\)$/i, '-$1€');
             // Handles "€XX.XX" (ie. positive sold)
             $scope.sold = $scope.sold.replace(/^€(.*)$/i, '$1€');
+
+            $scope.visibleHistory = $scope.history.slice(0, spyStep);
         });
 
         /**
-         * Expand an action in the history
+         * Loads more entries to the history
+         * @param {object} e The click event
+         */
+        this.loadMore = function (e) {
+            e.preventDefault();
+            spyActualLength += spyStep;
+            $scope.visibleHistory = $scope.history.slice(0, spyActualLength);
+        };
+
+        /**
+         * Expands an action in the history
          * @param  {object} e     The click event
          * @param  {number} index The index of the action in the history
          */

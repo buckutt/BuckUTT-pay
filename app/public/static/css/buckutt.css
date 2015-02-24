@@ -27,3 +27,13 @@ table tbody tr {
 .infos p {
     margin-top: 10px;
 }
+
+/* More panel */
+#panelMore {
+  min-height: 0;
+}
+
+#panelMore h4 {
+  text-align: center;
+  margin: 20px 0;
+}
