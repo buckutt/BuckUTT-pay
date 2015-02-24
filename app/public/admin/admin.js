@@ -18,32 +18,38 @@ pay.controller('Admin', [
         $scope.isAdmin = PayAuth.etu.isAdmin === true;
         $scope.fundation = PayAuth.etu.fundation;
 
-        // Shows events list
-        Event.query(function (events) {
-            var keptEvents = [];
-            var keptEventsSeller = [];
-            $http.get('/api/accounts/' + PayAuth.etu.id).then(function (data) {
-                data.data.forEach(function (account) {
-                    events.forEach(function (event) {
-                        if (event.id === account.event) {
-                            if (PayAuth.etu.isAdmin) {
-                                keptEvents.push(event);
-                                keptEventsSeller.push(event);
-                            } else if (account.admin) {
-                                keptEvents.push(event);
-                            } else {
-                                keptEventsSeller.push(event);
+        /**
+         * Show events list
+         */
+        function getEventsListsWithAccounts () {
+            Event.query(function (events) {
+                var keptEvents = [];
+                var keptEventsSeller = [];
+                $http.get('/api/accounts/' + PayAuth.etu.id).then(function (data) {
+                    data.data.forEach(function (account) {
+                        events.forEach(function (event) {
+                            if (event.id === account.event) {
+                                if (PayAuth.etu.isAdmin) {
+                                    keptEvents.push(event);
+                                    keptEventsSeller.push(event);
+                                } else if (account.admin) {
+                                    keptEvents.push(event);
+                                } else {
+                                    keptEventsSeller.push(event);
+                                }
                             }
-                        }
+                        });
                     });
+                }, function () {
+                    Error('Erreur', 0);
                 });
-            }, function () {
-                Error('Erreur', 0);
-            });
 
-            $scope.events = keptEvents;
-            $scope.eventsSeller = keptEventsSeller;
-        });
+                $scope.events = keptEvents;
+                $scope.eventsSeller = keptEventsSeller;
+            });
+        }
+
+        getEventsListsWithAccounts();
 
         // Model for the new event
         $scope.newEvent = {};
@@ -96,7 +102,9 @@ pay.controller('Admin', [
                 newEventData.date = moment(newEventData.date, 'DD/MM/YYYY HH:mm').toDate();
                 newEventData.fundationId = $scope.fundation.id;
                 var newEvent = new Event(newEventData);
-                newEvent.$save(function () {}, function (res) {
+                newEvent.$save(function () {
+                    getEventsListsWithAccounts();
+                }, function (res) {
                     // Request entity too large => file size too large
                     if (res.status === 413) {
                         Error('Erreur', 16);
