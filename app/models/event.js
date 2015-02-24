@@ -43,6 +43,12 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
 
+        bdeCard: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+
         fundationId: {
             type: DataTypes.INTEGER(10).UNSIGNED,
             allowNull: false
