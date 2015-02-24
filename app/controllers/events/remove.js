@@ -6,6 +6,7 @@
 
 var Promise = require('bluebird');
 var fs      = require('fs');
+var path    = require('path');
 
 module.exports = function (db, config) {
     var logger = require('../../lib/log')(config);
