@@ -75,10 +75,8 @@ pay.factory('ParsePrices', [
                         $http.put('api/events/' + e.id + '/prices', {
                             name: e.name + ' - ' + existingPrices[price],
                             price: prices[price]
-                        }).success(function () {
-
-                        }).error(function (res) {
-                            Error('Erreur', res.error);
+                        }).then(angular.noop, function (res) {
+                            Error('Erreur', res.data.error);
                         });
                         return;
                     }
@@ -92,8 +90,7 @@ pay.factory('ParsePrices', [
                     e.Prices[i].price = prices[price];
                     $http.post('api/events/' + e.id + '/prices/' + e.Prices[i].id, {
                         price: e.Prices[i].price
-                    }).success(function () {
-                    }).error(function (res) {
+                    }).then(angular.noop, function (res) {
                         Error('Erreur', res.error);
                     });
                 });

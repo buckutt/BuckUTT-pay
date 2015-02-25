@@ -28,22 +28,22 @@ pay.factory('PayAuth', [
                     $http.post('api/etu/login', {
                         username: username,
                         password: password
-                    }).success(function (data) {
-                        self.etu = data;
+                    }).then(function (res) {
+                        self.etu = res.data;
                         $rootScope.$emit('payauth:logged');
-                        resolve(data);
-                    }).error(function (data, status, headers) {
-                        if (!data) {
+                        resolve(res.data);
+                    }, function (res) {
+                        if (!res.data) {
                             Error('Erreur', 15);
                             return;
                         }
 
                         // Custom handle wrong auth
-                        if (data && data.error === 4) {
+                        if (res.data && res.data.error === 4) {
                             reject(true);
                             return;
                         }
-                        Error('Erreur', data.error);
+                        Error('Erreur', res.data.error);
                         reject(false);
                     });
                 });
