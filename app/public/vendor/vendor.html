@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="static/css/vendor.css">
+
+<div ng-controller="Vendor as vendor">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Vente de tickets</h2>
+
+    <div id="success"></div>
+    <div id="error"></div>
+
+    <div id="autoPanel" class="panel panel-default">
+        <div class="panel-body">
+            <h2>Validation automatique <small>(PDF, cartes événements, ou cartes étu)</small></h2>
+            <form ng-submit="vendor.validateById($event)">
+                <input type="text" class="form-control input-lg" autofocus ng-model="id">
+            </form>
+        </div>
+    </div>
+
+    <div id="namePanel" class="panel panel-default">
+        <div class="panel-body">
+            <h2>Validation par nom</h2>
+            <form ng-submit="vendor.validateByName($event)">
+                <input type="text" class="form-control input-lg" autofocus ng-model="name">
+            </form>
+        </div>
+    </div>
+</div>

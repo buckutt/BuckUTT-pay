@@ -228,8 +228,19 @@ module.exports = function (router, db, config) {
             controllers.buckuttHistory.getReloadsHistory
         );
 
+    ////////////
+    // Vendor //
+    ////////////
+
+    router.route('/vendor/:eventId/:id')
+        // Validate id
+        .post(
+            auth.isInEvent('vendor'),
+            controllers.vendor.validateId
+        );
+
     /* Params filters */
-    var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId'];
+    var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'id'];
     justIds.forEach(function (idName) {
         router.param(idName, function (req, res, next, id) {
             if (Number.isPositiveNumeric(id)) {

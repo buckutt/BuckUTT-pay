@@ -37,6 +37,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/reset/:token', {
             templateUrl: 'reset/reset.html'
         })
+        .when('/vendor/:event', {
+            templateUrl: 'vendor/vendor.html'
+        })
         .otherwise({
             redirectTo: '/'
         });

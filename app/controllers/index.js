@@ -12,6 +12,7 @@ module.exports = function (db, config) {
         domains:        require('./domains')(db, config),
         bankPrice:      require('./bankPrice')(db, config),
         accounts:       require('./accounts')(db, config),
-        buckuttHistory: require('./buckuttHistory')(db, config)
+        buckuttHistory: require('./buckuttHistory')(db, config),
+        vendor:         require('./vendor')(db, config)
     };
 };
