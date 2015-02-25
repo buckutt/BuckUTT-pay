@@ -23,6 +23,7 @@ module.exports = function (db, config) {
             // First, check barcode (bde card or pdf)
             db.Ticket.find({
                 where: {
+                    event_id: eventId,
                     barcode: id
                 }
             }).complete(testTicket);
@@ -48,6 +49,7 @@ module.exports = function (db, config) {
             .then(function (username) {
                 db.Ticket.find({
                     where: {
+                        event_id: eventId,
                         username: username
                     }
                 }).complete(testTicket);
