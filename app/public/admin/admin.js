@@ -104,6 +104,9 @@ pay.controller('Admin', [
                 var newEvent = new Event(newEventData);
                 newEvent.$save(function () {
                     getEventsListsWithAccounts();
+                    $timeout(function () {
+                        $scope.$emit('$locationChangeSuccess', '');
+                    }, 1000);
                 }, function (res) {
                     // Request entity too large => file size too large
                     if (res.status === 413) {
