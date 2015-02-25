@@ -44,6 +44,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(45)
         },
 
+        validatedDate: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+
         temporarlyOut: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

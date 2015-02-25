@@ -13,7 +13,8 @@ module.exports = function (db) {
         paid_at: new Date(),
         paid_with: 'buckutt',
         temporarlyOut: false,
-        barcode: '3780173904905'
+        barcode: '3780173904905',
+        validatedMap: null
     }).complete(function (err, galaGJ) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error', err.toString());
