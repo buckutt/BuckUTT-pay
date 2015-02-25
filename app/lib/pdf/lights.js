@@ -153,7 +153,7 @@ if (require.main === module) {
         date: '26 Mai 2015 - 20h00',
         place: 'UTT',
         price: '27.00',
-        barcode: '3780173904905',
+        barcode: '378017390490',
         purchaseDate: '12/02/2015 - 21h00',
         association: 'BDE',
         website: 'http://bde.utt.fr',
