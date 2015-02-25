@@ -107,6 +107,8 @@ module.exports = function (db, config) {
                         reject(err);
                     }
 
+                    tickets = (tickets) ? tickets : [];
+
                     var realTickets = [];
                     tickets.forEach(function (ticket) {
                         realTickets.push(ticket.dataValues);
