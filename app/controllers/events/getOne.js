@@ -13,7 +13,7 @@ module.exports = function (db) {
             include: [
                 db.Price
             ]
-        }).done(function (err, event) {
+        }).complete(function (err, event) {
             if (err) {
                 return Error.emit(res, 500, '500 - SQL Server error', err);
             }

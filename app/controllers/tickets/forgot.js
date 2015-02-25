@@ -27,7 +27,7 @@ module.exports = function (db, config) {
                 where: {
                     username: username
                 }
-            }).done(function (err, tickets) {
+            }).complete(function (err, tickets) {
                 if (err) {
                     return Error.emit(res, 500, '500 - SQL Server error', err);
                 }

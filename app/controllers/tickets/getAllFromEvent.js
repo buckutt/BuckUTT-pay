@@ -10,7 +10,7 @@ module.exports = function (db) {
             where: {
                 event_id: req.params.eventId
             }
-        }).done(function (err, tickets) {
+        }).complete(function (err, tickets) {
             if (err) {
                 return Error.emit(res, 500, '500 - SQL Server error', err);
             }

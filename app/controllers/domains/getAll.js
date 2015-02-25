@@ -6,7 +6,7 @@
 
 module.exports = function (db) {
     return function (req, res) {
-        db.SchoolDomain.findAll().done(function (err, domains) {
+        db.SchoolDomain.findAll().complete(function (err, domains) {
             if (err) {
                 return Error.emit(res, 500, '500 - SQL Server error', err);
             }

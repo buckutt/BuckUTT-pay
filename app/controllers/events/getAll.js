@@ -12,7 +12,7 @@ module.exports = function (db) {
                     gte: (new Date()).toDateTime()
                 }
             }
-        }).done(function (err, events) {
+        }).complete(function (err, events) {
             if (err) {
                 return Error.emit(res, 500, '500 - SQL Server error', err);
             }
