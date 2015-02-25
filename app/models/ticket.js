@@ -18,6 +18,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
 
+        displayName: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+
         student: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

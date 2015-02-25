@@ -7,6 +7,7 @@
 module.exports = function (db) {
     db.Ticket.create({
         username: 10155,
+        displayName: 'Gabriel Juchault',
         student: true,
         contributor: true,
         paid: true,

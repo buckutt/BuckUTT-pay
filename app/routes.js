@@ -239,6 +239,13 @@ module.exports = function (router, db, config) {
             controllers.vendor.validateId
         );
 
+    router.route('/vendor/byName/:eventId/:name')
+        // Validate id
+        .post(
+            auth.isInEvent('vendor'),
+            controllers.vendor.validateName
+        );
+
     /* Params filters */
     var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'id'];
     justIds.forEach(function (idName) {
@@ -268,6 +275,16 @@ module.exports = function (router, db, config) {
             next();
         } else {
             Error.emit(res, 400, '400 - Bad Request', 'Bad mail');
+        }
+    });
+
+    router.param('name', function (req, res, next, name) {
+        var reg = /^.+$/;
+        if (reg.test(name)) {
+            req.params.name = name;
+            next();
+        } else {
+            Error.emit(res, 400, '400 - Bad Request', 'Bad name');
         }
     });
 };
