@@ -43,6 +43,6 @@ module.exports = form(
 
     field('bdeCard')
         .trim()
-        .required()
+        .ifNull(false)
         .toBoolean()
 );
