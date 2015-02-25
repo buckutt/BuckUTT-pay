@@ -45,6 +45,9 @@ module.exports = function (db, config) {
             })
             .then(function (mol) {
                 return new Promise(function (resolve, reject) {
+                    if (!mol || !mol.UserId) {
+                        reject('nouser');
+                    }
                     // Then auth with userid
                     rest.get('users?id=' + mol.UserId).then(function (uRes) {
                         req.wantedUser = uRes.data.data;
@@ -57,9 +60,10 @@ module.exports = function (db, config) {
             .then(checkIfFundationAccount)
             .then(checkIfAdmin)
             .catch(function (err) {
-                if (err === 'bcrypt') {
+                if (err === 'bcrypt' || err === 'nouser') {
                     return Error.emit(res, 401, '401 - Invalid username/password');
                 }
+                console.dir(err);
                 return Error.emit(res, 500, '500 - Buckutt server error');
             });
         }
@@ -98,7 +102,7 @@ module.exports = function (db, config) {
                     where: {
                         username: req.user.id
                     }
-                }).done(function (err, tickets) {
+                }).complete(function (err, tickets) {
                     if (err) {
                         reject(err);
                     }
