@@ -17,9 +17,9 @@ Date.prototype.toDateTime = function () {
  * @param  {string}  The string to test
  * @return {boolean} true if the given string is a positive number
  */
-Number.isPositiveNumeric = function (str) {
-    var n = ~~Number(str);
-    return String(n) === str && n >= 0;
+Number.isPositiveNumeric = function (n) {
+    var floatN = parseFloat(n);
+    return !isNaN(floatN) && isFinite(n) && floatN > 0 && floatN % 1 == 0;
 };
 
 /**
