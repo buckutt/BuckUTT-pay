@@ -1,4 +1,4 @@
-#autoPanel, #namePanel {
+#autoPanel, #namePanel, #historyPanel {
     padding: 0 15px;
 }
 
@@ -24,4 +24,38 @@
 
 #error {
     background-color: #e74c3c;
+}
+
+#historyPanel .panel-body {
+    height: auto;
+}
+
+#historyPanel .okay {
+    background-color: #2ecc71;
+}
+
+#historyPanel .notOkay {
+    background-color: #e74c3c;
+}
+
+#historyPanel h2 > a, #historyPanel h2 > span {
+    display: inline-block;
+    font-size: 20px;
+    margin: 0 5px;
+}
+
+#historyPanel h2 > span {
+    text-decoration: underline;
+}
+
+#historyPanel h2 span span, #historyPanel h2 a span {
+    margin: 0;
+}
+
+#search {
+    display: inline-block;
+    left: 50px;
+    position: relative;
+    top: -2px;
+    width: 175px;
 }

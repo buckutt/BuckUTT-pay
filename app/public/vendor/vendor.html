@@ -4,7 +4,7 @@
     <h1 class="text-center">
         <a href="#/">BuckUTT</a>
     </h1>
-    <h2 class="text-center">Vente de tickets</h2>
+    <h2 class="text-center">Validation de tickets</h2>
 
     <div id="success">Ok !</div>
     <div id="error"></div>
@@ -24,6 +24,68 @@
             <form ng-submit="vendor.validateByName($event)">
                 <input type="text" class="form-control input-lg" autofocus ng-model="name">
             </form>
+        </div>
+    </div>
+
+    <div id="historyPanel" class="panel panel-default">
+        <div class="panel-body">
+            <h2>
+                Historique
+                <input type="text" id="search" class="form-control" placeholder="Filtrer..."
+                       ng-keyup="vendor.filter($event)" 
+                       ng-model="filterWhat">
+                <a href="#" class="pull-right"
+                   ng-click="vendor.switchHistory($event, 'local')"
+                   ng-if="currentHistory != 'local'">Local</a>
+                <span class="pull-right" ng-if="currentHistory == 'local'">Local</span>
+                <a href="#" class="pull-right"
+                   ng-click="vendor.switchHistory($event, 'general')"
+                   ng-if="currentHistory != 'general'">
+                        Général
+                        <span title="Temps avant mise à jour des tickets">{{ countdown }}</span>
+                </a>
+                <span class="pull-right" ng-if="currentHistory == 'general'">
+                    Général
+                    <span title="Temps avant mise à jour des tickets">{{ countdown }}</span>
+                </span>
+            </h2>
+            <table class="table table-stripped table-bordered table-hover table-condensed"
+                   ng-show="currentHistory == 'local'">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Nom</th>
+                        <th>Méthode</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="entry in history">
+                        <td>{{ entry.date | date: 'dd/MM/yyyy à HH:mm:ss' }}</td>
+                        <td>{{ entry.displayName }}</td>
+                        <td>{{ entry.method }}</td>
+                        <td ng-if="entry.status" class="okay"></td>
+                        <td ng-if="!entry.status" class="notOkay"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-stripped table-bordered table-hover table-condensed"
+                   ng-show="currentHistory == 'general'">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Nom</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="entry in globalHistory">
+                        <td>{{ entry.validatedDate | date: 'dd/MM/yyyy à HH:mm:ss' }}</td>
+                        <td>{{ entry.displayName }}</td>
+                        <td class="okay"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
