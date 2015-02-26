@@ -86,6 +86,10 @@ pay.controller('Validate', [
                   $(this).text('');
                 });
 
+                if (withWhat.indexOf('22000000') === 0) {
+                    withWhat = parseInt(withWhat.slice(8, 8 + 5));
+                }
+
                 $scope.history.unshift({
                     date: new Date(),
                     displayName: withWhat,
