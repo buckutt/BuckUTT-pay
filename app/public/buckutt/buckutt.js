@@ -20,6 +20,7 @@ pay.controller('Buckutt', [
         var spyActualLength = 20;
 
         $scope.history = [];
+        $scope.totalHistory = false;
 
         Reloads.query(function (reloads) {
             // Limit $watch triggers
@@ -45,15 +46,20 @@ pay.controller('Buckutt', [
             // Add the details to 1€ pack
             var addedOneToLastPurchase = false;
 
-            purchases.forEach(function (purchase) {
-                if (purchase.price === 0) {
-                    if (addedOneToLastPurchase) {
-                        toAdd[toAdd.length - 1].details += ' - ' + beautfifyPurchaseName(purchase.article) + ')';
-                    } else {
-                        toAdd[toAdd.length - 1].details += ' (' + beautfifyPurchaseName(purchase.article);
-                    }
-
-                    addedOneToLastPurchase = !addedOneToLastPurchase;
+            purchases.forEach(function (purchase, i) {
+                if (purchase.article === 'FORMULE 1EURO') {
+                    var details = 'par ' + purchase.seller + ' - ' + purchase.where;
+                    details += ' (' + beautfifyPurchaseName(purchases[i + 1].article);
+                    details += ' - ' + beautfifyPurchaseName(purchases[i + 2].article);
+                    details += ')';
+                    toAdd.push({
+                        name: 'Formule 1€',
+                        details: details,
+                        date: new Date(purchase.date),
+                        sold: -1 * purchase.price
+                    });
+                } else if (purchase.price === 0) {
+                    return;
                 } else {
                     toAdd.push({
                         name: beautfifyPurchaseName(purchase.article),
@@ -67,24 +73,21 @@ pay.controller('Buckutt', [
             $scope.history = $scope.history.concat(toAdd);
 
             sortHistory();
+
+            $scope.visibleHistory = $scope.history.slice(0, spyStep);
+
+            formatSold();
         });
 
-        $scope.$watch('history', function (history) {
-            $scope.sold = 0;
-            if (history) {
-                history.forEach(function (action) {
-                    $scope.sold += action.sold;
-                });
-            }
-
+        function formatSold () {
+            $scope.sold = (PayAuth.etu.credit / 100).toFixed(2);
+            // Base formatting
             $scope.sold = $filter('currency')($scope.sold, '€', 2);
             // Handles "(€XX.XX)" (ie. negative sold)
             $scope.sold = $scope.sold.replace(/^\(€(.*)\)$/i, '-$1€');
             // Handles "€XX.XX" (ie. positive sold)
             $scope.sold = $scope.sold.replace(/^€(.*)$/i, '$1€');
-
-            $scope.visibleHistory = $scope.history.slice(0, spyStep);
-        });
+        };
 
         /**
          * Loads more entries to the history
@@ -94,6 +97,9 @@ pay.controller('Buckutt', [
             e.preventDefault();
             spyActualLength += spyStep;
             $scope.visibleHistory = $scope.history.slice(0, spyActualLength);
+            if ($scope.visibleHistory.length === $scope.history.length) {
+                $scope.totalHistory = true;
+            }
         };
 
         /**
