@@ -13,6 +13,6 @@ module.exports = function (db, config) {
         bankPrice:      require('./bankPrice')(db, config),
         accounts:       require('./accounts')(db, config),
         buckuttHistory: require('./buckuttHistory')(db, config),
-        vendor:         require('./vendor')(db, config)
+        validate:       require('./validate')(db, config)
     };
 };

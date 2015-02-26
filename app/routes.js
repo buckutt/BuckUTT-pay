@@ -228,22 +228,22 @@ module.exports = function (router, db, config) {
             controllers.buckuttHistory.getReloadsHistory
         );
 
-    ////////////
-    // Vendor //
-    ////////////
+    //////////////
+    // Validate //
+    //////////////
 
-    router.route('/vendor/:eventId/:id')
+    router.route('/validate/:eventId/:id')
         // Validate id
         .post(
-            auth.isInEvent('vendor'),
-            controllers.vendor.validateId
+            auth.isInEvent('validate'),
+            controllers.validate.validateId
         );
 
-    router.route('/vendor/byName/:eventId/:name')
+    router.route('/validate/byName/:eventId/:name')
         // Validate id
         .post(
-            auth.isInEvent('vendor'),
-            controllers.vendor.validateName
+            auth.isInEvent('validate'),
+            controllers.validate.validateName
         );
 
     /* Params filters */

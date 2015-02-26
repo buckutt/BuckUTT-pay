@@ -1,10 +1,10 @@
-///////////////////////////////
-// Tickets seller controller //
-///////////////////////////////
+//////////////////////////////////
+// Tickets validater controller //
+//////////////////////////////////
 
 'use strict';
 
-pay.controller('Vendor', [
+pay.controller('Validate', [
   '$scope',
   '$http',
   '$timeout',
@@ -32,7 +32,7 @@ pay.controller('Vendor', [
          */
         this.validateById = function (e) {
             e.preventDefault();
-            $http.post('api/vendor/' + $routeParams.event + '/' + $scope.id).then(function (res) {
+            $http.post('api/validate/' + $routeParams.event + '/' + $scope.id).then(function (res) {
                 $success.fadeIn('fast').delay(1000).fadeOut('fast');
                 $scope.history.unshift({
                     date: new Date(),
@@ -51,7 +51,7 @@ pay.controller('Vendor', [
         this.validateByName = function (e) {
             e.preventDefault();
             var name = $scope.name;
-            $http.post('api/vendor/byName/' + $routeParams.event + '/' + $scope.name).then(function () {
+            $http.post('api/validate/byName/' + $routeParams.event + '/' + $scope.name).then(function () {
                 $success.fadeIn('fast').delay(1000).fadeOut('fast');
                 $('#autoPanel input').focus();
                 $scope.history.unshift({

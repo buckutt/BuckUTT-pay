@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="static/css/vendor.css">
+<link rel="stylesheet" href="static/css/validate.css">
 
-<div ng-controller="Vendor as vendor">
+<div ng-controller="Validate as validate">
     <h1 class="text-center">
         <a href="#/">BuckUTT</a>
     </h1>
@@ -12,7 +12,7 @@
     <div id="autoPanel" class="panel panel-default">
         <div class="panel-body">
             <h2>Validation automatique <small>(PDF, cartes événements, ou cartes étu)</small></h2>
-            <form ng-submit="vendor.validateById($event)">
+            <form ng-submit="validate.validateById($event)">
                 <input type="text" class="form-control input-lg" autofocus ng-model="id">
             </form>
         </div>
@@ -21,7 +21,7 @@
     <div id="namePanel" class="panel panel-default">
         <div class="panel-body">
             <h2>Validation par nom</h2>
-            <form ng-submit="vendor.validateByName($event)">
+            <form ng-submit="validate.validateByName($event)">
                 <input type="text" class="form-control input-lg" autofocus ng-model="name">
             </form>
         </div>
@@ -32,14 +32,14 @@
             <h2>
                 Historique
                 <input type="text" id="search" class="form-control" placeholder="Filtrer..."
-                       ng-keyup="vendor.filter($event)" 
+                       ng-keyup="validate.filter($event)" 
                        ng-model="filterWhat">
                 <a href="#" class="pull-right"
-                   ng-click="vendor.switchHistory($event, 'local')"
+                   ng-click="validate.switchHistory($event, 'local')"
                    ng-if="currentHistory != 'local'">Local</a>
                 <span class="pull-right" ng-if="currentHistory == 'local'">Local</span>
                 <a href="#" class="pull-right"
-                   ng-click="vendor.switchHistory($event, 'general')"
+                   ng-click="validate.switchHistory($event, 'general')"
                    ng-if="currentHistory != 'general'">
                         Général
                         <span title="Temps avant mise à jour des tickets">{{ countdown }}</span>
