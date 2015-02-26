@@ -71,7 +71,7 @@ module.exports = function (db, config) {
         /**
          * Checks if the passwords matches
          * @param  {object}   
-         * @return {function} Bluebird instance
+         * @return {Function} Bluebird instance
          */
         /**
          * Checks if the passwords matches

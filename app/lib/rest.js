@@ -12,7 +12,7 @@ module.exports = function (config, logger) {
      * Global rest function
      * @param  {string}   path Path to do the request
      * @param  {object}   data Data to pass to the request
-     * @return {function}      Bluebird function
+     * @return {Function}      Bluebird function
      */
     function maker (path, data) {
         var method = this;

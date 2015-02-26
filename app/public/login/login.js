@@ -30,7 +30,7 @@ pay.controller('Login', [
         /**
          * Animates the circles to a given size
          * @param {number}   to       The size to give to the circle
-         * @param {function} callback Called when the animation is done
+         * @param {Function} callback Called when the animation is done
          */
         function animLoad (to, callback) {
             $('#loginLoader').animate({

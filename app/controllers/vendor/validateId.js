@@ -31,7 +31,7 @@ module.exports = function (db, config) {
 
         /**
          * Tests by etu card number
-         * @return {function} Bluebird instance
+         * @return {Function} Bluebird instance
          */
         function testEtu () {
             rest.get('meanofloginsusers?data=' + id)
@@ -74,7 +74,7 @@ module.exports = function (db, config) {
             ticket.validatedDate = new Date();
             ticket.save();
 
-            res.status(200).end();
+            res.status(200).end(ticket.displayName);
         }
     };
 };

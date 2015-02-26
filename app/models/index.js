@@ -21,7 +21,7 @@ var models    = [
 /**
  * Handles the models
  * @param  {object}   config The app config
- * @return {function}        A function that can handles gracefully a callback
+ * @return {Function}        A function that can handles gracefully a callback
  */
 module.exports = function (config) {
     log = log(config);
