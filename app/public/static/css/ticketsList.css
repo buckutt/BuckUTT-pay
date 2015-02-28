@@ -26,6 +26,10 @@
     height: 100%;
 }
 
+.expended .behind {
+    height: 100%;
+}
+
 /* Tiles */
 .icon {
     display: none;
@@ -93,7 +97,7 @@
     opacity: 1;
     position: relative;
     font-size: 18px;
-    top: -30px;
+    top: -20px;
 }
 
 .meanOfPayment {
@@ -103,7 +107,7 @@
 
 .meanOfPayment  i {
     font-size: 90px;
-    line-height: 128px;
+    line-height: 115px;
 }
 
 .meanOfPayment:last-child {
@@ -133,10 +137,6 @@ span.closedPresale {
     .title {
         width: calc(100% - 256px);
     }
-
-    .behind .description, .behind .description.active {
-        top: -32px;
-    }
 }
 
 @media (min-width: 992px) {
@@ -150,11 +150,6 @@ span.closedPresale {
 
     .title small {
         display: inline;
-    }
-
-    .behind .description {
-        position: relative;
-        top: -30px;
     }
 
     .behind .cross {
