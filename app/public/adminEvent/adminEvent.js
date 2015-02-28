@@ -171,13 +171,7 @@ pay.controller('AdminEvent', [
             // Bank cost
             BankPrice.get(function (data) {
                 var bankPrice = data.bankPrice;
-                var bdeCost = $scope.ticketsByCard.length * bankPrice / 100;
-                bdeCost = $filter('currency')(bdeCost, '€', 2);
-                // Handles "(€XX.XX)" (ie. negative sold)
-                bdeCost = bdeCost.replace(/^\(€(.*)\)$/i, '-$1€');
-                // Handles "€XX.XX" (ie. positive sold)
-                bdeCost = bdeCost.replace(/^€(.*)$/i, '$1€');
-                $scope.bdeCost = bdeCost;
+                $scope.bdeCost = $scope.ticketsByCard.length * bankPrice / 100;
             });
         });
 

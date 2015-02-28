@@ -76,18 +76,8 @@ pay.controller('Buckutt', [
 
             $scope.visibleHistory = $scope.history.slice(0, spyStep);
 
-            formatSold();
+            $scope.sold = PayAuth.etu.credit / 100;
         });
-
-        function formatSold () {
-            $scope.sold = (PayAuth.etu.credit / 100).toFixed(2);
-            // Base formatting
-            $scope.sold = $filter('currency')($scope.sold, '€', 2);
-            // Handles "(€XX.XX)" (ie. negative sold)
-            $scope.sold = $scope.sold.replace(/^\(€(.*)\)$/i, '-$1€');
-            // Handles "€XX.XX" (ie. positive sold)
-            $scope.sold = $scope.sold.replace(/^€(.*)$/i, '$1€');
-        };
 
         /**
          * Loads more entries to the history
