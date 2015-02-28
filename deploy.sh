@@ -10,6 +10,8 @@ filesList[0]='LICENSE'
 filesList[1]='README.md'
 filesList[2]='package.json'
 filesList[3]='server.js'
+filesList[4]='bower.json'
+filesList[5]='.bowerrc'
 
 echo "--- config ---"
 echo "host       : $host"
