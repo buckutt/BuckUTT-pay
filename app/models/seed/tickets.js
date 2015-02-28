@@ -21,7 +21,7 @@ module.exports = function (db) {
             Error.emit(null, 500, '500 - SQL Server error', err.toString());
         }
 
-        db.Price.find({ name: 'Gala 2015 - Prix étudiant cottisant en prévente' }).complete(function (err, price) {
+        db.Price.find({ name: 'Gala 2015 - Prix étudiant cotisant en prévente' }).complete(function (err, price) {
             if (err) {
                 Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }

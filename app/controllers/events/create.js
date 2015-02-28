@@ -72,23 +72,23 @@ module.exports = function (db, config) {
             }).then(function (pReq) {
                 req.periodId = pReq.data.data.id;
                 return rest.post('prices', {
-                    credit: form.priceEtuCottPresale * 100,
+                    credit: form.priceEtucotPresale * 100,
                     isRemoved: 0,
                     ArticleId: req.currentArticle.id,
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
-            }).then(function (prResEtuCottPresale) {
-                req.ids.etuCottPresale = prResEtuCottPresale.data.data.id;
+            }).then(function (prResEtucotPresale) {
+                req.ids.etucotPresale = prResEtucotPresale.data.data.id;
                 return rest.post('prices', {
-                    credit: form.priceEtuCott * 100,
+                    credit: form.priceEtucot * 100,
                     isRemoved: 0,
                     ArticleId: req.currentArticle.id,
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
-            }).then(function (prResEtuCott) {
-                req.ids.etuCott = prResEtuCott.data.data.id;
+            }).then(function (prResEtucot) {
+                req.ids.etucot = prResEtucot.data.data.id;
                 if (form.priceEtuPresaleActive) {
                     return rest.post('prices', {
                         credit: form.priceEtuPresale * 100,
@@ -142,34 +142,34 @@ module.exports = function (db, config) {
                     });
 
                     // Create prices
-                    // Price Etu cott in presale :
+                    // Price Etu cot in presale :
                     db.Price.create({
-                        name: form.name + ' - Prix étudiant cottisant en prévente',
-                        price: form.priceEtuCottPresale,
-                        backendId: req.ids.etuCottPresale
-                    }).complete(function (err, priceEtuCottPresale) {
+                        name: form.name + ' - Prix étudiant cotisant en prévente',
+                        price: form.priceEtucotPresale,
+                        backendId: req.ids.etucotPresale
+                    }).complete(function (err, priceEtucotPresale) {
                         if (err) {
                             return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
-                        newEvent.addPrice(priceEtuCottPresale);
+                        newEvent.addPrice(priceEtucotPresale);
                     });
-                    // Price Etu cott not in presale :
+                    // Price Etu cot not in presale :
                     db.Price.create({
-                        name: form.name + ' - Prix étudiant cottisant hors prévente',
-                        price: form.priceEtuCott,
-                        backendId: req.ids.etuCott
-                    }).complete(function (err, priceEtuCott) {
+                        name: form.name + ' - Prix étudiant cotisant hors prévente',
+                        price: form.priceEtucot,
+                        backendId: req.ids.etucot
+                    }).complete(function (err, priceEtucot) {
                         if (err) {
                             return Error.emit(null, 500, '500 - SQL Server error', err.toString());
                         }
 
-                        newEvent.addPrice(priceEtuCott);
+                        newEvent.addPrice(priceEtucot);
                     });
                     // Price Etu in presale :
                     if (form.priceEtuPresaleActive) {
                         db.Price.create({
-                            name: form.name + ' - Prix étudiant non-cottisant en prévente',
+                            name: form.name + ' - Prix étudiant non-cotisant en prévente',
                             price: form.priceEtuPresale,
                             backendId: req.ids.etuPresale
                         }).complete(function (err, priceEtuPresale) {
@@ -183,7 +183,7 @@ module.exports = function (db, config) {
                     // Price Etu not in presale :
                     if (form.priceEtuActive) {
                         db.Price.create({
-                            name: form.name + ' - Prix étudiant non-cottisant hors prévente',
+                            name: form.name + ' - Prix étudiant non-cotisant hors prévente',
                             price: form.priceEtu,
                             backendId: req.ids.etu
                         }).complete(function (err, priceEtu) {

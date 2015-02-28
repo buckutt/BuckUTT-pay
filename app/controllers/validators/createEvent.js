@@ -67,12 +67,12 @@ module.exports = form(
         .ifNull(false)
         .toBoolean(),
 
-    field('priceEtuCottPresale')
+    field('priceEtucotPresale')
         .trim()
         .required()
         .toFloat(),
 
-    field('priceEtuCott')
+    field('priceEtucot')
         .trim()
         .required()
         .toFloat(),

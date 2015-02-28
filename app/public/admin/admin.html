@@ -18,13 +18,13 @@
                 </div>
             </div>
 
-            <h3>Vendre des places</h3>
+            <h3>Vendre/Valider des places</h3>
             <div class="subPanel">
                 <h4 ng-repeat="event in eventsSeller">
                     <a href="#/validate/{{ event.id }}">{{ event.name }}</a>
                 </h4>
                 <div ng-if="eventsSeller.length === 0">
-                    Aucune place d'événement à vendre.
+                    Aucune place d'événement à vendre/valider.
                 </div>
             </div>
         </div>
@@ -74,15 +74,15 @@
                 <div class="prices">
                     <label>
                         Prix étudiant cotisant en prévente :
-                        <input type="number" name="priceEtuCottPresale" class="form-control input-sm forceShow" placeholder="00.00"
+                        <input type="number" name="priceEtucotPresale" class="form-control input-sm forceShow" placeholder="00.00"
                                min="0" max="100" step="0.01"
-                               ng-model="newEvent.priceEtuCottPresale">
+                               ng-model="newEvent.priceEtucotPresale">
                     </label>
                     <label>
                         Prix étudiant cotisant hors prévente :
-                        <input type="number" name="priceEtuCott" class="form-control input-sm forceShow" placeholder="00.00"
+                        <input type="number" name="priceEtucot" class="form-control input-sm forceShow" placeholder="00.00"
                                min="0" max="100" step="0.01"
-                               ng-model="newEvent.priceEtuCott">
+                               ng-model="newEvent.priceEtucot">
                     </label>
                     <label>
                         <input type="checkbox" name="priceEtuPresaleActive" class="hideNextInput"

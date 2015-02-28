@@ -15,10 +15,10 @@ pay.factory('ParsePrices', [
                 var prices = e.Prices;
                 var $prices = $('.prices label');
                 var existingPrices = [
-                    'Prix étudiant cottisant en prévente',
-                    'Prix étudiant cottisant hors prévente',
-                    'Prix étudiant non-cottisant en prévente',
-                    'Prix étudiant non-cottisant hors prévente',
+                    'Prix étudiant cotisant en prévente',
+                    'Prix étudiant cotisant hors prévente',
+                    'Prix étudiant non-cotisant en prévente',
+                    'Prix étudiant non-cotisant hors prévente',
                     'Prix extérieur en prévente',
                     'Prix extérieur hors prévente'
                 ];
@@ -56,10 +56,10 @@ pay.factory('ParsePrices', [
             this.toEvent = function (e, prices) {
                 var name = e.name;
                 var existingPrices = {
-                    priceEtuCottPresale: 'Prix étudiant cottisant en prévente',
-                    priceEtuCott:        'Prix étudiant cottisant hors prévente',
-                    priceEtuPresale:     'Prix étudiant non-cottisant en prévente',
-                    priceEtu:            'Prix étudiant non-cottisant hors prévente',
+                    priceEtucotPresale: 'Prix étudiant cotisant en prévente',
+                    priceEtucot:        'Prix étudiant cotisant hors prévente',
+                    priceEtuPresale:     'Prix étudiant non-cotisant en prévente',
+                    priceEtu:            'Prix étudiant non-cotisant hors prévente',
                     priceExtPresale:     'Prix extérieur en prévente',
                     priceExt:            'Prix extérieur hors prévente'
                 }

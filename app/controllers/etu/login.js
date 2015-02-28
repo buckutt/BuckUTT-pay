@@ -70,13 +70,8 @@ module.exports = function (db, config) {
 
         /**
          * Checks if the passwords matches
-         * @param  {object}   
-         * @return {Function} Bluebird instance
-         */
-        /**
-         * Checks if the passwords matches
-         * @param  {object} wantedUser [description]
-         * @return {[type]}            [description]
+         * @param  {object}   wantedUser The user data
+         * @return {Function}            Bluebird instance
          */
         function checkPassword (wantedUser) {
             return new Promise(function (resolve, reject) {
@@ -158,8 +153,8 @@ module.exports = function (db, config) {
         }
 
         /**
-         * Check if the user is an admin and call the next middleware
-         * @param  {object} rights The rights object from checkIfFundationAccount (avoid same request)
+         * Checks if the user is an admin and call the next middleware
+         * @param {object} rights The rights object from checkIfFundationAccount (avoid same request)
          */
         function checkIfAdmin (rights) {
             req.user.isAdmin = false;
