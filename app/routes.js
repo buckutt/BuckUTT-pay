@@ -130,6 +130,17 @@ module.exports = function (router, db, config) {
             controllers.tickets.getAll
         );
 
+    /////////////////////
+    // Ticket's prices //
+    /////////////////////
+
+    router.route('/price/:eventId')
+        // Gets an event price
+        .get(
+            auth.noAuth,
+            controllers.tickets.getPrice
+        );
+
     ////////////////////
     // School domains //
     ////////////////////

@@ -9,6 +9,7 @@ module.exports = function (db, config) {
         getAll:          require('./getAll')(db),
         getAllFromEvent: require('./getAllFromEvent')(db),
         print:           require('./print')(db),
-        forgot:          require('./forgot')(db, config)
+        forgot:          require('./forgot')(db, config),
+        getPrice:        require('./getPrice')(db, config)
     };
 };
