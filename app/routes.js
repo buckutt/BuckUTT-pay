@@ -201,7 +201,7 @@ module.exports = function (router, db, config) {
     router.route('/print/')
         // Ticket printer
         .get(
-            auth.isAuth,
+            auth.noAuth,
             controllers.tickets.print
         );
 
@@ -255,6 +255,16 @@ module.exports = function (router, db, config) {
         .post(
             auth.isInEvent('validate'),
             controllers.validate.validateName
+        );
+
+    ////////////////////
+    // Ticket selling //
+    ////////////////////
+
+    router.route('/buy/buckutt/:eventId')
+        .post(
+            auth.isAuth,
+            controllers.sell.userBuysWithBuckutt
         );
 
     /* Params filters */
