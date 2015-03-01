@@ -13,45 +13,39 @@ module.exports = function (db, config) {
         if (req.user) {
             var uid = req.user.id;
             var eid = req.params.eventId;
-            console.log(eid);
-            var date = new Date();
             // If he's in bde
-            rest.get('users/' + uid + '?isInBDE=true').then(function (uRes) {
-                var inBDE = Boolean(uRes.data);;
-                if (inBDE) {
-                    db.Price.find({
-                        where: {
-                            event_id: eid,
-                            name: { like: '%cotisant en prévente' }
-                        }
-                    }).complete(function (err, price) {
-                        if (err) {
-                            return Error.emit();
-                        }
-
-                        res.status(200).end(price.price);
-                    });
-                } else {
-                    db.Price.find({
-                        where: {
-                            event_id: eid,
-                            name: { like: '%cotisant en prévente' }
-                        }
-                    }).complete(function (err, price) {
-                        if (err) {
-                            return Error.emit();
-                        }
-
-                        res.status(200).end(price.price);
-                    });
-                }
-            }, function () {
-                Error.emit(res, 500, '500 - Buckutt server error', 'Check isInBDE');
-            });
+            if (req.user.inBDE) {
+                db.Price.find({
+                    where: {
+                        event_id: eid,
+                        name: { like: '%cotisant en prévente' }
+                    }
+                }).complete(treatPrice);
+            } else {
+                db.Price.find({
+                    where: {
+                        event_id: eid,
+                        name: { like: '%non-cotisant en prévente' }
+                    }
+                }).complete(treatPrice);
+            }
         } else {
             res.json({
                 price: 20
             });
+        }
+
+        function treatPrice (err, price) {
+            if (err) {
+                return Error.emit(res, 500, '500 - SQL Server error', err);
+            }
+
+            if (!price) {
+                return res.status(400).end();
+            }
+
+            var priceValue = price.price || price.dataValues.price;
+            res.status(200).end(priceValue.toString());
         }
     };
 };

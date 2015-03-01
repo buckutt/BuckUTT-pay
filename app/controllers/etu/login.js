@@ -33,6 +33,7 @@ module.exports = function (db, config) {
             .then(getTickets)
             .then(checkIfFundationAccount)
             .then(checkIfAdmin)
+            .then(checkBdeMember)
             .catch(function () {
                 return Error.emit(res, 500, '500 - Buckutt server error', 'Mail auth failed');
             });
@@ -59,6 +60,7 @@ module.exports = function (db, config) {
             .then(getTickets)
             .then(checkIfFundationAccount)
             .then(checkIfAdmin)
+            .then(checkBdeMember)
             .catch(function (err) {
                 if (err === 'bcrypt' || err === 'nouser') {
                     return Error.emit(res, 401, '401 - Invalid username/password');
@@ -153,7 +155,7 @@ module.exports = function (db, config) {
         }
 
         /**
-         * Checks if the user is an admin and call the next middleware
+         * Checks if the user is an admin
          * @param {object} rights The rights object from checkIfFundationAccount (avoid same request)
          */
         function checkIfAdmin (rights) {
@@ -163,7 +165,22 @@ module.exports = function (db, config) {
                     req.user.isAdmin = true;
                 }
             });
-            next();
+        }
+
+        /**
+         * Checks if the user is in the BDE
+         * @return {Function} Bluebird instance
+         */
+        function checkBdeMember () {
+            return new Promise(function (resolve, reject) {
+                rest.get('users/' + req.user.id + '?isInBDE=true').then(function (uRes) {
+                    req.user.inBDE = Boolean(uRes);
+                    resolve();
+                    next();
+                }).catch(function (err) {
+                    reject(err);
+                });
+            });
         }
     };
 };
