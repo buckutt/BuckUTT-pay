@@ -165,7 +165,7 @@ pay.controller('AdminEvent', [
 
             // Tickets bought with card
             $scope.ticketsByCard = tickets.filter(function (ticket) {
-                return ticket.paid_with !== 'card';
+                return ticket.paid_with === 'card';
             });
 
             // Bank cost
