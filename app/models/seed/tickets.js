@@ -29,12 +29,12 @@ module.exports = function (db) {
             galaGJ.setPrice(price);
         });
 
-        db.Event.find({ name: 'Gala 2015' }).complete(function (err, gala2015) {
+        db.Event.find({ name: 'R2D A2015' }).complete(function (err, r2d2015) {
             if (err) {
                 Error.emit(null, 500, '500 - SQL Server error', err.toString());
             }
 
-            galaGJ.setEvent(gala2015);
+            galaGJ.setEvent(r2d2015);
         });
 
         db.MeanOfPayment.find({ name: 'Buckutt' }).complete(function (err, buckutt) {
