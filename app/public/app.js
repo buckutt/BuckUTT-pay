@@ -40,6 +40,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/validate/:event', {
             templateUrl: 'validate/validate.html'
         })
+        .when('/sell/:event', {
+            templateUrl: 'sell/sell.html'
+        })
         .otherwise({
             redirectTo: '/'
         });

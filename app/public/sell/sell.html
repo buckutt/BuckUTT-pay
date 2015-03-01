@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="static/css/sell.css">
+
+<div ng-controller="Sell as sell">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Validation de tickets</h2>
+
+    <div id="success">Ok !</div>
+    <div id="error"></div>
+
+    <div id="switcher">
+        <button class="active btn btn-primary"
+            ng-click="sell.switchPage()">
+                Vente
+        </button>
+        <button class="btn btn-primary"
+            ng-click="sell.switchPage()">
+                Validation
+        </button>
+    </div>
+</div>

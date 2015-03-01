@@ -25,7 +25,8 @@ module.exports = function (config, log) {
             '500 - Cannot write config file'  : 13,
             '401 - Unauthorized'              : 14,
             '500 - Buckutt server error'      : 17,
-            '500 - Could\'t send mail'        : 18
+            '500 - Could\'t send mail'        : 18,
+            '402 - Refused payement'          : 19
         };
 
         log.error(msg);

@@ -9,6 +9,17 @@
     <div id="success">Ok !</div>
     <div id="error"></div>
 
+    <div id="switcher">
+        <button class="btn btn-primary"
+            ng-click="validate.switchPage()">
+                Vente
+        </button>
+        <button class="active btn btn-primary"
+            ng-click="validate.switchPage()">
+                Validation
+        </button>
+    </div>
+
     <div id="autoPanel" class="panel panel-default">
         <div class="panel-body">
             <h2>Validation automatique <small>(PDF, cartes événements, ou cartes étu)</small></h2>

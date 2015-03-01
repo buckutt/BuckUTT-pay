@@ -132,6 +132,13 @@ pay.controller('Validate', [
         };
 
         /**
+         * Switch vendor/validate
+         */
+        this.switchPage = function () {
+          location.hash = '/sell/' + $routeParams.event;
+        };
+
+        /**
          * Updates the general history
          * @param  {Function} callback callback
          */
