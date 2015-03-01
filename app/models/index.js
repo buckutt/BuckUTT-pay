@@ -52,7 +52,6 @@ module.exports = function (config) {
         db.Event.hasOne(db.Ticket);
         db.MeanOfPayment.hasOne(db.Ticket);
 
-
         // Retro associations
         db.Account.belongsTo(db.Right);
         db.Account.belongsTo(db.Event);

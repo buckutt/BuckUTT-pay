@@ -17,7 +17,7 @@ module.exports = function (db, config) {
      * @param  {Function} next Next middleware to call
      */
     var checkToken = function (req, res, next) {
-        var encodedToken = req.get('Auth-JWT');
+        var encodedToken = req.get('Auth-JWT') || req.query.auth;
         if (encodedToken === -1) {
             return next();
         }

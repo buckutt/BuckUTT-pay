@@ -198,11 +198,11 @@ module.exports = function (router, db, config) {
             controllers.etu.block
         );
 
-    router.route('/print/')
-        // Ticket printer
+    router.route('/generatePrintLink/:ticketId')
+        // Ticket print link generator
         .get(
-            auth.noAuth,
-            controllers.tickets.print
+            auth.isAuth,
+            controllers.tickets.generatePrintLink
         );
 
     router.route('/forgot/:mail')
@@ -268,7 +268,7 @@ module.exports = function (router, db, config) {
         );
 
     /* Params filters */
-    var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'id'];
+    var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'ticketId', 'id'];
     justIds.forEach(function (idName) {
         router.param(idName, function (req, res, next, id) {
             if (Number.isPositiveNumeric(id)) {

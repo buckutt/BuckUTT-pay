@@ -127,10 +127,8 @@ pay.controller('TicketsList', [
         this.print = function (e, ticketBoughtId) {
             e.preventDefault();
             var url = location.href.replace(location.hash, '');
-            url += 'api/print/' +
-                   '?ticketId=' + ticketBoughtId +
-                   '&username='  + PayAuth.etu.username +
-                   '&token='     + PayAuth.etu.token;
-            window.open(url, '_blank');
+            url += 'api/generatePrintLink/' + ticketBoughtId;
+            url += '?auth=' + PayAuth.etu.jwt;
+            window.location = url;
         };
 }]);

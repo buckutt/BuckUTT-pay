@@ -15,7 +15,7 @@ module.exports = function (data, callback) {
     /**
      * Data structure :
      * {
-     *      username: string,
+     *      firstname: string,
      *      lastname: string,
      *      eventname: string,
      *      date: string,

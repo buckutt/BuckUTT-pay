@@ -6,10 +6,10 @@
 
 module.exports = function (db, config) {
     return {
-        getAll:          require('./getAll')(db),
-        getAllFromEvent: require('./getAllFromEvent')(db),
-        print:           require('./print')(db),
-        forgot:          require('./forgot')(db, config),
-        getPrice:        require('./getPrice')(db, config)
+        getAll:            require('./getAll')(db),
+        getAllFromEvent:   require('./getAllFromEvent')(db),
+        generatePrintLink: require('./generatePrintLink')(db, config),
+        forgot:            require('./forgot')(db, config),
+        getPrice:          require('./getPrice')(db, config)
     };
 };
