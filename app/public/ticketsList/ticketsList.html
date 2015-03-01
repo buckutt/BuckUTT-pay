@@ -52,13 +52,35 @@
                         </div>
                     </div>
                     <div class="row paywith buckutt">
-                        BuckUTT
+                        <h2>Paiement par BuckUTT</h2>
+                        <div ng-if="isAuth">
+                            <h4>Solde actuelle : {{ sold | euro }}</h4>
+                            <h4 ng-init="ticket.getPrice(event.id)">
+                                Solde après achat :
+                                <span ng-if="sold - prices[event.id] < 0">
+                                    <span class="soldAfter {{ event.id }} text-danger">
+                                        {{ sold - prices[event.id] | euro }}
+                                    </span>
+                                </span>
+                                <span ng-if="sold - prices[event.id] >= 0">
+                                    <span class="soldAfter {{ event.id }} text-success">
+                                        {{ sold - prices[event.id] | euro }}
+                                    </span>
+                                    <br>
+                                    <br>
+                                    <button class="btn btn-primary btn-lg"
+                                            ng-click="ticket.buyOneWithBuckutt(event.id)">
+                                        Prendre une place pour cet événement
+                                    </button>
+                                </span>
+                            </h4>
+                        </div>
+                        <div ng-if="!isAuth">
+                            <p>Vous devez être connecté pour payer avec BuckUTT.</p>
+                        </div>
                     </div>
                     <div class="row paywith card">
                         Card
-                    </div>
-                    <div class="row paywith cash">
-                        Cash
                     </div>
                 </div>
             </div>

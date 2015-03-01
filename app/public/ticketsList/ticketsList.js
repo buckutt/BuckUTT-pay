@@ -8,14 +8,21 @@ pay.controller('TicketsList', [
     '$scope',
     '$rootScope',
     '$timeout',
+    '$http',
     'Event',
     'Error',
     'PayAuth',
-    function ($scope, $rootScope, $timeout, Event, Error, PayAuth) {
+    function ($scope, $rootScope, $timeout, $http, Event, Error, PayAuth) {
+        $scope.isAuth = !!PayAuth.etu;
+        $scope.sold = ($scope.isAuth) ? PayAuth.etu.credit / 100 : 0;
+        $scope.prices = {};
+
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
             $rootScope.$on('payauth:logged', function () {
+                $scope.isAuth = true;
+                $scope.sold = PayAuth.etu.credit * 100;
                 var eventsIds = $scope.events.map(function (e) { return e.id; });
                 var ticketsEvIds = PayAuth.etu.tickets.map(function (t) { return t.event_id; });
                 eventsIds.forEach(function (id) {
@@ -33,6 +40,17 @@ pay.controller('TicketsList', [
                 });
             });
         });
+
+        /**
+         * Gets the price of the current event for the current user
+         * @param {number} eventId The event id
+         */
+        this.getPrice = function (eventId) {
+            var $soldAfter = $('#soldAfter');
+            $http.get('api/price/' + eventId).then(function (res) {
+                $scope.prices[eventId] = res.data;
+            });
+        };
 
         /**
          * Shows the three means of payment for the event
@@ -72,6 +90,7 @@ pay.controller('TicketsList', [
                     .removeClass('flipOutX')
                     .addClass('animated flipInX active');
 
+            $('.expended .active').removeClass('active');
             $('.expended').removeClass('expended').removeAttr('style');
         };
 
