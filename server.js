@@ -9,7 +9,6 @@ var colors      = require('colors');
 var express     = require('express');
 var bodyParser  = require('body-parser');
 var compression = require('compression');
-var cluster     = require('cluster');
 var config      = require('./app/config.json');
 var log         = require('./app/lib/log')(config);
 var rest        = require('./app/lib/rest')(config, log);
@@ -19,23 +18,9 @@ var app         = express();
 require('./app/lib/utils.js');
 require('./app/lib/errors.js')(config, log);
 
-var db;
+log.info('BuckUTT Pay server');
 
-if (cluster.isMaster) {
-    log.info('BuckUTT Pay server');
-
-    models(function (db_) {
-        db = db_;
-
-        var numCPUs = require('os').cpus().length;
-        for (var i = numCPUs - 1; i >= 0; --i) {
-            cluster.fork();
-        }
-        cluster.on('exit', function (worker) {
-            console.log('worker ' + worker.process.pid + ' died');
-        });
-    });
-} else {
+models(function (db) {
     // Custom files
     var makeRoutes = require('./app/routes');
 
@@ -73,5 +58,5 @@ if (cluster.isMaster) {
     });
 
     app.listen(port);
-    log.info('Listenning on port : ' + config.port + ' from worker ' + cluster.worker.id);
-}
+    log.info('Listenning on port : ' + config.port);
+});
