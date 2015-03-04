@@ -24,13 +24,7 @@ module.exports = function (config, logger) {
             headers: {
                 'Accept': '*/*',
                 'User-Agent': 'Restling for node.js',
-                'Authorization': (function () {
-                    if (global.API_TOKEN) {
-                        return 'Bearer ' + global.API_TOKEN;
-                    }
-
-                    return undefined;
-                })()
+                'Authorization': (global.API_TOKEN) ? 'Bearer ' + global.API_TOKEN : undefined
             }
         };
 
