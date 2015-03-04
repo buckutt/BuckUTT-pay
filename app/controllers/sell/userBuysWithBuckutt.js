@@ -48,11 +48,12 @@ module.exports = function (db, config) {
             priceWanted = price;
             return rest.get('prices/' + price.backendId)
         })
-        .then(function (backendPrice) {
-            priceWantedBackend = backendPrice;
+        .then(function (resBackendPrice) {
+            priceWantedBackend = resBackendPrice.data.data;
             return rest.get('articles/' + priceWantedBackend.ArticleId);
         })
-        .then(function (article) {
+        .then(function (resArticle) {
+            var article = resArticle.data.data;
             rest.post('services/purchase', {
                 PointId: 1,
                 SellerId: req.user.id,
