@@ -108,7 +108,10 @@ module.exports = function (db, config) {
 
                     var realTickets = [];
                     tickets.forEach(function (ticket) {
-                        realTickets.push(ticket.dataValues);
+                        realTickets.push({
+                            id: ticket.dataValues.id,
+                            event_id: ticket.dataValues.event_id
+                        });
                     });
 
                     req.user.tickets = realTickets;
