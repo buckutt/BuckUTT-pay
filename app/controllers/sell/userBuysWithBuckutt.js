@@ -1,4 +1,3 @@
-//////////////////////////////////////
 // User buys one ticket for himself //
 //////////////////////////////////////
 
@@ -6,34 +5,34 @@
 
 var Promise = require('bluebird');
 
-module.exports = function (db) {
+module.exports = function (db, config) {
+    var logger   = require('../../lib/log')(config);
+    var rest     = require('../../lib/rest')(config, logger);
+
     return function (req, res) {
-        var eventId = req.eventId;
+        var eventId = req.params.eventId;
         
-        /**
-         * Gets the price for this event
-         * @return {Function} Bluebird instance
-         */
-        function getPrice () {
-            return new Promise(function (resolve, reject) {
-                if (req.user.inBDE) {
-                    db.Price.find({
-                        where: {
-                            event_id: eid,
-                            name: { like: '%cotisant en prévente' }
-                        }
-                    }).complete(function (err, price) {
-                        if (err) {
-                            return Error.emit(res, 500, '500 - SQL Server error', err);
-                        }
+        var priceWanted;
+        var priceWantedBackend;
 
-                        resolve(price.price);
-                    });
-                }
-
+        new Promise(function (resolve, reject) {
+            if (req.user.inBDE) {
                 db.Price.find({
                     where: {
-                        event_id: eid,
+                        event_id: eventId,
+                        name: { like: '%cotisant en prévente' }
+                    }
+                }).complete(function (err, price) {
+                    if (err) {
+                        return Error.emit(res, 500, '500 - SQL Server error', err);
+                    }
+
+                    resolve(price);
+                });
+            } else {
+                db.Price.find({
+                    where: {
+                        event_id: eventId,
                         name: { like: '%non-cotisant en prévente' }
                     }
                 }).complete(function (err, price) {
@@ -41,30 +40,89 @@ module.exports = function (db) {
                         return Error.emit(res, 500, '500 - SQL Server error', err);
                     }
 
-                    resolve(price.price);
+                    resolve(price);
                 });
+            }
+        })
+        .then(function (price) {
+            priceWanted = price;
+            return rest.get('prices/' + price.backendId)
+        })
+        .then(function (backendPrice) {
+            priceWantedBackend = backendPrice;
+            return rest.get('articles/' + priceWantedBackend.ArticleId);
+        })
+        .then(function (article) {
+            rest.post('services/purchase', {
+                PointId: 1,
+                SellerId: req.user.id,
+                BuyerId: req.user.id,
+                cart: [
+                    {
+                        article: {
+                            id: article.id,
+                            price: priceWantedBackend.credit,
+                            FundationId: article.FundationId,
+                            type: 'product'
+                        },
+                        quantity: 1
+                    }
+                ]
             });
-        }
+        })
+        .then(function () {
+            return new Promise(function (resolve, reject) {
+                generateBarcode(resolve);
+            });
+        })
+        .then(function (barcode) {
+            return db.Ticket.create({
+                username: req.user.id,
+                displayName: req.user.firstname.nameCapitalize() + ' ' + req.user.lastname.nameCapitalize(),
+                student: 1,
+                contributor: req.user.inBDE,
+                paid: 1,
+                paid_at: new Date(),
+                paid_with: 'buckutt',
+                validatedDate: null,
+                temporarlyOut: false,
+                barcode: barcode,
+                price_id: priceWanted.id,
+                event_id: eventId
+            });
+        })
+        .then(function () {
+            res.end();
+        });
 
         /**
-         * Checks if the user has enought credit
-         * @param  {number}  price The ticket price
-         * @return {Function}      Bluebird instance
+         * Generates a barcode
+         * @param {Function} callback Called when found a valid barcode
          */
-        function checkCredit (price) {
-            return new Promise(function (resolve, reject) {
-                if (req.user.credit < price) {
-                    Error.emit(res, 402, '402 - Refused payement', req.user.credit - price);
-                    return reject();
+        function generateBarcode (callback) {
+            var base = 989000000000;
+            var max =     999999999;
+            var min =             0;
+
+            var number = Math.floor(Math.random() * (max - min + 1) + min);
+            var barcode = base + number;
+
+            db.Ticket.count({
+                where: {
+                    barcode: barcode
+                }
+            }).complete(function (err, count) {
+                if (err) {
+                    return Error.emit(res, 500, '500 - SQL Server error', err.toString());
                 }
 
-                return resolve;
-            });
-        }
-
-        function doPayement () {
-            return new Promise(function (resolve, reject) {
-                
+                if (count === 0) {
+                    callback(barcode);
+                } else {
+                    logger.warn('Needed to regenerate barcode.');
+                    // Barcode already exists, call again
+                    generateBarcode(callback);
+                }
             });
         }
     };
