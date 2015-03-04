@@ -4,7 +4,6 @@
 'use strict';
 
 module.exports = function (db) {
-    require('./meanOfPayment')(db);
     require('./events')(db);
     require('./price')(db);
     require('./tickets')(db);

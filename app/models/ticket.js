@@ -68,7 +68,6 @@ module.exports = function (sequelize, DataTypes) {
 
         // Association with Price
         // Association with Event
-        // Association with Mean of Payment
     }, {
         underscored: true,
         paranoid: true
