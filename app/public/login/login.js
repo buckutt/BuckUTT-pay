@@ -79,15 +79,14 @@ pay.controller('Login', [
                         $loginController.removeAttr('style');
                     });
                 } else {
+                    $('.loginPanel').height(75);
+                    $loginControllerWrapper.css('minHeight', 0);
                     $loginController.css('overflow', 'hidden');
                     $('#logged').fadeIn(function () {
                         $loginController.removeAttr('style');
                     });
                 }
             });
-
-            $('.loginPanel').height(75);
-            $loginControllerWrapper.css('minHeight', 0);
         }
 
         /**
@@ -97,7 +96,8 @@ pay.controller('Login', [
         this.authUser = function (e) {
             e.preventDefault();
             var $password = $('#password').blur();
-            PayAuth.auth($('#username').val(), $password.val()).then(angular.noop, function (wrongAuth) {
+            PayAuth.auth($('#username').val(), $password.val())
+            .then(angular.noop, function (wrongAuth) {
                 setTimeout(function () {
                     animEnd(true, wrongAuth);
                 }, 400);
