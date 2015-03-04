@@ -7,7 +7,7 @@
 module.exports = function (db) {
     db.Price.create({
         name: 'Gala 2015 - Prix étudiant cotisant en prévente',
-        price: 25.0,
+        price: 0.4,
         backendId: 0
     }).complete(function (err, priceGalaEtuCotisantPre) {
         if (err) {
@@ -16,7 +16,7 @@ module.exports = function (db) {
 
         db.Price.create({
             name: 'Gala 2015 - Prix étudiant cotisant hors prévente',
-            price: 25.0,
+            price: 0.4,
             backendId: 0
         }).complete(function (err, priceGalaEtuNonPre) {
             if (err) {
@@ -25,7 +25,7 @@ module.exports = function (db) {
 
             db.Price.create({
                 name: 'Gala 2015 - Prix étudiant non-cotisant en prévente',
-                price: 25.0,
+                price: 0.4,
                 backendId: 0
             }).complete(function (err, priceGalaEtuNonCotPre) {
                 if (err) {
@@ -34,7 +34,7 @@ module.exports = function (db) {
 
                 db.Price.create({
                     name: 'Gala 2015 - Prix étudiant non-cotisant hors prévente',
-                    price: 25.0,
+                    price: 0.4,
                     backendId: 0
                 }).complete(function (err, priceGalaEtuNonCotNonPre) {
                     if (err) {
@@ -52,7 +52,7 @@ module.exports = function (db) {
 
     db.Price.create({
         name: 'R2D A2015 - Prix étudiant cotisant en prévente',
-        price: 25.0,
+        price: 0.4,
         backendId: 0
     }).complete(function (err, priceR2DEtuCotisantPre) {
         if (err) {
@@ -61,7 +61,7 @@ module.exports = function (db) {
 
         db.Price.create({
             name: 'R2D A2015 - Prix étudiant cotisant hors prévente',
-            price: 25.0,
+            price: 0.4,
             backendId: 0
         }).complete(function (err, priceR2DEtuNonPre) {
             if (err) {
@@ -70,7 +70,7 @@ module.exports = function (db) {
 
             db.Price.create({
                 name: 'R2D A2015 - Prix étudiant non-cotisant en prévente',
-                price: 25.0,
+                price: 0.4,
                 backendId: 0
             }).complete(function (err, priceR2DEtuNonCotPre) {
                 if (err) {
@@ -79,7 +79,7 @@ module.exports = function (db) {
 
                 db.Price.create({
                     name: 'R2D A2015 - Prix étudiant non-cotisant hors prévente',
-                    price: 25.0,
+                    price: 0.4,
                     backendId: 0
                 }).complete(function (err, priceR2DEtuNonCotNonPre) {
                     if (err) {
