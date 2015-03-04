@@ -29,20 +29,6 @@ module.exports = function (db) {
             galaGJ.setPrice(price);
         });
 
-        db.Event.find({ name: 'R2D A2015' }).complete(function (err, r2d2015) {
-            if (err) {
-                Error.emit(null, 500, '500 - SQL Server error', err.toString());
-            }
-
-            galaGJ.setEvent(r2d2015);
-        });
-
-        db.MeanOfPayment.find({ name: 'Buckutt' }).complete(function (err, buckutt) {
-            if (err) {
-                Error.emit(null, 500, '500 - SQL Server error', err.toString());
-            }
-
-            galaGJ.setMeanOfPayment(buckutt);
-        });
+        galaGJ.setEvent(2);
     });
 };

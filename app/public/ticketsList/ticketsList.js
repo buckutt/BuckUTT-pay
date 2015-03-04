@@ -22,7 +22,7 @@ pay.controller('TicketsList', [
             $scope.events = events;
             $rootScope.$on('payauth:logged', function () {
                 $scope.isAuth = true;
-                $scope.sold = PayAuth.etu.credit * 100;
+                $scope.sold = PayAuth.etu.credit / 100;
                 var eventsIds = $scope.events.map(function (e) { return e.id; });
                 var ticketsEvIds = PayAuth.etu.tickets.map(function (t) { return t.event_id; });
                 eventsIds.forEach(function (id) {
@@ -130,5 +130,18 @@ pay.controller('TicketsList', [
             url += 'api/generatePrintLink/' + ticketBoughtId;
             url += '?auth=' + PayAuth.etu.jwt;
             window.location = url;
+        };
+
+        /**
+         * Buys one ticket with github
+         * @param  {number} eid The event id
+         */
+        this.buyOneWithBuckutt = function (eid) {
+            $http.post('api/buy/buckutt/' + eid).then(function () {
+
+            }, function (res) {
+                console.log(res);
+                Error('Erreur', res.data.error);
+            });
         };
 }]);

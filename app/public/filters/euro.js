@@ -4,7 +4,6 @@
 
 pay.filter('euro', ['$filter', function ($filter) {
     return function (input, precision) {
-        console.log(precision);
         if (!input) {
             input = 0;
         }

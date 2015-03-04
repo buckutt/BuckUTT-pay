@@ -15,7 +15,7 @@ module.exports = function (db, config) {
 
         // Get username from mail
         rest.get('users?mail=' + req.params.mail).then(function (uRes) {
-            var user = uRes.data;
+            var user = uRes.data.data;
             if (!user) {
                 return Error.emit(res, 400, '400 - Bad Request', 'No mail');
             }
@@ -44,7 +44,8 @@ module.exports = function (db, config) {
                     ticket.getEvent().then(function (event) {
                         ticket.event = event;
                     }).then(function () {
-                        rest.get('fundations/' + ticket.event.fundationId).success(function (data) {
+                        rest.get('fundations/' + ticket.event.fundationId).then(function (fRes) {
+                            var data = fRes.data.data;
 
                             pdf.lights({
                                 firstname: user.firstname.nameCapitalize(),
@@ -65,7 +66,6 @@ module.exports = function (db, config) {
                                 places[ticket.event.name] = buffer;
 
                                 if (todo === 0) {
-                                    console.log('- let\'s do it')
                                     mailer.places(req.params.mail, places, function (okay) {
                                         if (!okay) {
                                             return Error.emit(res, 500, '500 - Could\'t send mail');
@@ -77,7 +77,7 @@ module.exports = function (db, config) {
                                     });
                                 }
                             });
-                        }).error(function () {
+                        }).catch(function () {
                             Error.emit(res, 500, '500 - Buckutt server error', 'Get fundaton data');
                         });
                     });
