@@ -267,6 +267,12 @@ module.exports = function (router, db, config) {
             controllers.sell.userBuysWithBuckutt
         );
 
+    router.route('/buy/eeetop/')
+        .post(
+            auth.noAuth,
+            controllers.sell.userBuysWithEeetop
+        );
+
     /* Params filters */
     var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'ticketId', 'id'];
     justIds.forEach(function (idName) {

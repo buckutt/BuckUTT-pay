@@ -6,6 +6,7 @@
 
 module.exports = function (db, config) {
     return {
-        userBuysWithBuckutt: require('./userBuysWithBuckutt')(db, config)
+        userBuysWithBuckutt: require('./userBuysWithBuckutt')(db, config),
+        userBuysWithEeetop:  require('./userBuysWithEeetop')(db, config)
     };
 };
