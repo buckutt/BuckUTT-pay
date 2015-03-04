@@ -13,6 +13,7 @@ pay.controller('TicketsList', [
     'Error',
     'PayAuth',
     function ($scope, $rootScope, $timeout, $http, Event, Error, PayAuth) {
+        var self = this;
         $scope.isAuth = !!PayAuth.etu;
         $scope.sold = ($scope.isAuth) ? PayAuth.etu.credit / 100 : 0;
         $scope.prices = {};
@@ -23,6 +24,7 @@ pay.controller('TicketsList', [
             $rootScope.$on('payauth:logged', function () {
                 $scope.isAuth = true;
                 $scope.sold = PayAuth.etu.credit / 100;
+                $scope.jwt = PayAuth.etu.jwt;
                 var eventsIds = $scope.events.map(function (e) { return e.id; });
                 var ticketsEvIds = PayAuth.etu.tickets.map(function (t) { return t.event_id; });
                 eventsIds.forEach(function (id) {
@@ -39,6 +41,10 @@ pay.controller('TicketsList', [
                     }
                 });
             });
+
+            if (PayAuth.etu) {
+                $rootScope.$emit('payauth:logged');
+            }
         });
 
         /**
@@ -120,27 +126,26 @@ pay.controller('TicketsList', [
         };
 
         /**
-         * Prints the ticket
-         * @param {object} e              The click event
-         * @param {number} ticketBoughtId The ticket id
-         */
-        this.print = function (e, ticketBoughtId) {
-            e.preventDefault();
-            var url = location.href.replace(location.hash, '');
-            url += 'api/generatePrintLink/' + ticketBoughtId;
-            url += '?auth=' + PayAuth.etu.jwt;
-            window.location = url;
-        };
-
-        /**
          * Buys one ticket with github
-         * @param  {number} eid The event id
+         * @param {object} e   The click event
+         * @param {number} eid The event id
          */
-        this.buyOneWithBuckutt = function (eid) {
+        this.buyOneWithBuckutt = function (e, eid) {
             $http.post('api/buy/buckutt/' + eid).then(function () {
-
+                var $btn = $(e.currentTarget);
+                $btn.text('Achat effectué !').attr('disabled', '');
+                var $cross = $btn.parent().parent().parent().parent().parent().find('.cross > i');
+                $timeout(function () {
+                    PayAuth.etu.credit -= parseFloat($scope.prices[eid]) * 100;
+                    PayAuth.etu.tickets.push(eid);
+                    $rootScope.$emit('payauth:logged');
+                });
+                setTimeout(function () {
+                    self.hideBuyingCards({
+                        currentTarget: $cross[0]
+                    });
+                }, 2500);
             }, function (res) {
-                console.log(res);
                 Error('Erreur', res.data.error);
             });
         };
