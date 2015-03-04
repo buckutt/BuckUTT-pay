@@ -20,11 +20,25 @@ module.exports = function (config, logger) {
         var url = config.backend.host + config.backend.path + path;
         logger.info(method.toUpperCase() + ' ' + url);
 
+        var options = {
+            headers: {
+                'Accept': '*/*',
+                'User-Agent': 'Restling for node.js',
+                'Authorization': (function () {
+                    if (global.API_TOKEN) {
+                        return 'Bearer ' + global.API_TOKEN;
+                    }
+
+                    return undefined;
+                })()
+            }
+        };
+
         if (data) {
-            return rest[method + 'Json'](url, data);
+            return rest[method + 'Json'](url, data, options);
         }
 
-        return rest[method](url);
+        return rest[method](url, options);
     }
 
     return {

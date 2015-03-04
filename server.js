@@ -20,6 +20,15 @@ require('./app/lib/errors.js')(config, log);
 
 log.info('BuckUTT Pay server');
 
+rest.post('services/login', {
+    UserId: 1
+}).then(function (loginRes) {
+    global.API_TOKEN = loginRes.data.token;
+}).catch(function (err) {
+    console.dir(err);
+    throw err;
+});
+
 models(function (db) {
     // Custom files
     var makeRoutes = require('./app/routes');
