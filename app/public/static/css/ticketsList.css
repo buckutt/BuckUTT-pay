@@ -61,6 +61,10 @@
     width: 128px;
 }
 
+.print:hover {
+    color: #fff;
+}
+
 /* Behind tiles */
 .behind {
     float: left;
