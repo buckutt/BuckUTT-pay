@@ -24,9 +24,12 @@ module.exports = function (config, logger) {
             headers: {
                 'Accept': '*/*',
                 'User-Agent': 'Restling for node.js',
-                'Authorization': (global.API_TOKEN) ? 'Bearer ' + global.API_TOKEN : undefined
             }
         };
+
+        if (global.API_TOKEN) {
+            options.headers.Authorization = 'Bearer ' + global.API_TOKEN;
+        }
 
         if (data) {
             return rest[method + 'Json'](url, data, options);
