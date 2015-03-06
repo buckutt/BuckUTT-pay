@@ -43,8 +43,7 @@ module.exports = function (db, config) {
                 type: 'product',
                 stock: -1,
                 isSingle: false,
-                isRemoved: false,
-                FundationId: form.fundationId
+                isRemoved: false
             }).then(function (aRes) {
                 req.currentArticle = aRes.data.data;
             }).then(function () {
@@ -75,6 +74,7 @@ module.exports = function (db, config) {
                     credit: form.priceEtucotPresale * 100,
                     isRemoved: 0,
                     ArticleId: req.currentArticle.id,
+                    FundationId: form.fundationId,
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
