@@ -88,6 +88,17 @@ input.form-control, textarea.form-control, input.form-control:focus, textarea.fo
     border-radius: 0;
 }
 
+select.form-control {
+    border-radius: 1px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+select.form-control:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
 /* Input file */
 .btn-file {
     position: relative;
