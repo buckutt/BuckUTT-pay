@@ -7,7 +7,7 @@
     <h2 class="text-center">Validation de tickets</h2>
 
     <div id="success">Ok !</div>
-    <div id="error"></div>
+    <div id="error">Erreur !</div>
 
     <div id="switcher">
         <button class="active btn btn-primary"
@@ -18,5 +18,61 @@
             ng-click="sell.switchPage()">
                 Validation
         </button>
+    </div>
+
+    <div class="row meanOfPaymentRow">
+        <div class="col-xs-6">
+            <div class="panel panel-default" ng-click="sell.setPaidWith('liquid')">
+                <h1>
+                    <a class="active"
+                       ng-if="ticket.paid_with == 'liquid'">Liquide</a>
+                    <a ng-if="ticket.paid_with != 'liquid'">Liquide</a>
+                </h1>
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <div class="panel panel-default" ng-click="sell.setPaidWith('card')">
+                <h1>
+                    <a class="active"
+                       ng-if="ticket.paid_with == 'card'">Carte bleue</a>
+                    <a ng-if="ticket.paid_with != 'card'">Carte bleue</a>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <h2>Informations sur le ticket</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="displayName">Nom de la personne :</label>
+                        <input type="text" class="form-control" placeholder="John Doe"
+                               ng-required
+                               ng-model="ticket.displayName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Prix :</label>
+                        <select id="price" class="form-control"
+                                ng-model="price"
+                                ng-options="price.name for price in eventPrices track by price.id">
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default submitTicket">
+                <h2>
+                    <a ng-click="sell.submitTicket()">Créer le ticket</a>
+                </h2>
+            </div>
+        </div>
     </div>
 </div>

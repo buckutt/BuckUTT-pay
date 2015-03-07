@@ -12,6 +12,7 @@ module.exports = function (db, config) {
         edit:        require('./edit')(db, config),
         editPrice:   require('./editPrice')(db, config),
         createPrice: require('./createPrice')(db, config),
-        remove:      require('./remove')(db, config)
+        remove:      require('./remove')(db, config),
+        getPrices:   require('./getPrices')(db, config)
     };
 };

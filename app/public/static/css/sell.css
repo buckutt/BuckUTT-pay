@@ -36,3 +36,40 @@
 #error {
     background-color: #e74c3c;
 }
+
+.panel {
+    padding: 10px;
+}
+
+.panel h2 {
+    margin-top: 0;
+}
+
+.meanOfPaymentRow .col-xs-6 .panel {
+    background-color: #23527c;
+    cursor: pointer;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.meanOfPaymentRow .col-xs-6 .panel h1 a {
+    color: #fff;
+}
+
+.meanOfPaymentRow .col-xs-6 .panel h1 a.active {
+    text-decoration: underline;
+}
+
+.meanOfPaymentRow .col-xs-6 .panel h1:hover a:not(.active) {
+    text-decoration: none;
+}
+
+.submitTicket {
+    min-height: 0;
+    padding-top: 15px;
+    text-align: center;
+}
+
+.submitTicket a {
+    cursor: pointer;
+}

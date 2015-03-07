@@ -13,5 +13,6 @@ module.exports = {
     editEvent:     require('./editEvent'),
     editPrice:     require('./editPrice'),
     etuLogin:      require('./etuLogin'),
-    resetPwd:      require('./resetPwd')
+    resetPwd:      require('./resetPwd'),
+    createTicket:  require('./createTicket')
 };

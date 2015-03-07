@@ -10,6 +10,7 @@ module.exports = function (db, config) {
         getAllFromEvent:   require('./getAllFromEvent')(db),
         generatePrintLink: require('./generatePrintLink')(db, config),
         forgot:            require('./forgot')(db, config),
-        getPrice:          require('./getPrice')(db, config)
+        getPrice:          require('./getPrice')(db, config),
+        create:            require('./create')(db, config)
     };
 };

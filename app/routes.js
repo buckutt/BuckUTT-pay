@@ -67,9 +67,13 @@ module.exports = function (router, db, config) {
 
     router.route('/events/:eventId/prices')
         // Gets all prices from an event
-        // Can be used by no-auth clients to buy a ticket (and they need the price)
+        .get(
+            auth.isInEvent('validate'),
+            controllers.events.getPrices
+        )
+        // Creates a price for an event
         .put(
-            auth.noAuth,
+            auth.isInEvent('admin'),
             validators.createPrice,
             controllers.events.createPrice
         );
@@ -128,6 +132,12 @@ module.exports = function (router, db, config) {
         .get(
             auth.noAuth,
             controllers.tickets.getAll
+        )
+        // Creates a ticket (sell)
+        .post(
+            auth.isInEvent('validate'),
+            validators.createTicket,
+            controllers.tickets.create
         );
 
     /////////////////////
