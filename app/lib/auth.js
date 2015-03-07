@@ -108,6 +108,7 @@ module.exports = function (db, config) {
             isAuth(req, res);
             var eventId = req.params.eventId
                        || req.get('PassEventIdEvenWithCustomAutocompletePlugin')
+                       || req.body.event_id
                        || req.body.id;
             db.Account.count({
                 where: {
