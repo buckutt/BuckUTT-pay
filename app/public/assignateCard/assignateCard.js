@@ -14,7 +14,7 @@ pay.controller('AssignateCard', [
         if (!PayAuth.needUser()) { return; }
 
         // Autofocus
-        $('#ticketPanel input').focus();
+        $('#etuPanel input').focus();
 
         /**
          * Blurs the first input, gives focus to the next one
@@ -28,13 +28,13 @@ pay.controller('AssignateCard', [
         this.assignate = function (e) {
             e.preventDefault();
             $http.post('api/assignateCard/' + $routeParams.event, {
-                ticket_id: $scope.id,
+                etu_id: $scope.id,
                 barcode: $scope.eventCard
             }).then(function (res) {
                 $('#success').fadeIn('fast').delay(1000).fadeOut('fast');
                 $scope.id = '';
                 $scope.eventCard = '';
-                $('#ticketPanel input').focus();
+                $('#etuPanel input').focus();
             }, function (res) {
                 $('#error').fadeIn('fast').delay(1000).fadeOut('fast');
             });

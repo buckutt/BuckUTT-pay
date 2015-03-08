@@ -8,10 +8,10 @@ var form  = require('express-form');
 var field = form.field;
 
 module.exports = form(
-    field('ticket_id')
+    field('etu_id')
         .trim()
         .required()
-        .is(/^\d+$/),
+        .is(/^\d{5}$/),
     field('barcode')
         .trim()
         .required()
