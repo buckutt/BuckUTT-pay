@@ -135,10 +135,9 @@ module.exports = function (db, config) {
 
                     // Create first admin account
                     db.Account.create({
-                        username: req.user.id
-                    }).complete(function (err, adminUser) {
-                        adminUser.setRight(1);
-                        adminUser.setEvent(newEvent.id);
+                        username: req.user.id,
+                        event_id: newEvent.id,
+                        right_id: 1
                     });
 
                     // Create prices
