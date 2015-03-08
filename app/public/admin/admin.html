@@ -27,6 +27,16 @@
                     Aucune place d'événement à vendre/valider.
                 </div>
             </div>
+
+            <h3>Assigner des cartes événements</h3>
+            <div class="subPanel">
+                <h4 ng-repeat="event in eventsSellerWithEventCard">
+                    <a href="#/assignateCard/{{ event.id }}">{{ event.name }}</a>
+                </h4>
+                <div ng-if="eventsSellerWithEventCard.length === 0">
+                    Aucun événement avec des cartes événements à assigner.
+                </div>
+            </div>
         </div>
         <div class="panel panel-default col-sm-5 col-sm-offset-2">
             <h3 ng-click="admin.expendPanel($event)">Créer un événement</h3>

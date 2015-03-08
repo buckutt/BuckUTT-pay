@@ -140,6 +140,14 @@ module.exports = function (router, db, config) {
             controllers.tickets.create
         );
 
+    router.route('/assignateCard/:eventId')
+        // Sets the barcode of one ticket
+        .post(
+            auth.isInEvent('validate'),
+            validators.assignateCard,
+            controllers.tickets.assignateCard
+        );
+
     /////////////////////
     // Ticket's prices //
     /////////////////////

@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="static/css/assignateCard.css">
+
+<div ng-controller="AssignateCard as assignateCard">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Assignation de carte BDE</h2>
+
+    <div id="success">Ok !</div>
+    <div id="error">Erreur !</div>
+
+    <div class="row">
+        <div id="ticketPanel" class="panel panel-default">
+            <div class="panel-body">
+                <h2>Identifiant du ticket <small>(donné par l'eeetop)</small></h2>
+                <form ng-submit="assignateCard.next($event)">
+                    <input type="text" class="form-control input-lg" autofocus ng-model="id">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="eventCardPanel" class="panel panel-default">
+            <div class="panel-body">
+                <h2>Numéro de carte événement <small>(scanner la carte ou recopier le numéro inscrit sous le code-barres)</small></h2>
+                <form ng-submit="assignateCard.assignate($event)">
+                    <input type="text" class="form-control input-lg" autofocus ng-model="eventCard">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

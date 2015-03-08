@@ -11,6 +11,7 @@ module.exports = function (db, config) {
         generatePrintLink: require('./generatePrintLink')(db, config),
         forgot:            require('./forgot')(db, config),
         getPrice:          require('./getPrice')(db, config),
-        create:            require('./create')(db, config)
+        create:            require('./create')(db, config),
+        assignateCard:     require('./assignateCard')(db, config)
     };
 };

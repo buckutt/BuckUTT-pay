@@ -25,8 +25,12 @@ pay.controller('Admin', [
             Event.query(function (events) {
                 var keptEvents = [];
                 var keptEventsSeller = [];
-                $http.get('/api/accounts/' + PayAuth.etu.id).then(function (data) {
-                    data.data.forEach(function (account) {
+                var keptEventsSellerWithEventCard = [];
+                // Prevent duplicates in keptEventsSellerWithEventCard
+                var addedEventsSellerWithEventCardIds = [];
+
+                $http.get('/api/accounts/' + PayAuth.etu.id).then(function (accountsRes) {
+                    accountsRes.data.forEach(function (account) {
                         events.forEach(function (event) {
                             if (event.id === account.event) {
                                 if (PayAuth.etu.isAdmin) {
@@ -36,6 +40,12 @@ pay.controller('Admin', [
                                     keptEvents.push(event);
                                 } else {
                                     keptEventsSeller.push(event);
+                                    if (event.bdeCard) {
+                                        if (addedEventsSellerWithEventCardIds.indexOf(event.id) === -1) {
+                                            keptEventsSellerWithEventCard.push(event);
+                                            addedEventsSellerWithEventCardIds.push(event.id);
+                                        }
+                                    }
                                 }
                             }
                         });
@@ -46,6 +56,7 @@ pay.controller('Admin', [
 
                 $scope.events = keptEvents;
                 $scope.eventsSeller = keptEventsSeller;
+                $scope.eventsSellerWithEventCard = keptEventsSellerWithEventCard;
             });
         }
 
