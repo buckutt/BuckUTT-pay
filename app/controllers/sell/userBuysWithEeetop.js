@@ -57,6 +57,12 @@ module.exports = function (db, config) {
                 event_id: priceLocal.event_id
             });
         })
+        .then(function (ticket) {
+            res.json({
+                ticket_id: ticket.id
+            });
+            res.end();
+        })
         .catch(function (err) {
             console.dir(err);
         });
