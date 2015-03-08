@@ -8,8 +8,10 @@ pay.controller('Login', [
     '$scope',
     '$timeout',
     '$http',
+    'Account',
     'PayAuth',
-    function ($scope, $timeout, $http, PayAuth) {
+    'Error',
+    function ($scope, $timeout, $http, Account, PayAuth, Error) {
         // Account already connected, hide the login form and auto show the connecter header
         if (!!PayAuth.etu) {
             $('.loginForm').hide();
@@ -26,6 +28,22 @@ pay.controller('Login', [
             $loginPanel.children().css(fixedHeight);
             $loginPanel.children().children().css(fixedHeight);
         }
+
+        function checksAdminLink () {
+            $scope.canAdmin = (PayAuth.etu && PayAuth.etu.isAdmin) || (PayAuth.etu && PayAuth.etu.fundation);
+
+            if (!$scope.canAdmin && PayAuth.etu) {
+                $http.get('/api/accounts/' + PayAuth.etu.id).then(function (accountsRes) {
+                    if (accountsRes.data.length > 0) {
+                        $scope.canAdmin = true;
+                    }
+                }, function (accountsRes) {
+                    Error('Erreur', accountsRes.data.error);
+                });
+            }
+        }
+
+        checksAdminLink();
 
         /**
          * Animates the circles to a given size
@@ -97,7 +115,7 @@ pay.controller('Login', [
             e.preventDefault();
             var $password = $('#password').blur();
             PayAuth.auth($('#username').val(), $password.val())
-            .then(angular.noop, function (wrongAuth) {
+            .then(checksAdminLink, function (wrongAuth) {
                 setTimeout(function () {
                     animEnd(true, wrongAuth);
                 }, 400);
