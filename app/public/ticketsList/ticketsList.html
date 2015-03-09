@@ -54,6 +54,13 @@
                     <div class="row paywith buckutt">
                         <h2>Paiement par BuckUTT</h2>
                         <div ng-if="isAuth">
+                            <h4>Spécifez votre date de naissance <kbd title="Permet de distinguer deux tickets en cas de deux noms identiques">?</kbd></h4>
+                            <div class="input-group">
+                                <input type="text" name="date" class="form-control birthdate" placeholder="Date de naissance (JJ/MM/AAAA)"
+                                       ng-model="birthdate"
+                                       ng-pattern="datePattern"
+                                       ng-required="true">
+                            </div>
                             <h4>Solde actuelle : {{ sold | euro }}</h4>
                             <h4 ng-init="ticket.getPrice(event.id)">
                                 Solde après achat :
@@ -69,7 +76,7 @@
                                     <br>
                                     <br>
                                     <button class="btn btn-primary btn-lg"
-                                            ng-click="ticket.buyOneWithBuckutt($event, event.id)">
+                                            ng-click="ticket.buyOneWithBuckutt($event, event.id, birthdate)">
                                         Prendre une place pour cet événement
                                     </button>
                                 </span>
@@ -80,7 +87,7 @@
                         </div>
                     </div>
                     <div class="row paywith card">
-                        Card
+                        <h2>Paiement par carte bleue</h2>
                     </div>
                 </div>
             </div>

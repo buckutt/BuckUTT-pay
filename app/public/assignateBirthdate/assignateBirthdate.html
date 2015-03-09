@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="static/css/assignateBirthdate.css">
+
+<div ng-controller="AssignateBirthdate as assignateBirthdate">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Assignation de date de naissance</h2>
+
+    <div id="success">Ok !</div>
+    <div id="error">Erreur !</div>
+
+    <div class="row">
+        <div id="etuPanel" class="panel panel-default">
+            <div class="panel-body">
+                <h2>Numéro étudiant de l'acheteur</h2>
+                <form ng-submit="assignateBirthdate.next($event)">
+                    <input type="text" class="form-control input-lg" autofocus ng-model="id">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="eventBirthdatePanel" class="panel panel-default">
+            <div class="panel-body">
+                <h2>Date de naissance</h2>
+                <form ng-submit="assignateBirthdate.assignate($event)">
+                    <input type="text" class="form-control input-lg" autofocus placeholder="JJ/MM/AAAA" ng-model="eventBirthdate">
+                </form>
+                <p>
+                    <br>
+                    <i>Validez avec <kbd>&#8626;</kbd></i>
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

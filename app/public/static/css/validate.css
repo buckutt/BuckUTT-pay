@@ -78,3 +78,17 @@
     top: -2px;
     width: 175px;
 }
+
+#modalBirthdates .panel {
+    margin: 10px 0;
+    min-height: 0;
+}
+
+#modalBirthdates .panel-body {
+    height: auto;
+    padding: 10px;
+}
+
+#modalBirthdates .panel-body a {
+    cursor: pointer;
+}

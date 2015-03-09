@@ -118,6 +118,21 @@
     top: -24px;
 }
 
+/* Payments */
+.buckutt div.input-group {
+    margin: 0 auto;
+    width: 250px;
+}
+
+.buckutt div.input-group .form-control {
+    text-align: center;
+}
+
+.buckutt div.input-group.has-error .form-control:focus {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
 /* Closed presales */
 span.closedPresale {
     background: rgba(40, 40, 40, 0.6);

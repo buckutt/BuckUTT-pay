@@ -17,11 +17,19 @@ pay.controller('TicketsList', [
         $scope.isAuth = !!PayAuth.etu;
         $scope.sold = ($scope.isAuth) ? PayAuth.etu.credit / 100 : 0;
         $scope.prices = {};
+        $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
 
         // Shows events list
         Event.query(function (events) {
             $scope.events = events;
-            $rootScope.$on('payauth:logged', function () {
+            $rootScope.$on('payauth:logged', function (e, doNotHideCards) {
+                if (!doNotHideCards) {
+                    // Hides current opened panels
+                    $timeout(function () {
+                        $('.active i.fa-times').click();
+                    });
+                }
+
                 $scope.isAuth = true;
                 $scope.sold = PayAuth.etu.credit / 100;
                 $scope.jwt = PayAuth.etu.jwt;
@@ -112,6 +120,7 @@ pay.controller('TicketsList', [
             var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
 
             if (!$target.hasClass('active')) {
+                console.log($selfRow[0], $selfRow.height(), $target[0], $target.height())
                 var newHeight = $selfRow.height() + $target.height();
                 $selfCol.addClass('expended').height(newHeight);
 
@@ -127,18 +136,26 @@ pay.controller('TicketsList', [
 
         /**
          * Buys one ticket with github
-         * @param {object} e   The click event
-         * @param {number} eid The event id
+         * @param {object} e         The click event
+         * @param {number} eid       The event id
+         * @param {string} birthdate The user birthdate
          */
-        this.buyOneWithBuckutt = function (e, eid) {
-            $http.post('api/buy/buckutt/' + eid).then(function () {
+        this.buyOneWithBuckutt = function (e, eid, birthdate) {
+            if (!birthdate || !$scope.datePattern.test(birthdate)) {
+                $(e.currentTarget).parent().parent().parent().children('div.input-group').addClass('has-error');
+                return;
+            }
+
+            $http.post('api/buy/buckutt/' + eid, {
+                birthdate: birthdate
+            }).then(function () {
                 var $btn = $(e.currentTarget);
                 $btn.text('Achat effectué !').attr('disabled', '');
                 var $cross = $btn.parent().parent().parent().parent().parent().find('.cross > i');
                 $timeout(function () {
                     PayAuth.etu.credit -= parseFloat($scope.prices[eid]) * 100;
                     PayAuth.etu.tickets.push(eid);
-                    $rootScope.$emit('payauth:logged');
+                    $rootScope.$emit('payauth:logged', true);
                 });
                 setTimeout(function () {
                     self.hideBuyingCards({

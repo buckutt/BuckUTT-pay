@@ -148,6 +148,14 @@ module.exports = function (router, db, config) {
             controllers.tickets.assignateCard
         );
 
+    router.route('/assignateBirthdate/:eventId')
+        // Sets the barcode of one ticket
+        .post(
+            auth.isInEvent('validate'),
+            validators.assignateBirthdate,
+            controllers.tickets.assignateBirthdate
+        );
+
     /////////////////////
     // Ticket's prices //
     /////////////////////
@@ -275,6 +283,8 @@ module.exports = function (router, db, config) {
             controllers.validate.validateName
         );
 
+    router.route('/validate/byTicketId/:ticketId')
+
     ////////////////////
     // Ticket selling //
     ////////////////////
@@ -282,6 +292,7 @@ module.exports = function (router, db, config) {
     router.route('/buy/buckutt/:eventId')
         .post(
             auth.isAuth,
+            validators.buyTicketBuckutt,
             controllers.sell.userBuysWithBuckutt
         );
 

@@ -11,7 +11,10 @@ module.exports = function (db, config) {
 
     return function (req, res) {
         var eventId = req.params.eventId;
-        
+        if (!req.form.isValid) {
+            return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
+        }
+
         var priceWanted;
         var priceWantedBackend;
 
@@ -63,7 +66,7 @@ module.exports = function (db, config) {
                         article: {
                             id: article.id,
                             price: priceWantedBackend.credit,
-                            FundationId: article.FundationId,
+                            FundationId: priceWantedBackend.FundationId,
                             type: 'product'
                         },
                         quantity: 1
@@ -80,6 +83,7 @@ module.exports = function (db, config) {
             return db.Ticket.create({
                 username: req.user.id,
                 displayName: req.user.firstname.nameCapitalize() + ' ' + req.user.lastname.nameCapitalize(),
+                birthdate: req.form.birthdate,
                 student: 1,
                 contributor: req.user.inBDE,
                 paid: 1,
