@@ -23,7 +23,7 @@ module.exports = function (config, logger) {
         var options = {
             headers: {
                 'Accept': '*/*',
-                'User-Agent': 'Restling for node.js',
+                'User-Agent': 'Restling for node.js'
             }
         };
 

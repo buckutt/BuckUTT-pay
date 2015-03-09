@@ -25,7 +25,6 @@ rest.post('services/login', {
 }).then(function (loginRes) {
     global.API_TOKEN = loginRes.data.token;
 }).catch(function (err) {
-    console.dir(err);
     throw err;
 });
 
