@@ -128,7 +128,7 @@ module.exports = function (data, callback) {
        });
 
     // Logo
-    doc.image(basePath + data.logo, 600, 145);
+    doc.image(basePath + data.logo, 921, 145);
 
     // Barcode
     barcode('ean13', {
