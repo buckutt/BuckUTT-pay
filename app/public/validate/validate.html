@@ -9,6 +9,27 @@
     <div id="success">Ok !</div>
     <div id="error"></div>
 
+    <div id="modalBirthdates" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Choix du ticket</h4>
+                </div>
+                <div class="modal-body">
+                    Plusieurs tickets sont disponnibles. Veuillez demander la date de naissance du propriétaire du ticket :
+                    <div class="panel panel-default" ng-repeat="birthDate in birthDates">
+                        <div class="panel-body">
+                            <a ng-click="validate.validateByBirthDate($event, birthDate[0], birthDate[1])">{{ birthDate[1] }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="switcher">
         <button class="btn btn-primary"
             ng-click="validate.switchPage()">

@@ -51,7 +51,14 @@ pay.controller('Validate', [
         this.validateByName = function (e) {
             e.preventDefault();
             var name = $scope.name;
-            $http.post('api/validate/byName/' + $routeParams.event + '/' + $scope.name).then(function () {
+            $http.post('api/validate/byName/' + $routeParams.event + '/' + $scope.name).then(function (res) {
+                if (res.data && res.data.length > 0) {
+                    $scope.birthDateName = name;
+                    $scope.birthDates = res.data;
+                    $('#modalBirthdates').modal();
+                    return;
+                }
+
                 $success.fadeIn('fast').delay(1000).fadeOut('fast');
                 $('#autoPanel input').focus();
                 $scope.history.unshift({
@@ -62,6 +69,27 @@ pay.controller('Validate', [
                 });
             }, errorPost('Nom', $scope.name));
             $scope.name = '';
+        };
+
+        /**
+         * Validates a ticket with birth date
+         * @param {object} e         The click event
+         * @param {number} id        The ticket id
+         * @param {string} birthDate The birthdate
+         */
+        this.validateByBirthDate = function (e, id, birthDate) {
+            e.preventDefault();
+            $http.post('api/validate/byTicketId/' + id).then(function (res) {
+                $success.fadeIn('fast').delay(1000).fadeOut('fast');
+                $scope.history.unshift({
+                    date: new Date(),
+                    displayName: res.data,
+                    method: 'Nom puis date de naissance',
+                    status: true
+                });
+            }, errorPost('Nom puis date de naissance', $scope.birthDateName + ' ' + birthDate));
+            $scope.birthDateName = '';
+            $('#modalBirthdates').modal('hide');
         };
 
         /**
