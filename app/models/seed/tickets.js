@@ -15,7 +15,8 @@ module.exports = function (db) {
         paid_with: 'buckutt',
         temporarlyOut: false,
         barcode: '3780173904905',
-        validatedMap: null
+        validatedMap: null,
+        birthdate: '21/09/1994'
     }).complete(function (err, galaGJ) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -29,6 +30,34 @@ module.exports = function (db) {
             galaGJ.setPrice(price);
         });
 
-        galaGJ.setEvent(2);
+        galaGJ.setEvent(1);
+    });
+
+    db.Ticket.create({
+        username: 55101,
+        displayName: 'Gabriel Juchault',
+        student: true,
+        contributor: true,
+        paid: true,
+        paid_at: new Date(),
+        paid_with: 'buckutt',
+        temporarlyOut: false,
+        barcode: '123456',
+        validatedMap: null,
+        birthdate: '22/09/1994'
+    }).complete(function (err, galaGJ) {
+        if (err) {
+            Error.emit(null, 500, '500 - SQL Server error', err.toString());
+        }
+
+        db.Price.find({ name: 'Gala 2015 - Prix étudiant cotisant en prévente' }).complete(function (err, price) {
+            if (err) {
+                Error.emit(null, 500, '500 - SQL Server error', err.toString());
+            }
+
+            galaGJ.setPrice(price);
+        });
+
+        galaGJ.setEvent(1);
     });
 };
