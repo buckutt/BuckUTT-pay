@@ -20,6 +20,7 @@
 }
 
 .panel-body {
+    height: auto;
     padding: 20px;
 }
 
