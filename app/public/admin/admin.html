@@ -37,6 +37,16 @@
                     Aucun événement avec des cartes événements à assigner.
                 </div>
             </div>
+
+            <h3>Assigner la date de naissance d'un ticket</h3>
+            <div class="subPanel">
+                <h4 ng-repeat="event in eventsSeller">
+                    <a href="#/assignateBirthdate/{{ event.id }}">{{ event.name }}</a>
+                </h4>
+                <div ng-if="eventsSeller.length === 0">
+                    Aucun événement avec des dates de naissances à assigner.
+                </div>
+            </div>
         </div>
         <div class="panel panel-default col-sm-5 col-sm-offset-2">
             <h3 ng-click="admin.expendPanel($event)">Créer un événement</h3>

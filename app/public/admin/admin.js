@@ -28,18 +28,35 @@ pay.controller('Admin', [
                 var keptEventsSellerWithEventCard = [];
                 // Prevent duplicates in keptEventsSellerWithEventCard
                 var addedEventsSellerWithEventCardIds = [];
+                // Prevent duplicates in keptEvents
+                var addedEvents = [];
+                // Prevent duplicates in keptEventsSeller
+                var addedEventsSeller = [];
 
                 $http.get('/api/accounts/' + PayAuth.etu.id).then(function (accountsRes) {
                     accountsRes.data.forEach(function (account) {
                         events.forEach(function (event) {
                             if (event.id === account.event) {
                                 if (PayAuth.etu.isAdmin) {
-                                    keptEvents.push(event);
-                                    keptEventsSeller.push(event);
+                                    if (addedEvents.indexOf(event.id) === -1) {
+                                        keptEvents.push(event);
+                                        addedEvents.push(event.id);
+                                    }
+                                    if (addedEventsSeller.indexOf(event.id) === -1) {
+                                        keptEventsSeller.push(event);
+                                        addedEventsSeller.push(evet.id);
+                                    }
                                 } else if (account.admin) {
-                                    keptEvents.push(event);
+                                    if (addedEvents.indexOf(event.id) === -1) {
+                                        keptEvents.push(event);
+                                        addedEvents.push(event.id);
+                                    }
                                 } else {
-                                    keptEventsSeller.push(event);
+                                    if (addedEventsSeller.indexOf(event.id) === -1) {
+                                        keptEventsSeller.push(event);
+                                        addedEventsSeller.push(event.id);
+                                    }
+
                                     if (event.bdeCard) {
                                         if (addedEventsSellerWithEventCardIds.indexOf(event.id) === -1) {
                                             keptEventsSellerWithEventCard.push(event);

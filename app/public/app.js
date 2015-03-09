@@ -46,6 +46,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/assignateCard/:event', {
             templateUrl: 'assignateCard/assignateCard.html'
         })
+        .when('/assignateBirthdate/:event', {
+            templateUrl: 'assignateBirthdate/assignateBirthdate.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
