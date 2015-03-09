@@ -1,6 +1,6 @@
-////////////////////
-// Ticket printer //
-////////////////////
+/////////////////////////////////////
+// Ticket validator by displayName //
+/////////////////////////////////////
 
 'use strict';
 
@@ -13,15 +13,25 @@ module.exports = function (db, config) {
     return function (req, res) {
         var eventId = req.params.eventId;
 
-        db.Ticket.find({
+        db.Ticket.findAll({
             where: {
                 event_id: eventId,
                 displayName: req.params.name
             }
-        }).complete(function (err, ticket) {
-            if (err || !ticket) {
+        }).complete(function (err, tickets) {
+            if (err || !tickets || tickets.length === 0) {
                 return res.status(401).end();
             }
+
+            if (tickets.length > 1) {
+                tickets = tickets.map(function (ticket) {
+                    return [ticket.id, ticket.birthdate];
+                });
+                res.status(200).json(tickets).end();
+                return;
+            }
+
+            var ticket = tickets[0];
 
             var values = (ticket.dataValues) ? ticket.dataValues : ticket;
 
