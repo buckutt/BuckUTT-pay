@@ -63,8 +63,8 @@ prompt.getAsync([ { name: 'password', hidden: true }])
         // Sets Cross-Site Policy
         app.use(helmet.csp({
             defaultSrc: ["'self'"], // JavaScript, Images, CSS, Font's, AJAX requests, Frames, HTML5 Media default source
-            scriptSrc:  ["'self'"], // JavaScript source
-            styleSrc:   ["'self'"], // CSS source
+            scriptSrc:  ["'self' 'unsafe-eval'"], // JavaScript source + eval (angular)
+            styleSrc:   ["'self' 'unsafe-inline'"], // CSS source + inline inline css
             imgSrc:     ["'self'"], // Images source
             connectSrc: ["'self'"], // AJAX requests source
             fontSrc:    ["'self'"], // Font's source
