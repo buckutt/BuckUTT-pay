@@ -24,7 +24,7 @@
     "prompt": "^0.2.14",
     "request": "^2.44.0",
     "restling": "^0.8.0",
-    "sequelize": "2.0.2",
+    "sequelize": "^2.0.2",
     "validator": "^3.28.0"
   },
   "scripts": {
