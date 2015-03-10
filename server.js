@@ -10,6 +10,7 @@ var express     = require('express');
 var bodyParser  = require('body-parser');
 var compression = require('compression');
 var Promise     = require('bluebird');
+var helmet      = require('helmet');
 var prompt      = Promise.promisifyAll(require('prompt'));
 var config      = require('./app/config.json');
 var bcrypt      = require('bcryptjs');
@@ -22,6 +23,15 @@ require('./app/lib/utils.js');
 require('./app/lib/errors.js')(config, log);
 
 log.info('BuckUTT Pay server');
+
+/* Override config with environment variables */
+if (process.env.DB_PORT_3306_TCP_ADDR) {
+    config.db.host = process.env.DB_PORT_3306_TCP_ADDR;
+}
+
+if (process.env.BACKEND_PORT) {
+    config.backend.host = process.env.BACKEND_PORT.replace('tcp', 'http');
+}
 
 prompt.start();
 prompt.getAsync([ { name: 'password', hidden: true }])
@@ -45,12 +55,47 @@ prompt.getAsync([ { name: 'password', hidden: true }])
         // Server configuration
         var port = config.port;
 
-        // Gunzip compression, if nginx is off
-        if (config.debug) {
-            app.use(compression({
-                threshold: 512
-            }));
-        }
+        /* Some basic protections */
+        
+        // Serves a strict crossdomain.xml
+        app.use(helmet.crossdomain());
+        
+        // Sets Cross-Site Policy
+        app.use(helmet.csp({
+            defaultSrc: ["'self'"], // JavaScript, Images, CSS, Font's, AJAX requests, Frames, HTML5 Media default source
+            scriptSrc:  ["'self'"], // JavaScript source
+            styleSrc:   ["'self'"], // CSS source
+            imgSrc:     ["'self'"], // Images source
+            connectSrc: ["'self'"], // AJAX requests source
+            fontSrc:    ["'self'"], // Font's source
+            objectSrc:  [],         // Objects sources
+            mediaSrc:   [],         // HTML5 audio's and video's source
+            frameSrc:   [],         // Frames sources (should be set when sherlocks is ready)
+            reportUri:  '/report',  // Report to this URL if the browser blocks a request because of CSP
+            reportOnly: false       // Do not only reports, blocks the request
+        }));
+        
+        // Disables X-Powered-By
+        app.use(helmet.hidePoweredBy());
+
+        // Sets X-Download-Options to noopen for IE.
+        // See: http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
+        app.use(helmet.ieNoOpen());
+
+        // Do not executes different mime types
+        app.use(helmet.noSniff());
+
+        // Disables frames (clickjacking)
+        // TODO : app.use(helmet.frameguard('allow-from', 'sherlocksURL'));
+        app.use(helmet.frameguard('deny'));
+
+        // Sets X-XSS-Protection to 1
+        app.use(helmet.xssFilter());
+
+        // Gunzip compression
+        app.use(compression({
+            threshold: 512
+        }));
 
         // POST data parser
         app.use(bodyParser.urlencoded({ extended: true }));
