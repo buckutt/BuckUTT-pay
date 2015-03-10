@@ -61,7 +61,7 @@
                                        ng-pattern="datePattern"
                                        ng-required="true">
                             </div>
-                            <h4>Solde actuelle : {{ sold | euro }}</h4>
+                            <h4>Solde actuel : {{ sold | euro }}</h4>
                             <h4 ng-init="ticket.getPrice(event.id)">
                                 Solde après achat :
                                 <span ng-if="sold - prices[event.id] < 0">
@@ -88,6 +88,33 @@
                     </div>
                     <div class="row paywith card">
                         <h2>Paiement par carte bleue</h2>
+                        <h4>Spécifez votre e-mail <kbd title="Permet de retrouver une place perdue ainsi qu'avoir des prix d'écoles partnaire. E-Mail vérifié.">?</kbd></h4>
+                        <div class="input-group">
+                            <input type="email" name="mail" class="form-control mail"
+                                   ng-blur="ticket.getPrice(event.id, $event)"
+                                   ng-required="true">
+                        </div>
+                        <h4>Spécifez votre date de naissance <kbd title="Permet de distinguer deux tickets en cas de deux noms identiques">?</kbd></h4>
+                        <div class="input-group">
+                            <input type="text" name="date" class="form-control birthdate" placeholder="Date de naissance (JJ/MM/AAAA)"
+                                   ng-model="birthdate"
+                                   ng-pattern="datePattern"
+                                   ng-required="true">
+                        </div>
+                        <h4 ng-init="ticket.getPrice(event.id)">
+                            <div ng-if="prices[event.id]">
+                                <p>Prix du ticket : {{ prices[event.id] | euro }}</p>
+                                <button class="btn btn-primary btn-lg"
+                                        ng-click="ticket.buyOneWithCard($event, event.id, birthdate)">
+                                    Prendre une place pour cet événement
+                                </button>
+                            </div>
+                            <div ng-if="!prices[event.id]">
+                                <p>
+                                    Cet événement ne vous est pas disponible.
+                                </p>
+                            </div>
+                        </h4>
                     </div>
                 </div>
             </div>

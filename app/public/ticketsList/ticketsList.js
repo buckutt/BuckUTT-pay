@@ -58,12 +58,25 @@ pay.controller('TicketsList', [
         /**
          * Gets the price of the current event for the current user
          * @param {number} eventId The event id
+         * @param {object} e       Optional, the blur event
          */
-        this.getPrice = function (eventId) {
+        this.getPrice = function (eventId, e) {
+            var mail = (e) ? e.currentTarget.value : '';
             var $soldAfter = $('#soldAfter');
-            $http.get('api/price/' + eventId).then(function (res) {
+            $http.get('api/price/' + eventId + '?mail=' + mail).then(function (res) {
                 $scope.prices[eventId] = res.data;
+            }, function () {
+                $scope.prices[eventId] = false;
             });
+        };
+
+        /**
+         * Checks if the prices variables contains key
+         * @param  {string}  key The price
+         * @return {Boolean}     Contains or not
+         */
+        this.hasPrice = function (key) {
+            return $scope.prices.hasOwnProperty(key);
         };
 
         /**
@@ -120,7 +133,6 @@ pay.controller('TicketsList', [
             var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
 
             if (!$target.hasClass('active')) {
-                console.log($selfRow[0], $selfRow.height(), $target[0], $target.height())
                 var newHeight = $selfRow.height() + $target.height();
                 $selfCol.addClass('expended').height(newHeight);
 
