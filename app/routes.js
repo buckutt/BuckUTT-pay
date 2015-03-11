@@ -302,6 +302,16 @@ module.exports = function (router, db, config) {
             controllers.sell.userBuysWithEeetop
         );
 
+    ////////////////
+    // CSP Report //
+    ////////////////
+
+    router.route('/report')
+        .post(
+            auth.noAuth,
+            controllers.report.report
+        );
+
     /* Params filters */
     var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'ticketId', 'id'];
     justIds.forEach(function (idName) {
