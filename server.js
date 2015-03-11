@@ -35,9 +35,6 @@ if (process.env.BACKEND_PORT) {
 
 prompt.start();
 prompt.getAsync([ { name: 'password', hidden: true }])
-.then(function (data) {
-    return bcrypt.hashSync(data.password, config.bcryptCost);
-})
 .then(function (password) {
     return rest.post('services/login', {
         UserId: 1,
@@ -62,7 +59,7 @@ prompt.getAsync([ { name: 'password', hidden: true }])
         
         // Sets Cross-Site Policy
         app.use(helmet.csp({
-            defaultSrc: ["'self'"], // JavaScript, Images, CSS, Font's, AJAX requests, Frames, HTML5 Media default source
+            defaultSrc: ["'none'"], // JavaScript, Images, CSS, Font's, AJAX requests, Frames, HTML5 Media : no default source
             scriptSrc:  ["'self' 'unsafe-eval'"], // JavaScript source + eval (angular)
             styleSrc:   ["'self' 'unsafe-inline'"], // CSS source + inline inline css
             imgSrc:     ["'self'"], // Images source
@@ -71,7 +68,7 @@ prompt.getAsync([ { name: 'password', hidden: true }])
             objectSrc:  [],         // Objects sources
             mediaSrc:   [],         // HTML5 audio's and video's source
             frameSrc:   [],         // Frames sources (should be set when sherlocks is ready)
-            reportUri:  '/report',  // Report to this URL if the browser blocks a request because of CSP
+            reportUri:  '/api/report', // Report to this URL if the browser blocks a request because of CSP
             reportOnly: false       // Do not only reports, blocks the request
         }));
         
@@ -96,6 +93,20 @@ prompt.getAsync([ { name: 'password', hidden: true }])
         app.use(compression({
             threshold: 512
         }));
+
+        // Raw body (csp request body is not working with bodyParser)
+        app.use(function(req, res, next) {
+            req.rawBody = '';
+            req.setEncoding('utf8');
+
+            req.on('data', function(chunk) { 
+                req.rawBody += chunk;
+            });
+
+            req.on('end', function() {
+                next();
+            });
+        });
 
         // POST data parser
         app.use(bodyParser.urlencoded({ extended: true }));
