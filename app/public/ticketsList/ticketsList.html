@@ -92,6 +92,12 @@
                             <div ng-if="prices[event.id]">
                                 <p>Prix du ticket : {{ prices[event.id] | euro }}</p>
 
+                                <p>
+                                    <em>Les places sont nominatives, non échangeables, non remboursables.</em><br>
+                                    <em>Les organisateurs se réservent le droit de refuser l'entrée.</em><br>
+                                    <em>En achetant une place, vous acceptez les conditions générales.</em>
+                                </p>
+
                                 <form class="cardFrom">
                                     <h4>Spécifez votre e-mail : <kbd title="Permet de retrouver une place perdue ainsi qu'avoir des prix d'écoles partnaires. E-Mail vérifié.">?</kbd></h4>
                                     <div class="input-group" ng-show="!isAuth">
@@ -126,8 +132,8 @@
                                         </button>
                                     </div>
                                     
-                                    <h4>Code envoyé par mail :</h4>
-                                    <div class="input-group">
+                                    <h4 ng-if="!isAuth">Code reçu par mail :</h4>
+                                    <div class="input-group" ng-if="!isAuth">
                                         <input type="text" name="code" class="form-control code" placeholder="XCNB5"
                                                ng-model="code"
                                                ng-pattern="codePattern"
