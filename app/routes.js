@@ -7,7 +7,7 @@
 var validators = require('./controllers/validators');
 var validator  = require('validator');
 
-module.exports = function (router, db, config) {
+module.exports = function (router, servicesRouter, db, config) {
     var controllers = require('./controllers')(db, config);
     var auth        = require('./lib/auth')(db, config);
 
@@ -128,11 +128,6 @@ module.exports = function (router, db, config) {
     /////////////
 
     router.route('/tickets')
-        // Gets all tickets from tickets list
-        .get(
-            auth.noAuth,
-            controllers.tickets.getAll
-        )
         // Creates a ticket (sell)
         .post(
             auth.isInEvent('validate'),
@@ -154,6 +149,13 @@ module.exports = function (router, db, config) {
             auth.isInEvent('validate'),
             validators.assignateBirthdate,
             controllers.tickets.assignateBirthdate
+        );
+
+    router.route('/sendCheckMail/:eventId/:mail')
+        // Sends a mail and create a token
+        .post(
+            auth.noAuth,
+            controllers.tickets.checkMail
         );
 
     /////////////////////
@@ -290,6 +292,7 @@ module.exports = function (router, db, config) {
     ////////////////////
 
     router.route('/buy/buckutt/:eventId')
+        // User buys one ticket with his buckutt
         .post(
             auth.isAuth,
             validators.buyTicketBuckutt,
@@ -297,16 +300,33 @@ module.exports = function (router, db, config) {
         );
 
     router.route('/buy/eeetop/')
+        // Route used by eee-tops to signal a payment
         .post(
             auth.noAuth,
             controllers.sell.userBuysWithEeetop
+        );
+
+    router.route('buy/card/:eventId')
+        // Route used by users that pay with card login
+        .post(
+            auth.isAuth,
+            validators.buyTicketCard,
+            controllers.sell.userBuysWithCard(false)
+        );
+
+    router.route('buy/card/ext/:eventId')
+        // Route used by users that pay with card without login
+        .post(
+            auth.noAuth,
+            validators.buyTicketExtCard,
+            controllers.sell.userBuysWithCard(true)
         );
 
     ////////////////
     // CSP Report //
     ////////////////
 
-    router.route('/report')
+    servicesRouter.route('/report')
         .post(
             auth.noAuth,
             controllers.report.report
