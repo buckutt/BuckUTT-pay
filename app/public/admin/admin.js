@@ -21,7 +21,7 @@ pay.controller('Admin', [
         /**
          * Show events list
          */
-        function getEventsListsWithAccounts () {
+        function getEventsListsWithAccounts (callback) {
             Event.query(function (events) {
                 var keptEvents = [];
                 var keptEventsSeller = [];
@@ -44,7 +44,7 @@ pay.controller('Admin', [
                                     }
                                     if (addedEventsSeller.indexOf(event.id) === -1) {
                                         keptEventsSeller.push(event);
-                                        addedEventsSeller.push(evet.id);
+                                        addedEventsSeller.push(event.id);
                                     }
                                 } else if (account.admin) {
                                     if (addedEvents.indexOf(event.id) === -1) {
@@ -67,7 +67,9 @@ pay.controller('Admin', [
                             }
                         });
                     });
+                    if (typeof callback === 'function') { callback(); }
                 }, function () {
+                    if (typeof callback === 'function') { callback(); }
                     Error('Erreur', 0);
                 });
 
@@ -111,12 +113,14 @@ pay.controller('Admin', [
 
         /**
          * Creates a event
+         * @param {object} e The click event
          */
-        this.createEvent = function () {
+        this.createEvent = function (e) {
             if (!FormValidator(newEventForm, 'file')) {
                 return;
             }
 
+            var $btn = $(e.currentTarget).attr('disabled', '');
             var file = newEventForm.file.files[0];
 
             // Image -> string
@@ -131,12 +135,15 @@ pay.controller('Admin', [
                 newEventData.fundationId = $scope.fundation.id;
                 var newEvent = new Event(newEventData);
                 newEvent.$save(function () {
-                    getEventsListsWithAccounts();
-                    $timeout(function () {
+                    getEventsListsWithAccounts(function () {
                         $scope.$emit('$locationChangeSuccess', '');
-                        $(window).scrollTop(0);
-                    }, 1000);
+                        $btn.removeAttr('disabled');
+                        $('html, body').animate({
+                            scrollTop: 0
+                        }, 'fast');
+                    });
                 }, function (res) {
+                    $btn.removeAttr('disabled');
                     // Request entity too large => file size too large
                     if (res.status === 413) {
                         Error('Erreur', 16);
