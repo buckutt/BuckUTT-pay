@@ -113,12 +113,16 @@ pay.controller('Login', [
          */
         this.authUser = function (e) {
             e.preventDefault();
+            var $button = $(e.currentTarget).attr('disabled', '');
             var $password = $('#password').blur();
             PayAuth.auth($('#username').val(), $password.val())
             .then(checksAdminLink, function (wrongAuth) {
                 setTimeout(function () {
                     animEnd(true, wrongAuth);
                 }, 400);
+            })
+            .then(function () {
+                $button.removeAttr('disabled');
             });
 
             $('.loginForm').fadeOut(function () {

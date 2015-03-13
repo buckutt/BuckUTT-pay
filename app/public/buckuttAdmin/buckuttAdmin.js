@@ -28,11 +28,13 @@ pay.controller('BuckuttAdmin', [
          * @param {object} e The submit event
          */
         this.editBankPrice = function (e) {
+            var $btn = $(e.currentTarget).find('button[type="submit"]').attr('disabled', '');
             var bankPrice = new BankPrice();
             bankPrice.value = $scope.bankPrice;
             bankPrice.$save(function () {
-
+                $btn.removeAttr('disabled');
             }, function (res) {
+                $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
             });
         };
@@ -42,6 +44,7 @@ pay.controller('BuckuttAdmin', [
          * @param {object} e The submit event
          */
         this.addDomain = function (e) {
+            var $btn = $(e.currentTarget).find('button[type="submit"]').attr('disabled', '');
             e.preventDefault();
 
             var val = $('#newDomain').val();
@@ -50,9 +53,11 @@ pay.controller('BuckuttAdmin', [
             });
 
             domain.$save(function () {
+                $btn.removeAttr('disabled');
                 domain.domain = val;
                 $scope.domains.push(domain);
             }, function (res) {
+                $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
             });
         };
@@ -64,6 +69,7 @@ pay.controller('BuckuttAdmin', [
          */
         this.removeDomain = function (e, id) {
             e.preventDefault();
+            var $btn = $(e.currentTarget).attr('disabled', '');
 
             var self = e.target;
             Domain.remove({
@@ -74,6 +80,7 @@ pay.controller('BuckuttAdmin', [
                     return;
                 }
 
+                $btn.removeAttr('disabled');
                 $(self).parent().remove();
             });
         };

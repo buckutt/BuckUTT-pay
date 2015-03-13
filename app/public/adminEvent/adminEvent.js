@@ -203,6 +203,7 @@ pay.controller('AdminEvent', [
          * @param {object} e The click event
          */
         this.editEvent = function (e) {
+            var $btn = $(e.currentTarget).attr('disabled', '');
             var fileDisabled = eventForm.file.files.length === 0;
             if (fileDisabled) {
                 if (!FormValidator(eventForm, 'file')) {
@@ -234,6 +235,7 @@ pay.controller('AdminEvent', [
                 $scope.currentEvent.date = moment($scope.currentEvent.date, 'DD/MM/YYYY HH:mm').toDate();
 
                 $scope.currentEvent.$save(function (res) {
+                    $btn.removeAttr('disabled');
                     $scope.currentEvent = this;
                     var dateDiff = new Date($scope.currentEvent.date) - new Date();
                     $scope.currentEvent.date = moment(new Date($scope.currentEvent.date)).format('DD/MM/YYYY HH:mm');
@@ -241,6 +243,7 @@ pay.controller('AdminEvent', [
                     $scope.remainingTime = moment(new Date(dateDiff)).format('D [jour(s) et] H [heure(s)]');
                     $('#modalEdit').modal('hide');
                 }, function (res) {
+                    $btn.removeAttr('disabled');
                     Error('Erreur', res.data.error);
                 });
             }
@@ -260,10 +263,12 @@ pay.controller('AdminEvent', [
          * @param {object} e The click event
          */
         this.deleteEvent = function (e) {
+            var $btn = $(e.currentEvent).attr('disabled', '');
             e.preventDefault();
             $scope.currentEvent.$remove({
                 id: $scope.currentEvent.id
             }).then(function (res) {
+                $btn.removeAttr('disabled');
                 if (res.status === 200) {
                     $('#modalConfirm').modal('hide').on('hidden.bs.modal', function () {
                         location.hash = '#/admin/';
@@ -287,8 +292,11 @@ pay.controller('AdminEvent', [
          */
         this.changePrices = function (e) {
             e.preventDefault();
-            ParsePrices.toEvent($scope.currentEvent, $scope.newPrices);
-            $('#modalPrices').modal('hide');
+            var $btn = $(e.currentTarget).attr('disabled', '');
+            ParsePrices.toEvent($scope.currentEvent, $scope.newPrices, function () {
+                var $btn = $(e.currentTarget).removeAttr('disabled');
+                $('#modalPrices').modal('hide');
+            });
         };
 
         /**

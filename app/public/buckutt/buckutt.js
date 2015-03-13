@@ -119,10 +119,13 @@ pay.controller('Buckutt', [
          */
         this.desactivate = function (e) {
             e.preventDefault();
+            var $btn = $(e.currentTarget).attr('disabled', '');
             $http.put('/api/etu/block').then(function () {
+                $btn.removeAttr('disabled');
                 $scope.isRemoved = true;
             }, function () {
-                Error('Erreur', 0)
+                $btn.removeAttr('disabled');
+                Error('Erreur', 0);
             });
         };
 
