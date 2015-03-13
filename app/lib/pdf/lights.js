@@ -15,8 +15,7 @@ module.exports = function (data, callback) {
     /**
      * Data structure :
      * {
-     *      firstname: string,
-     *      lastname: string,
+     *      displayname: string,
      *      eventname: string,
      *      date: string,
      *      place: string,
@@ -73,7 +72,7 @@ module.exports = function (data, callback) {
     // Firstname & Lastname
     doc.fillColor('#000')
        .fontSize(32)
-       .text(data.firstname + ' ' + data.lastname, 145, 145);
+       .text(data.displayname, 145, 145);
 
     // Event name
     doc.text(data.eventname, 145, 285);
@@ -147,8 +146,7 @@ module.exports = function (data, callback) {
 // Execute `node lights.js` to generate a test pdf directly
 if (require.main === module) {
     module.exports({
-        firstname: 'Gabriel',
-        lastname: 'Juchault',
+        displayname: 'Gabriel Juchault',
         eventname: 'Gala 2015',
         date: '26 Mai 2015 - 20h00',
         place: 'UTT',

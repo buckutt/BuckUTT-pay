@@ -51,8 +51,7 @@ module.exports = function (db, config) {
                     rest.get('fundations/' + ticket.event.fundationId).then(function (fRes) {
 
                         pdfMaker.lights({
-                            firstname: firstname,
-                            lastname: lastname,
+                            displayname: firstname + lastname,
                             eventname: ticket.event.name,
                             date: moment(ticket.event.date).format('DD/MM/YYYY à HH:mm'),
                             place: 'UTT',
