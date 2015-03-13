@@ -12,6 +12,7 @@ filesList[2]='package.json'
 filesList[3]='server.js'
 filesList[4]='bower.json'
 filesList[5]='.bowerrc'
+filesList[6]='master.js'
 
 echo "--- config ---"
 echo "host       : $host"

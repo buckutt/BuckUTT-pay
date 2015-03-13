@@ -11,6 +11,7 @@ var bodyParser  = require('body-parser');
 var compression = require('compression');
 var Promise     = require('bluebird');
 var helmet      = require('helmet');
+var cluster     = require('cluster');
 var prompt      = Promise.promisifyAll(require('prompt'));
 var config      = require('./app/config.json');
 var bcrypt      = require('bcryptjs');
@@ -21,6 +22,11 @@ var app         = express();
 
 require('./app/lib/utils.js');
 require('./app/lib/errors.js')(config, log);
+
+if (cluster.isMaster) {
+    require('./master');
+    return;
+}
 
 log.info('BuckUTT Pay server');
 
@@ -68,7 +74,7 @@ prompt.getAsync([ { name: 'password', hidden: true }])
             objectSrc:  [],         // Objects sources
             mediaSrc:   [],         // HTML5 audio's and video's source
             frameSrc:   [],         // Frames sources (should be set when sherlocks is ready)
-            reportUri:  '/api/report', // Report to this URL if the browser blocks a request because of CSP
+            reportUri:  '/services/report', // Report to this URL if the browser blocks a request because of CSP
             reportOnly: false       // Do not only reports, blocks the request
         }));
         
@@ -94,31 +100,32 @@ prompt.getAsync([ { name: 'password', hidden: true }])
             threshold: 512
         }));
 
-        // Raw body (csp request body is not working with bodyParser)
-        app.use(function(req, res, next) {
-            req.rawBody = '';
-            req.setEncoding('utf8');
+        // POST data parser
+        var urlencodedParser = bodyParser.urlencoded({ extended: true });
+        var jsonParser       = bodyParser.json();
 
-            req.on('data', function(chunk) { 
+        // Raw body (csp request body is not working with bodyParser)
+        var rowParser = function (req, res, next) {
+            req.rawBody = '';
+
+            req.on('data', function (chunk) { 
                 req.rawBody += chunk;
             });
 
-            req.on('end', function() {
+            req.on('end', function () {
                 next();
             });
-        });
-
-        // POST data parser
-        app.use(bodyParser.urlencoded({ extended: true }));
-        app.use(bodyParser.json());
+        };
 
         // Static content (will be nginx)
         app.use(express.static(__dirname + '/app/public'));
 
         // Router API
-        var router = express.Router();
-        makeRoutes(router, db, config);
-        app.use('/api', router);
+        var router         = express.Router();
+        var servicesRouter = express.Router();
+        makeRoutes(router, servicesRouter, db, config);
+        app.use('/api',      urlencodedParser, jsonParser, router);
+        app.use('/services', rowParser,                    servicesRouter);
 
         app.use(function (req, res) {
             if (!req.xhr) {
