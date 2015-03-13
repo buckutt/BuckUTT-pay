@@ -47,6 +47,7 @@ module.exports = function (db, config) {
                 username: user.id,
                 displayName: user.firstname.nameCapitalize() + ' ' + user.lastname.nameCapitalize(),
                 student: 1,
+                mail: user.mail,
                 contributor: user.inBDE,
                 paid: 1,
                 paid_at: purchase.date,

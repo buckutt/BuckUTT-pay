@@ -85,6 +85,7 @@ module.exports = function (db, config) {
                 username: req.user.id,
                 displayName: req.user.firstname.nameCapitalize() + ' ' + req.user.lastname.nameCapitalize(),
                 birthdate: req.form.birthdate,
+                mail: req.form.mail,
                 student: 1,
                 contributor: req.user.inBDE,
                 paid: 1,
