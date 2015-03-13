@@ -15,6 +15,7 @@ module.exports = function (db, config) {
          * Step 1 - Checks if email exists
          */
         rest.get('users?mail=' + req.params.mail).then(function (uRes) {
+            var data = uRes.data.data;
             if (!data) {
                 return Error.emit(res, 401, '401 - Unauthorized', 'Mail not found');
             }
@@ -27,7 +28,7 @@ module.exports = function (db, config) {
         /**
          * Step 2 - Generates random token
          */
-        function generateToken() {
+        function generateToken () {
             var token = String.random(20);
 
             db.Token.count({
@@ -53,7 +54,7 @@ module.exports = function (db, config) {
          * Step 3 - Creates the token
          * @param  {string} token The token to create
          */
-        function createToken(token) {
+        function createToken (token) {
             db.Token.create({
                 reset: token,
                 usermail: req.params.mail
@@ -70,7 +71,7 @@ module.exports = function (db, config) {
          * Step 4 - Sends the mail to the user
          * @param  {string} token The token to send
          */
-        function sendMail(token) {
+        function sendMail (token) {
             mailer.reset(req.params.mail, 'http://localhost:8080/#/reset/' + token, function (okay) {
                 if (!okay) {
                     return Error.emit(res, 500, '500 - Could\'t send mail');
