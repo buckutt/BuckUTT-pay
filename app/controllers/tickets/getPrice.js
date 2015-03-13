@@ -9,10 +9,9 @@ module.exports = function (db, config) {
         var logger = require('../../lib/log')(config);
         var rest   = require('../../lib/rest')(config, logger);
 
+        var eid = req.params.eventId;
         // If an user is connected
         if (req.user) {
-            var uid = req.user.id;
-            var eid = req.params.eventId;
             // If he's in bde
             if (req.user.inBDE) {
                 db.Price.find({
@@ -48,14 +47,14 @@ module.exports = function (db, config) {
                     db.Price.find({
                         where: {
                             event_id: eid,
-                            name: { like: '%extérieur en prévente' }
+                            name: { like: '%partenaire en prévente' }
                         }
                     }).complete(treatPrice);
                 } else {
                     db.Price.find({
                         where: {
                             event_id: eid,
-                            name: { like: '%partenaire en prévente' }
+                            name: { like: '%extérieur en prévente' }
                         }
                     }).complete(treatPrice);
                 }
