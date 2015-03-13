@@ -10,6 +10,10 @@ pay.factory('ParsePrices', [
     'Error',
     function ($timeout, $http, Error) {
         function ParsePrices () {
+            /**
+             * Parses prices from an event object
+             * @param {object} e Event object
+             */
             this.fromEvent = function (e) {
                 var name = e.name;
                 var prices = e.Prices;
@@ -53,7 +57,13 @@ pay.factory('ParsePrices', [
                 });
             };
 
-            this.toEvent = function (e, prices) {
+            /**
+             * Updates an event given a price object
+             * @param {object}   e        Event object
+             * @param {object}   prices   Price object
+             * @param {Function} callback Callback
+             */
+            this.toEvent = function (e, prices, callback) {
                 var name = e.name;
                 var existingPrices = {
                     priceEtucotPresale: 'Prix étudiant cotisant en prévente',
@@ -64,7 +74,10 @@ pay.factory('ParsePrices', [
                     priceExt:            'Prix extérieur hors prévente'
                 }
 
-                Object.keys(prices).forEach(function (price, i) {
+                var keys   = Object.keys(prices);
+                var length = keys.length;
+
+                keys.forEach(function (price, i) {
                     // Given price must exist
                     if (!existingPrices.hasOwnProperty(price)) {
                         return;
@@ -90,8 +103,11 @@ pay.factory('ParsePrices', [
                     e.Prices[i].price = prices[price];
                     $http.post('api/events/' + e.id + '/prices/' + e.Prices[i].id, {
                         price: e.Prices[i].price
-                    }).then(angular.noop, function (res) {
+                    }).then(function () {
+                        if (typeof callback === 'function' && i === length - 1) { callback(); }
+                    }, function (res) {
                         Error('Erreur', res.error);
+                        if (typeof callback === 'function' && i === length - 1) { callback(); }
                     });
                 });
             }
