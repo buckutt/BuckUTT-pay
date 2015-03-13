@@ -162,11 +162,12 @@
                         </span>
                         <input type="text" class="form-control" placeholder="Image de l'événement (taille : 128x128)"
                                readonly
+                               useless-validation
                                ng-model="fileInfo">
                     </div>
                 </div>
                 <div>
-                    <button class="btn btn-block btn-primary" ng-click="admin.createEvent()">Créer l'événement</button>
+                    <button class="btn btn-block btn-primary" ng-click="admin.createEvent($event)">Créer l'événement</button>
                 </div>
             </form>
             <div class="subPanel" ng-if="!fundation">

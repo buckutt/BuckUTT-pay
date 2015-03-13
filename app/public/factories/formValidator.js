@@ -27,10 +27,22 @@ pay.factory('FormValidator', [function () {
                 if ($self.is(':visible') === false || $self.attr('useless-validation') !== undefined) {
                     return false;
                 }
-                return this.value.length === 0;
+
+                if ($self.attr('type') === 'checkbox') {
+                    return false;
+                }
+
+                return !$self.hasClass('ng-valid');
             });
+
             if (emptyForms.length !== 0) {
                 emptyForms.removeClass('ng-pristine ng-valid').addClass('ng-invalid');
+                emptyForms.each(function () {
+                    var $self = $(this);
+                    if ($self.parent().hasClass('input-group')) {
+                        $self.parent().addClass('has-error');
+                    }
+                });
                 formValid = false;
             }
 
