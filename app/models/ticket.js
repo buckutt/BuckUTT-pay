@@ -28,6 +28,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true
         },
 
+        mail: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
         student: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

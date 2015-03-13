@@ -88,33 +88,74 @@
                     </div>
                     <div class="row paywith card">
                         <h2>Paiement par carte bleue</h2>
-                        <h4>Spécifez votre e-mail <kbd title="Permet de retrouver une place perdue ainsi qu'avoir des prix d'écoles partnaire. E-Mail vérifié.">?</kbd></h4>
-                        <div class="input-group">
-                            <input type="email" name="mail" class="form-control mail"
-                                   ng-blur="ticket.getPrice(event.id, $event)"
-                                   ng-required="true">
-                        </div>
-                        <h4>Spécifez votre date de naissance <kbd title="Permet de distinguer deux tickets en cas de deux noms identiques">?</kbd></h4>
-                        <div class="input-group">
-                            <input type="text" name="date" class="form-control birthdate" placeholder="Date de naissance (JJ/MM/AAAA)"
-                                   ng-model="birthdate"
-                                   ng-pattern="datePattern"
-                                   ng-required="true">
-                        </div>
-                        <h4 ng-init="ticket.getPrice(event.id)">
+                        <div ng-init="ticket.getPrice(event.id)">
                             <div ng-if="prices[event.id]">
                                 <p>Prix du ticket : {{ prices[event.id] | euro }}</p>
-                                <button class="btn btn-primary btn-lg"
-                                        ng-click="ticket.buyOneWithCard($event, event.id, birthdate)">
-                                    Prendre une place pour cet événement
-                                </button>
+
+                                <form class="cardFrom">
+                                    <h4>Spécifez votre e-mail : <kbd title="Permet de retrouver une place perdue ainsi qu'avoir des prix d'écoles partnaires. E-Mail vérifié.">?</kbd></h4>
+                                    <div class="input-group" ng-show="!isAuth">
+                                        <input type="email" name="mail" class="form-control mail" value="{{ defaultMail }}" placeholder="john.doe@mail.fr"
+                                               ng-model="mail"
+                                               ng-blur="ticket.getPrice(event.id, $event)"
+                                               ng-required="true">
+                                    </div>
+                                    <span class="autocard" ng-show="isAuth">{{ defaultMail }}</span>
+                                    
+                                    <h4 ng-if="!isAuth">Nom inscrit sur le billet : <kbd title="Vérifié par carte d'identité">?</kbd></h4>
+                                    <div class="input-group" ng-if="!isAuth">
+                                        <input type="text" name="displayName" class="form-control displayName" placeholder="John Doe"
+                                               ng-model="birthdate"
+                                               ng-pattern="namesPattern"
+                                               ng-required="true">
+                                    </div>
+                                    
+                                    <h4>Spécifez votre date de naissance : <kbd title="Permet de distinguer deux tickets en cas de deux noms identiques">?</kbd></h4>
+                                    <div class="input-group">
+                                        <input type="text" name="date" class="form-control birthdate" placeholder="Date de naissance (JJ/MM/AAAA)"
+                                               ng-model="birthdate"
+                                               ng-pattern="datePattern"
+                                               ng-required="true">
+                                    </div>
+
+                                    <div ng-if="!isAuth">
+                                        <button class="btn btn-primary btn-lg"
+                                                ng-disabled="code.length > 0"
+                                                ng-click="ticket.sendCheckMail($event, event.id, mail)">
+                                            Envoyer un mail (vérifier l'adresse)
+                                        </button>
+                                    </div>
+                                    
+                                    <h4>Code envoyé par mail :</h4>
+                                    <div class="input-group">
+                                        <input type="text" name="code" class="form-control code" placeholder="XCNB5"
+                                               ng-model="code"
+                                               ng-pattern="codePattern"
+                                               ng-required="true">
+                                    </div>
+                                    
+                                    <div ng-if="isAuth">
+                                        <button class="btn btn-primary btn-lg"
+                                                ng-click="ticket.buyOneWithCard($event, event.id, birthdate)">
+                                            Prendre une place pour cet événement
+                                        </button>
+                                    </div>
+                                    <div ng-if="!isAuth">
+                                            <button class="btn btn-primary btn-lg"
+                                                    ng-disabled="code.length === 0 || !code"
+                                                    ng-click="ticket.buyOneWithCardExt($event, event.id, mail, displayName, birthdate, code)">
+                                            Prendre une place pour cet événement
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                             <div ng-if="!prices[event.id]">
                                 <p>
                                     Cet événement ne vous est pas disponible.
                                 </p>
                             </div>
-                        </h4>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -28,7 +28,7 @@ module.exports = function (sequelize, DataTypes) {
             unique: true
         },
 
-        schoolValidation: {
+        mailCheck: {
             type: DataTypes.STRING(255),
             unique: true
         },

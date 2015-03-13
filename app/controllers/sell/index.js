@@ -7,6 +7,7 @@
 module.exports = function (db, config) {
     return {
         userBuysWithBuckutt: require('./userBuysWithBuckutt')(db, config),
-        userBuysWithEeetop:  require('./userBuysWithEeetop')(db, config)
+        userBuysWithEeetop:  require('./userBuysWithEeetop')(db, config),
+        userBuysWithCard:    require('./userBuysWithCard')(db, config)
     };
 };

@@ -10,14 +10,17 @@ pay.controller('TicketsList', [
     '$timeout',
     '$http',
     'Event',
+    'FormValidator',
     'Error',
     'PayAuth',
-    function ($scope, $rootScope, $timeout, $http, Event, Error, PayAuth) {
+    function ($scope, $rootScope, $timeout, $http, Event, FormValidator, Error, PayAuth) {
         var self = this;
         $scope.isAuth = !!PayAuth.etu;
         $scope.sold = ($scope.isAuth) ? PayAuth.etu.credit / 100 : 0;
         $scope.prices = {};
+        $scope.code = '';
         $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+        $scope.codePattern = /^[A-Z0-9]{5}$/;
 
         // Shows events list
         Event.query(function (events) {
@@ -32,7 +35,10 @@ pay.controller('TicketsList', [
 
                 $scope.isAuth = true;
                 $scope.sold = PayAuth.etu.credit / 100;
+                $scope.defaultMail = PayAuth.etu.mail;
+                $('input[type="email"]').blur();
                 $scope.jwt = PayAuth.etu.jwt;
+
                 var eventsIds = $scope.events.map(function (e) { return e.id; });
                 var ticketsEvIds = PayAuth.etu.tickets.map(function (t) { return t.event_id; });
                 eventsIds.forEach(function (id) {
@@ -147,7 +153,7 @@ pay.controller('TicketsList', [
         };
 
         /**
-         * Buys one ticket with github
+         * Buys one ticket with buckutt
          * @param {object} e         The click event
          * @param {number} eid       The event id
          * @param {string} birthdate The user birthdate
@@ -158,11 +164,13 @@ pay.controller('TicketsList', [
                 return;
             }
 
+            $btn.attr('disabled', '');
+
             $http.post('api/buy/buckutt/' + eid, {
                 birthdate: birthdate
             }).then(function () {
                 var $btn = $(e.currentTarget);
-                $btn.text('Achat effectué !').attr('disabled', '');
+                $btn.text('Achat effectué !');
                 var $cross = $btn.parent().parent().parent().parent().parent().find('.cross > i');
                 $timeout(function () {
                     PayAuth.etu.credit -= parseFloat($scope.prices[eid]) * 100;
@@ -174,8 +182,79 @@ pay.controller('TicketsList', [
                         currentTarget: $cross[0]
                     });
                 }, 2500);
+                $btn.removeAttr('disabled');
             }, function (res) {
+                $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
             });
+        };
+
+        /**
+         * Sends a mail to the user to verify his mail
+         * @param {object} e    The click event
+         * @param {number} eid  The event id
+         * @param {string} mail The mail to test
+         */
+        this.sendCheckMail = function (e, eid, mail) {
+            var $btn = $(e.currentTarget).attr('disabled', '');
+
+            if (!FormValidator($btn.parents('form'))) {
+                $btn.removeAttr('disabled');
+                return;
+            }
+            
+            $http.post('api/sendCheckMail/' + eid + '/' + mail).then(function () {
+                $btn.removeAttr('disabled');
+            }, function (res) {
+                $btn.removeAttr('disabled');
+                Error('Erreur', 0);
+            });
+        };
+
+        /**
+         * Buys one ticket with card
+         * @param {object} e           The click event
+         * @param {number} eid         The event id
+         * @param {string} mail        The mail to register
+         * @param {string} displayName The displayName to register
+         * @param {string} birthdate   The birthdate to register
+         * @param {string} code        The token to valiate
+         */
+        this.buyOneWithCardExt = function (e, eid, mail, displayName, birthdate, code) {
+            e.preventDefault();
+            var $btn = $(e.currentTarget).attr('disabled', '');
+
+            $http.post('api/buy/card/ext/' + eid, {
+                mail: mail,
+                displayName: displayName,
+                birthdate: birthdate,
+                code: code
+            }).then(function () {
+                $btn.removeAttr('disabled');
+            }, function (res) {
+                $btn.removeAttr('disabled');
+                Error('Erreur', res.data.error);
+            });
+        };
+
+        /**
+         * Buys one ticket with card
+         * @param {object} e         The click event
+         * @param {number} eid       The event id
+         * @param {string} birthdate The birthdate to register
+         */
+        this.buyOneWithCard = function (e, eid, birthdate) {
+            e.preventDefault();
+            var $btn = $(e.currentTarget).attr('disabled', '');
+
+            $http.post('api/buy/card/' + eid, {
+                birthdate: birthdate
+            }).then(function () {
+                $btn.removeAttr('disabled');
+            }, function (res) {
+                $btn.removeAttr('disabled');
+                Error('Erreur', res.data.error);
+            });
+
         };
 }]);

@@ -14,8 +14,8 @@ module.exports = function (config) {
 
     /**
      * Sends places to the dest
-     * @param  {string} dest    Dest e-mail
-     * @param  {object} places  Places object like "name:link"
+     * @param {string} dest    Dest e-mail
+     * @param {object} places  Places object like "name:link"
      */
     function mailPlaces (dest, places, cb) {
         var baseMail = fs.readFileSync('./app/public/mail.places.html', { encoding: 'utf8' });
@@ -43,8 +43,8 @@ module.exports = function (config) {
 
     /**
      * Sends the mail with the password reset link
-     * @param  {string} dest The user mail
-     * @param  {string} link The password reset link
+     * @param {string} dest The user mail
+     * @param {string} link The password reset link
      */
     function mailPasswordResetter (dest, link, cb) {
         var baseMail = fs.readFileSync('./app/public/mail.reset.html', { encoding: 'utf8' });
@@ -57,6 +57,35 @@ module.exports = function (config) {
             from: config.mail.sender,
             to: dest,
             subject: 'Changement de mot de passe Buckutt',
+            text: textMail,
+            html: finalMail
+        };
+
+        transporter.sendMail(mailOptions, function (err, infos) {
+            if (err) {
+                logger.error(err);
+                return cb(false);
+            }
+            logger.debug('Mail sent with success');
+            cb ? cb(true) : 0;
+        });
+    }
+
+    /**
+     * Sends the mail with the token to check mail integrity
+     * @param {string} dest  The user mail
+     * @param {string} token The mail token
+     */
+    function mailToken (dest, token, cb) {
+        var baseMail = fs.readFileSync('./app/public/mail.token.html', { encoding: 'utf8' });
+        var finalMail = baseMail.replace('{{code}}', token);
+
+        var textMail = 'Voici votre code pour valider l\'achat sur Buckutt : ' + token;
+
+        var mailOptions = {
+            from: config.mail.sender,
+            to: dest,
+            subject: 'Validation du mail pour l\'achat Buckutt',
             text: textMail,
             html: finalMail
         };
@@ -116,6 +145,7 @@ module.exports = function (config) {
 
     return {
         places: mailPlaces,
-        reset: mailPasswordResetter
+        reset: mailPasswordResetter,
+        mailToken: mailToken
     };
 };

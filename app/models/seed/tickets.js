@@ -8,6 +8,7 @@ module.exports = function (db) {
     db.Ticket.create({
         username: 10155,
         displayName: 'Gabriel Juchault',
+        mail: 'gabriel.juchault@gmail.com',
         student: true,
         contributor: true,
         paid: true,
@@ -36,6 +37,7 @@ module.exports = function (db) {
     db.Ticket.create({
         username: 55101,
         displayName: 'Gabriel Juchault',
+        mail: 'gabriel.juchault@gmail.com',
         student: true,
         contributor: true,
         paid: true,

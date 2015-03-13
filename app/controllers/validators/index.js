@@ -17,5 +17,7 @@ module.exports = {
     createTicket:       require('./createTicket'),
     assignateCard:      require('./assignateCard'),
     assignateBirthdate: require('./assignateBirthdate'),
-    buyTicketBuckutt:   require('./buyTicketBuckutt')
+    buyTicketBuckutt:   require('./buyTicketBuckutt'),
+    buyTicketCard:      require('./buyTicketCard'),
+    buyTicketExtCard:   require('./buyTicketExtCard')
 };
