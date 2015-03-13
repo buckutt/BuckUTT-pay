@@ -4,7 +4,15 @@
 
 pay.filter('euro', ['$filter', function ($filter) {
     return function (input, precision) {
-        if (!input || !input.toFixed) {
+        if (!input) {
+            input = 0;
+        }
+
+        if (!input.toFixed) {
+            input = parseFloat(input);
+        }
+
+        if (!input) {
             input = 0;
         }
 
