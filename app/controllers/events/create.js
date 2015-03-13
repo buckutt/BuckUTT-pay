@@ -36,7 +36,8 @@ module.exports = function (db, config) {
                 return Error.emit(res, 500, '500 - Cannot write file', err.toString());
             }
 
-            req.ids = {};
+            var ids = {};
+            var currentArticle;
 
             rest.post('articles', {
                 name: form.name,
@@ -45,19 +46,19 @@ module.exports = function (db, config) {
                 isSingle: false,
                 isRemoved: false
             }).then(function (aRes) {
-                req.currentArticle = aRes.data.data;
+                currentArticle = aRes.data.data;
             }).then(function () {
                 return rest.post('articlespoints', {
                     priority: 0,
                     isRemoved: false,
-                    ArticleId: req.currentArticle.id,
+                    ArticleId: currentArticle.id,
                     PointId: 1
                 });
             }).then(function () {
                 return rest.post('articlespoints', {
                     priority: 0,
                     isRemoved: false,
-                    ArticleId: req.currentArticle.id,
+                    ArticleId: currentArticle.id,
                     PointId: 2
                 });
             }).then(function () {
@@ -73,43 +74,43 @@ module.exports = function (db, config) {
                 return rest.post('prices', {
                     credit: form.priceEtucotPresale * 100,
                     isRemoved: 0,
-                    ArticleId: req.currentArticle.id,
+                    ArticleId: currentArticle.id,
                     FundationId: form.fundationId,
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
             }).then(function (prResEtucotPresale) {
-                req.ids.etucotPresale = prResEtucotPresale.data.data.id;
+                ids.etucotPresale = prResEtucotPresale.data.data.id;
                 return rest.post('prices', {
                     credit: form.priceEtucot * 100,
                     isRemoved: 0,
-                    ArticleId: req.currentArticle.id,
+                    ArticleId: currentArticle.id,
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
             }).then(function (prResEtucot) {
-                req.ids.etucot = prResEtucot.data.data.id;
+                ids.etucot = prResEtucot.data.data.id;
                 if (form.priceEtuPresaleActive) {
                     return rest.post('prices', {
                         credit: form.priceEtuPresale * 100,
                         isRemoved: 0,
-                        ArticleId: req.currentArticle.id,
+                        ArticleId: currentArticle.id,
                         GroupId: 5
                     });
                 }
             }).then(function (prResEtuPresale) {
                 if (form.priceEtuPresaleActive) {
-                    req.ids.etuPresale = prResEtuPresale.data.data.id;
+                    ids.etuPresale = prResEtuPresale.data.data.id;
                 }
                 if (form.priceEtuActive) {
                     return rest.post('prices', {
                         credit: form.priceEtu * 100,
-                        isRemoved: 0, ArticleId: req.currentArticle.id, GroupId: 5
+                        isRemoved: 0, ArticleId: currentArticle.id, GroupId: 5
                     });
                 }
             }).then(function (prResEtu) {
                 if (form.priceEtuActive) {
-                    req.ids.etu = prResEtu.data.data.id;
+                    ids.etu = prResEtu.data.data.id;
                 }
             }).catch(function (err) {
                 console.dir(err);
@@ -124,7 +125,7 @@ module.exports = function (db, config) {
                     opened: false,
                     bdeCard: form.bdeCard,
                     fundationId: form.fundationId,
-                    backendId: req.currentArticle.id
+                    backendId: currentArticle.id
                 }).complete(function (err, newEvent) {
                     if (err) {
                         if (err.name === 'SequelizeUniqueConstraintError') {
@@ -145,7 +146,7 @@ module.exports = function (db, config) {
                     db.Price.create({
                         name: form.name + ' - Prix étudiant cotisant en prévente',
                         price: form.priceEtucotPresale,
-                        backendId: req.ids.etucotPresale
+                        backendId: ids.etucotPresale
                     }).complete(function (err, priceEtucotPresale) {
                         if (err) {
                             return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -157,7 +158,7 @@ module.exports = function (db, config) {
                     db.Price.create({
                         name: form.name + ' - Prix étudiant cotisant hors prévente',
                         price: form.priceEtucot,
-                        backendId: req.ids.etucot
+                        backendId: ids.etucot
                     }).complete(function (err, priceEtucot) {
                         if (err) {
                             return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -170,7 +171,7 @@ module.exports = function (db, config) {
                         db.Price.create({
                             name: form.name + ' - Prix étudiant non-cotisant en prévente',
                             price: form.priceEtuPresale,
-                            backendId: req.ids.etuPresale
+                            backendId: ids.etuPresale
                         }).complete(function (err, priceEtuPresale) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -184,7 +185,7 @@ module.exports = function (db, config) {
                         db.Price.create({
                             name: form.name + ' - Prix étudiant non-cotisant hors prévente',
                             price: form.priceEtu,
-                            backendId: req.ids.etu
+                            backendId: ids.etu
                         }).complete(function (err, priceEtu) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -197,7 +198,8 @@ module.exports = function (db, config) {
                     if (form.priceExtPresaleActive) {
                         db.Price.create({
                             name: form.name + ' - Prix extérieur en prévente',
-                            price: form.priceExtPresale
+                            price: form.priceExtPresale,
+                            backendId: 0
                         }).complete(function (err, priceExtPresale) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -210,7 +212,8 @@ module.exports = function (db, config) {
                     if (form.priceExtActive) {
                         db.Price.create({
                             name: form.name + ' - Prix extérieur hors prévente',
-                            price: form.priceExt
+                            price: form.priceExt,
+                            backendId: 0
                         }).complete(function (err, priceExt) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -223,7 +226,8 @@ module.exports = function (db, config) {
                     if (form.pricePartnerPresaleActive) {
                         db.Price.create({
                             name: form.name + ' - Prix partenaire en prévente',
-                            price: form.pricePartnerPresale
+                            price: form.pricePartnerPresale,
+                            backendId: 0
                         }).complete(function (err, pricePartnerPresale) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -236,7 +240,8 @@ module.exports = function (db, config) {
                     if (form.pricePartnerActive) {
                         db.Price.create({
                             name: form.name + ' - Prix partenaire hors prévente',
-                            price: form.pricePartner
+                            price: form.pricePartner,
+                            backendId: 0
                         }).complete(function (err, pricePartner) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
