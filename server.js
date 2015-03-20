@@ -44,7 +44,7 @@ prompt.getAsync([ { name: 'password', hidden: true }])
 .then(function (password) {
     return rest.post('services/login', {
         UserId: 1,
-        hash: password
+        password: password.password
     });
 })
 .then(function (loginRes) {
@@ -124,10 +124,11 @@ prompt.getAsync([ { name: 'password', hidden: true }])
         var router         = express.Router();
         var servicesRouter = express.Router();
         makeRoutes(router, servicesRouter, db, config);
-        app.use('/api',      urlencodedParser, jsonParser, router);
-        app.use('/services', rowParser,                    servicesRouter);
+        app.use('/api', urlencodedParser, jsonParser, router);
+        app.use('/services', rowParser, servicesRouter);
 
         app.use(function (req, res) {
+            log.warn('404 on ' + req.originalUrl + ' (XHR : ' + req.xhr + ')');
             if (!req.xhr) {
                 log.warn('404 on ' + req.originalUrl + ' (XHR : ' + req.xhr + ')');
                 res.status(404).sendFile(path.resolve('./app/public/404.html'), {}, function () {
