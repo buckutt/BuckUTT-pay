@@ -306,7 +306,7 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.sell.userBuysWithEeetop
         );
 
-    router.route('buy/card/:eventId')
+    router.route('/buy/card/:eventId')
         // Route used by users that pay with card login
         .post(
             auth.isAuth,
@@ -314,7 +314,7 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.sell.userBuysWithCard(false)
         );
 
-    router.route('buy/card/ext/:eventId')
+    router.route('/buy/card/ext/:eventId')
         // Route used by users that pay with card without login
         .post(
             auth.noAuth,

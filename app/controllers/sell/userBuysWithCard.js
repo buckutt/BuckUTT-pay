@@ -7,8 +7,9 @@
 var Promise = require('bluebird');
 
 module.exports = function (db, config) {
-    var logger   = require('../../lib/log')(config);
-    var rest     = require('../../lib/rest')(config, logger);
+    var logger          = require('../../lib/log')(config);
+    var rest            = require('../../lib/rest')(config, logger);
+    var generateBarcode = require('../../lib/generateBarcode');
 
     return function (isExt) {
         return function (req, res) {
@@ -31,15 +32,20 @@ module.exports = function (db, config) {
 
                         resolve();
                     });
-                })
+                });
             } else {
-                starterPromise = new Promise();
+                starterPromise = new Promise(function (resolve) {
+                    resolve();
+                });
+
+                req.form.displayName = req.user.firstname.nameCapitalize() + ' ' + req.user.lastname.nameCapitalize();
+                req.form.mail = req.user.mail;
             }
 
             starterPromise
             .then(function () {
                 return new Promise(function (resolve, reject) {
-                    barcodePromise(resolve);
+                    generateBarcode(resolve, db.Ticket);
                 });
             })
             .then(function (barcode) {
@@ -57,11 +63,12 @@ module.exports = function (db, config) {
                             }
                         });
 
-                        resolve(barcode, partnerPrice);
+                        resolve([barcode, partnerPrice]);
                     });
                 });
             })
-            .then(function (barcode, partnerMail) {
+            .then(function (data) {
+                // data: [barcode, partnerMail]
                 return new Promise(function (resolve, reject) {
                     if (req.user) {
                         if (req.user.inBDE) {
@@ -75,7 +82,7 @@ module.exports = function (db, config) {
                                     return Error.emit(res, 500, '500 - SQL Server error', err);
                                 }
 
-                                resolve(price, barcode, 1, 1);
+                                resolve([price, data[0], 1, 1]);
                             });
                         } else {
                             db.Price.find({
@@ -88,11 +95,11 @@ module.exports = function (db, config) {
                                     return Error.emit(res, 500, '500 - SQL Server error', err);
                                 }
 
-                                resolve(price, barcode, 1, 0);
+                                resolve([price, data[0], 1, 0]);
                             });
                         }
                     } else {
-                        if (partnerMail) {
+                        if (data[1]) {
                             db.Price.find({
                                 where: {
                                     event_id: eventId,
@@ -103,7 +110,7 @@ module.exports = function (db, config) {
                                     return Error.emit(res, 500, '500 - SQL Server error', err);
                                 }
 
-                                resolve(price, barcode, 0, 0);
+                                resolve([price, data[0], 0, 0]);
                             });
                         } else {
                             db.Price.find({
@@ -116,59 +123,78 @@ module.exports = function (db, config) {
                                     return Error.emit(res, 500, '500 - SQL Server error', err);
                                 }
 
-                                resolve(price, barcode, 0, 0);
+                                resolve([price, data[0], 0, 0]);
                             });
                         }
                     }
                 });
             })
-            .then(function (price, barcode, student, contributor) {
+            .then(function (data) {
+                // data [price, barcode, student, contributor]
                 return db.Ticket.create({
                     username: (req.user) ? req.user.id : 0,
                     displayName: req.form.displayName,
                     birthdate: req.form.birthdate,
                     mail: req.form.mail,
-                    student: student,
-                    contributor: contributor,
+                    student: data[2],
+                    contributor: data[3],
                     paid: 1,
                     paid_at: new Date(),
                     paid_with: 'card',
-                    barcode: barcode,
-                    price_id: price.id,
+                    barcode: data[1],
+                    price_id: data[0].id,
                     event_id: eventId
                 });
+            })
+            .then(function () {
+                if (req.form.additionalExtTickets && !req.form.isExt) {
+                    var additionalExtTickets = req.body.additionalExtTickets;
+                    var promises = [];
+                    additionalExtTickets.forEach(function (additionalExtTicket) {
+                        promises.push(new Promise (function (resolve, reject) {
+                            generateBarcode(resolve, db.Ticket);
+                        }));
+                    });
+
+                    return Promise.all(promises);
+                }
+            })
+            .then(function (barcodes) {
+                if (req.form.additionalExtTickets && !req.form.isExt) {
+                    var additionalExtTickets = req.body.additionalExtTickets;
+                    return additionalExtTickets.map(function (additionalExtTicket, i) {
+                        return db.Ticket.create({
+                            username: 0,
+                            displayName: additionalExtTicket.displayName,
+                            birthdate: additionalExtTicket.birthdate,
+                            mail: req.form.mail,
+                            student: 0,
+                            contributor: 0,
+                            paid: 1,
+                            paid_at: new Date(),
+                            paid_with: 'card',
+                            barcode: barcodes[i]
+                        })
+                    });
+                }
+            })
+            .then(function () {
+                if (isExt) {
+                    return db.Token.destroy({
+                        where: {
+                            mailCheck: req.form.code,
+                            usermail: req.form.mail
+                        }
+                    });
+                }
+            })
+            .then(function () {
+                res.status(200).end();
+            })
+            .catch(function (err) {
+                console.dir(err);
+                return Error.emit(res, 500, '500 - SQL Server error', err);
             });
-
-            /**
-             * Generates a barcode
-             * @param {Function} callback Called when found a valid barcode
-             */
-            function generateBarcode (callback) {
-                var base = 989000000000;
-                var max =     999999999;
-                var min =             0;
-
-                var number = Math.floor(Math.random() * (max - min + 1) + min);
-                var barcode = base + number;
-
-                db.Ticket.count({
-                    where: {
-                        barcode: barcode
-                    }
-                }).complete(function (err, count) {
-                    if (err) {
-                        return Error.emit(res, 500, '500 - SQL Server error', err.toString());
-                    }
-
-                    if (count === 0) {
-                        callback(barcode);
-                    } else {
-                        logger.warn('Needed to regenerate barcode.');
-                        // Barcode already exists, call again
-                        generateBarcode(callback);
-                    }
-                });
-            }
         };
     };
 };

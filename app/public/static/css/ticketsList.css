@@ -30,6 +30,14 @@
     height: 100%;
 }
 
+.expended .behind .cardForm {
+    line-height: 40px;
+}
+
+.expended .behind .cardForm button {
+    margin: 10px 0;
+}
+
 /* Tiles */
 .icon {
     display: none;
@@ -137,24 +145,26 @@
             box-shadow: none;
 }
 
-.autocard {
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-}
-
 /* Closed presales */
 span.closedPresale {
     background: rgba(40, 40, 40, 0.6);
     color: white;
     float: left;
     font-size: 36px;
-    font-weight: bold;
     height: 100%;
     padding: 20px 0;
     position: absolute;
     text-align: center;
     width: calc(100% - 31px);
     z-index: 2;
+}
+
+/* Additionnal ticket */
+.additionalTicket {
+    height: 0;
+    overflow: hidden;
+
+    transition: height .2s ease;
 }
 
 @media (min-width: 768px) and (max-width: 992px) {

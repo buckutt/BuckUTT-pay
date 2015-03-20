@@ -7,8 +7,9 @@
 var Promise = require('bluebird');
 
 module.exports = function (db, config) {
-    var logger   = require('../../lib/log')(config);
-    var rest     = require('../../lib/rest')(config, logger);
+    var logger          = require('../../lib/log')(config);
+    var rest            = require('../../lib/rest')(config, logger);
+    var generateBarcode = require('../../lib/generateBarcode');
 
     return function (req, res) {
         var eventId = req.params.eventId;
@@ -77,7 +78,7 @@ module.exports = function (db, config) {
         })
         .then(function () {
             return new Promise(function (resolve, reject) {
-                generateBarcode(resolve);
+                generateBarcode(resolve, db.Ticket);
             });
         })
         .then(function (barcode) {
@@ -101,36 +102,5 @@ module.exports = function (db, config) {
         .then(function () {
             res.end();
         });
-
-        /**
-         * Generates a barcode
-         * @param {Function} callback Called when found a valid barcode
-         */
-        function generateBarcode (callback) {
-            var base = 989000000000;
-            var max =     999999999;
-            var min =             0;
-
-            var number = Math.floor(Math.random() * (max - min + 1) + min);
-            var barcode = base + number;
-
-            db.Ticket.count({
-                where: {
-                    barcode: barcode
-                }
-            }).complete(function (err, count) {
-                if (err) {
-                    return Error.emit(res, 500, '500 - SQL Server error', err.toString());
-                }
-
-                if (count === 0) {
-                    callback(barcode);
-                } else {
-                    logger.warn('Needed to regenerate barcode.');
-                    // Barcode already exists, call again
-                    generateBarcode(callback);
-                }
-            });
-        }
     };
 };

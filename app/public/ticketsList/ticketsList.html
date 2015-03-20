@@ -11,7 +11,7 @@
     </div>
     <div class="row row-spaced" ng-repeat="event in events">
         <div class="panel-col transition col-xs-12 col-sm-12 col-lg-12">
-            <span class="closedPresale" ng-if="!event.opened">Préventes fermées</span>
+            <span class="closedPresale" ng-if="!event.opened">Fermé</span>
             <div class="transition panel panel-default">
                 <div class="panel-body active">
                     <div class="icon">
@@ -54,10 +54,16 @@
                     <div class="row paywith buckutt">
                         <h2>Paiement par BuckUTT</h2>
                         <div ng-if="isAuth">
+                            <p>Prix du ticket : {{ prices[event.id] | euro }}</p>
+                            <p>
+                                <em>Les places sont nominatives, non échangeables, non remboursables.</em><br>
+                                <em>Les organisateurs se réservent le droit de refuser l'entrée.</em><br>
+                                <em>En achetant une place, vous acceptez les conditions générales.</em>
+                            </p>
                             <h4>Spécifez votre date de naissance <kbd title="Permet de distinguer deux tickets en cas de deux noms identiques">?</kbd></h4>
                             <div class="input-group">
                                 <input type="text" name="date" class="form-control birthdate" placeholder="Date de naissance (JJ/MM/AAAA)"
-                                       ng-model="birthdate"
+                                       ng-model="buyingTickets.birthdate"
                                        ng-pattern="datePattern"
                                        ng-required="true">
                             </div>
@@ -76,7 +82,7 @@
                                     <br>
                                     <br>
                                     <button class="btn btn-primary btn-lg"
-                                            ng-click="ticket.buyOneWithBuckutt($event, event.id, birthdate)">
+                                            ng-click="ticket.buyOneWithBuckutt($event, event.id)">
                                         Prendre une place pour cet événement
                                     </button>
                                 </span>
@@ -98,58 +104,74 @@
                                     <em>En achetant une place, vous acceptez les conditions générales.</em>
                                 </p>
 
-                                <form class="cardFrom">
+                                <form class="cardForm">
                                     <h4>Spécifez votre e-mail : <kbd title="Permet de retrouver une place perdue ainsi qu'avoir des prix d'écoles partnaires. E-Mail vérifié.">?</kbd></h4>
                                     <div class="input-group" ng-show="!isAuth">
                                         <input type="email" name="mail" class="form-control mail" value="{{ defaultMail }}" placeholder="john.doe@mail.fr"
-                                               ng-model="mail"
+                                               ng-model="buyingTickets.mail"
                                                ng-blur="ticket.getPrice(event.id, $event)"
                                                ng-required="true">
                                     </div>
                                     <span class="autocard" ng-show="isAuth">{{ defaultMail }}</span>
-                                    
+
                                     <h4 ng-if="!isAuth">Nom inscrit sur le billet : <kbd title="Vérifié par carte d'identité">?</kbd></h4>
                                     <div class="input-group" ng-if="!isAuth">
                                         <input type="text" name="displayName" class="form-control displayName" placeholder="John Doe"
-                                               ng-model="birthdate"
-                                               ng-pattern="namesPattern"
+                                               ng-model="buyingTickets.displayName"
                                                ng-required="true">
                                     </div>
-                                    
+
                                     <h4>Spécifez votre date de naissance : <kbd title="Permet de distinguer deux tickets en cas de deux noms identiques">?</kbd></h4>
                                     <div class="input-group">
                                         <input type="text" name="date" class="form-control birthdate" placeholder="Date de naissance (JJ/MM/AAAA)"
-                                               ng-model="birthdate"
+                                               ng-model="buyingTickets.birthdate"
                                                ng-pattern="datePattern"
                                                ng-required="true">
                                     </div>
 
+                                    <div ng-if="isAuth">
+                                        <span ng-repeat="additionalExtTicket in additionalExtTickets">
+                                            <div class="form-inline additionalTicket">
+                                                <input type="text" class="form-control" placeholder="Prénom Nom"
+                                                       ng-model="additionalExtTickets[$index].displayName"
+                                                       ng-required>
+                                                <input type="text" class="form-control" placeholder="JJ/MM/YYYY"
+                                                       ng-model="additionalExtTickets[$index].birthdate"
+                                                       ng-required>
+                                                <a href="#" ng-click="ticket.removeExtTicket($event, $index)">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </span>
+                                        <a href="#" ng-click="ticket.addExtTicket($event)">Ajouter une place pour un externe</a>
+                                    </div>
+
                                     <div ng-if="!isAuth">
                                         <button class="btn btn-primary btn-lg"
-                                                ng-disabled="code.length > 0"
-                                                ng-click="ticket.sendCheckMail($event, event.id, mail)">
+                                                ng-disabled="disableTakeTicket"
+                                                ng-click="ticket.sendCheckMail($event, event.id)">
                                             Envoyer un mail (vérifier l'adresse)
                                         </button>
                                     </div>
-                                    
+
                                     <h4 ng-if="!isAuth">Code reçu par mail :</h4>
                                     <div class="input-group" ng-if="!isAuth">
-                                        <input type="text" name="code" class="form-control code" placeholder="XCNB5"
-                                               ng-model="code"
+                                        <input type="text" name="code" class="form-control code" maxlength="5" placeholder="XCNB5"
+                                               ng-keyup="ticket.checkCode($event)"
                                                ng-pattern="codePattern"
-                                               ng-required="true">
+                                               ng-model="buyingTickets.code">
                                     </div>
-                                    
+
                                     <div ng-if="isAuth">
                                         <button class="btn btn-primary btn-lg"
-                                                ng-click="ticket.buyOneWithCard($event, event.id, birthdate)">
+                                                ng-click="ticket.buyOneWithCard($event, event.id)">
                                             Prendre une place pour cet événement
                                         </button>
                                     </div>
                                     <div ng-if="!isAuth">
                                             <button class="btn btn-primary btn-lg"
-                                                    ng-disabled="code.length === 0 || !code"
-                                                    ng-click="ticket.buyOneWithCardExt($event, event.id, mail, displayName, birthdate, code)">
+                                                    ng-disabled="!disableTakeTicket"
+                                                    ng-click="ticket.buyOneWithCardExt($event, event.id)">
                                             Prendre une place pour cet événement
                                             </button>
                                         </div>

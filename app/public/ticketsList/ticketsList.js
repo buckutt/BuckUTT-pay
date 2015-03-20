@@ -18,9 +18,10 @@ pay.controller('TicketsList', [
         $scope.isAuth = !!PayAuth.etu;
         $scope.sold = ($scope.isAuth) ? PayAuth.etu.credit / 100 : 0;
         $scope.prices = {};
-        $scope.code = '';
         $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
         $scope.codePattern = /^[A-Z0-9]{5}$/;
+        $scope.additionalExtTickets = [];
+        $scope.buyingTickets = {};
 
         // Shows events list
         Event.query(function (events) {
@@ -133,32 +134,36 @@ pay.controller('TicketsList', [
          * @param {string} meanOfPayment The mean of payment (buckutt, card)
          */
         this.expendBuy = function (e, meanOfPayment) {
-            var $self = $(e.currentTarget);
-            var $selfRow = $self.parent().parent();
-            var $selfCol = $self.parent().parent().parent().parent().parent();
-            var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
+            $timeout(function () {
+                var $self = $(e.currentTarget);
+                var $selfRow = $self.parent().parent();
+                var $selfCol = $self.parent().parent().parent().parent().parent();
+                var $target = $selfRow.siblings('.row.paywith.' + meanOfPayment);
 
-            if (!$target.hasClass('active')) {
-                var newHeight = $selfRow.height() + $target.height();
-                $selfCol.addClass('expended').height(newHeight);
+                if (!$target.hasClass('active')) {
+                    var $othersTargets = $target.siblings('.paywith').removeClass('active');
+                    $target
+                        .insertBefore($othersTargets.first())
+                        .addClass('active');
 
-                var $othersTargets = $target.siblings('.paywith').removeClass('active');
-                $target
-                    .insertBefore($othersTargets.first())
-                    .addClass('active');
-            } else {
-                $selfCol.removeClass('expended').removeAttr('style');
-                $target.removeClass('active');
-            }
+                    var newHeight = $selfRow.height() + $target.height();
+                    $selfCol.addClass('expended').height(newHeight).one('transitionend', function () {
+                        var newHeight = $selfRow.height() + $target.height();
+                        $selfCol.addClass('expended').height(newHeight)
+                    });
+                } else {
+                    $selfCol.removeClass('expended').removeAttr('style');
+                    $target.removeClass('active');
+                }
+            });
         };
 
         /**
          * Buys one ticket with buckutt
          * @param {object} e         The click event
          * @param {number} eid       The event id
-         * @param {string} birthdate The user birthdate
          */
-        this.buyOneWithBuckutt = function (e, eid, birthdate) {
+        this.buyOneWithBuckutt = function (e, eid) {
             if (!birthdate || !$scope.datePattern.test(birthdate)) {
                 $(e.currentTarget).parent().parent().parent().children('div.input-group').addClass('has-error');
                 return;
@@ -167,7 +172,7 @@ pay.controller('TicketsList', [
             $btn.attr('disabled', '');
 
             $http.post('api/buy/buckutt/' + eid, {
-                birthdate: birthdate
+                birthdate: $scope.buyingTickets.birthdate
             }).then(function () {
                 var $btn = $(e.currentTarget);
                 $btn.text('Achat effectué !');
@@ -193,9 +198,8 @@ pay.controller('TicketsList', [
          * Sends a mail to the user to verify his mail
          * @param {object} e    The click event
          * @param {number} eid  The event id
-         * @param {string} mail The mail to test
          */
-        this.sendCheckMail = function (e, eid, mail) {
+        this.sendCheckMail = function (e, eid) {
             var $btn = $(e.currentTarget).attr('disabled', '');
 
             if (!FormValidator($btn.parents('form'))) {
@@ -203,7 +207,7 @@ pay.controller('TicketsList', [
                 return;
             }
             
-            $http.post('api/sendCheckMail/' + eid + '/' + mail).then(function () {
+            $http.post('api/sendCheckMail/' + eid + '/' + $scope.buyingTickets.mail).then(function () {
                 $btn.removeAttr('disabled');
             }, function (res) {
                 $btn.removeAttr('disabled');
@@ -215,22 +219,20 @@ pay.controller('TicketsList', [
          * Buys one ticket with card
          * @param {object} e           The click event
          * @param {number} eid         The event id
-         * @param {string} mail        The mail to register
-         * @param {string} displayName The displayName to register
-         * @param {string} birthdate   The birthdate to register
-         * @param {string} code        The token to valiate
          */
-        this.buyOneWithCardExt = function (e, eid, mail, displayName, birthdate, code) {
+        this.buyOneWithCardExt = function (e, eid) {
             e.preventDefault();
             var $btn = $(e.currentTarget).attr('disabled', '');
+            debugger;
 
             $http.post('api/buy/card/ext/' + eid, {
-                mail: mail,
-                displayName: displayName,
-                birthdate: birthdate,
-                code: code
+                mail: $scope.buyingTickets.mail,
+                displayName: $scope.buyingTickets.displayName,
+                birthdate: $scope.buyingTickets.birthdate,
+                code: $scope.buyingTickets.code
             }).then(function () {
                 $btn.removeAttr('disabled');
+                location.href = '#/ticketBought';
             }, function (res) {
                 $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
@@ -241,20 +243,66 @@ pay.controller('TicketsList', [
          * Buys one ticket with card
          * @param {object} e         The click event
          * @param {number} eid       The event id
-         * @param {string} birthdate The birthdate to register
          */
-        this.buyOneWithCard = function (e, eid, birthdate) {
+        this.buyOneWithCard = function (e, eid) {
             e.preventDefault();
             var $btn = $(e.currentTarget).attr('disabled', '');
 
             $http.post('api/buy/card/' + eid, {
-                birthdate: birthdate
+                birthdate: $scope.buyingTickets.birthdate,
+                additionalExtTickets: $scope.additionalExtTickets
             }).then(function () {
                 $btn.removeAttr('disabled');
+                location.href = '#/ticketBought';
             }, function (res) {
                 $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
             });
+        };
 
+        /**
+         * Checks code length
+         * @param {object} e The keyup event
+         */
+        this.checkCode = function (e) {
+            $scope.disableTakeTicket = false;
+            var code = e.currentTarget.value;
+            if (code.length === 5) {
+                $scope.disableTakeTicket = true;
+            }
+        };
+        this.checkCode({ currentTarget: { value: '' }});
+
+        /**
+         * Adds an external ticket
+         * @param {object} e The click event
+         */
+        this.addExtTicket = function (e) {
+            e.preventDefault();
+            $scope.additionalExtTickets.push({
+                displayName: '',
+                birthdate: ''
+            });
+            $timeout(function () {
+                var $target = $(e.currentTarget);
+                $target.prev().children().last().css('height', '40px');
+                var $prevParent = $target.prev().parents('.panel-col');
+                $prevParent.height($prevParent.height() + 40);
+            });
+        };
+
+        /**
+         * Removes an external ticket
+         * @param {object} e     The click event
+         * @param {number} index The index
+         */
+        this.removeExtTicket = function (e, index) {
+            e.preventDefault();
+            var $self = $(e.currentTarget);
+            var $prevParent = $self.prev().parents('.panel-col');
+            $prevParent.height($prevParent.height() - 40);
+            $self.parent().css('height', '0').one('transitionend', function () {
+                $scope.additionalExtTickets.splice(index, 1);
+            });
         };
 }]);
