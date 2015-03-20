@@ -15,6 +15,7 @@ pay.controller('Buckutt', [
         if (!PayAuth.needUser()) { return; }
 
         $scope.isRemoved = PayAuth.etu.isRemoved;
+        $scope.euroPattern = /^\d{0,3}(\.\d{0,2})?€?$/;
 
         var spyStep         = 20;
         var spyActualLength = 20;
@@ -127,6 +128,26 @@ pay.controller('Buckutt', [
                 $btn.removeAttr('disabled');
                 Error('Erreur', 0);
             });
+        };
+
+        /**
+         * Shows the modal to reload the account
+         * @param  {object} e The click event
+         */
+        this.showReload = function (e) {
+            e.preventDefault();
+            $('#modalReload').modal().one('shown.bs.modal', function () {
+                $('#reloadAmount').focus();
+            });
+        };
+
+        /**
+         * Reloads the account
+         * @param  {object} e The click event
+         */
+        this.reload = function (e) {
+            e.preventDefault();
+            console.log($scope.amount);
         };
 
         /**

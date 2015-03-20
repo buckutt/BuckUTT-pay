@@ -27,6 +27,34 @@
         </div>
     </div>
 
+    <div id="modalReload" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Rechargement buckutt</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Choisissez le montant à recharger sur votre compte : <br>
+                        <br>
+                        <input type="text" id="reloadAmount" class="form-control" placeholder="10.00€"
+                               ng-pattern="euroPattern"
+                               ng-model="amount">
+                        <em>Rechargement minimal : 0.1€. Rechargement maximal : 100€.</em>
+                        <br>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-success" ng-click="buckutt.reload($event)">Recharger mon compte</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1 class="text-center">
         <a href="#/">BuckUTT</a>
     </h1>
@@ -35,7 +63,7 @@
         <div class="col-sm-4">
             <div class="panel panel-default">
                 <h1>
-                    <a>Recharger mon compte BuckUTT</a>
+                    <a ng-click="buckutt.showReload($event);">Recharger mon compte BuckUTT</a>
                 </h1>
             </div>
         </div>
