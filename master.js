@@ -6,22 +6,33 @@ var cluster = require('cluster');
 
 console.log('Master started with PID ' + process.pid);
 
-//fork the first process
-cluster.fork();
+var globalPwd;
+
+// Forks the first process
+var firstWorker = cluster.fork();
+
+firstWorker.on('message', function (msg) {
+    globalPwd = msg;
+});
+
+firstWorker.send(false);
 
 process.on('SIGHUP', function () {
     console.log('Reloading...');
 
-    var new_worker = cluster.fork();
+    var newWorker = cluster.fork();
 
-    new_worker.once('listening', function () {
-        //stop all other workers
+    newWorker.once('listening', function () {
+        // Stops all other workers
         for(var id in cluster.workers) {
-            if (id === new_worker.id.toString()) {
+            if (id === newWorker.id.toString()) {
                 continue;
             }
             cluster.workers[id].kill('SIGTERM');
         }
     });
 
+    if (globalPwd) {
+        newWorker.send(globalPwd);
+    }
 });
