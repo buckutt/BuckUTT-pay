@@ -85,6 +85,7 @@ module.exports = function (db, config) {
                     credit: form.priceEtucot * 100,
                     isRemoved: 0,
                     ArticleId: currentArticle.id,
+                    FundationId: form.fundationId,
                     GroupId: 1,
                     PeriodId: req.periodId
                 });
@@ -95,7 +96,9 @@ module.exports = function (db, config) {
                         credit: form.priceEtuPresale * 100,
                         isRemoved: 0,
                         ArticleId: currentArticle.id,
-                        GroupId: 5
+                        FundationId: form.fundationId,
+                        GroupId: 1,
+                        PeriodId: req.periodId
                     });
                 }
             }).then(function (prResEtuPresale) {
@@ -105,12 +108,44 @@ module.exports = function (db, config) {
                 if (form.priceEtuActive) {
                     return rest.post('prices', {
                         credit: form.priceEtu * 100,
-                        isRemoved: 0, ArticleId: currentArticle.id, GroupId: 5
+                        isRemoved: 0,
+                        ArticleId: currentArticle.id,
+                        FundationId: form.fundationId,
+                        GroupId: 1,
+                        PeriodId: req.periodId
                     });
                 }
             }).then(function (prResEtu) {
                 if (form.priceEtuActive) {
                     ids.etu = prResEtu.data.data.id;
+                }
+                if (form.priceExtPresaleActive) {
+                    return rest.post('prices', {
+                        credit: form.priceExtPresale * 100,
+                        isRemoved: 0,
+                        ArticleId: currentArticle.id,
+                        FundationId: form.fundationId,
+                        GroupId: 1,
+                        PeriodId: req.periodId
+                    });
+                }
+            }).then(function (prResExtPresale) {
+                if (form.priceExtPresaleActive) {
+                    ids.extPresale = prResExtPresale.data.data.id;
+                }
+                if (form.priceExtActive) {
+                    return rest.post('prices', {
+                        credit: form.priceExt * 100,
+                        isRemoved: 0,
+                        ArticleId: currentArticle.id,
+                        FundationId: form.fundationId,
+                        GroupId: 1,
+                        PeriodId: req.periodId
+                    });
+                }
+            }).then(function (prResExt) {
+                if (form.priceExtActive) {
+                    ids.ext = prResExt.data.data.id;
                 }
             }).catch(function (err) {
                 console.dir(err);
@@ -199,7 +234,7 @@ module.exports = function (db, config) {
                         db.Price.create({
                             name: form.name + ' - Prix extérieur en prévente',
                             price: form.priceExtPresale,
-                            backendId: 0
+                            backendId: ids.extPresale
                         }).complete(function (err, priceExtPresale) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -213,7 +248,7 @@ module.exports = function (db, config) {
                         db.Price.create({
                             name: form.name + ' - Prix extérieur hors prévente',
                             price: form.priceExt,
-                            backendId: 0
+                            backendId: ids.ext
                         }).complete(function (err, priceExt) {
                             if (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err.toString());
