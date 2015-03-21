@@ -14,7 +14,12 @@ module.exports = function (db, config) {
         var pdfMaker = require('../../lib/pdf');
         var ticketId = req.params.ticketId;
 
-        db.Ticket.find(ticketId).complete(function (err, ticket) {
+        db.Ticket.find({
+            where: {
+                id: ticketId,
+                username: req.user.id
+            }
+        }).complete(function (err, ticket) {
             if (err || !ticket) {
                 return Error.emit(res, 404, '404 - Not Found', 'Couldn\'t find ticket');
             }
