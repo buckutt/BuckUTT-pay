@@ -145,6 +145,10 @@
             box-shadow: none;
 }
 
+.buckutt .additionalTicket * {
+    margin-top: -25px;
+}
+
 /* Closed presales */
 span.closedPresale {
     background: rgba(40, 40, 40, 0.6);

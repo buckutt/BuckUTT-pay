@@ -19,6 +19,13 @@ module.exports = function (db, config) {
 
         var priceWanted;
         var priceWantedBackend;
+        var priceWantedExt;
+        var priceWantedExtBackend;
+        var articleId;
+        var articleIdExt;
+        var newTicketId;
+
+        var additionalExtTickets = req.body.additionalExtTickets || [];
 
         new Promise(function (resolve, reject) {
             if (req.user.inBDE) {
@@ -30,6 +37,11 @@ module.exports = function (db, config) {
                 }).complete(function (err, price) {
                     if (err) {
                         return Error.emit(res, 500, '500 - SQL Server error', err);
+                    }
+
+                    if (!price) {
+                        Error.emit(res, 404, '404 - Not found', err, 'no price');
+                        return reject();
                     }
 
                     resolve(price);
@@ -45,33 +57,81 @@ module.exports = function (db, config) {
                         return Error.emit(res, 500, '500 - SQL Server error', err);
                     }
 
+                    if (!price) {
+                        Error.emit(res, 404, '404 - Not found', err, 'no price');
+                        return reject();
+                    }
+
                     resolve(price);
                 });
             }
         })
         .then(function (price) {
             priceWanted = price;
-            return rest.get('prices/' + price.backendId)
+            return rest.get('prices/' + price.backendId);
         })
         .then(function (resBackendPrice) {
             priceWantedBackend = resBackendPrice.data.data;
             return rest.get('articles/' + priceWantedBackend.ArticleId);
         })
         .then(function (resArticle) {
-            var article = resArticle.data.data;
-            rest.post('services/purchase', {
+            articleId = resArticle.data.data.id;
+        })
+        .then(function () {
+            return new Promise(function (resolve, reject) {
+                db.Price.find({
+                    where: {
+                        event_id: eventId,
+                        name: { like: '%extérieur en prévente' }
+                    }
+                }).complete(function (err, price) {
+                    if (err) {
+                        return Error.emit(res, 500, '500 - SQL Server error', err);
+                    }
+
+                    if (!price) {
+                        Error.emit(res, 404, '404 - Not found', err);
+                        return reject();
+                    }
+
+                    resolve(price);
+                });
+            });
+        })
+        .then(function (price) {
+            priceWantedExt = price;
+            return rest.get('prices/' + price.backendId);
+        })
+        .then(function (resBackendPrice) {
+            priceWantedExtBackend = resBackendPrice.data.data;
+            return rest.get('articles/' + priceWantedExtBackend.ArticleId);
+        })
+        .then(function (resArticle) {
+            articleIdExt = resArticle.data.data.id;
+        })
+        .then(function () {
+            return rest.post('services/purchase', {
                 PointId: 1,
                 SellerId: req.user.id,
                 BuyerId: req.user.id,
                 cart: [
                     {
                         article: {
-                            id: article.id,
+                            id: articleId,
                             price: priceWantedBackend.credit,
                             FundationId: priceWantedBackend.FundationId,
                             type: 'product'
                         },
                         quantity: 1
+                    },
+                    {
+                        article: {
+                            id: articleIdExt,
+                            price: priceWantedExtBackend.credit,
+                            FundationId: priceWantedExtBackend.FundationId,
+                            type: 'product'
+                        },
+                        quantity: additionalExtTickets.length
                     }
                 ]
             });
@@ -86,7 +146,7 @@ module.exports = function (db, config) {
                 username: req.user.id,
                 displayName: req.user.firstname.nameCapitalize() + ' ' + req.user.lastname.nameCapitalize(),
                 birthdate: req.form.birthdate,
-                mail: req.form.mail,
+                mail: req.user.mail,
                 student: 1,
                 contributor: req.user.inBDE,
                 paid: 1,
@@ -99,7 +159,45 @@ module.exports = function (db, config) {
                 event_id: eventId
             });
         })
+        .then(function (newTicket) {
+            newTicketId = newTicket.id;
+            if (additionalExtTickets) {
+                var promises = [];
+                additionalExtTickets.forEach(function (additionalExtTicket) {
+                    promises.push(new Promise (function (resolve, reject) {
+                        generateBarcode(resolve, db.Ticket);
+                    }));
+                });
+
+                return Promise.all(promises);
+            }
+        })
+        .then(function (barcodes) {
+            if (additionalExtTickets) {
+                return additionalExtTickets.map(function (additionalExtTicket, i) {
+                    return db.Ticket.create({
+                        username: req.user.id,
+                        displayName: additionalExtTicket.displayName,
+                        birthdate: additionalExtTicket.birthdate,
+                        mail: req.user.mail,
+                        student: 0,
+                        contributor: 0,
+                        paid: 1,
+                        paid_at: new Date(),
+                        paid_with: 'buckutt',
+                        barcode: barcodes[i],
+                        price_id: priceWantedExt.id,
+                        event_id: eventId
+                    })
+                });
+            }
+        })
         .then(function () {
+            res.end({
+                id: newTicket.id
+            });
+        }).catch(function (err) {
+            console.dir(err);
             res.end();
         });
     };

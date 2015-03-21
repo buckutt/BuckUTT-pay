@@ -54,7 +54,7 @@
                     <div class="row paywith buckutt">
                         <h2>Paiement par BuckUTT</h2>
                         <div ng-if="isAuth">
-                            <p>Prix du ticket : {{ prices[event.id] | euro }}</p>
+                            <p>Prix du ticket : {{ prices[event.id] | euro }} (prix d'un externe : {{ extPrices[event.id] | euro }})</p>
                             <p>
                                 <em>Les places sont nominatives, non échangeables, non remboursables.</em><br>
                                 <em>Les organisateurs se réservent le droit de refuser l'entrée.</em><br>
@@ -67,17 +67,39 @@
                                        ng-pattern="datePattern"
                                        ng-required="true">
                             </div>
-                            <h4>Solde actuel : {{ sold | euro }}</h4>
-                            <h4 ng-init="ticket.getPrice(event.id)">
-                                Solde après achat :
-                                <span ng-if="sold - prices[event.id] < 0">
-                                    <span class="soldAfter {{ event.id }} text-danger">
-                                        {{ sold - prices[event.id] | euro }}
-                                    </span>
+                            <div ng-if="isAuth">
+                                <span ng-repeat="additionalExtTicket in additionalExtTickets">
+                                    <div class="form-inline additionalTicket">
+                                        <input type="text" class="form-control" placeholder="Prénom Nom"
+                                               ng-model="additionalExtTickets[$index].displayName"
+                                               ng-required>
+                                        <input type="text" class="form-control" placeholder="JJ/MM/YYYY"
+                                               ng-model="additionalExtTickets[$index].birthdate"
+                                               ng-required>
+                                        <a href="#" ng-click="ticket.removeExtTicket($event, $index)">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
                                 </span>
-                                <span ng-if="sold - prices[event.id] >= 0">
+                                <a href="#" ng-click="ticket.addExtTicket($event)">Ajouter une place pour un externe</a>
+                            </div>
+                            <h4>Solde actuel : {{ sold | euro }}</h4>
+                            <h4 ng-init="ticket.getPrice(event.id); ticket.getExtPrice(event.id)">
+                                Solde après achat :
+                                <span ng-if="sold - prices[event.id] - additionalExtTickets.length * extPrices[event.id] < 0">
+                                    <span class="soldAfter {{ event.id }} text-danger">
+                                        {{ sold - prices[event.id] - additionalExtTickets.length * extPrices[event.id] | euro }}
+                                    </span>
+                                    <br>
+                                    <br>
+                                    <button class="btn btn-primary btn-lg" disabled="disabled" 
+                                            ng-click="ticket.buyOneWithBuckutt($event, event.id)">
+                                        Prendre une place pour cet événement
+                                    </button>
+                                </span>
+                                <span ng-if="sold - prices[event.id] - additionalExtTickets.length * extPrices[event.id]  >= 0">
                                     <span class="soldAfter {{ event.id }} text-success">
-                                        {{ sold - prices[event.id] | euro }}
+                                        {{ sold - prices[event.id] - additionalExtTickets.length * extPrices[event.id] | euro }}
                                     </span>
                                     <br>
                                     <br>
@@ -94,9 +116,10 @@
                     </div>
                     <div class="row paywith card">
                         <h2>Paiement par carte bleue</h2>
-                        <div ng-init="ticket.getPrice(event.id)">
+                        <div ng-init="ticket.getPrice(event.id); ticket.getExtPrice(event.id)">
                             <div ng-if="prices[event.id]">
-                                <p>Prix du ticket : {{ prices[event.id] | euro }}</p>
+                                <p>Prix du ticket : {{ prices[event.id] | euro }} (prix d'un externe : {{ extPrices[event.id] | euro }})</p>
+                                <p>Prix total : {{ ticket.parseFloat(prices[event.id]) + additionalExtTickets.length * extPrices[event.id] | euro }}</p>
 
                                 <p>
                                     <em>Les places sont nominatives, non échangeables, non remboursables.</em><br>

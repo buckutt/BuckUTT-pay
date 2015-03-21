@@ -11,5 +11,7 @@ module.exports = form(
     field('birthdate')
         .trim()
         .required()
-        .is(/^\d{1,2}\/\d{1,2}\/\d{4}$/)
+        .is(/^\d{1,2}\/\d{1,2}\/\d{4}$/),
+
+    field('additionalExtTickets')
 );

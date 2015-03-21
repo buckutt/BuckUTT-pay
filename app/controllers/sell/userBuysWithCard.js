@@ -18,6 +18,8 @@ module.exports = function (db, config) {
                 return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
             }
 
+            var priceWantedExt;
+
             var starterPromise;
             if (isExt) {
                 starterPromise = db.Token.count({
@@ -147,7 +149,31 @@ module.exports = function (db, config) {
                 });
             })
             .then(function () {
+                if (req.form.additionalExtTickets) {
+                    return new Promise(function (resolve, reject) {
+                        db.Price.find({
+                            where: {
+                                event_id: eventId,
+                                name: { like: '%extérieur en prévente' }
+                            }
+                        }).complete(function (err, price) {
+                            if (err) {
+                                return Error.emit(res, 500, '500 - SQL Server error', err);
+                            }
+
+                            if (!price) {
+                                Error.emit(res, 404, '404 - Not found', err);
+                                return reject();
+                            }
+
+                            resolve(price);
+                        });
+                    });
+                }
+            })
+            .then(function (price) {
                 if (req.form.additionalExtTickets && !req.form.isExt) {
+                    priceWanted = price;
                     var additionalExtTickets = req.body.additionalExtTickets;
                     var promises = [];
                     additionalExtTickets.forEach(function (additionalExtTicket) {
@@ -164,7 +190,7 @@ module.exports = function (db, config) {
                     var additionalExtTickets = req.body.additionalExtTickets;
                     return additionalExtTickets.map(function (additionalExtTicket, i) {
                         return db.Ticket.create({
-                            username: 0,
+                            username: (req.user) ? req.user.id : 0,
                             displayName: additionalExtTicket.displayName,
                             birthdate: additionalExtTicket.birthdate,
                             mail: req.form.mail,
@@ -173,8 +199,10 @@ module.exports = function (db, config) {
                             paid: 1,
                             paid_at: new Date(),
                             paid_with: 'card',
-                            barcode: barcodes[i]
-                        })
+                            barcode: barcodes[i],
+                            price_id: priceWanted.id,
+                            event_id: eventId
+                        });
                     });
                 }
             })

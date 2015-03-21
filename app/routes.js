@@ -169,6 +169,13 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.tickets.getPrice
         );
 
+    router.route('/priceExt/:eventId')
+        // Gets an event price
+        .get(
+            auth.noAuth,
+            controllers.tickets.getExtPrice
+        );
+
     ////////////////////
     // School domains //
     ////////////////////

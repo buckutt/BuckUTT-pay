@@ -18,6 +18,7 @@ pay.controller('TicketsList', [
         $scope.isAuth = !!PayAuth.etu;
         $scope.sold = ($scope.isAuth) ? PayAuth.etu.credit / 100 : 0;
         $scope.prices = {};
+        $scope.extPrices = {};
         $scope.datePattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
         $scope.codePattern = /^[A-Z0-9]{5}$/;
         $scope.additionalExtTickets = [];
@@ -78,6 +79,19 @@ pay.controller('TicketsList', [
         };
 
         /**
+         * Gets the price of the current event for an external user
+         * @param {number} eventId The event id
+         */
+        this.getExtPrice = function (eventId) {
+            var $soldAfter = $('#soldAfter');
+            $http.get('api/priceExt/' + eventId).then(function (res) {
+                $scope.extPrices[eventId] = res.data;
+            }, function () {
+                $scope.extPrices[eventId] = 0;
+            });
+        };
+
+        /**
          * Checks if the prices variables contains key
          * @param  {string}  key The price
          * @return {Boolean}     Contains or not
@@ -134,6 +148,7 @@ pay.controller('TicketsList', [
          * @param {string} meanOfPayment The mean of payment (buckutt, card)
          */
         this.expendBuy = function (e, meanOfPayment) {
+            $scope.additionalExtTickets = [];
             $timeout(function () {
                 var $self = $(e.currentTarget);
                 var $selfRow = $self.parent().parent();
@@ -164,22 +179,27 @@ pay.controller('TicketsList', [
          * @param {number} eid       The event id
          */
         this.buyOneWithBuckutt = function (e, eid) {
-            if (!birthdate || !$scope.datePattern.test(birthdate)) {
+            if (!$scope.buyingTickets.birthdate || !$scope.datePattern.test($scope.buyingTickets.birthdate)) {
                 $(e.currentTarget).parent().parent().parent().children('div.input-group').addClass('has-error');
                 return;
             }
 
-            $btn.attr('disabled', '');
+            var $btn = $(e.currentTarget).attr('disabled', '');
 
             $http.post('api/buy/buckutt/' + eid, {
-                birthdate: $scope.buyingTickets.birthdate
-            }).then(function () {
+                birthdate: $scope.buyingTickets.birthdate,
+                additionalExtTickets: $scope.additionalExtTickets
+            }).then(function (res) {
                 var $btn = $(e.currentTarget);
                 $btn.text('Achat effectué !');
                 var $cross = $btn.parent().parent().parent().parent().parent().find('.cross > i');
                 $timeout(function () {
                     PayAuth.etu.credit -= parseFloat($scope.prices[eid]) * 100;
-                    PayAuth.etu.tickets.push(eid);
+                    PayAuth.etu.credit -= $scope.additionalExtTickets.length * parseFloat($scope.extPrices[eid]) * 100;
+                    PayAuth.etu.tickets.push({
+                        event_id: eid,
+                        id: res.data.id
+                    });
                     $rootScope.$emit('payauth:logged', true);
                 });
                 setTimeout(function () {
@@ -301,8 +321,19 @@ pay.controller('TicketsList', [
             var $self = $(e.currentTarget);
             var $prevParent = $self.prev().parents('.panel-col');
             $prevParent.height($prevParent.height() - 40);
-            $self.parent().css('height', '0').one('transitionend', function () {
+            $self.parent().css('height', '0');
+            // Do not use transitionend in case of the transition fails
+            $timeout(function () {
                 $scope.additionalExtTickets.splice(index, 1);
-            });
+            }, 200);
+        };
+
+        /**
+         * Makes parseFloat available in $eval
+         * @param  {string} value A float string
+         * @return {float}        The float value
+         */
+        this.parseFloat = function (value) {
+            return parseFloat(value);
         };
 }]);

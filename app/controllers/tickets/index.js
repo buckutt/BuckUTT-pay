@@ -13,6 +13,7 @@ module.exports = function (db, config) {
         create:             require('./create')(db, config),
         assignateCard:      require('./assignateCard')(db, config),
         assignateBirthdate: require('./assignateBirthdate')(db, config),
-        checkMail:          require('./checkMail')(db, config)
+        checkMail:          require('./checkMail')(db, config),
+        getExtPrice:        require('./getExtPrice')(db, config)
     };
 };
