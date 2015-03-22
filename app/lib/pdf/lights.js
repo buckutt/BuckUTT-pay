@@ -7,56 +7,17 @@ var barcode = require('barcode');
 var fs      = require('fs');
 
 /**
- * Generates a PDF and exports it to a Buffer from data object
- * @param {object}   data     The ticket data
- * @param {Function} callback The callback (one argument : buffered pdf)
+ * Draw one ticket on one page of the doc
+ * @param {object}   doc       PDFKit instance
+ * @param {object}   data      Ticket data
+ * @param {Boolean}  firstPage True if this is the first page of the PDF
+ * @param {string}   basePath  The base directory
+ * @param {Function} callback  Called when the ticket is written
  */
-module.exports = function (data, callback) {
-    /**
-     * Data structure :
-     * {
-     *      displayname: string,
-     *      eventname: string,
-     *      date: string,
-     *      place: string,
-     *      price: string,
-     *      barcode: string,
-     *      purchaseDate: string,
-     *      association: string,
-     *      website: string,
-     *      mail: string,
-     *      logo: string
-     * }
-     */
-
-    // Path to app/
-    var basePath = fs.realpathSync(__dirname + '/../../');
-
-    var doc = new PDFKit({
-        size: 'a2' // 1190.55 * 1683.78 
-    });
-
-    // Fonts
-    doc.registerFont('Lato-Regular', basePath + '/public/static/fonts/lato/lato-regular.ttf');
-    doc.registerFont('Lato-Bold',    basePath + '/public/static/fonts/lato/lato-bold.ttf');
-    doc.font('Lato-Regular');
-
-    doc.info = {
-        Title: 'Place ' + data.eventname,
-        Author: 'BuckUTT',
-        Subject: 'Contient votre place pour l\'événement ' + data.eventname,
-    };
-
-    // Pipe to output
-    var bytes = [];
-    var file = null;
-    doc.on('data', function (chunk) {
-        bytes.push(chunk);
-    });
-    doc.on('end', function () {
-        file = Buffer.concat(bytes);
-        callback(file);
-    });
+var drawOnePage = function (doc, data, firstPage, basePath, callback) {
+    if (!firstPage) {
+        doc.addPage();
+    }
 
     // Background image
     doc.image(__dirname + '/lights.png', 65, 65, {
@@ -137,7 +98,71 @@ module.exports = function (data, callback) {
     }).getBase64(function (err, imgsrc) {
         doc.image(new Buffer(imgsrc.replace('data:image/PNG;base64,', ''), 'base64'), 145, 200);
 
-        doc.end();
+        callback();
+    });
+};
+
+/**
+ * Generates a PDF and exports it to a Buffer from data object
+ * @param {object}   data     The ticket data
+ * @param {Function} callback The callback (one argument : buffered pdf)
+ */
+module.exports = function (data, callback) {
+    /**
+     * Data structure : Array of
+     * {
+     *      displayname: string,
+     *      eventname: string,
+     *      date: string,
+     *      place: string,
+     *      price: string,
+     *      barcode: string,
+     *      purchaseDate: string,
+     *      association: string,
+     *      website: string,
+     *      mail: string,
+     *      logo: string
+     * }
+     */
+
+    // Path to app/
+    var basePath = fs.realpathSync(__dirname + '/../../');
+
+    var doc = new PDFKit({
+        size: 'a2' // 1190.55 * 1683.78 
+    });
+
+    // Fonts
+    doc.registerFont('Lato-Regular', basePath + '/public/static/fonts/lato/lato-regular.ttf');
+    doc.registerFont('Lato-Bold',    basePath + '/public/static/fonts/lato/lato-bold.ttf');
+    doc.font('Lato-Regular');
+
+    doc.info = {
+        Title: 'Place ' + data[0].eventname,
+        Author: 'BuckUTT',
+        Subject: 'Contient votre place pour l\'événement ' + data.eventname,
+    };
+
+    // Pipe to output
+    var bytes = [];
+    var file = null;
+    doc.on('data', function (chunk) {
+        bytes.push(chunk);
+    });
+    doc.on('end', function () {
+        file = Buffer.concat(bytes);
+        callback(file);
+    });
+
+    data.forEach(function (ticket, i) {
+        var first = (i === 0);
+        var last  = (i === data.length - 1);
+
+        drawOnePage(doc, ticket, first, basePath, function () {
+            if (last) {
+                doc.end();
+            }
+        });
     });
 
     return;
@@ -145,7 +170,7 @@ module.exports = function (data, callback) {
 
 // Execute `node lights.js` to generate a test pdf directly
 if (require.main === module) {
-    module.exports({
+    module.exports([{
         displayname: 'Gabriel Juchault',
         eventname: 'Gala 2015',
         date: '26 Mai 2015 - 20h00',
@@ -157,7 +182,7 @@ if (require.main === module) {
         website: 'http://bde.utt.fr',
         mail: 'bde@utt.fr',
         logo: '/public/static/img/upload/gala2015.png'
-    }, function (buffer) {
+    }], function (buffer) {
         fs.writeFile('lights.pdf', buffer);
     });
 }

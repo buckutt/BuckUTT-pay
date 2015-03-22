@@ -187,15 +187,16 @@ module.exports = function (db, config) {
                         paid_with: 'buckutt',
                         barcode: barcodes[i],
                         price_id: priceWantedExt.id,
-                        event_id: eventId
+                        event_id: eventId,
+                        mainTicket: newTicketId
                     })
                 });
             }
         })
         .then(function () {
-            res.end({
-                id: newTicket.id
-            });
+            res.status(200).json({
+                id: newTicketId
+            }).end();
         }).catch(function (err) {
             console.dir(err);
             res.end();
