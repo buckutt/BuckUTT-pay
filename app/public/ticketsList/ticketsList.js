@@ -201,12 +201,12 @@ pay.controller('TicketsList', [
                         id: res.data.id
                     });
                     $rootScope.$emit('payauth:logged', true);
+                    setTimeout(function () {
+                        self.hideBuyingCards({
+                            currentTarget: $cross[0]
+                        });
+                    }, 400);
                 });
-                setTimeout(function () {
-                    self.hideBuyingCards({
-                        currentTarget: $cross[0]
-                    });
-                }, 2500);
                 $btn.removeAttr('disabled');
             }, function (res) {
                 $btn.removeAttr('disabled');
