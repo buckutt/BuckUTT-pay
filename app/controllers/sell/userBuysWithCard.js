@@ -19,6 +19,7 @@ module.exports = function (db, config) {
             }
 
             var priceWantedExt;
+            var newTicketId;
 
             var starterPromise;
             if (isExt) {
@@ -148,7 +149,8 @@ module.exports = function (db, config) {
                     event_id: eventId
                 });
             })
-            .then(function () {
+            .then(function (newTicket) {
+                newTicketId = newTicket.id;
                 if (req.form.additionalExtTickets) {
                     return new Promise(function (resolve, reject) {
                         db.Price.find({
@@ -201,7 +203,8 @@ module.exports = function (db, config) {
                             paid_with: 'card',
                             barcode: barcodes[i],
                             price_id: priceWanted.id,
-                            event_id: eventId
+                            event_id: eventId,
+                            mainTicket: newTicketId
                         });
                     });
                 }
@@ -217,7 +220,9 @@ module.exports = function (db, config) {
                 }
             })
             .then(function () {
-                res.status(200).end();
+                res.status(200).json({
+                    id: newTicketId
+                }).end();
             })
             .catch(function (err) {
                 console.dir(err);
