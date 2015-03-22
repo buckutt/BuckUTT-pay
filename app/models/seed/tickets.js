@@ -17,7 +17,8 @@ module.exports = function (db) {
         temporarlyOut: false,
         barcode: '3780173904905',
         validatedMap: null,
-        birthdate: '21/09/1994'
+        birthdate: '21/09/1994',
+        mainTicket: 0
     }).complete(function (err, galaGJ) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error', err.toString());
@@ -46,7 +47,8 @@ module.exports = function (db) {
         temporarlyOut: false,
         barcode: '123456',
         validatedMap: null,
-        birthdate: '22/09/1994'
+        birthdate: '22/09/1994',
+        mainTicket: 0
     }).complete(function (err, galaGJ) {
         if (err) {
             Error.emit(null, 500, '500 - SQL Server error', err.toString());
