@@ -40,7 +40,7 @@ module.exports = function (db, config) {
                     }
 
                     if (!price) {
-                        Error.emit(res, 404, '404 - Not found', err, 'no price');
+                        Error.emit(res, 404, '404 - Not Found', err, 'no price');
                         return reject();
                     }
 
@@ -58,7 +58,7 @@ module.exports = function (db, config) {
                     }
 
                     if (!price) {
-                        Error.emit(res, 404, '404 - Not found', err, 'no price');
+                        Error.emit(res, 404, '404 - Not Found', err, 'no price');
                         return reject();
                     }
 
@@ -90,7 +90,7 @@ module.exports = function (db, config) {
                     }
 
                     if (!price) {
-                        Error.emit(res, 404, '404 - Not found', err);
+                        Error.emit(res, 404, '404 - Not Found', err);
                         return reject();
                     }
 
