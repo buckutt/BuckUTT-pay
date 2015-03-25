@@ -226,7 +226,7 @@ pay.controller('TicketsList', [
                 $btn.removeAttr('disabled');
                 return;
             }
-            
+
             $http.post('api/sendCheckMail/' + eid + '/' + $scope.buyingTickets.mail).then(function () {
                 $btn.removeAttr('disabled');
             }, function (res) {
@@ -243,16 +243,15 @@ pay.controller('TicketsList', [
         this.buyOneWithCardExt = function (e, eid) {
             e.preventDefault();
             var $btn = $(e.currentTarget).attr('disabled', '');
-            debugger;
 
             $http.post('api/buy/card/ext/' + eid, {
                 mail: $scope.buyingTickets.mail,
                 displayName: $scope.buyingTickets.displayName,
                 birthdate: $scope.buyingTickets.birthdate,
                 code: $scope.buyingTickets.code
-            }).then(function () {
+            }).then(function (res) {
                 $btn.removeAttr('disabled');
-                location.href = '#/ticketBought';
+                $('#sherlocksPanel').addClass('active').show().find('.panel-body').children('div').html(res.data.form);
             }, function (res) {
                 $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
@@ -271,9 +270,9 @@ pay.controller('TicketsList', [
             $http.post('api/buy/card/' + eid, {
                 birthdate: $scope.buyingTickets.birthdate,
                 additionalExtTickets: $scope.additionalExtTickets
-            }).then(function () {
+            }).then(function (res) {
                 $btn.removeAttr('disabled');
-                location.href = '#/ticketBought';
+                $('#sherlocksPanel').addClass('active').show().find('.panel-body').children('div').html(res.data.form);
             }, function (res) {
                 $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
