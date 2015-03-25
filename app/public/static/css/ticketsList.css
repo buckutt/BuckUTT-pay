@@ -171,6 +171,50 @@ span.closedPresale {
     transition: height .2s ease;
 }
 
+/* Sherlocks panel */
+#sherlocksPanel .sherlocksModal {
+    background-color: rgba(0, 0, 0, 0);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: -100%;
+    width: 100%;
+    z-index: 20;
+
+    transition: background-color .4s ease;
+}
+
+#sherlocksPanel.active .sherlocksModal {
+    background-color: rgba(0, 0, 0, 0.7);
+    top: 0;
+}
+
+
+#sherlocksPanel > .panel {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    left: 0;
+    margin: 0;
+    min-height: 0;
+    position: fixed;
+    top: -100%;
+    width: 100%;
+    z-index: 90;
+
+    transition: left        .2s ease,
+                margin-left .2s ease,
+                top         .2s ease,
+                width       .2s ease;
+}
+
+#sherlocksPanel.active > .panel {
+    top: 100px;
+}
+
+#sherlocksPanel .panel-body {
+    height: auto;
+    padding: 20px;
+}
+
 @media (min-width: 768px) and (max-width: 992px) {
     .icon {
         display: block;
@@ -178,6 +222,12 @@ span.closedPresale {
 
     .title {
         width: calc(100% - 256px);
+    }
+
+    #sherlocksPanel > .panel {
+        left: 50%;
+        margin-left: -300px;
+        width: 600px;
     }
 }
 
@@ -213,5 +263,11 @@ span.closedPresale {
 
     .behind i {
         vertical-align: middle;
+    }
+
+    #sherlocksPanel > .panel {
+        left: 50%;
+        margin-left: -300px;
+        width: 600px;
     }
 }

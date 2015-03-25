@@ -79,14 +79,14 @@ function start () {
             var port = config.port;
 
             /* Some basic protections */
-            
+
             // Serves a strict crossdomain.xml
             app.use(helmet.crossdomain());
-            
+
             // Sets Cross-Site Policy
             app.use(helmet.csp({
                 defaultSrc: ["'none'"], // JavaScript, Images, CSS, Font's, AJAX requests, Frames, HTML5 Media : no default source
-                scriptSrc:  ["'self' 'unsafe-eval'"], // JavaScript source + eval (angular)
+                scriptSrc:  ["'self' 'unsafe-eval' 'unsafe-inline'"], // JavaScript source + eval (angular)
                 styleSrc:   ["'self' 'unsafe-inline'"], // CSS source + inline inline css
                 imgSrc:     ["'self'"], // Images source
                 connectSrc: ["'self'"], // AJAX requests source
@@ -97,7 +97,7 @@ function start () {
                 reportUri:  '/services/report', // Report to this URL if the browser blocks a request because of CSP
                 reportOnly: false       // Do not only reports, blocks the request
             }));
-            
+
             // Disables X-Powered-By
             app.use(helmet.hidePoweredBy());
 

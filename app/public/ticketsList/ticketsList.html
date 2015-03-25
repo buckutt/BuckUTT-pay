@@ -1,6 +1,18 @@
 <div class="view" ng-controller="TicketsList as ticket">
     <h1 class="text-center">BuckUTT</h1>
 
+    <div id="sherlocksPanel">
+        <div class="sherlocksModal"></div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3>Paiement par carte bleue</h3>
+                <strong>Le paiement se fait sur le site de la banque du Bureau des Étudiants de l'UTT. Vérifiez la présence du <kbd>https://</kbd> une fois que vous aurez sélectionné votre carte.</strong>
+                <div></div>
+                <a onclick="location.reload();" class="btn btn-warning btn-block">Annuler le paiement</a>
+            </div>
+        </div>
+    </div>
+
     <div class="row row-spaced">
         <div class="panel-col transition col-xs-12 col-sm-12 col-lg-12 loginPanel">
             <div id="loginControllerWrapper" class="transition panel panel-default"
