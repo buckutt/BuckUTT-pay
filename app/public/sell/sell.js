@@ -69,7 +69,6 @@ pay.controller('Sell', [
             if (price && price.id) {
                 $scope.ticket.price_id = price.id;
 
-                console.log($scope.price.name);
                 if ($scope.price.name.indexOf('Prix étudiant cotisant hors prévente') === 0) {
                     $scope.ticket.contributor = true;
                     $scope.ticket.student = true;

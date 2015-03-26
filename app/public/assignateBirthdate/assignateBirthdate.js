@@ -22,7 +22,6 @@ pay.controller('AssignateBirthdate', [
          */
         this.next = function (e) {
             e.preventDefault();
-            console.log('next');
             $('#eventBirthdatePanel input').focus();
         };
 

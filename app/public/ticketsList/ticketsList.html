@@ -5,7 +5,7 @@
         <div class="sherlocksModal"></div>
         <div class="panel panel-default">
             <div class="panel-body">
-                <h3>Paiement par carte bleue</h3>
+                <h3>Paiement par carte bancaire</h3>
                 <strong>Le paiement se fait sur le site de la banque du Bureau des Étudiants de l'UTT. Vérifiez la présence du <kbd>https://</kbd> une fois que vous aurez sélectionné votre carte.</strong>
                 <div></div>
                 <a onclick="location.reload();" class="btn btn-warning btn-block">Annuler le paiement</a>
@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <div class="row paywith card">
-                        <h2>Paiement par carte bleue</h2>
+                        <h2>Paiement par carte bancaire</h2>
                         <div ng-init="ticket.getPrice(event.id); ticket.getExtPrice(event.id)">
                             <div ng-if="prices[event.id]">
                                 <p>Prix du ticket : {{ prices[event.id] | euro }} (prix d'un externe : {{ extPrices[event.id] | euro }})</p>
