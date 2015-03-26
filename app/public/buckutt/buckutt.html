@@ -40,10 +40,13 @@
                     <p>
                         Choisissez le montant à recharger sur votre compte : <br>
                         <br>
-                        <input type="text" id="reloadAmount" class="form-control" placeholder="10.00€"
-                               ng-pattern="euroPattern"
-                               ng-model="amount">
-                        <em>Rechargement minimal : 0.1€. Rechargement maximal : 100€.</em>
+                        <div class="input-group">
+                            <input type="text" id="reloadAmount" class="form-control" placeholder="10.00"
+                                   ng-pattern="euroPattern"
+                                   ng-model="amount">
+                            <span class="input-group-addon">€</span>
+                        </div>
+                        <em>Rechargement minimal : 5€. Rechargement maximal : 99.99€.</em>
                         <br>
                     </p>
                 </div>

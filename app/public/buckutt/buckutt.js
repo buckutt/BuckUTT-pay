@@ -15,7 +15,7 @@ pay.controller('Buckutt', [
         if (!PayAuth.needUser()) { return; }
 
         $scope.isRemoved = PayAuth.etu.isRemoved;
-        $scope.euroPattern = /^\d{0,3}(\.\d{0,2})?€?$/;
+        $scope.euroPattern = /^((\d\d(\.\d{0,2})?€?)|([5-9](\.\d{0,2})?€?))$/;
 
         var spyStep         = 20;
         var spyActualLength = 20;
@@ -43,7 +43,7 @@ pay.controller('Buckutt', [
         Purchases.query(function (purchases) {
             // Limit $watch triggers
             var toAdd = [];
-            
+
             // Add the details to 1€ pack
             var addedOneToLastPurchase = false;
 
@@ -147,7 +147,6 @@ pay.controller('Buckutt', [
          */
         this.reload = function (e) {
             e.preventDefault();
-            console.log($scope.amount);
         };
 
         /**
