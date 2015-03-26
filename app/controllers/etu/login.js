@@ -13,12 +13,12 @@ module.exports = function (db, config) {
     var rest   = require('../../lib/rest')(config, logger);
 
     return function (req, res, next) {
-        if (!req.form.isValid) {
+        if (!res.locals.shouldNotCheckPassword && !req.form.isValid) {
             return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
         }
 
-        var username = req.form.username;
-        var password = req.form.password;
+        var username = (!res.locals.shouldNotCheckPassword) ? req.form.username : res.locals.forcedUsername;
+        var password = (!res.locals.shouldNotCheckPassword) ? req.form.password : undefined;
 
         logger.info('Asking axel back end with : ' + username + '/' + password);
 
@@ -40,15 +40,21 @@ module.exports = function (db, config) {
         } else {
             // First get the user id (via its meanoflogin)
             // can be carte etu number or login
-            rest.get('meanofloginsusers?data=' + username)
+            rest.get('meanofloginsusers?data=' + username + '&MeanOfLoginId=1&MeanOfLoginId=2')
             .then(function (mRes) {
                 return mRes.data.data;
             })
             .then(function (mol) {
                 return new Promise(function (resolve, reject) {
+                    // If forced auth, get userid directly
+                    if (res.locals.shouldNotCheckPassword) {
+                        mol = { UserId: username };
+                    }
+
                     if (!mol || !mol.UserId) {
                         reject('nouser');
                     }
+
                     // Then auth with userid
                     rest.get('users?id=' + mol.UserId).then(function (uRes) {
                         req.wantedUser = uRes.data.data;
@@ -62,6 +68,7 @@ module.exports = function (db, config) {
             .then(checkIfAdmin)
             .then(checkBdeMember)
             .catch(function (err) {
+                console.log(err);
                 if (err === 'bcrypt' || err === 'nouser') {
                     return Error.emit(res, 401, '401 - Invalid username/password');
                 }
@@ -77,6 +84,15 @@ module.exports = function (db, config) {
          */
         function checkPassword (wantedUser) {
             return new Promise(function (resolve, reject) {
+                // True when the user buys a ticket and get redirected on pay after sherlocks
+                if (res.locals.shouldNotCheckPassword) {
+                    req.user = wantedUser;
+
+                    req.user.firstname = req.user.firstname.nameCapitalize();
+                    req.user.lastname  = req.user.lastname.nameCapitalize();
+                    return resolve();
+                }
+
                 var t = bcrypt.compareSync(req.form.password, wantedUser.password);
                 if (bcrypt.compareSync(req.form.password, wantedUser.password)) {
                     req.user = wantedUser;

@@ -52,6 +52,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/ticketBought', {
             templateUrl: 'ticketBought/ticketBought.html'
         })
+        .when('/ticketBought/:userdata', {
+            templateUrl: 'ticketBought/ticketBought.html'
+        })
         .otherwise({
             redirectTo: '/'
         });

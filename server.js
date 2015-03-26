@@ -93,7 +93,7 @@ function start () {
                 fontSrc:    ["'self'"], // Font's source
                 objectSrc:  [],         // Objects sources
                 mediaSrc:   [],         // HTML5 audio's and video's source
-                frameSrc:   [],         // Frames sources (should be set when sherlocks is ready)
+                frameSrc:   [],         // Frames sources
                 reportUri:  '/services/report', // Report to this URL if the browser blocks a request because of CSP
                 reportOnly: false       // Do not only reports, blocks the request
             }));

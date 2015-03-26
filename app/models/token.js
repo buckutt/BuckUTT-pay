@@ -33,6 +33,11 @@ module.exports = function (sequelize, DataTypes) {
             unique: true
         },
 
+        sherlocksToken: {
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
+
         reset: {
             type: DataTypes.STRING(255),
             unique: true

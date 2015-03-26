@@ -329,6 +329,16 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.sell.userBuysWithCard(true)
         );
 
+    router.route('/successTransaction/:token')
+        // Success callback from the bank
+        .get(
+            auth.noAuth,
+            controllers.sell.successTransaction,
+            controllers.etu.login,
+            auth.addAuth,
+            controllers.sell.redirectToSuccess
+        );
+
     ////////////////
     // CSP Report //
     ////////////////

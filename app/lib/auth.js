@@ -64,9 +64,9 @@ module.exports = function (db, config) {
 
     /**
      * Checks for the token to be present on the request. If it is, add the token value (ie. the user data) to the request.
-     * @param  {object}   req  Request object
-     * @param  {object}   res  Response object
-     * @param  {Function} next Next middleware to call
+     * @param {object}   req  Request object
+     * @param {object}   res  Response object
+     * @param {Function} next Next middleware to call
      */
     var isAuth = function (req, res, next) {
         if (!req.user) {
@@ -81,8 +81,9 @@ module.exports = function (db, config) {
      * Appends the token to the body so that the browser keeps it.
      * @param {object}   req  Request object
      * @param {object}   res  Response object
+     * @param {Function} next Next middleware to call
      */
-    var addAuth = function (req, res) {
+    var addAuth = function (req, res, next) {
         var token = jwt.sign(req.user, config.secret, {
             algorithm: config.tokenAlgorithm
         });
@@ -90,6 +91,9 @@ module.exports = function (db, config) {
         req.user.jwt = token;
 
         if (typeof token === 'string' && token.split('.').length === 3) {
+            if (res.locals.shouldNotCheckPassword) {
+                return next();
+            }
             res.json(req.user);
             res.end();
         } else {

@@ -251,7 +251,16 @@ pay.controller('TicketsList', [
                 code: $scope.buyingTickets.code
             }).then(function (res) {
                 $btn.removeAttr('disabled');
-                $('#sherlocksPanel').addClass('active').show().find('.panel-body').children('div').html(res.data.form);
+                $('#sherlocksPanel')
+                    .addClass('active')
+                    .show()
+                    .find('.panel-body')
+                    .children('div')
+                    .html(res.data.form);
+                $('#sherlocksPanel form')
+                    .find('div[align=center]').remove();
+                $('#sherlocksPanel form')
+                    .append('<button type="submit" class="btn btn-success btn-block">Accéder au site de paiement</button><br>');
             }, function (res) {
                 $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);
@@ -272,7 +281,16 @@ pay.controller('TicketsList', [
                 additionalExtTickets: $scope.additionalExtTickets
             }).then(function (res) {
                 $btn.removeAttr('disabled');
-                $('#sherlocksPanel').addClass('active').show().find('.panel-body').children('div').html(res.data.form);
+                $('#sherlocksPanel')
+                    .addClass('active')
+                    .show()
+                    .find('.panel-body')
+                    .children('div')
+                    .html(res.data.form);
+                $('#sherlocksPanel form')
+                    .find('div[align=center]').remove();
+                $('#sherlocksPanel form')
+                    .append('<button type="submit" class="btn btn-success btn-block">Accéder au site de paiement</button>');
             }, function (res) {
                 $btn.removeAttr('disabled');
                 Error('Erreur', res.data.error);

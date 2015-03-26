@@ -18,6 +18,11 @@ pay.factory('PayAuth', [
             var self = this;
             pay.auth = self;
 
+            if (sessionStorage.hasOwnProperty('auto-auth')) {
+                this.etu = JSON.parse(sessionStorage.getItem('auto-auth'));
+                sessionStorage.removeItem('auto-auth');
+            }
+
             /**
              * Authenticates the user via username and password
              * @param {string} username The username
