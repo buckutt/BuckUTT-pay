@@ -43,10 +43,14 @@ module.exports = function (db, config) {
             });
         })
         .then(function () {
+            return rest.get('users/' + user.id + '?isInBDE=1');
+        })
+        .then(function (inBDERes) {
+            user.inBDE = Boolean(inBDERes.data);
             // Third, make the Ticket
             return db.Ticket.create({
                 username: user.id,
-                displayName: user.firstname.nameCapitalize() + ' ' + user.lastname.nameCapitalize(),
+                displayName: user.displayName,
                 student: 1,
                 mail: user.mail,
                 contributor: user.inBDE,
