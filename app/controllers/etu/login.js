@@ -193,7 +193,7 @@ module.exports = function (db, config) {
         function checkBdeMember () {
             return new Promise(function (resolve, reject) {
                 rest.get('users/' + req.user.id + '?isInBDE=true').then(function (uRes) {
-                    req.user.inBDE = Boolean(uRes);
+                    req.user.inBDE = Boolean(uRes.data);
                     resolve();
                     next();
                 }).catch(function (err) {
