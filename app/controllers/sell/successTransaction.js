@@ -12,11 +12,11 @@ module.exports = function (db, config) {
 
     return function (req, res, next) {
         db.Token.find({
-            sherlocksToken: req.params.token
+            sherlocksToken: req.body.data
         }).then(function (token) {
             return new Promise(function (resolve, reject) {
                 if (!token) {
-                    return reject(res.redirect('/#/ticketBought'));
+                    return reject('no token to ticket');
                 }
 
                 token.destroy();
@@ -36,10 +36,10 @@ module.exports = function (db, config) {
                 return next();
             }
 
-            console.log('FROM HERE X');
             res.redirect('/#/ticketBought');
         }).catch(function (err) {
-            console.dir(err);
+            Error.emit(res, 500, '500 - Server error', err);
+            logger.error(err);
         });
     };
 };

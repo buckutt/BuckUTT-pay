@@ -15,6 +15,7 @@ module.exports = function (db, config) {
         buckuttHistory: require('./buckuttHistory')(db, config),
         validate:       require('./validate')(db, config),
         sell:           require('./sell')(db, config),
-        report:         require('./report')(db, config)
+        report:         require('./report')(db, config),
+        reload:         require('./reload')(db, config)
     };
 };

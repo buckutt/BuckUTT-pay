@@ -329,14 +329,33 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.sell.userBuysWithCard(true)
         );
 
-    router.route('/successTransaction/:token')
+    router.route('/successTransaction/')
         // Success callback from the bank
-        .get(
+        .post(
             auth.noAuth,
             controllers.sell.successTransaction,
             controllers.etu.login,
             auth.addAuth,
             controllers.sell.redirectToSuccess
+        );
+
+    //////////////////
+    // User reloads //
+    //////////////////
+    router.route('/reload/:amount')
+        // Generates a sherlocks form
+        .get(
+            auth.isAuth,
+            controllers.reload.reload
+        );
+    router.route('/successReload/')
+        // Validates the payment
+        .post(
+            auth.noAuth,
+            controllers.reload.successReload,
+            controllers.etu.login,
+            auth.addAuth,
+            controllers.reload.redirectToSuccess
         );
 
     ////////////////
@@ -350,7 +369,7 @@ module.exports = function (router, servicesRouter, db, config) {
         );
 
     /* Params filters */
-    var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'ticketId', 'id'];
+    var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'ticketId', 'id', 'amount'];
     justIds.forEach(function (idName) {
         router.param(idName, function (req, res, next, id) {
             if (Number.isPositiveNumeric(id)) {

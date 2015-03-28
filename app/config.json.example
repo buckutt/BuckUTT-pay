@@ -23,8 +23,10 @@
         "path": "api/"
     },
     "sherlocks": {
-        "host": "http://127.0.0.1/",
-        "path": "/"
+        "host": "http://127.0.0.1/pay/",
+        "path": "/",
+        "paymentId": "pay-ticket",
+        "reloadId": "pay-reload"
     },
     "mail": {
         "config": {
