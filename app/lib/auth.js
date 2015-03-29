@@ -22,7 +22,9 @@ module.exports = function (db, config) {
             return next();
         }
 
-        jwt.verify(encodedToken, config.secret, function (err, decoded) {
+        jwt.verify(encodedToken, config.secret, {
+            ignoreExpiration: true
+        }, function (err, decoded) {
             if (err) {
                 logger.warn('Auth - JWT failed');
                 logger.warn(err);
@@ -85,7 +87,8 @@ module.exports = function (db, config) {
      */
     var addAuth = function (req, res, next) {
         var token = jwt.sign(req.user, config.secret, {
-            algorithm: config.tokenAlgorithm
+            algorithm: config.tokenAlgorithm,
+            noTimestamp: true
         });
 
         req.user.jwt = token;
