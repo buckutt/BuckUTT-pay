@@ -135,6 +135,14 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.tickets.create
         );
 
+    router.route('/makeTicketFromAdmin')
+        // Creates a ticket (admin's making one)
+        .post(
+            auth.noAuth,
+            validators.makeTicketFromAdmin,
+            controllers.tickets.makeTicketFromAdmin
+        )
+
     router.route('/assignateCard/:eventId')
         // Sets the barcode of one ticket
         .post(
@@ -272,6 +280,13 @@ module.exports = function (router, servicesRouter, db, config) {
         .get(
             auth.isAuth,
             controllers.buckuttHistory.getReloadsHistory
+        );
+
+    router.route('/getUsername/:id')
+        // Get buckutt id from etu card number
+        .get(
+            auth.isAuth,
+            controllers.etu.getUsername
         );
 
     //////////////

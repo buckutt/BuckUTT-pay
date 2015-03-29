@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <h3>Assigner des cartes événements</h3>
+            <h3>Assigner des cartes événements <small><em>(uniquement pour des événements à carte BDE)</em></small></h3>
             <div class="subPanel">
                 <h4 ng-repeat="event in eventsSellerWithEventCard">
                     <a href="#/assignateCard/{{ event.id }}">{{ event.name }}</a>
@@ -45,6 +45,16 @@
                 </h4>
                 <div ng-if="eventsSeller.length === 0">
                     Aucun événement avec des dates de naissances à assigner.
+                </div>
+            </div>
+
+            <h3>Créer un ticket à la main</h3>
+            <div class="subPanel">
+                <h4 ng-repeat="event in events">
+                    <a href="#/createTicket/{{ event.id }}">{{ event.name }}</a>
+                </h4>
+                <div ng-if="events.length === 0">
+                    Aucun événement dans lequel créer un ticket à la main vous est possible.
                 </div>
             </div>
         </div>

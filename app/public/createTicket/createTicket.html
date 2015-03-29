@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="static/css/createTicket.css">
+
+<div ng-controller="CreateTicket as createTicket">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Création d'un ticket</h2>
+
+    <div id="success">Ok !</div>
+    <div id="error"></div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h2>Informations sur le ticket</h2>
+            <p class="text-muted">
+                La création d'un ticket doit être une exception, reservée pour les gestes de gratitudes.<br>
+                N'utilisez pas cette page pour créer des places pour vos amis.
+            </p>
+            <form>
+                <div class="form-group">
+                    <label for="id">Carte étu <small class="text-muted"><em>(si externe, 0)</em></small> :</label>
+                    <input type="text" id="id" class="form-control input-lg input-block" ng-model="ticket.username">
+                </div>
+                <div class="form-group">
+                    <label for="displayName">Identité imprimée sur le billet <small class="text-muted"><em>(controlée par carte d'identité)</em></small> :</label>
+                    <input type="text" id="displayName" class="form-control input-lg input-block" ng-model="ticket.displayName">
+                </div>
+                <div class="form-group">
+                    <label for="birthdate">Date de naissance :</label>
+                    <input type="text" id="birthdate" class="form-control input-lg input-block" ng-model="ticket.birthdate">
+                </div>
+                <div class="form-group">
+                    <label for="mail">E-Mail :</label>
+                    <input type="text" id="mail" class="form-control input-lg input-block" ng-model="ticket.mail">
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="student" class="customCheckbox" ng-model="ticket.student">
+                    <label for="student">
+                        Étudiant
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="contributor" class="customCheckbox" ng-model="ticket.contributor">
+                    <label for="contributor">
+                        Cotisant
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-lg btn-success btn-block"
+                        ng-click="createTicket.createTicket($event)">Créer le ticket</button>
+            </form>
+        </div>
+    </div>
+</div>

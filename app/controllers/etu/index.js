@@ -10,6 +10,7 @@ module.exports = function (db, config) {
         searchUsers: require('./searchUsers')(db, config),
         block:       require('./block')(db, config),
         sendReset:   require('./sendReset')(db, config),
-        resetPwd:    require('./resetPwd')(db, config)
+        resetPwd:    require('./resetPwd')(db, config),
+        getUsername: require('./getUsername')(db, config)
     };
 };

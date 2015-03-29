@@ -64,6 +64,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/reloadFail', {
             templateUrl: 'reloadFail/reloadFail.html'
         })
+        .when('/createTicket/:event', {
+            templateUrl: 'createTicket/createTicket.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
