@@ -15,7 +15,7 @@ pay.controller('Buckutt', [
         if (!PayAuth.needUser()) { return; }
 
         $scope.isRemoved = PayAuth.etu.isRemoved;
-        $scope.euroPattern = /^((\d\d(\.\d{0,2})?€?)|([5-9](\.\d{0,2})?€?))$/;
+        $scope.euroPattern = /^((\d\d(\.\d{0,2})?)|([5-9](\.\d{0,2})?))$/;
 
         var spyStep         = 20;
         var spyActualLength = 20;
@@ -147,6 +147,9 @@ pay.controller('Buckutt', [
          */
         this.reload = function (e) {
             e.preventDefault();
+            $http.get('/api/reload/' + parseInt($scope.amount * 100)).then(function (res) {
+                $('body').append(res.data.form).children('form').last().submit();
+            });
         };
 
         /**
