@@ -99,6 +99,10 @@ select.form-control:focus {
     box-shadow: none;
 }
 
+.customCheckbox.customCheckbox:not(:checked) + label:before, .customCheckbox.customCheckbox:checked + label:before {
+    border-radius: 2px;
+}
+
 /* Input file */
 .btn-file {
     position: relative;
