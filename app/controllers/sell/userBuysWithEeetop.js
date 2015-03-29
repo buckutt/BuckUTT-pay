@@ -50,7 +50,7 @@ module.exports = function (db, config) {
             // Third, make the Ticket
             return db.Ticket.create({
                 username: user.id,
-                displayName: user.displayName,
+                displayName: user.firstname.nameCapitalize() + ' ' + user.lastname.nameCapitalize(),
                 student: 1,
                 mail: user.mail,
                 contributor: user.inBDE,
