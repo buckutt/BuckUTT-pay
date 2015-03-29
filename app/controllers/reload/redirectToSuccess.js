@@ -8,6 +8,11 @@ var Promise = require('bluebird');
 
 module.exports = function () {
     return function (req, res, next) {
-        res.redirect('/#/reloadSuccess/' + encodeURIComponent(JSON.stringify(req.user)));
+        res
+            .status(200)
+            .json({
+                url: '/#/reloadSuccess/' + encodeURIComponent(JSON.stringify(req.user))
+            })
+            .end();
     };
 };

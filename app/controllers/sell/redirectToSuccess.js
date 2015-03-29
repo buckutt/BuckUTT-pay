@@ -9,10 +9,20 @@ var Promise = require('bluebird');
 module.exports = function () {
     return function (req, res, next) {
         if (req.user) {
-            res.redirect('/#/ticketBought/' + encodeURIComponent(JSON.stringify(req.user)));
+            res
+                .status(200)
+                .json({
+                    url: '/#/ticketBought/' + encodeURIComponent(JSON.stringify(req.user))
+                })
+                .end();
             return;
         }
 
-        res.redirect('/#/ticketBought');
+        res
+            .status(200)
+            .json({
+                url: '/#/ticketBought/'
+            })
+            .end();
     };
 };
