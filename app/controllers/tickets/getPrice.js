@@ -49,7 +49,23 @@ module.exports = function (db, config) {
                             event_id: eid,
                             name: { like: '%partenaire en prévente' }
                         }
-                    }).complete(treatPrice);
+                    }).complete(function (err, price) {
+                        if (err) {
+                            return Error.emit(res, 500, '500 - SQL Server error', err);
+                        }
+
+                        if (!price) {
+                            db.Price.find({
+                                where: {
+                                    event_id: eid,
+                                    name: { like: '%extérieur en prévente' }
+                                }
+                            }).complete(treatPrice);
+                        }
+
+                        var priceValue = price.price || price.dataValues.price;
+                        res.status(200).end(priceValue.toString());
+                    });
                 } else {
                     db.Price.find({
                         where: {
