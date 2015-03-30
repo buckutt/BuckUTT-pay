@@ -164,7 +164,9 @@ pay.controller('TicketsList', [
                     var newHeight = $selfRow.height() + $target.height();
                     $selfCol.addClass('expended').height(newHeight).one('transitionend', function () {
                         var newHeight = $selfRow.height() + $target.height();
-                        $selfCol.addClass('expended').height(newHeight)
+                        if ($selfCol.addClass('expended').height() !== 130) {
+                            $selfCol.addClass('expended').height(newHeight);
+                        }
                     });
                 } else {
                     $selfCol.removeClass('expended').removeAttr('style');
