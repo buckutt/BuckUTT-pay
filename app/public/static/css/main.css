@@ -124,6 +124,17 @@ select.form-control:focus {
     display: block;
 }
 
+/* help button */
+#help {
+    display: inline-block;
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 10px;
+    width: 28px;
+}
+
 /* Transition helper class */
 .transition {
     -webkit-transition: all .3s ease-out;

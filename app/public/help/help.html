@@ -1,0 +1,300 @@
+<link rel="stylesheet" href="static/css/help.css">
+
+<div ng-controller="Help as help">
+    <h1 class="text-center">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center">Aide</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3>FAQ</h3>
+            <h4>Index des question</h4>
+            <h5>Connexion</h5>
+            <a ng-click="help.scrollTo('knowId')">Comment puis-je connaître mon identifiant ?</a><br>
+            <a ng-click="help.scrollTo('knowPwd')">Comment puis-je connaître mon mot de passe ?</a><br>
+            <a ng-click="help.scrollTo('changePwd')">Comment puis-je changer mon mot de passe ?</a><br>
+            <h5>Achat des tickets</h5>
+            <a ng-click="help.scrollTo('noFrom')">Que puis-je faire si l'événement n'est pas disponnible ?</a><br>
+            <br>
+            <h4 id="knowId">Comment puis-je connaître mon identifiant ?</h4>
+            <p>
+                L'identifiant peut être :
+                <ul>
+                    <li>un e-mail (« @utt.fr »),</li>
+                    <li>votre numéro de carte étudiant (« 12123 »)</li>
+                    <li>votre identifiant UTT (contraction du nom et du prénom)</li>
+                </ul>
+            </p>
+            <h4 id="knowPwd">Comment puis-je connaître mon mot de passe ?</h4>
+            <p>
+                Lors du lancement de la billetterie, un mail vous a été envoyé avec votre mot de passe (généré aléatoirement).<br>
+                Ensuite, votre mot de passe n'est connu que de vous.<br>
+                <br>
+            </p>
+            <h4 id="changePwd">Comment puis-je changer mon mot de passe ?</h4>
+            <p>
+                Si vous avez oublié votre mot de passe, sur la page d'accueil de la billetterie, vous pouvez cliquer sur le
+                bouton "Oubli", puis sur "Mot de passe". Un mail vous sera envoyé avec un lien, sur lequel vous pourrez
+                changer votre mot de passe.<br>
+                <br>
+            </p>
+            <h4 id="noFrom">Que puis-je faire si l'événement n'est pas disponnible ?</h4>
+            <p>
+                Lors du choix de la méthode de paiement, si le message « Cet événement ne vous est pas disponible. » apparaît,
+                cela est l'organisateur de l'événement qui n'a pas ouvert les préventes à l'événement pour les externes,
+                ou pour les non-cotisants au BDE, etc. Vous pouvez soit vous connecter pour avoir accès à des événeemnts
+                internes aux membres de l'UTT, ou cotiser au BDE, pour avoir accès aux événements internes aux cotisants.
+            </p>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3>Conditions Générales de Vente</h3>
+            <h4>Préambule</h4>
+            <p>
+                Le présent service de billetterie est réalisé par l'association UNG (UTT Net Group) :<br>
+                Siège social : 12 rue Marie Curie CS 42060 10004 Troyes Cedex<br>
+                Représentant légal : Hugo Collignon<br>
+                Siren : 500 164 249<br>
+                Hébergeur du site buck.utt.fr : Colt Telecom 63, bd Bessières 75017 Paris<br>
+                Téléphone : 03.25.71.85.50<br>
+                Télécopie : 04.91.68.30.26<br>
+            </p>
+            <p>
+                Les présentes conditions générales de vente régissent exclusivement les ventes de billet de spectacles
+                ou d'événements. En conséquence, les présentes conditions générales de vente concernent uniquement les
+                actes de vente de billetterie et en aucun cas le spectacle ou l'événement lui-même.<br>
+                L'utilisation du site BuckUTT, de toute fonctionnalité du site BuckUTT disponible à l'adresse
+                buck.utt.fr implique l'acceptation expresse, préalable, pleine et entière par le Client des présentes
+                Conditions Générales de Vente.<br>
+                <br>
+            </p>
+            <h4>Article 1 - Prix</h4>
+            <p>
+                <ul>
+                    <li>1.1. Le prix des billets (valeur faciale) est indiqué au recto des billets en Euro T.T.C.</li>
+                    <li>
+                        1.2. À la date de publication, les montants des frais de gestion sont les suivants : 0.00&euro;<br>
+                        Ces frais de gestion peuvent être modifiés à tout moment par BuckUTT.<br>
+                        Cependant, les billets seront facturés sur la base des tarifs en vigueur au moment de l'enregistrement des commandes.
+                    </li>
+                </ul>
+                <br>
+                <br>
+            </p>
+            <h4>Article 2 - Nombre de places</h4>
+            <p>
+                Le nombre total de places en réservations cumulées par personne ne peut être supérieur au nombre fixé
+                par l'organisateur, lequel sera, le cas échéant indiqué pour chaque Événement.<br>
+                Une même personne ne saurait contourner cette règle par plusieurs achats espacés dans le temps.<br>
+                A défaut d'indication par l'organisateur d'un nombre de places maximum pouvant être acheté par une même
+                personne, ce nombre est fixé à dix.<br>
+                <br>
+            </p>
+            <h4>Article 3 - Disponibilité et plan de salle</h4>
+            <p>
+                <h5>3.1. Disponibilité</h5>
+                Le client n'est pas informé, en temps réel, de la disponibilité des places souhaitées.<br>
+                Ces places sont considérées disponnibles dès que l'événement voie ses préventes ouvertes.<br>
+                Dans l'hypothèse où les préventes de l'événement sont closes pendant que le client est en train de
+                réaliser une transaction, ces places ne seront pas validées, et la transaction sera annulée.<br>
+                <h5>3.2. Plan de salle</h5>
+                Aucun plan de salle n'est géré par BuckUTT. Ainsi, le placement dans chaque événement ou spectacle est
+                libre.<br>
+                <br>
+            </p>
+            <h4>Article 4 - Paiement</h4>
+            <p>
+                Toutes les commandes quel que soit leur lieu d'émission sont payables en euros.<br>
+                Le paiement des billets par le client sur le site buck.utt.fr s'effectue exclusivement par cartes
+                bancaires des réseaux CARTE BLEUE / VISA et EUROCARD / MASTERCARD.<br>
+                Le compte bancaire du client sera débité du montant de la commande, dès la validation finale de la transaction.<br>
+                Un justificatif de paiement sera automatiquement consultable par le client, à l'issue de la transaction,
+                sur la page de confirmation de la commande, ainsi que sur un lien qui sera envoyé par courrier électronique
+                à l'issu de la transaction.<br>
+                <br>
+            </p>
+            <h4>Article 5 - Sécurisation des paiements</h4>
+            <p>
+                Les paiements électroniques effectués dans le cadre des transactions réalisées sur le site buck.utt.fr sont
+                sécurisés, par utilisation du procédé de cryptage SSL (Secure Sockets Layer). L'association UNG utilise,
+                pour lesdits paiements électroniques sécurisés, la solution Sherlocks fournie par la société LCL.<br>
+                <br>
+            </p>
+            <h4>Article 6 - Traitement des données personnelles</h4>
+            <p>
+                <h5>6.1. Collecte des données personnelles</h5>
+                Lors de la passation de la commande, BuckUTT est amenée à collecter auprès du client certaines informations
+                et données à caractère personnel telles que notamment nom et prénom, adresse e-mail, date de naissance
+                sans que cette liste ne soit limitative.<br>
+                Conformément à la loi n°78-17 du 6 Janvier 1978 relative à l'informatique, aux fichiers et aux libertés,
+                le traitement des informations nominatives relatives aux utilisateurs des services BuckUTT a fait l'objet
+                d'une déclaration auprès de la CNIL (n° de déclaration : XXXXXXX).<br>
+                <h5>6.2. Finalités du traitement</h5>
+                Les informations et données concernant le client sont nécessaires à la gestion de la commande et de la relation commerciale.
+                Les informations et données sont également conservées à des fins de sécurité et afin de respecter les obligations
+                légales et règlementaires de conservation des données.<br>
+                Ces données seront utilisées dans le cadre du traitement et du suivi de la commande du client, ainsi que
+                dans l'hypothèse d'un éventuel report ou annulation de l'événement correspondant.<br>
+                <h5>6.3. Destinataires des données</h5>
+                Seul l'association UNG et ses membres, ont accès à ces données.<br>
+                <h5>6.4. Droits d’opposition, d'accès, de rectification</h5>
+                Conformément à la loi « informatique et libertés » du 6 janvier 1978, le client bénéficie d'un droit d'accès
+                et de rectification aux informations qui le concerne. Il peut également, pour des motifs légitimes, s'opposer
+                au traitement des données le concernant.<br>
+                Il peut exercer ces droits en s'adressant à : buck@utt.fr ou à : UNG - 12 rue Marie Curie CS 42060 10004 Troyes Cedex.
+                Conformément à la réglementation en vigueur, le courrier doit être signé et accompagné de la photocopie
+                d'un titre d'identité portant la signature du client et préciser l'adresse à laquelle doit parvenir la réponse.<br>
+                <br>
+            </p>
+            <h4>Article 7 - Validation de la commande - Acceptation des conditions générales de vente</h4>
+            <p>
+                Avant de confirmer sa commande, le client déclare accepter les présentes conditions générales de vente,
+                pleinement et sans réserve, en cliquant sur le bouton prévu à cet effet.<br>
+                Sauf preuve contraire, les données enregistrées par l'association UNG représenteront la preuve des transactions
+                passées sur son site internet buck.utt.fr, par le client.<br>
+                <br>
+            </p>
+            <h4>Article 8 - Livraison des billets</h4>
+            <p>
+                Dès la confirmation de l'achat, le client choisi le mode de livraison de son Billet :<br>
+                <ul>
+                    <li>E-Ticket : billet imprimé à domicile par A4,</li>
+                </ul>
+                Les organisateurs n'étant pas tous équipés pour lire les billets sur mobile, les m-ticket ne sont pas toujours disponibles.<br>
+                Le client doit obligatoirement imprimer son billet ou se le faire livrer. A défaut, il pourra se voir refuser
+                l'accès à l'Événement.<br>
+                Le e-ticket nécessite la possession d'une imprimante, afin d’être en mesure d'imprimer le titre sur une feuille blanche,
+                de format A4. Le client pourra indifféremment imprimer son Billet en noir et blanc ou en couleur.<br>
+                <br>
+            </p>
+            <h4>Article 9 - Contrôle des billets</h4>
+            <p>
+                <h5>9.1. Contrôle des billets</h5>
+                Le contrôle des billets sera effectué à l'aide de lecteurs de code barre par l'organisateur de l’Evénement,
+                sous sa responsabilité, lors de l'entrée audit événement. Dans le cas où plusieurs achats ont été effectués
+                via le Web ou par un téléphone mobile, chaque achat donnera lieu à la création d'un billet contenant un code
+                place numérique présent sur le billet sous forme d'un code-barres et vérifié à l'entrée du lieu où se déroule
+                l'Evénement.<br>
+                Chaque code place ne peut être présenté qu'une seule fois au point de contrôle.<br>
+                <h5>Contrôle de l'identité</h5>
+                L'organisateur se réserve le droit de contrôler l'identité du client à l'entrée du lieu où se déroule l'Evènement.
+                Le client devra donc obligatoirement être muni d’une pièce d'identité officielle, en cours de validité et
+                avec photo : carte d'identité, passeport, permis de conduire ou carte de séjour.<br>
+                <br>
+            </p>
+            <h4>Article 10 - Utilisation et validation des billets</h4>
+            <p>
+                <h5>10.1. Revente de billet</h5>
+                Chaque billet est nominatif et personnel et ne peut être revendu que dans le respect de la loi du
+                12 mars 2012 n° 2012-348 sur l'Organisation des manifestations sportives et culturelles, laquelle interdit,
+                sous peine de sanctions pénales, de vendre de manière habituelle des billets pour des manifestations
+                culturelles ou sportives, sans autorisation expresse de l'organisateur ou du propriétaire des droits
+                d'exploitation.<br>
+                <h5>10.2. Reproduction de billet</h5>
+                Il est strictement interdit de reproduire, dupliquer ou contrefaire un billet de quelque manière que ce
+                soit. La reproduction de billets et interdite et ne procurerait aucun avantage.<br>
+                L'organisateur peut refuser l'accès au lieu où se déroule l'Évènement s'il se rend compte que plusieurs
+                impressions ou reproductions d'un billet imprimable sont en circulation et qu'un accès au lieu de
+                l'Évènement a déjà été accordé au porteur d'une impression ou d'une reproduction.<br>
+                Si la personne détentrice d’un billet imprimable à domicile se voit refuser l'accès au lieu où se déroule
+                l'Événement, elle n'aura droit à aucun remboursement du prix payé.<br>
+                La personne qui a reproduit le billet et l'utilisateur de la copie du billet sont passibles de poursuites pénales.<br>
+                <h5>10.3. Validité du billet</h5>
+                Le billet est uniquement valable pour l'événement qu'il concerne, à la date, l’heure et aux conditions<br>
+                figurant sur le billet. Ce titre doit être conservé jusqu'à la fin de l'événement.<br>
+                <br>
+            </p>
+            <h4>Article 11 - Retractation, remboursement et annulation</h4>
+            <p>
+                <h5>11.1. Absence de droit de retractation</h5>
+                Conformément à l'article L. 121-21-8 du Code de la consommation, les billets de spectacle ne font pas
+                l'objet d’un droit de rétractation.<br>
+                <h5>11.2. Remboursement et échange</h5>
+                A compter de leur achat par le client, le ou les billets ne peuvent être ni échangés, ni remboursés
+                (sauf dans les cas d'annulation décrits à l'article 12.3), même dans l'hypothèse dans laquelle le billet
+                n'aurait pas été utilisé par le client.<br>
+                <h5>11.3. Annulation ou report d'un événement</h5>
+                En cas d'annulation définitive d'un événement, le remboursement n'interviendra qu'en faveur de l'acquéreur
+                initial contre remise du billet.<br>
+                Seul le prix du billet sera remboursé, à l'exclusion des frais de gestion qui sont conservés par l'UNG.
+                Aucun frais annexe de quelque nature que ce soit (transport, hôtellerie, parking…) ne sera remboursé ou dédommagé.
+                En cas de report de l'événement, le remboursement éventuel du billet ou son échange sera soumis aux conditions
+                particulières de l'organisateur de l'événement. En tout état de cause, l'échange du billet ne se fera qu’en
+                faveur de l'acquéreur initial contre remise du billet.<br>
+                <br>
+            </p>
+            <h4>Article 12 - Responsabilité</h4>
+            <p>
+                <h5>12.1. Responsabilité de l'UNG</h5>
+                L'association UNG est responsable à l'égard de ses clients, de la bonne exécution des obligations résultant
+                des contrats conclus à distance, conformément à l'article 121-20-3 alinéa 4 du Code de la Consommation.<br>
+                L'UNG décline toute responsabilité en cas d'indisponibilité du service résultant d'un cas de force majeure,
+                notamment :<br>
+                <ul>
+                    <li>Anomalies quelconques du matériel informatique de l'abonné</li>
+                    <li>Faits imprévisibles et insurmontables d'un tiers au contrat</li>
+                    <li>Indisponibilité du réseau internet</li>
+                </ul>
+                <h5>12.2. Responsabilité en cas de perte ou vol du billet</h5>
+                L'UNG n'est pas responsable en cas de perte, vol ou utilisation illicite du Billet.<br>
+                <h5>12.3. Responsabilité quant au déroulement de l'événement</h5>
+                L'UNGn’est pas responsable du déroulement de l'événement (modification du contenu, changement de la distribution
+                artistique ou sportive, changement des horaires…) ou le cas échéant, de son annulation.<br>
+                De même, l'UNG décline toute responsabilité pour les dommages subis, par quelle que cause que ce soit, par
+                les effets, objets, ou matériels apportés par les spectateurs qui relèvent, le cas échéant, de la responsabilité
+                de l'organisateur de l'événement.<br>
+                <h5>12.4. Responsabilité du client lors de l'événement</h5>
+                Chaque organisateur fixe le règlement propre à l'organisation de l'événement. Ce règlement figure sur le site
+                de l'organisateur ou à l'entrée du lieu où se déroule l'événement ou est communiqué par l'organisateur au
+                client. L'acquisition d'un billet emporte adhésion au règlement intérieur du lieu de l'événement. Le client
+                se conformera strictement au règlement de l'organisateur sous peine de voir sa responsabilité engagée.<br>
+                <br>
+            </p>
+            <h4>Article 13 - Service clientèle</h4>
+            <p>
+                Pour toute information ou question, vous pouvez contacter le BDE par téléphone en appelant le 03.25.71.76.74
+                ou par courrier électronique à l'adresse bde@utt.fr.<br>
+            </p>
+            <h4>Article 14 - Droit applicable - Litiges</h4>
+            <p>
+                Les ventes de billets effectuées sur le site Internet de l'association UNG sont soumises à la loi française.<br>
+                En cas de litige, les tribunaux français auront compétence exclusive.<br>
+                <br>
+            </p>
+            <h4>Article 15 - Conditions d'utilisation du E-Ticket</h4>
+            <p>
+                Le billet est soumis aux conditions générales de vente que vous avez acceptées avant l'achat du billet.<br>
+                <h5>1. Conditions de validité</h5>
+                Le billet d'entrée est valable s'il est imprimé sur du papier A4 blanc, vierge recto et verso.<br>
+                Une bonne qualité d'impression est nécessaire. Les billets partiellement imprimés, souillés, endommagés ou
+                illisibles ne seront pas acceptés et seront considérés comme non valables.<br>
+                En cas d'incident ou de mauvaise qualité d'impression, vous devez imprimer à nouveau votre fichier.<br>
+                Pour vérifier la bonne qualité de l'impression, assurez-vous que les informations écrites sur le billet,
+                ainsi que les pictogrammes (code à barres 2D) sont bien lisibles.<br>
+                <h5>2. Contrôle du E-Ticket</h5>
+                L'entrée à l'Événement est soumise au contrôle de la validité de votre billet.<br>
+                Lors des contrôles, vous devrez obligatoirement être munis d'une pièce d'identité officielle, en cours de
+                validité et avec photo : carte d'identité, passeport, permis de conduire ou carte de séjour.
+                Les livrets de famille sont acceptés pour les enfants.<br>
+                D'autre part, le prix du billet « standard » remis au client n'affichera pas systématiquement les frais
+                de location propres à l'UNG.<br>
+                <h5>3. Utilisation du E-Ticket</h5>
+                Le e-ticket est non échangeable et non remboursable, sauf annulation de l'Evénement (voir Article 11 des
+                Conditions Générales de Ventes de l'UNG).<br>
+                Le e-ticket est uniquement valable pour l'événement, à la date et aux conditions figurant sur le billet.
+                Ce titre doit être conservé jusqu’à la fin de l'Événement.<br>
+                Il est strictement interdit de reproduire, dupliquer ou contrefaire un billet de quelque manière que ce soit.
+                La reproduction du Billet et l'utilisation de la copie de ce billet sont passibles de poursuites pénales.<br>
+                En cas de non respect de l'ensemble des règles précisées ci-dessus, ce billet sera considéré comme non valable.<br>
+                <h5>Responsabilité</h5>
+                L'UNG décline toute responsabilité pour les anomalies pouvant survenir en cours de commande, de traitement
+                ou d'impression du billet dans la mesure où elle ne les a pas provoquées intentionnellement.<br>
+                De même, l'UNG n’est pas responsable en cas de perte, vol ou utilisation illicite du billet.<br>
+                <br>
+            </p>
+        </div>
+    </div>
+</div>

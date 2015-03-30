@@ -67,6 +67,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/createTicket/:event', {
             templateUrl: 'createTicket/createTicket.html'
         })
+        .when('/help', {
+            templateUrl: 'help/help.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
