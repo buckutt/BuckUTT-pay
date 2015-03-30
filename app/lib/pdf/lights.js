@@ -129,7 +129,7 @@ module.exports = function (data, callback) {
     var basePath = fs.realpathSync(__dirname + '/../../');
 
     var doc = new PDFKit({
-        size: 'a2' // 1190.55 * 1683.78 
+        size: 'a2' // 1190.55 * 1683.78
     });
 
     // Fonts
