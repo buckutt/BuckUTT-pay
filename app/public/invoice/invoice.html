@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="static/css/invoice.css">
+<link rel="stylesheet" href="static/css/invoicePrint.css" media="print">
+
+<div ng-controller="Invoice as invoice">
+    <h1 class="text-center notVisibleInPrint">
+        <a href="#/">BuckUTT</a>
+    </h1>
+    <h2 class="text-center notVisibleInPrint">Génération de facture</h2>
+    <div class="panel panel-default notVisibleInPrint">
+        <div class="panel-body">
+            <h3>Adresse de facturation</h3>
+            <input type="text" class="form-control input-block input-lg" ng-model="addr">
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3 class="notVisibleInPrint">Facture</h3>
+            <a onclick="print()" class="notVisibleInPrint">Imprimer</a>
+            <div id="invoice">
+                <div class="vendorInfos">
+                    BDE<br>
+                    12 rue Marie Curie CS 42060 10004 Troyes Cedex
+                </div>
+                <div class="buyerInfos">
+                    {{ ticket.displayName }}<br>
+                    {{ addr }}
+                </div>
+                <div class="factureNo">
+                    <br>
+                    Facture n°{{ ticket.id }}
+                </div>
+                <div class="factureDate">
+                    Date : {{ date | date:'dd/MM/yyyy' }}
+                </div>
+                <div class="obj">
+                    Object : Facture BuckUTT
+                </div>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Désignation</th>
+                            <th>Quantité</th>
+                            <th>P.U. H.T.</th>
+                            <th>Montant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bigTr">
+                            <td>Place BuckUTT</td>
+                            <td>1</td>
+                            <td>{{ ticket.Price.price | euro }}</td>
+                            <td>{{ ticket.Price.price | euro }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="hiddenOne"></td>
+                            <td>
+                                Total HT
+                            <td>
+                                {{ ticket.Price.price | euro }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="hiddenOne"></td>
+                            <td>
+                                TVA à 0.00%
+                            <td>
+                                {{ 0 | euro }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="hiddenOne"></td>
+                            <td>
+                                Total T.T.C.
+                            <td>
+                                {{ ticket.Price.price | euro }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

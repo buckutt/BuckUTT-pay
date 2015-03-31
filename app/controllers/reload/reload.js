@@ -11,7 +11,7 @@ module.exports = function (db, config) {
         var id;
         var token;
 
-        restling.post(config.sherlocks.host + (req.query.amount * 100), {
+        restling.post(config.sherlocks.host + 'pay/' + (req.query.amount * 100), {
             data: req.user.mail,
             service: config.sherlocks.reloadId
         })

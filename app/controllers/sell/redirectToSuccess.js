@@ -12,7 +12,7 @@ module.exports = function () {
             res
                 .status(200)
                 .json({
-                    url: '/#/ticketBought/' + encodeURIComponent(JSON.stringify(req.user))
+                    url: '/#/ticketBought/' + encodeURIComponent(JSON.stringify(req.user) + '?ticketId=' + req.ticketId + '&sherlocksToken=' + req.sherlocksToken);
                 })
                 .end();
             return;
@@ -21,7 +21,7 @@ module.exports = function () {
         res
             .status(200)
             .json({
-                url: '/#/ticketBought/'
+                url: '/#/ticketBought/?ticketId=' + req.ticketId + '&sherlocksToken='+ req.sherlocksToken;
             })
             .end();
     };

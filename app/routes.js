@@ -135,6 +135,13 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.tickets.create
         );
 
+    router.route('/ticket/:id')
+        // Gets one ticket (invoice)
+        .get(
+            auth.isAuth,
+            controllers.tickets.getOne
+        );
+
     router.route('/makeTicketFromAdmin')
         // Creates a ticket (admin's making one)
         .post(

@@ -70,6 +70,9 @@ pay.config(['$routeProvider', function ($routeProvider) {
         .when('/help', {
             templateUrl: 'help/help.html'
         })
+        .when('/invoice/:id', {
+            templateUrl: 'invoice/invoice.html'
+        })
         .otherwise({
             redirectTo: '/'
         });

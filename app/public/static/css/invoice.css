@@ -1,0 +1,63 @@
+.panel {
+    min-height: 0;
+}
+
+.panel-body {
+    height: auto;
+    padding: 0 15px 15px 15px;
+}
+
+.panel-body a {
+    cursor: pointer;
+}
+
+/* Invoice style */
+#invoice {
+    margin: 0 auto;
+    width: 700px;
+}
+
+.bigTr {
+    height: 250px;
+}
+
+.vendorInfos {
+    float: left;
+    min-height: 60px;
+    width: 200px;
+    word-break: break-word;
+}
+
+.buyerInfos {
+    float: right;
+    min-height: 60px;
+    width: 200px;
+    word-break: break-word;
+}
+
+.factureNo {
+    float: left;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.factureDate {
+    float: left;
+    margin: 20px 0;
+}
+
+.obj {
+    float: left;
+    margin-bottom: 20px;
+}
+
+.hiddenOne.hiddenOne {
+    border: 1px solid #fff;
+    border-right: 1px solid #ddd;
+}
+
+table {
+    float: left;
+}

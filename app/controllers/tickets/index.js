@@ -15,6 +15,7 @@ module.exports = function (db, config) {
         assignateBirthdate:  require('./assignateBirthdate')(db, config),
         checkMail:           require('./checkMail')(db, config),
         getExtPrice:         require('./getExtPrice')(db, config),
-        makeTicketFromAdmin: require('./makeTicketFromAdmin')(db, config)
+        makeTicketFromAdmin: require('./makeTicketFromAdmin')(db, config),
+        getOne:              require('./getOne')(db, config)
     };
 };

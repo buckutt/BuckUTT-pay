@@ -1,0 +1,8 @@
+.notVisibleInPrint {
+    display: none !important;
+}
+
+table {
+    border: 0 !important;
+    width: 610px !important;
+}
