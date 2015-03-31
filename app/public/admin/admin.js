@@ -104,7 +104,7 @@ pay.controller('Admin', [
          */
         this.activateFile = function () {
             // Updates the input text with the input file name
-            $('input[type=file]').on('change', function (e) {
+            $('input[type=file]').on('change', function () {
                 if (this.files.length === 1) {
                     $(this).parent().parent().next().val(this.files[0].name);
                 }
