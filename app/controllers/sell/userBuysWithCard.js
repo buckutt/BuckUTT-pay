@@ -235,7 +235,7 @@ module.exports = function (db, config) {
                         });
                     }
 
-                    return restling.post(config.sherlocks.host + (priceWanted.price * 100), {
+                    return restling.post(config.sherlocks.host + 'pay/' + (priceWanted.price * 100), {
                         data: newTicketId,
                         service: config.sherlocks.paymentId
                     });
