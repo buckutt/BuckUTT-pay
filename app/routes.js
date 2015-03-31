@@ -148,7 +148,7 @@ module.exports = function (router, servicesRouter, db, config) {
             auth.noAuth,
             validators.makeTicketFromAdmin,
             controllers.tickets.makeTicketFromAdmin
-        )
+        );
 
     router.route('/assignateCard/:eventId')
         // Sets the barcode of one ticket
@@ -314,7 +314,7 @@ module.exports = function (router, servicesRouter, db, config) {
             controllers.validate.validateName
         );
 
-    router.route('/validate/byTicketId/:ticketId')
+    router.route('/validate/byTicketId/:ticketId');
 
     ////////////////////
     // Ticket selling //

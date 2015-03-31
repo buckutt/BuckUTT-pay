@@ -4,50 +4,59 @@
 
 'use strict';
 
-var Promise = require('bluebird');
-
-module.exports = function (db, config) {
-    var logger = require('../../lib/log')(config);
-    var rest   = require('../../lib/rest')(config, logger);
-
+module.exports = function (db) {
     return function (req, res) {
         var eventId = req.params.eventId;
 
-        db.Ticket.findAll({
-            where: {
-                event_id: eventId,
-                displayName: req.params.name
-            }
-        }).complete(function (err, tickets) {
-            if (err || !tickets || tickets.length === 0) {
-                return res.status(401).end();
-            }
+        db.Ticket
+            .findAll({
+                where: {
+                    event_id: eventId,
+                    displayName: req.params.name
+                }
+            })
+            .then(function (tickets) {
+                if (!tickets || tickets.length === 0) {
+                    return res
+                            .status(401)
+                            .end();
+                }
 
-            if (tickets.length > 1) {
-                tickets = tickets.map(function (ticket) {
-                    return [ticket.id, ticket.birthdate];
-                });
-                res.status(200).json(tickets).end();
-                return;
-            }
+                if (tickets.length > 1) {
+                    tickets = tickets.map(function (ticket) {
+                        return [ticket.id, ticket.birthdate];
+                    });
+                    return res
+                            .status(200)
+                            .json(tickets)
+                            .end();
+                }
 
-            var ticket = tickets[0];
+                var ticket = tickets[0];
 
-            var values = (ticket.dataValues) ? ticket.dataValues : ticket;
+                if (!ticket.paid || !ticket.paid_at || !ticket.paid_with) {
+                    return res
+                            .status(402)
+                            .end();
+                }
 
-            if (!values.paid || !values.paid_at || !values.paid_with) {
-                return res.status(402).end();
-            }
+                if (ticket.validatedDate) {
+                    return res
+                            .status(409)
+                            .end();
+                }
 
-            if (values.validatedDate) {
-                return res.status(409).end();
-            }
+                ticket.validatedDate = new Date();
+                ticket.save();
 
-            ticket.validatedDate = new Date();
-            ticket.save();
-
-            res.status(200).end();
-        });
-
+                return res
+                        .status(200)
+                        .end();
+            })
+            .catch(function () {
+                return res
+                        .status(401)
+                        .end();
+            });
     };
 };

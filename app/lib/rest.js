@@ -39,7 +39,7 @@ module.exports = function (config, logger) {
             }
 
             return rest[method](url, options);
-        }
+        };
     }
 
     return {

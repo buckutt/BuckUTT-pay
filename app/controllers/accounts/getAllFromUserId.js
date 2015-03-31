@@ -5,32 +5,34 @@
 'use strict';
 
 module.exports = function (db, config) {
-    var logger = require('../../lib/log')(config);
-
     return function (req, res) {
-        db.Account.findAll({
-            where: {
-                username: req.params.userId
-            }
-        }).complete(function (err, accounts) {
-            if (err) {
-                return Error.emit(res, 500, '500 - SQL Server error', err);
-            }
+        db.Account
+            .findAll({
+                where: {
+                    username: req.params.userId
+                }
+            })
+            .then(function (accounts) {
+                var sentAccounts = [];
 
-            var sentAccounts = [];
+                if (!accounts) {
+                    accounts = [];
+                }
 
-            if (!accounts) {
-                accounts = [];
-            }
-
-            accounts.forEach(function (account, i) {
-                sentAccounts.push({
-                    event: account.event_id,
-                    admin: (account.right_id === 1)
+                accounts.forEach(function (account) {
+                    sentAccounts.push({
+                        event: account.event_id,
+                        admin: (account.right_id === 1)
+                    });
                 });
-            });
 
-            res.json(sentAccounts);
-        });
+                return res
+                        .status(200)
+                        .json(sentAccounts)
+                        .end();
+            })
+            .catch(function (err) {
+                return Error.emit(res, 500, '500 - SQL Server error', err);
+            });
     };
 };

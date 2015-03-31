@@ -18,38 +18,45 @@ module.exports = function (db, config) {
         var pwd   = req.form.password;
         var token = req.params.token;
 
-        db.Token.find({
-            where: {
-                reset: token
-            }
-        }).complete(function (err, token) {
-            if (err) {
-                return Error.emit(res, 500, '500 - SQL Server error', err);
-            }
-
-            if (!token) {
-                return Error.emit(res, 401, '401 - Unauthorized', 'Bad token');
-            }
-
-            var mail = token.usermail;
-
-            var hash = bcrypt.hashSync(pwd, config.bcryptCost);
-
-            rest.get('users?mail=' + mail).then(function (uRes) {
-                return uRes.data.id;
-            }, function () {
-                return Error.emit(res, 500, '500 - Buckutt server error', 'Get id from email failed');
-            }).then(function (id) {
-                rest.put('users/' + id, {
-                    password: hash
-                }).then(function () {
-                    res.json({
-                        status: 200
-                    });
-                }, function () {
-                    return Error.emit(res, 500, '500 - Buckutt server error', 'Password change failed');
-                })
+        db.Token
+            .find({
+                where: {
+                    reset: token
+                }
             })
-        });
+            .then(function (token) {
+                if (!token) {
+                    return Error.emit(res, 401, '401 - Unauthorized', 'Couldn\'t reset password : wrong token');
+                }
+
+                var mail = token.usermail;
+
+                var hash = bcrypt.hashSync(pwd, config.bcryptCost);
+
+                rest
+                    .get('users?mail=' + mail)
+                    .then(function (uRes) {
+                        return uRes.data.id;
+                    })
+                    .catch(function (err) {
+                        return Error.emit(res, 500, '500 - Buckutt server error', err);
+                    })
+                    .then(function (id) {
+                        return rest.put('users/' + id, {
+                            password: hash
+                        });
+                    })
+                    .then(function () {
+                        return res
+                                .status(200)
+                                .end();
+                    })
+                    .catch(function (err) {
+                        return Error.emit(res, 500, '500 - Buckutt server error', err);
+                    });
+            })
+            .catch(function (err) {
+                return Error.emit(res, 500, '500 - SQL Server error', err);
+            });
     };
 };

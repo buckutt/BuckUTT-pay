@@ -37,7 +37,7 @@ String.prototype.nameCapitalize = function () {
  * Else adds a trailing 0
  * @return {string}     The padded number
  */
-Number.prototype.pad2 = function (nu) {
+Number.prototype.pad2 = function () {
     return (this < 10) ? '0' + this : '' + this;
 };
 

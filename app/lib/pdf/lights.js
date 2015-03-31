@@ -2,6 +2,8 @@
 // Ticket PDF Generator //
 //////////////////////////
 
+'use strict';
+
 var PDFKit  = require('pdfkit');
 var barcode = require('barcode');
 var fs      = require('fs');

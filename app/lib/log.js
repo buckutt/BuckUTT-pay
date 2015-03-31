@@ -100,7 +100,7 @@ function Log () {
         this.write('err', msg);
         console.trace();
     };
-};
+}
 
 var log = new Log();
 

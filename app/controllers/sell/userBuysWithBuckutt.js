@@ -29,41 +29,45 @@ module.exports = function (db, config) {
 
         new Promise(function (resolve, reject) {
             if (req.user.inBDE) {
-                db.Price.find({
-                    where: {
-                        event_id: eventId,
-                        name: { like: '%cotisant en prévente' }
-                    }
-                }).complete(function (err, price) {
-                    if (err) {
-                        return Error.emit(res, 500, '500 - SQL Server error', err);
-                    }
+                db.Price
+                    .find({
+                        where: {
+                            event_id: eventId,
+                            name: { like: '%cotisant en prévente' }
+                        }
+                    })
+                    .then(function (price) {
+                        if (!price) {
+                            Error.emit(res, 404, '404 - Not Found');
+                            return reject();
+                        }
 
-                    if (!price) {
-                        Error.emit(res, 404, '404 - Not Found', err, 'no price');
+                        return resolve(price);
+                    })
+                    .catch(function (err) {
+                        Error.emit(res, 500, '500 - SQL Server error', err);
                         return reject();
-                    }
-
-                    resolve(price);
-                });
+                    });
             } else {
-                db.Price.find({
-                    where: {
-                        event_id: eventId,
-                        name: { like: '%non-cotisant en prévente' }
-                    }
-                }).complete(function (err, price) {
-                    if (err) {
-                        return Error.emit(res, 500, '500 - SQL Server error', err);
-                    }
+                db.Price
+                    .find({
+                        where: {
+                            event_id: eventId,
+                            name: { like: '%non-cotisant en prévente' }
+                        }
+                    })
+                    .then(function (price) {
+                        if (!price) {
+                            Error.emit(res, 404, '404 - Not Found');
+                            return reject();
+                        }
 
-                    if (!price) {
-                        Error.emit(res, 404, '404 - Not Found', err, 'no price');
+                        resolve(price);
+                    })
+                    .catch(function (err) {
+                        Error.emit(res, 500, '500 - SQL Server error', err);
                         return reject();
-                    }
-
-                    resolve(price);
-                });
+                    });
             }
         })
         .then(function (price) {
@@ -79,23 +83,25 @@ module.exports = function (db, config) {
         })
         .then(function () {
             return new Promise(function (resolve, reject) {
-                db.Price.find({
-                    where: {
-                        event_id: eventId,
-                        name: { like: '%extérieur en prévente' }
-                    }
-                }).complete(function (err, price) {
-                    if (err) {
-                        return Error.emit(res, 500, '500 - SQL Server error', err);
-                    }
+                db.Price
+                    .find({
+                        where: {
+                            event_id: eventId,
+                            name: { like: '%extérieur en prévente' }
+                        }
+                    })
+                    .then(function (price) {
+                        if (!price) {
+                            Error.emit(res, 404, '404 - Not Found');
+                            return reject();
+                        }
 
-                    if (!price) {
-                        Error.emit(res, 404, '404 - Not Found', err);
+                        return resolve(price);
+                    })
+                    .catch(function (err) {
+                        Error.emit(res, 500, '500 - SQL Server error', err);
                         return reject();
-                    }
-
-                    resolve(price);
-                });
+                    });
             });
         })
         .then(function (price) {
@@ -138,7 +144,7 @@ module.exports = function (db, config) {
         })
         .then(function () {
             return new Promise(function (resolve, reject) {
-                generateBarcode(resolve, db.Ticket);
+                generateBarcode(resolve, reject, db.Ticket);
             });
         })
         .then(function (barcode) {
@@ -163,9 +169,9 @@ module.exports = function (db, config) {
             newTicketId = newTicket.id;
             if (additionalExtTickets) {
                 var promises = [];
-                additionalExtTickets.forEach(function (additionalExtTicket) {
-                    promises.push(new Promise (function (resolve, reject) {
-                        generateBarcode(resolve, db.Ticket);
+                additionalExtTickets.forEach(function () {
+                    promises.push(new Promise (function (resolve) {
+                        generateBarcode(resolve, reject, db.Ticket);
                     }));
                 });
 
@@ -189,17 +195,19 @@ module.exports = function (db, config) {
                         price_id: priceWantedExt.id,
                         event_id: eventId,
                         mainTicket: newTicketId
-                    })
+                    });
                 });
             }
         })
         .then(function () {
-            res.status(200).json({
-                id: newTicketId
-            }).end();
+            return res
+                    .status(200)
+                    .json({
+                        id: newTicketId
+                    })
+                    .end();
         }).catch(function (err) {
-            console.dir(err);
-            res.end();
+            return Error.emit(res, 500, '500 - Server Error', err);
         });
     };
 };

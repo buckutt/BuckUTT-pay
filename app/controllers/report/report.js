@@ -11,19 +11,25 @@ module.exports = function (db, config) {
         var body = JSON.parse(req.rawBody);
 
         if (!body.hasOwnProperty('csp-report')) {
-            return res.status(400).end();
+            return res
+                    .status(400)
+                    .end();
         }
 
         var cspReport = body['csp-report'];
 
         if (!cspReport.hasOwnProperty('document-uri') ||
             !cspReport.hasOwnProperty('violated-directive')) {
-            return res.status(400).end();
+            return res
+                    .status(400)
+                    .end();
         }
 
         logger.error('[CSP report] Document : "' + cspReport['document-uri'] + '"' +
                                  ' Directive : "' + cspReport['violated-directive'] + '"');
 
-        res.status(200).end();
+        return res
+                .status(200)
+                .end();
     };
 };

@@ -6,12 +6,16 @@
 
 module.exports = function (db) {
     return function (req, res) {
-        db.SchoolDomain.findAll().complete(function (err, domains) {
-            if (err) {
+        db.SchoolDomain
+            .findAll()
+            .then(function (domains) {
+                return res
+                        .status(200)
+                        .json(domains || {})
+                        .end();
+            })
+            .catch(function (err) {
                 return Error.emit(res, 500, '500 - SQL Server error', err);
-            }
-            
-            res.json(domains || {});
-        });
+            });
     };
 };

@@ -31,13 +31,16 @@ module.exports = function (config) {
             attachments: placesToAttachements(places)
         };
 
-        transporter.sendMail(mailOptions, function (err, infos) {
+        transporter.sendMail(mailOptions, function (err) {
             if (err) {
                 logger.error(err);
                 return cb(false);
             }
             logger.debug('Mail sent with success');
-            cb ? cb(true) : 0;
+
+            if (cb) {
+                cb(true);
+            }
         });
     }
 
@@ -61,13 +64,16 @@ module.exports = function (config) {
             html: finalMail
         };
 
-        transporter.sendMail(mailOptions, function (err, infos) {
+        transporter.sendMail(mailOptions, function (err) {
             if (err) {
                 logger.error(err);
                 return cb(false);
             }
             logger.debug('Mail sent with success');
-            cb ? cb(true) : 0;
+
+            if (cb) {
+                cb(true);
+            }
         });
     }
 
@@ -90,13 +96,16 @@ module.exports = function (config) {
             html: finalMail
         };
 
-        transporter.sendMail(mailOptions, function (err, infos) {
+        transporter.sendMail(mailOptions, function (err) {
             if (err) {
                 logger.error(err);
                 return cb(false);
             }
             logger.debug('Mail sent with success');
-            cb ? cb(true) : 0;
+
+            if (cb) {
+                cb(true);
+            }
         });
     }
 

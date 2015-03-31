@@ -4,25 +4,23 @@
 
 'use strict';
 
-var Promise = require('bluebird');
-
 module.exports = function () {
-    return function (req, res, next) {
+    return function (req, res) {
         if (req.user) {
-            res
-                .status(200)
-                .json({
-                    url: '/#/ticketBought/' + encodeURIComponent(JSON.stringify(req.user) + '?ticketId=' + req.ticketId + '&sherlocksToken=' + req.sherlocksToken);
-                })
-                .end();
-            return;
+            return res
+                    .status(200)
+                    .json({
+                        url: '/#/ticketBought/' + encodeURIComponent(JSON.stringify(req.user) +
+                             '?ticketId=' + req.ticketId + '&sherlocksToken=' + req.sherlocksToken)
+                    })
+                    .end();
         }
 
-        res
-            .status(200)
-            .json({
-                url: '/#/ticketBought/?ticketId=' + req.ticketId + '&sherlocksToken='+ req.sherlocksToken;
-            })
-            .end();
+        return res
+                .status(200)
+                .json({
+                    url: '/#/ticketBought/?ticketId=' + req.ticketId + '&sherlocksToken='+ req.sherlocksToken
+                })
+                .end();
     };
 };

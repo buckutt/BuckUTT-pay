@@ -4,7 +4,6 @@
 
 'use strict';
 
-var crypto  = require('crypto');
 var bcrypt  = require('bcryptjs');
 var Promise = require('bluebird');
 
@@ -25,56 +24,59 @@ module.exports = function (db, config) {
         // username is a positive number and not login etu => auth with card number
         if (!Number.isPositiveNumeric(username) && !/^\w[\w_]+\d?$/i.test(username)) {
             // Auth with email
-            rest.get('users?mail=' + username)
-            .then(function (uRes) {
-                return uRes.data;
-            })
-            .then(checkPassword)
-            .then(getTickets)
-            .then(checkIfFundationAccount)
-            .then(checkIfAdmin)
-            .then(checkBdeMember)
-            .catch(function () {
-                return Error.emit(res, 500, '500 - Buckutt server error', 'Mail auth failed');
-            });
+            rest
+                .get('users?mail=' + username)
+                .then(function (uRes) {
+                    return uRes.data;
+                })
+                .then(checkPassword)
+                .then(getTickets)
+                .then(checkIfFundationAccount)
+                .then(checkIfAdmin)
+                .then(checkBdeMember)
+                .catch(function (err) {
+                    return Error.emit(res, 500, '500 - Buckutt server error', 'Mail auth failed', err);
+                });
         } else {
             // First get the user id (via its meanoflogin)
             // can be carte etu number or login
-            rest.get('meanofloginsusers?data=' + username + '&MeanOfLoginId=1&MeanOfLoginId=2')
-            .then(function (mRes) {
-                return mRes.data.data;
-            })
-            .then(function (mol) {
-                return new Promise(function (resolve, reject) {
-                    // If forced auth, get userid directly
-                    if (res.locals.shouldNotCheckPassword) {
-                        mol = { UserId: username };
-                    }
+            rest
+                .get('meanofloginsusers?data=' + username + '&MeanOfLoginId=1&MeanOfLoginId=2')
+                .then(function (mRes) {
+                    return mRes.data.data;
+                })
+                .then(function (mol) {
+                    return new Promise(function (resolve, reject) {
+                        // If forced auth, get userid directly
+                        if (res.locals.shouldNotCheckPassword) {
+                            mol = { UserId: username };
+                        }
 
-                    if (!mol || !mol.UserId) {
-                        reject('nouser');
-                    }
+                        if (!mol || !mol.UserId) {
+                            return reject('nouser');
+                        }
 
-                    // Then auth with userid
-                    rest.get('users?id=' + mol.UserId).then(function (uRes) {
-                        req.wantedUser = uRes.data.data;
-                        resolve(uRes.data.data);
-                    }, reject);
+                        // Then auth with userid
+                        rest
+                            .get('users?id=' + mol.UserId)
+                            .then(function (uRes) {
+                                req.wantedUser = uRes.data.data;
+                                return resolve(uRes.data.data);
+                            })
+                            .catch(reject);
+                    });
+                })
+                .then(checkPassword)
+                .then(getTickets)
+                .then(checkIfFundationAccount)
+                .then(checkIfAdmin)
+                .then(checkBdeMember)
+                .catch(function (err) {
+                    if (err === 'bcrypt' || err === 'nouser') {
+                        return Error.emit(res, 401, '401 - Invalid username/password', err);
+                    }
+                    return Error.emit(res, 500, '500 - Buckutt server error', err);
                 });
-            })
-            .then(checkPassword)
-            .then(getTickets)
-            .then(checkIfFundationAccount)
-            .then(checkIfAdmin)
-            .then(checkBdeMember)
-            .catch(function (err) {
-                console.log(err);
-                if (err === 'bcrypt' || err === 'nouser') {
-                    return Error.emit(res, 401, '401 - Invalid username/password');
-                }
-                console.dir(err);
-                return Error.emit(res, 500, '500 - Buckutt server error');
-            });
         }
 
         /**
@@ -93,15 +95,14 @@ module.exports = function (db, config) {
                     return resolve();
                 }
 
-                var t = bcrypt.compareSync(req.form.password, wantedUser.password);
                 if (bcrypt.compareSync(req.form.password, wantedUser.password)) {
                     req.user = wantedUser;
 
                     req.user.firstname = req.user.firstname.nameCapitalize();
                     req.user.lastname  = req.user.lastname.nameCapitalize();
-                    resolve();
+                    return resolve();
                 } else {
-                    reject('bcrypt');
+                    return reject('bcrypt');
                 }
             });
         }
@@ -111,29 +112,30 @@ module.exports = function (db, config) {
          */
         function getTickets () {
             return new Promise(function (resolve, reject) {
-                db.Ticket.findAll({
-                    where: {
-                        username: req.user.id
-                    }
-                }).complete(function (err, tickets) {
-                    if (err) {
-                        reject(err);
-                    }
+                db.Ticket
+                    .findAll({
+                        where: {
+                            username: req.user.id
+                        }
+                    })
+                    .then(function (tickets) {
+                        tickets = (tickets) ? tickets : [];
 
-                    tickets = (tickets) ? tickets : [];
-
-                    var realTickets = [];
-                    tickets.forEach(function (ticket) {
-                        realTickets.push({
-                            id: ticket.dataValues.id,
-                            event_id: ticket.dataValues.event_id
+                        var realTickets = [];
+                        tickets.forEach(function (ticket) {
+                            realTickets.push({
+                                id: ticket.dataValues.id,
+                                event_id: ticket.dataValues.event_id
+                            });
                         });
+
+                        req.user.tickets = realTickets;
+
+                        return resolve();
+                    })
+                    .catch(function (err) {
+                        return reject(err);
                     });
-
-                    req.user.tickets = realTickets;
-
-                    resolve();
-                });
             });
         }
 
@@ -142,34 +144,38 @@ module.exports = function (db, config) {
          */
         function checkIfFundationAccount () {
             return new Promise(function (resolve, reject) {
-                rest.get('users/' + req.user.id + '/rights').then(function (uRes) {
-                    var rights = uRes.data.data;
-                    if (!rights || rights.length === 0) {
-                        resolve(rights);
-                    }
-
-                    var work = false;
-                    rights.forEach(function (right) {
-                        if (right.name === 'fund_chef') {
-                            req.user.fundation = {
-                                id: right.UsersRights.FundationId
-                            };
-
-                            // Récupérer le nom de l'asso
-                            work = true;
-                            rest.get('fundations/' + right.UsersRights.FundationId).then(function (fRes) {
-                                req.user.fundation.name = fRes.data.data.name;
-                                resolve(rights);
-                            }, function () {
-                                reject()
-                            });
+                rest
+                    .get('users/' + req.user.id + '/rights')
+                    .then(function (uRes) {
+                        var rights = uRes.data.data;
+                        if (!rights || rights.length === 0) {
+                            return resolve(rights);
                         }
-                    });
 
-                    if (!work) {
-                        resolve(rights);
-                    }
-                }, reject);
+                        var work = false;
+                        rights.forEach(function (right) {
+                            if (right.name === 'fund_chef') {
+                                req.user.fundation = {
+                                    id: right.UsersRights.FundationId
+                                };
+
+                                // Récupérer le nom de l'asso
+                                work = true;
+                                rest
+                                    .get('fundations/' + right.UsersRights.FundationId)
+                                    .then(function (fRes) {
+                                        req.user.fundation.name = fRes.data.data.name;
+                                        return resolve(rights);
+                                    })
+                                    .catch(reject);
+                            }
+                        });
+
+                        if (!work) {
+                            return resolve(rights);
+                        }
+                    })
+                    .catch(reject);
             });
         }
 
@@ -192,13 +198,14 @@ module.exports = function (db, config) {
          */
         function checkBdeMember () {
             return new Promise(function (resolve, reject) {
-                rest.get('users/' + req.user.id + '?isInBDE=true').then(function (uRes) {
-                    req.user.inBDE = Boolean(uRes.data);
-                    resolve();
-                    next();
-                }).catch(function (err) {
-                    reject(err);
-                });
+                rest
+                    .get('users/' + req.user.id + '?isInBDE=true')
+                    .then(function (uRes) {
+                        req.user.inBDE = Boolean(uRes.data);
+                        resolve();
+                        return next();
+                    })
+                    .catch(reject);
             });
         }
     };

@@ -2,6 +2,8 @@
 // SIGHUP Management //
 ///////////////////////
 
+'use strict';
+
 var cluster = require('cluster');
 
 console.log('Master started with PID ' + process.pid);
@@ -25,10 +27,12 @@ process.on('SIGHUP', function () {
     newWorker.once('listening', function () {
         // Stops all other workers
         for(var id in cluster.workers) {
-            if (id === newWorker.id.toString()) {
-                continue;
+            if (cluster.workers.hasOwnProperty(id)) {
+                if (id === newWorker.id.toString()) {
+                    continue;
+                }
+                cluster.workers[id].kill('SIGTERM');
             }
-            cluster.workers[id].kill('SIGTERM');
         }
     });
 

@@ -4,24 +4,24 @@
 
 'use strict';
 
-module.exports = function (db, config) {
-    var logger = require('../../lib/log')(config);
-
+module.exports = function (db) {
     return function (req, res) {
         if (!req.form.isValid) {
-            console.dir(req.form.errors);
-            return Error.emit(res, 400, '400 - Bad Request');
+            return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
         }
 
-        db.Ticket.create(req.form).complete(function (err, ticket) {
-            if (err) {
-                return Error.emit(res, 500, '500 - SQL Server error', err.toString());
-            }
-
-            res.json({
-                status: 200,
-                id: ticket.id
+        db.Ticket
+            .create(req.form)
+            .then(function (ticket) {
+                return res
+                        .status(200)
+                        .json({
+                            id: ticket.id
+                        })
+                        .end();
+            })
+            .catch(function (err) {
+                return Error.emit(res, 500, '500 - SQL Server error', err);
             });
-        });
     };
 };

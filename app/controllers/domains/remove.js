@@ -6,20 +6,22 @@
 
 module.exports = function (db) {
     return function (req, res) {
-        db.SchoolDomain.find(req.params.domainId).complete(function (err, domain) {
-            if (err) {
-                return Error.emit(res, 500, '500 - SQL Error', err.toString());
-            }
-
-            domain.destroy().complete(function (errDestroy) {
-                if (errDestroy) {
-                    return Error.emit(res, 500, '500 - SQL Error', err.toString());
-                }
-
-                res.json({
-                    status: 200
-                });
+        db.SchoolDomain
+            .find(req.params.domainId)
+            .then(function (domain) {
+                domain
+                    .destroy()
+                    .then(function () {
+                        return res
+                                .status(200)
+                                .end();
+                    })
+                    .catch(function (err) {
+                        return Error.emit(res, 500, '500 - SQL Error', err);
+                    });
+            })
+            .catch(function (err) {
+                return Error.emit(res, 500, '500 - SQL Error', err);
             });
-        });
     };
 };

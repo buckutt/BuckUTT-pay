@@ -5,22 +5,22 @@
 'use strict';
 
 module.exports = function (db, config) {
-    var logger = require('../../lib/log')(config);
-
     return function (req, res) {
         if (!req.form.isValid) {
             return Error.emit(res, 400, '400 - Bad Request', req.form.errors);
         }
 
-        db.Account.create(req.form).complete(function (err, user) {
-            if (err) {
-                return Error.emit(res, 500, '500 - SQL Server error', err.toString());
-            }
-
-            res.json({
-                status: 200,
-                id: user.id
+        db.Account
+            .create(req.form)
+            .then(function (user) {
+                return res
+                        .status(200)
+                        .json({
+                            id: user.id
+                        }).end();
+            })
+            .catch(function (err) {
+                return Error.emit(res, 500, '500 - SQL Server error', err);
             });
-        });
     };
 };

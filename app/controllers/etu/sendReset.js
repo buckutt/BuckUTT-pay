@@ -14,16 +14,19 @@ module.exports = function (db, config) {
         /**
          * Step 1 - Checks if email exists
          */
-        rest.get('users?mail=' + req.params.mail).then(function (uRes) {
-            var data = uRes.data.data;
-            if (!data) {
-                return Error.emit(res, 401, '401 - Unauthorized', 'Mail not found');
-            }
+        rest
+            .get('users?mail=' + req.params.mail)
+            .then(function (uRes) {
+                var data = uRes.data.data;
+                if (!data) {
+                    return Error.emit(res, 401, '401 - Unauthorized', 'Couldn\'t find mail to send reset token');
+                }
 
-            generateToken();
-        }, function () {
-            Error.emit(res, 500, '500 - Buckutt server error', 'Mail fail');
-        });
+                generateToken();
+            })
+            .catch(function (err) {
+                return Error.emit(res, 500, '500 - Buckutt server error', err);
+            });
 
         /**
          * Step 2 - Generates random token
@@ -31,23 +34,24 @@ module.exports = function (db, config) {
         function generateToken () {
             var token = String.random(20);
 
-            db.Token.count({
-                where: {
-                    reset: token
-                }
-            }).complete(function (err, count) {
-                if (err) {
-                    return Error.emit(res, 500, '500 - SQL Server error', err.toString());
-                }
-
-                if (count === 0) {
-                    createToken(token);
-                } else {
-                    logger.warn('Needed to regenerate token.');
-                    // Token already exists, call again
-                    generateToken();
-                }
-            });
+            db.Token
+                .count({
+                    where: {
+                        reset: token
+                    }
+                })
+                .then(function (count) {
+                    if (count === 0) {
+                        createToken(token);
+                    } else {
+                        logger.warn('Needed to regenerate token.');
+                        // Token already exists, call again
+                        generateToken();
+                    }
+                })
+                .catch(function (err) {
+                    return Error.emit(res, 500, '500 - SQL Server error', err);
+                });
         }
 
         /**
@@ -55,16 +59,17 @@ module.exports = function (db, config) {
          * @param  {string} token The token to create
          */
         function createToken (token) {
-            db.Token.create({
-                reset: token,
-                usermail: req.params.mail
-            }).complete(function (err, newToken) {
-                if (err) {
-                    return Error.emit(null, 500, '500 - SQL Server error', err.toString());
-                }
-
-                sendMail(token);
-            });
+            db.Token
+                .create({
+                    reset: token,
+                    usermail: req.params.mail
+                })
+                .then(function () {
+                    sendMail(token);
+                })
+                .catch(function (err) {
+                    return Error.emit(null, 500, '500 - SQL Server error', err);
+                });
         }
 
         /**
@@ -77,9 +82,7 @@ module.exports = function (db, config) {
                     return Error.emit(res, 500, '500 - Could\'t send mail');
                 }
 
-                res.json({
-                    status: 200
-                });
+                return res.status(200).end();
             });
         }
     };

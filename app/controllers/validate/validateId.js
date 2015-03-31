@@ -21,12 +21,15 @@ module.exports = function (db, config) {
             testEtu();
         } else {
             // First, check barcode (bde card or pdf)
-            db.Ticket.find({
-                where: {
-                    event_id: eventId,
-                    barcode: id
-                }
-            }).complete(testTicket);
+            db.Ticket
+                .find({
+                    where: {
+                        event_id: eventId,
+                        barcode: id
+                    }
+                })
+                .then(testTicket)
+                .catch(testTicketErr);
         }
 
         /**
@@ -39,35 +42,40 @@ module.exports = function (db, config) {
                 return new Promise(function (resolve, reject) {
                     var mol = mRes.data.data;
                     if (!mol || !mol.UserId) {
-                        res.status(401).end();
+                        res
+                            .status(401)
+                            .end();
                         return reject();
                     }
 
-                    resolve(mol.UserId);
+                    return resolve(mol.UserId);
                 });
             })
             .then(function (username) {
-                db.Ticket.find({
-                    where: {
-                        event_id: eventId,
-                        username: username
-                    }
-                }).complete(testTicket);
+                db.Ticket
+                    .find({
+                        where: {
+                            event_id: eventId,
+                            username: username
+                        }
+                    })
+                    .then(testTicket)
+                    .catch(testTicketErr);
             });
         }
 
-        function testTicket (err, ticket) {
-            if (err || !ticket) {
-                return res.status(401).end();
+        function testTicket (ticket) {
+            if (!ticket) {
+                return res
+                        .status(401)
+                        .end();
             }
 
-            var values = (ticket.dataValues) ? ticket.dataValues : ticket;
-
-            if (!values.paid || !values.paid_at || !values.paid_with) {
+            if (!ticket.paid || !ticket.paid_at || !ticket.paid_with) {
                 return res.status(402).end();
             }
 
-            if (values.validatedDate) {
+            if (ticket.validatedDate) {
                 return res.status(409).end();
             }
 
@@ -75,6 +83,12 @@ module.exports = function (db, config) {
             ticket.save();
 
             res.status(200).end(ticket.displayName);
+        }
+
+        function testTicketErr () {
+            return res
+                    .status(401)
+                    .end();
         }
     };
 };

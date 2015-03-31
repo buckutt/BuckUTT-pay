@@ -5,7 +5,7 @@
 'use strict';
 
 module.exports = function (db, config) {
-    var fs     = require('fs')
+    var fs     = require('fs');
     var logger = require('../../lib/log')(config);
 
     return function (req, res) {
@@ -19,14 +19,14 @@ module.exports = function (db, config) {
         if (fs.existsSync(configPath)) {
             fs.writeFile(configPath, JSON.stringify(config, null, 4), function (err) {
                 if (err) {
-                    return Error.emit(res, 500, '500 - Cannot write config file', 'Error during file write');
+                    return Error.emit(res, 500, '500 - Cannot write config file', 'Error during config file write');
                 }
             });
 
             logger.warn('Wrote config file');
-            res.json({
-                status: 200
-            });
+            return res
+                    .status(200)
+                    .end();
         } else {
             return Error.emit(res, 500, '500 - Cannot write config file', 'Config file inexistant');
         }

@@ -31,7 +31,7 @@ module.exports = function (config, log) {
 
         log.error(msg);
         if (config.debug && additionnalLog) {
-            log.error(additionnalLog);
+            console.dir(additionnalLog);
         }
 
         if (msgCodes.hasOwnProperty(msg)) {

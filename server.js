@@ -4,8 +4,8 @@
 
 'use strict';
 
+require('colors');
 var path        = require('path');
-var colors      = require('colors');
 var express     = require('express');
 var bodyParser  = require('body-parser');
 var compression = require('compression');
@@ -14,7 +14,6 @@ var helmet      = require('helmet');
 var cluster     = require('cluster');
 var prompt      = Promise.promisifyAll(require('prompt'));
 var config      = require('./app/config.json');
-var bcrypt      = require('bcryptjs');
 var log         = require('./app/lib/log')(config);
 var rest        = require('./app/lib/rest')(config, log);
 var models      = require('./app/models')(config);
@@ -49,7 +48,7 @@ if (process.env.BACKEND_PORT) {
 }
 
 function start () {
-    var basePromise = new Promise(function (resolve, reject) {
+    var basePromise = new Promise(function (resolve) {
         resolve({
             password: passwordFromSighup
         });
@@ -57,7 +56,7 @@ function start () {
 
     if (!passwordFromSighup) {
         prompt.start();
-        basePromise = prompt.getAsync([ { name: 'password', hidden: true }])
+        basePromise = prompt.getAsync([ { name: 'password', hidden: true }]);
     }
 
     basePromise.then(function (password) {
@@ -128,7 +127,7 @@ function start () {
             var rowParser = function (req, res, next) {
                 req.rawBody = '';
 
-                req.on('data', function (chunk) { 
+                req.on('data', function (chunk) {
                     req.rawBody += chunk;
                 });
 

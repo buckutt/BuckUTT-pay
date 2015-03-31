@@ -32,7 +32,7 @@ module.exports = function (db, config) {
             }
 
             if (!decoded.id || !decoded.mail || !decoded.password) {
-                logger.warn('Auth - Fields missing')
+                logger.warn('Auth - Fields missing');
                 return next();
             }
 
@@ -43,7 +43,6 @@ module.exports = function (db, config) {
 
             // Verify user token
             var mail = decoded.mail;
-            var token = decoded.token;
 
             rest.get('users?mail=' + mail).then(function (uRes) {
                 var data = uRes.data.data;
@@ -113,10 +112,10 @@ module.exports = function (db, config) {
     var isInEvent = function (right) {
         return function (req, res, next) {
             isAuth(req, res);
-            var eventId = req.params.eventId
-                       || req.get('PassEventIdEvenWithCustomAutocompletePlugin')
-                       || req.body.event_id
-                       || req.body.id;
+            var eventId = req.params.eventId ||
+                          req.get('PassEventIdEvenWithCustomAutocompletePlugin') ||
+                          req.body.event_id ||
+                          req.body.id;
             db.Account.count({
                 where: {
                     username: req.user.id,
@@ -153,6 +152,12 @@ module.exports = function (db, config) {
         };
     };
 
+    /**
+     * Checks if the user is a super admin
+     * @param {object}   req  Request object
+     * @param {object}   res  Response object
+     * @param {Function} next Next middleware to call
+     */
     var isSuperAdmin = function (req, res, next) {
         isAuth(req, res);
         if (!req.user.isAdmin) {
@@ -161,6 +166,12 @@ module.exports = function (db, config) {
         next();
     };
 
+    /**
+     * Checks if the user is a fundation
+     * @param {object}   req  Request object
+     * @param {object}   res  Response object
+     * @param {Function} next Next middleware to call
+     */
     var isFundationAccount = function (req, res, next) {
         isAuth(req, res);
         if (!req.user.fundation) {
@@ -169,6 +180,12 @@ module.exports = function (db, config) {
         next();
     };
 
+    /**
+     * Does not do any check to auth
+     * @param {object}   req  Request object
+     * @param {object}   res  Response object
+     * @param {Function} next Next middleware to call
+     */
     var noAuth = function (req, res, next) {
         next();
     };

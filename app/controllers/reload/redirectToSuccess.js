@@ -4,15 +4,13 @@
 
 'use strict';
 
-var Promise = require('bluebird');
-
 module.exports = function () {
-    return function (req, res, next) {
-        res
-            .status(200)
-            .json({
-                url: '/#/reloadSuccess/' + encodeURIComponent(JSON.stringify(req.user))
-            })
-            .end();
+    return function (req, res) {
+        return res
+                .status(200)
+                .json({
+                    url: '/#/reloadSuccess/' + encodeURIComponent(JSON.stringify(req.user))
+                })
+                .end();
     };
 };

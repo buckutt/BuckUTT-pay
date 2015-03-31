@@ -1,4 +1,6 @@
-// Get
+///////////////////////////////////
+// Get username from meanoflogin //
+///////////////////////////////////
 
 'use strict';
 
@@ -16,16 +18,15 @@ module.exports = function (db, config) {
                     return Error.emit(res, 404, '404 - Not Found', 'no user found');
                 }
 
-                res
-                    .status(200)
-                    .json({
-                        username: data.UserId
-                    })
-                    .end();
+                return res
+                        .status(200)
+                        .json({
+                            username: data.UserId
+                        })
+                        .end();
             })
             .catch(function (err) {
-                console.dir(err);
-                return Error.emit(res, 500, '500 - Buckutt server error');
+                return Error.emit(res, 500, '500 - Buckutt server error', err);
             });
     };
 };

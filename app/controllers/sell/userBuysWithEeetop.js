@@ -25,52 +25,55 @@ module.exports = function (db, config) {
         var priceLocal;
 
         // First, check article exists
-        rest.get('articles/' + article.id)
-        .then(function () {
-            // Then, get the price
-            return db.Price.find({
-                where: {
-                    backendId: price.id
-                }
-            });
-        })
-        .then(function (priceLocal_) {
-            priceLocal = priceLocal_;
+        rest
+            .get('articles/' + article.id)
+            .then(function () {
+                // Then, get the price
+                return db.Price.find({
+                    where: {
+                        backendId: price.id
+                    }
+                });
+            })
+            .then(function (priceLocal_) {
+                priceLocal = priceLocal_;
 
-            // Genreates a barcode
-            return new Promise(function (resolve) {
-                generateBarcode(resolve, db.Ticket);
+                // Genreates a barcode
+                return new Promise(function (resolve) {
+                    generateBarcode(resolve, reject, db.Ticket);
+                });
+            })
+            .then(function () {
+                return rest.get('users/' + user.id + '?isInBDE=1');
+            })
+            .then(function (inBDERes) {
+                user.inBDE = Boolean(inBDERes.data);
+                // Third, make the Ticket
+                return db.Ticket.create({
+                    username: user.id,
+                    displayName: user.firstname.nameCapitalize() + ' ' + user.lastname.nameCapitalize(),
+                    student: 1,
+                    mail: user.mail,
+                    contributor: user.inBDE,
+                    paid: 1,
+                    paid_at: purchase.date,
+                    paid_with: 'buckutt',
+                    temporarlyOut: false,
+                    barcode: barcode,
+                    price_id: priceLocal.id,
+                    event_id: priceLocal.event_id
+                });
+            })
+            .then(function (ticket) {
+                return res
+                        .status(200)
+                        .json({
+                            ticket_id: ticket.id
+                        })
+                        .end();
+            })
+            .catch(function (err) {
+                return Error.emit(res, 500, '500 - Server Error', err);
             });
-        })
-        .then(function () {
-            return rest.get('users/' + user.id + '?isInBDE=1');
-        })
-        .then(function (inBDERes) {
-            user.inBDE = Boolean(inBDERes.data);
-            // Third, make the Ticket
-            return db.Ticket.create({
-                username: user.id,
-                displayName: user.firstname.nameCapitalize() + ' ' + user.lastname.nameCapitalize(),
-                student: 1,
-                mail: user.mail,
-                contributor: user.inBDE,
-                paid: 1,
-                paid_at: purchase.date,
-                paid_with: 'buckutt',
-                temporarlyOut: false,
-                barcode: barcode,
-                price_id: priceLocal.id,
-                event_id: priceLocal.event_id
-            });
-        })
-        .then(function (ticket) {
-            res.json({
-                ticket_id: ticket.id
-            });
-            res.end();
-        })
-        .catch(function (err) {
-            console.dir(err);
-        });
     };
 };
