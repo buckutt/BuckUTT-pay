@@ -17,9 +17,11 @@ module.exports = function (db, config) {
             }
 
             if (!ticket) {
-                res.status(404);
-                res.end();
-                return;
+                return res.status(404).end();
+            }
+
+            if (ticket.username !== req.user.id)  {
+                return res.status(401).end();
             }
 
             ticket.receiptTicket = config.sherlocks.host + 'receipt/' + req.params.id;
