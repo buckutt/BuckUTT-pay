@@ -12,7 +12,7 @@ module.exports = function (db, config) {
 
     return function (req, res, next) {
         db.Token.find({
-            sherlocksToken: req.body.data
+            sherlocksToken: req.body.token
         }).then(function (token) {
             return new Promise(function (resolve, reject) {
                 if (!token) {
@@ -27,6 +27,9 @@ module.exports = function (db, config) {
         }).then(function (ticket) {
             ticket.paid = true;
             ticket.paid_at = new Date();
+            // Save ticket id for later
+            req.ticketId = ticket.id;
+            req.sherlocksToken = req.body.token;
             return ticket.save();
         }).then(function (ticket) {
             logger.info('Paid with sherlocks');
