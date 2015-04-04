@@ -10,13 +10,14 @@ pay.factory('FormValidator', [function () {
 
             // Image validation
             if (typeof imageValidator !== 'undefined') {
-                var $file = form[imageSelector];
-                var file = $file.files[0];
+                var $file = $(imageSelector, form);
+                var file = $file[0].files[0];
                 if (!file || (file.type !== 'image/png' && file.type !== 'image/jpeg')) {
-                    $($file).parent().parent().next().addClass('ng-invalid');
+                    console.log($file.parent().parent().next());
+                    $file.parent().parent().next().removeClass('ng-pristine ng-untouched ng-valid').addClass('ng-invalid');
                     formValid = false;
                 } else {
-                    $($file).parent().parent().next().removeClass('ng-invalid').addClass('ng-valid');
+                    $($file).parent().parent().next().removeClass('ng-invalid').addClass('ng-pristine ng-untouched ng-valid');
                 }
             }
 

@@ -37,6 +37,7 @@ pay.controller('Admin', [
                     accountsRes.data.forEach(function (account) {
                         events.forEach(function (event) {
                             if (event.id === account.event) {
+
                                 if (PayAuth.etu.isAdmin) {
                                     if (addedEvents.indexOf(event.id) === -1) {
                                         keptEvents.push(event);
@@ -56,7 +57,6 @@ pay.controller('Admin', [
                                         keptEventsSeller.push(event);
                                         addedEventsSeller.push(event.id);
                                     }
-
                                     if (event.bdeCard) {
                                         if (addedEventsSellerWithEventCardIds.indexOf(event.id) === -1) {
                                             keptEventsSellerWithEventCard.push(event);
@@ -116,7 +116,7 @@ pay.controller('Admin', [
          * @param {object} e The click event
          */
         this.createEvent = function (e) {
-            if (!FormValidator(newEventForm, 'file')) {
+            if (!FormValidator(newEventForm, '[type="file"]', true)) {
                 return;
             }
 

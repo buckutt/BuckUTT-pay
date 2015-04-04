@@ -69,7 +69,7 @@ pay.controller('AdminEvent', [
                     return;
                 }
                 $self.data().$ngModelController.$setViewValue($self.val());
-            }, 0);
+            });
         });
 
         // Updates the input text with the input file name
@@ -206,11 +206,11 @@ pay.controller('AdminEvent', [
             var $btn = $(e.currentTarget).attr('disabled', '');
             var fileDisabled = eventForm.file.files.length === 0;
             if (fileDisabled) {
-                if (!FormValidator(eventForm, 'file')) {
+                if (!FormValidator(eventForm)) {
                     return;
                 }
             } else {
-                if (!FormValidator(eventForm, 'file', true)) {
+                if (!FormValidator(eventForm, 'input[type="file"]', true)) {
                     return;
                 }
             }
@@ -294,8 +294,10 @@ pay.controller('AdminEvent', [
             e.preventDefault();
             var $btn = $(e.currentTarget).attr('disabled', '');
             ParsePrices.toEvent($scope.currentEvent, $scope.newPrices, function () {
-                var $btn = $(e.currentTarget).removeAttr('disabled');
                 $('#modalPrices').modal('hide');
+                $btn.removeAttr('disabled');
+
+                $scope.$emit('$locationChangeSuccess', '');
             });
         };
 
