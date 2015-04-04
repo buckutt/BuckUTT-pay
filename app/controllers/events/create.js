@@ -38,6 +38,7 @@ module.exports = function (db, config) {
 
             var ids = {};
             var currentArticle;
+            var periodId;
 
             rest
                 .post('articles', {
@@ -76,14 +77,14 @@ module.exports = function (db, config) {
                     });
                 })
                 .then(function (pReq) {
-                    req.periodId = pReq.data.data.id;
+                    periodId = pReq.data.data.id;
                     return rest.post('prices', {
                         credit: form.priceEtucotPresale * 100,
                         isRemoved: 0,
                         ArticleId: currentArticle.id,
                         FundationId: form.fundationId,
                         GroupId: 1,
-                        PeriodId: req.periodId
+                        PeriodId: periodId
                     });
                 })
                 .then(function (prResEtucotPresale) {
@@ -94,7 +95,7 @@ module.exports = function (db, config) {
                         ArticleId: currentArticle.id,
                         FundationId: form.fundationId,
                         GroupId: 1,
-                        PeriodId: req.periodId
+                        PeriodId: periodId
                     });
                 })
                 .then(function (prResEtucot) {
@@ -106,7 +107,7 @@ module.exports = function (db, config) {
                             ArticleId: currentArticle.id,
                             FundationId: form.fundationId,
                             GroupId: 1,
-                            PeriodId: req.periodId
+                            PeriodId: periodId
                         });
                     }
                 })
@@ -121,7 +122,7 @@ module.exports = function (db, config) {
                             ArticleId: currentArticle.id,
                             FundationId: form.fundationId,
                             GroupId: 1,
-                            PeriodId: req.periodId
+                            PeriodId: periodId
                         });
                     }
                 })
@@ -136,7 +137,7 @@ module.exports = function (db, config) {
                             ArticleId: currentArticle.id,
                             FundationId: form.fundationId,
                             GroupId: 1,
-                            PeriodId: req.periodId
+                            PeriodId: periodId
                         });
                     }
                 })
@@ -151,7 +152,7 @@ module.exports = function (db, config) {
                             ArticleId: currentArticle.id,
                             FundationId: form.fundationId,
                             GroupId: 1,
-                            PeriodId: req.periodId
+                            PeriodId: periodId
                         });
                     }
                 })
@@ -177,144 +178,144 @@ module.exports = function (db, config) {
                     });
                 })
                 .then(function (newEvent) {
-                        // Create first admin account
-                        db.Account.create({
-                            username: req.user.id,
-                            event_id: newEvent.id,
-                            right_id: 1
+                    // Create first admin account
+                    db.Account.create({
+                        username: req.user.id,
+                        event_id: newEvent.id,
+                        right_id: 1
+                    });
+
+                    // Create prices
+                    // Price Etu cot in presale :
+                    db.Price
+                        .create({
+                            name: form.name + ' - Prix étudiant cotisant en prévente',
+                            price: form.priceEtucotPresale,
+                            backendId: ids.etucotPresale
+                        })
+                        .then(function (priceEtucotPresale) {
+                            newEvent.addPrice(priceEtucotPresale);
+                        })
+                        .catch(function (err) {
+                            return Error.emit(null, 500, '500 - SQL Server error', err);
                         });
-
-                        // Create prices
-                        // Price Etu cot in presale :
+                    // Price Etu cot not in presale :
+                    db.Price
+                        .create({
+                            name: form.name + ' - Prix étudiant cotisant hors prévente',
+                            price: form.priceEtucot,
+                            backendId: ids.etucot
+                        })
+                        .then(function (priceEtucot) {
+                            newEvent.addPrice(priceEtucot);
+                        })
+                        .catch(function (err) {
+                            return Error.emit(null, 500, '500 - SQL Server error', err);
+                        });
+                    // Price Etu in presale :
+                    if (form.priceEtuPresaleActive) {
                         db.Price
                             .create({
-                                name: form.name + ' - Prix étudiant cotisant en prévente',
-                                price: form.priceEtucotPresale,
-                                backendId: ids.etucotPresale
+                                name: form.name + ' - Prix étudiant non-cotisant en prévente',
+                                price: form.priceEtuPresale,
+                                backendId: ids.etuPresale
                             })
-                            .then(function (priceEtucotPresale) {
-                                newEvent.addPrice(priceEtucotPresale);
+                            .then(function (priceEtuPresale) {
+                                newEvent.addPrice(priceEtuPresale);
                             })
                             .catch(function (err) {
                                 return Error.emit(null, 500, '500 - SQL Server error', err);
                             });
-                        // Price Etu cot not in presale :
-                        db.Price
-                            .create({
-                                name: form.name + ' - Prix étudiant cotisant hors prévente',
-                                price: form.priceEtucot,
-                                backendId: ids.etucot
-                            })
-                            .then(function (priceEtucot) {
-                                newEvent.addPrice(priceEtucot);
-                            })
-                            .catch(function (err) {
-                                return Error.emit(null, 500, '500 - SQL Server error', err);
-                            });
-                        // Price Etu in presale :
-                        if (form.priceEtuPresaleActive) {
-                            db.Price
-                                .create({
-                                    name: form.name + ' - Prix étudiant non-cotisant en prévente',
-                                    price: form.priceEtuPresale,
-                                    backendId: ids.etuPresale
-                                })
-                                .then(function (priceEtuPresale) {
-                                    newEvent.addPrice(priceEtuPresale);
-                                })
-                                .catch(function (err) {
-                                    return Error.emit(null, 500, '500 - SQL Server error', err);
-                                });
-                        }
-                        // Price Etu not in presale :
-                        if (form.priceEtuActive) {
-                            db.Price
-                                .create({
-                                    name: form.name + ' - Prix étudiant non-cotisant hors prévente',
-                                    price: form.priceEtu,
-                                    backendId: ids.etu
-                                })
-                                .then(function (priceEtu) {
-                                    newEvent.addPrice(priceEtu);
-                                })
-                                .catch(function (err) {
-                                    return Error.emit(null, 500, '500 - SQL Server error', err);
-                                });
-                        }
-                        // Price Ext in presale :
-                        if (form.priceExtPresaleActive) {
-                            db.Price
-                                .create({
-                                    name: form.name + ' - Prix extérieur en prévente',
-                                    price: form.priceExtPresale,
-                                    backendId: ids.extPresale
-                                })
-                                .then(function (priceExtPresale) {
-                                    newEvent.addPrice(priceExtPresale);
-                                })
-                                .catch(function (err) {
-                                    return Error.emit(null, 500, '500 - SQL Server error', err);
-                                });
-                        }
-                        // Price Ext not in presale :
-                        if (form.priceExtActive) {
-                            db.Price
-                                .create({
-                                    name: form.name + ' - Prix extérieur hors prévente',
-                                    price: form.priceExt,
-                                    backendId: ids.ext
-                                })
-                                .then(function (priceExt) {
-                                    newEvent.addPrice(priceExt);
-                                })
-                                .catch(function (err) {
-                                    return Error.emit(null, 500, '500 - SQL Server error', err);
-                                });
-                        }
-                        // Price Partner in presale :
-                        if (form.pricePartnerPresaleActive) {
-                            db.Price
-                                .create({
-                                    name: form.name + ' - Prix partenaire en prévente',
-                                    price: form.pricePartnerPresale,
-                                    backendId: 0
-                                })
-                                .then(function (pricePartnerPresale) {
-                                    newEvent.addPrice(pricePartnerPresale);
-                                })
-                                .catch(function (err) {
-                                    return Error.emit(null, 500, '500 - SQL Server error', err);
-                                });
-                        }
-                        // Price Partner not in presale :
-                        if (form.pricePartnerActive) {
-                            db.Price
-                                .create({
-                                    name: form.name + ' - Prix partenaire hors prévente',
-                                    price: form.pricePartner,
-                                    backendId: 0
-                                })
-                                .then(function (pricePartner) {
-                                    newEvent.addPrice(pricePartner);
-                                })
-                                .catch(function (err) {
-                                    return Error.emit(null, 500, '500 - SQL Server error', err);
-                                });
-                        }
-
-                        return res
-                                .status(200)
-                                .json({
-                                    id: newEvent.id
-                                })
-                                .end();
-                })
-                .catch(function (err) {
-                    if (err.name === 'SequelizeUniqueConstraintError') {
-                        return Error.emit(res, 400, '400 - Duplicate event');
                     }
-                    return Error.emit(null, 500, '500 - SQL Server error', err);
-                });
+                    // Price Etu not in presale :
+                    if (form.priceEtuActive) {
+                        db.Price
+                            .create({
+                                name: form.name + ' - Prix étudiant non-cotisant hors prévente',
+                                price: form.priceEtu,
+                                backendId: ids.etu
+                            })
+                            .then(function (priceEtu) {
+                                newEvent.addPrice(priceEtu);
+                            })
+                            .catch(function (err) {
+                                return Error.emit(null, 500, '500 - SQL Server error', err);
+                            });
+                    }
+                    // Price Ext in presale :
+                    if (form.priceExtPresaleActive) {
+                        db.Price
+                            .create({
+                                name: form.name + ' - Prix extérieur en prévente',
+                                price: form.priceExtPresale,
+                                backendId: ids.extPresale
+                            })
+                            .then(function (priceExtPresale) {
+                                newEvent.addPrice(priceExtPresale);
+                            })
+                            .catch(function (err) {
+                                return Error.emit(null, 500, '500 - SQL Server error', err);
+                            });
+                    }
+                    // Price Ext not in presale :
+                    if (form.priceExtActive) {
+                        db.Price
+                            .create({
+                                name: form.name + ' - Prix extérieur hors prévente',
+                                price: form.priceExt,
+                                backendId: ids.ext
+                            })
+                            .then(function (priceExt) {
+                                newEvent.addPrice(priceExt);
+                            })
+                            .catch(function (err) {
+                                return Error.emit(null, 500, '500 - SQL Server error', err);
+                            });
+                    }
+                    // Price Partner in presale :
+                    if (form.pricePartnerPresaleActive) {
+                        db.Price
+                            .create({
+                                name: form.name + ' - Prix partenaire en prévente',
+                                price: form.pricePartnerPresale,
+                                backendId: 0
+                            })
+                            .then(function (pricePartnerPresale) {
+                                newEvent.addPrice(pricePartnerPresale);
+                            })
+                            .catch(function (err) {
+                                return Error.emit(null, 500, '500 - SQL Server error', err);
+                            });
+                    }
+                    // Price Partner not in presale :
+                    if (form.pricePartnerActive) {
+                        db.Price
+                            .create({
+                                name: form.name + ' - Prix partenaire hors prévente',
+                                price: form.pricePartner,
+                                backendId: 0
+                            })
+                            .then(function (pricePartner) {
+                                newEvent.addPrice(pricePartner);
+                            })
+                            .catch(function (err) {
+                                return Error.emit(null, 500, '500 - SQL Server error', err);
+                            });
+                    }
+
+                    return res
+                            .status(200)
+                            .json({
+                                id: newEvent.id
+                            })
+                            .end();
+            })
+            .catch(function (err) {
+                if (err.name === 'SequelizeUniqueConstraintError') {
+                    return Error.emit(res, 400, '400 - Duplicate event');
+                }
+                return Error.emit(null, 500, '500 - SQL Server error', err);
+            });
         });
     };
 };
