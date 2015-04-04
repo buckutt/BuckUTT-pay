@@ -12,9 +12,10 @@ module.exports = function (db, config) {
 
         db.SchoolDomain
             .create(req.form)
-            .then(function () {
+            .then(function (domain) {
                 return res
                         .status(200)
+                        .json(domain)
                         .end();
             })
             .catch(function (err) {
