@@ -53,7 +53,7 @@ pay.factory('ParsePrices', [
                             return;
                         }
                         $target.last().data().$ngModelController.$setViewValue($target.last().val());
-                    }, 0);
+                    });
                 });
             };
 
@@ -64,52 +64,27 @@ pay.factory('ParsePrices', [
              * @param {Function} callback Callback
              */
             this.toEvent = function (e, prices, callback) {
-                var name = e.name;
-                var existingPrices = {
-                    priceEtucotPresale: 'Prix étudiant cotisant en prévente',
-                    priceEtucot:        'Prix étudiant cotisant hors prévente',
-                    priceEtuPresale:     'Prix étudiant non-cotisant en prévente',
-                    priceEtu:            'Prix étudiant non-cotisant hors prévente',
-                    priceExtPresale:     'Prix extérieur en prévente',
-                    priceExt:            'Prix extérieur hors prévente'
-                }
+                console.log(e);
+                console.log(prices);
 
-                var keys   = Object.keys(prices);
-                var length = keys.length;
+                var assoc = {
+                    priceEtuPresaleActive:     'priceEtuPresale',
+                    priceEtuActive:            'priceEtu',
+                    priceExtPresaleActive:     'priceExtPresale',
+                    priceExtActive:            'priceExt',
+                    pricePartnerPresaleActive: 'pricePartnerPresale',
+                    pricePartnerActive:        'pricePartner'
+                };
 
-                keys.forEach(function (price, i) {
-                    // Given price must exist
-                    if (!existingPrices.hasOwnProperty(price)) {
-                        return;
+                Object.keys(prices).forEach(function (price) {
+                    if (assoc.hasOwnProperty(price)) {
+                        if (!prices.hasOwnProperty(assoc[price])) {
+                            delete prices[price];
+                        }
                     }
-
-                    // The event should have it or create it
-                    if (typeof e.Prices[i] === 'undefined') {
-                        $http.put('api/events/' + e.id + '/prices', {
-                            name: e.name + ' - ' + existingPrices[price],
-                            price: prices[price]
-                        }).then(angular.noop, function (res) {
-                            Error('Erreur', res.data.error);
-                        });
-                        return;
-                    }
-
-                    // The events should have the same name
-                    if (e.Prices[i].name !== name + ' - ' + existingPrices[price]) {
-                        return;
-                    }
-
-                    // Update the price
-                    e.Prices[i].price = prices[price];
-                    $http.post('api/events/' + e.id + '/prices/' + e.Prices[i].id, {
-                        price: e.Prices[i].price
-                    }).then(function () {
-                        if (typeof callback === 'function' && i === length - 1) { callback(); }
-                    }, function (res) {
-                        Error('Erreur', res.error);
-                        if (typeof callback === 'function' && i === length - 1) { callback(); }
-                    });
                 });
+
+                $http.post('api/events/' + e.id + '/prices', prices).then(callback, callback);
             }
         }
 

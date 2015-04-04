@@ -32,43 +32,44 @@ module.exports = function (db, config) {
         var opath = path.resolve(process.cwd() + '/app/public/static/img/upload');
 
         if (hasImage) {
-            // Save image to upload/
-            var base64Regex = /^data:\w+\/(\w+);base64,([a-zA-Z0-9+\/=]+)$/;
-            var matches = form.image.match(base64Regex);
 
-            var data = matches[2];
+            db.Event
+                .find(form.id)
+                .then(function (event) {
+                    // Save image to upload/
+                    var base64Regex = /^data:\w+\/(\w+);base64,([a-zA-Z0-9+\/=]+)$/;
+                    var matches = form.image.match(base64Regex);
 
-            // var ext = matches[1];
-            // var oname = form.name.replace(/\W+/ig, '-') + '.' + ext;
-            // var realOPath = (opath + '/' + oname).toLowerCase();
+                    var data = matches[2];
 
-            var buffer = new Buffer(data, 'base64');
-            fs.writeFile(opath, buffer, callback);
+                    var ext = matches[1];
+                    var oname = event.picture;
+                    var realOPath = opath + '/' + oname.toLowerCase();
+
+                    var buffer = new Buffer(data, 'base64');
+                    fs.writeFile(realOPath, buffer, callback);
+                });
         } else {
             callback();
         }
 
         function callback (err) {
             if (err) {
-                return Error.emit(res, 500, '500 - Cannot write file', err.toString());
+                return Error.emit(res, 500, '500 - Cannot write file', err);
             }
 
             db.Event
                 .find(form.id)
                 .then(function (event) {
                     var picturePath = path.resolve(process.cwd() + '/app/public/static/img/upload') + '/' + event.picture;
-                    var newPicturePath = opath + '/' +
-                                         form.name.toLowerCase().replace(/\W+/ig, '-') + '.' +
-                                         getExtension(event.picture);
+
+                    event.picture = form.name.toLowerCase().replace(/\W+/ig, '-') + '.' + getExtension(event.picture);
+                    var newPicturePath = opath + '/' + event.picture;
+
 
                     if (event.name !== form.name) {
-                        if (hasImage) {
-                            logger.info('Deleting picture file ' + picturePath);
-                            fs.unlink(picturePath);
-                        } else {
-                            logger.info('Moving file ' + picturePath + ' to ' + newPicturePath);
-                            fs.rename(picturePath, newPicturePath);
-                        }
+                        logger.info('Moving file ' + picturePath + ' to ' + newPicturePath);
+                        fs.rename(picturePath, newPicturePath);
                     }
 
                     delete form.id;
@@ -90,13 +91,14 @@ module.exports = function (db, config) {
                         })
                         .then(function () {
                             // Can't get directly period id (articleid in Prices => PeriodId of price)
-                            var articleId = savedEvent.backendId;
-                            return rest.get('prices?ArticleId=' + articleId);
+                            return rest.get('prices?ArticleId=' + savedEvent.backendId);
                         })
                         .then(function (prRes) {
                             var prices = prRes.data.data;
+                            var periodId = (prices.PeriodId) ? prices.PeriodId : prices[0].PeriodId;
+
                             // Take the first price to get the PeriodId (unique periodid for all prices)
-                            return rest.put('periods/' + prices[0].PeriodId, {
+                            return rest.put('periods/' + periodId, {
                                 name: 'Ventes pay - ' + savedEvent.name,
                                 endDate: moment(new Date(savedEvent.date)).add(1, 'd').toDate(),
                                 isRemoved: !savedEvent.opened

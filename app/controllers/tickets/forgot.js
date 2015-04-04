@@ -16,10 +16,12 @@ module.exports = function (db, config) {
         // Get username from mail
         db.Ticket
             .findAll({
-                mail: req.params.mail
+                where: {
+                    mail: req.params.mail
+                }
             })
             .then(function (tickets) {
-                if (!tickets) {
+                if (tickets.length === 0) {
                     return res
                             .status(404)
                             .end();
@@ -38,7 +40,7 @@ module.exports = function (db, config) {
                         .then(function (fRes) {
                             var data = fRes.data.data;
 
-                            pdf.lights({
+                            pdf.lights([{
                                 displayname: ticket.displayName,
                                 eventname: ticket.event.name,
                                 date: moment(ticket.event.date).format('DD/MM/YYYY à HH:mm'),
@@ -50,7 +52,7 @@ module.exports = function (db, config) {
                                 website: data.website,
                                 mail: data.mail,
                                 logo: '/public/static/img/upload/' + ticket.event.picture
-                            }, function (buffer) {
+                            }], function (buffer) {
                                 --todo;
 
                                 places[ticket.event.name] = buffer;

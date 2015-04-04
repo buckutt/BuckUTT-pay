@@ -24,9 +24,15 @@ module.exports = function (db, config) {
         var barcode;
         var priceLocal;
 
-        // First, check article exists
+        // First, check article and purchase exists
         rest
-            .get('articles/' + article.id)
+            .get('purchases/' + purchase.id)
+            .then(function (purchaseRes) {
+                if (!purchaseRes.data.data.id) {
+                    throw 'no purchase (forged request or bug)';
+                }
+                return rest.get('articles/' + article.id);
+            })
             .then(function () {
                 // Then, get the price
                 return db.Price.find({
@@ -43,7 +49,8 @@ module.exports = function (db, config) {
                     generateBarcode(resolve, reject, db.Ticket);
                 });
             })
-            .then(function () {
+            .then(function (newBarcode) {
+                barcode = newBarcode;
                 return rest.get('users/' + user.id + '?isInBDE=1');
             })
             .then(function (inBDERes) {

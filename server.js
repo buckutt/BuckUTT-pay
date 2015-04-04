@@ -163,6 +163,11 @@ function start () {
         });
     })
     .catch(function (err) {
-        throw err;
+        if (err.error && err.error.message) {
+            log.error(err.error.message);
+        } else {
+            console.dir(err);
+        }
+        process.exit(1);
     });
 }

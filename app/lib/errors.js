@@ -4,6 +4,8 @@
 
 'use strict';
 
+var path = require('path');
+
 module.exports = function (config, log) {
 
     /**
@@ -41,10 +43,22 @@ module.exports = function (config, log) {
         }
 
         if (res) {
-            res.status(status).json({
-                status: status,
-                error: msg
-            });
+            if (!res.req.xhr) {
+                log.warn(status + ' on ' + res.req.originalUrl + ' (XHR : ' + res.req.xhr + ')');
+                if (status === 404) {
+                    return res
+                            .redirect('/404/html');
+                } else {
+                    return res
+                            .redirect('/error.html#' + status);
+                }
+            } else {
+                return res
+                        .status(status)
+                        .json({
+                            error: msg
+                        });
+            }
         } else {
             process.exit(1);
         }

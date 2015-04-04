@@ -25,7 +25,10 @@ module.exports = function (db, config) {
                 .find({
                     where: {
                         event_id: eventId,
-                        barcode: id
+                        $or: [
+                            { barcode: id },
+                            { bdeCard: id }
+                        ]
                     }
                 })
                 .then(testTicket)

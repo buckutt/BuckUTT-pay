@@ -62,7 +62,7 @@ module.exports = function (db, config) {
                             return reject();
                         }
 
-                        resolve(price);
+                        return resolve(price);
                     })
                     .catch(function (err) {
                         Error.emit(res, 500, '500 - SQL Server error', err);
@@ -82,64 +82,77 @@ module.exports = function (db, config) {
             articleId = resArticle.data.data.id;
         })
         .then(function () {
-            return new Promise(function (resolve, reject) {
-                db.Price
-                    .find({
-                        where: {
-                            event_id: eventId,
-                            name: { like: '%extérieur en prévente' }
-                        }
-                    })
-                    .then(function (price) {
-                        if (!price) {
-                            Error.emit(res, 404, '404 - Not Found');
-                            return reject();
-                        }
+            if (additionalExtTickets && additionalExtTickets.length > 0) {
+                return new Promise(function (resolve, reject) {
+                    db.Price
+                        .find({
+                            where: {
+                                event_id: eventId,
+                                name: { like: '%extérieur en prévente' }
+                            }
+                        })
+                        .then(function (price) {
+                            if (!price) {
+                                Error.emit(res, 404, '404 - Not Found');
+                                return reject();
+                            }
 
-                        return resolve(price);
-                    })
-                    .catch(function (err) {
-                        Error.emit(res, 500, '500 - SQL Server error', err);
-                        return reject();
-                    });
-            });
+                            return resolve(price);
+                        })
+                        .catch(function (err) {
+                            Error.emit(res, 500, '500 - SQL Server error', err);
+                            return reject();
+                        });
+                });
+            }
         })
         .then(function (price) {
-            priceWantedExt = price;
-            return rest.get('prices/' + price.backendId);
+            if (additionalExtTickets && additionalExtTickets.length > 0) {
+                priceWantedExt = price;
+                return rest.get('prices/' + price.backendId);
+            }
         })
         .then(function (resBackendPrice) {
-            priceWantedExtBackend = resBackendPrice.data.data;
-            return rest.get('articles/' + priceWantedExtBackend.ArticleId);
+            if (additionalExtTickets && additionalExtTickets.length > 0) {
+                priceWantedExtBackend = resBackendPrice.data.data;
+                return rest.get('articles/' + priceWantedExtBackend.ArticleId);
+            }
         })
         .then(function (resArticle) {
-            articleIdExt = resArticle.data.data.id;
+            if (additionalExtTickets && additionalExtTickets.length > 0) {
+                articleIdExt = resArticle.data.data.id;
+            }
         })
         .then(function () {
+            var cart = [
+                {
+                    article: {
+                        id: articleId,
+                        price: priceWantedBackend.credit,
+                        FundationId: priceWantedBackend.FundationId,
+                        type: 'product'
+                    },
+                    quantity: 1
+                }
+            ];
+
+            if (additionalExtTickets && additionalExtTickets.length > 0) {
+                cart.push({
+                    article: {
+                        id: articleIdExt,
+                        price: priceWantedExtBackend.credit,
+                        FundationId: priceWantedExtBackend.FundationId,
+                        type: 'product'
+                    },
+                    quantity: additionalExtTickets.length
+                });
+            }
+
             return rest.post('services/purchase', {
                 PointId: 1,
                 SellerId: req.user.id,
                 BuyerId: req.user.id,
-                cart: [
-                    {
-                        article: {
-                            id: articleId,
-                            price: priceWantedBackend.credit,
-                            FundationId: priceWantedBackend.FundationId,
-                            type: 'product'
-                        },
-                        quantity: 1
-                    },
-                    {
-                        article: {
-                            id: articleIdExt,
-                            price: priceWantedExtBackend.credit,
-                            FundationId: priceWantedExtBackend.FundationId,
-                            type: 'product'
-                        },
-                        quantity: additionalExtTickets.length
-                    }
-                ]
+                cart: cart
             });
         })
         .then(function () {
@@ -167,10 +180,10 @@ module.exports = function (db, config) {
         })
         .then(function (newTicket) {
             newTicketId = newTicket.id;
-            if (additionalExtTickets) {
+            if (additionalExtTickets && additionalExtTickets.length > 0) {
                 var promises = [];
                 additionalExtTickets.forEach(function () {
-                    promises.push(new Promise (function (resolve) {
+                    promises.push(new Promise (function (resolve, reject) {
                         generateBarcode(resolve, reject, db.Ticket);
                     }));
                 });
@@ -179,7 +192,7 @@ module.exports = function (db, config) {
             }
         })
         .then(function (barcodes) {
-            if (additionalExtTickets) {
+            if (additionalExtTickets && additionalExtTickets.length > 0) {
                 return additionalExtTickets.map(function (additionalExtTicket, i) {
                     return db.Ticket.create({
                         username: req.user.id,

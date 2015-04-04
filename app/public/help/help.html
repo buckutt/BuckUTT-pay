@@ -8,7 +8,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3>FAQ</h3>
+            <h3>FAQ <small>(Foire Aux Questions)</small></h3>
             <h4>Index des question</h4>
             <h5>Connexion</h5>
             <a ng-click="help.scrollTo('knowId')">Comment puis-je connaître mon identifiant ?</a><br>
@@ -16,6 +16,8 @@
             <a ng-click="help.scrollTo('changePwd')">Comment puis-je changer mon mot de passe ?</a><br>
             <h5>Achat des tickets</h5>
             <a ng-click="help.scrollTo('noFrom')">Que puis-je faire si l'événement n'est pas disponnible ?</a><br>
+            <h5>Administration d'un événement</h5>
+            <a ng-click="help.scrollTo('cantSell')">J'ai créé un événement mais je ne peux pas vendre ou valider de places.</a><br>
             <br>
             <h4 id="knowId">Comment puis-je connaître mon identifiant ?</h4>
             <p>
@@ -45,6 +47,12 @@
                 cela est l'organisateur de l'événement qui n'a pas ouvert les préventes à l'événement pour les externes,
                 ou pour les non-cotisants au BDE, etc. Vous pouvez soit vous connecter pour avoir accès à des événeemnts
                 internes aux membres de l'UTT, ou cotiser au BDE, pour avoir accès aux événements internes aux cotisants.
+            </p>
+            <h4 id="cantSell">J'ai créé un événement mais je ne peux pas vendre ou valider de places.</h4>
+            <p>
+                Lorsque vous créez un événement, deux types de comptes sont disponnibles. Le compte administrateur, et le compte
+                vendeur. À la création, le compte utilisé est marqué comme administrateur, et non pas comme un compte vendeur.
+                Vous pouvez ajouter un vendeur (dont le compte de l'association) sur la page d'administration de l'événement.
             </p>
         </div>
     </div>

@@ -57,7 +57,7 @@ module.exports = function (db, config) {
                     });
                 })
                 .then(function () {
-                    return new Promise(function (resolve) {
+                    return new Promise(function (resolve, reject) {
                         generateBarcode(resolve, reject, db.Ticket);
                     });
                 })
@@ -200,7 +200,7 @@ module.exports = function (db, config) {
                         var additionalExtTickets = req.body.additionalExtTickets;
                         var promises = [];
                         additionalExtTickets.forEach(function () {
-                            promises.push(new Promise (function (resolve) {
+                            promises.push(new Promise (function (resolve, reject) {
                                 generateBarcode(resolve, reject, db.Ticket);
                             }));
                         });

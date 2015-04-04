@@ -6,7 +6,7 @@
 
 module.exports = function (db) {
     return function (req, res) {
-        var id = req.params.id;
+        var id = req.params.ticketId;
 
         db.Ticket
             .find(id)

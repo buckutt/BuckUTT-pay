@@ -69,6 +69,11 @@
     width: 128px;
 }
 
+.print {
+    z-index: 10;
+    position: relative;
+}
+
 .print:hover {
     color: #fff;
 }
@@ -169,6 +174,10 @@ span.closedPresale {
     overflow: hidden;
 
     transition: height .2s ease;
+}
+
+.totalPrice {
+    font-size: 20px;
 }
 
 /* Sherlocks panel */

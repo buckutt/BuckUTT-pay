@@ -66,24 +66,11 @@ module.exports = function (router, servicesRouter, db, config) {
     ////////////////////
 
     router.route('/events/:eventId/prices')
-        // Gets all prices from an event
-        .get(
-            auth.isInEvent('validate'),
-            controllers.events.getPrices
-        )
-        // Creates a price for an event
-        .put(
-            auth.isInEvent('admin'),
-            validators.createPrice,
-            controllers.events.createPrice
-        );
-
-    router.route('/events/:eventId/prices/:priceId')
         // Updates an event price
         .post(
             auth.isInEvent('admin'),
-            validators.editPrice,
-            controllers.events.editPrice
+            validators.editPrices,
+            controllers.events.editPrices
         );
 
 
@@ -300,6 +287,13 @@ module.exports = function (router, servicesRouter, db, config) {
     // Validate //
     //////////////
 
+    router.route('/validate/byTicketId/:eventId/:ticketId')
+        // Validate id
+        .post(
+            auth.isInEvent('validate'),
+            controllers.validate.validateTicketId
+        );
+
     router.route('/validate/:eventId/:id')
         // Validate id
         .post(
@@ -313,9 +307,6 @@ module.exports = function (router, servicesRouter, db, config) {
             auth.isInEvent('validate'),
             controllers.validate.validateName
         );
-
-    router.route('/validate/byTicketId/:ticketId');
-
     ////////////////////
     // Ticket selling //
     ////////////////////
@@ -394,7 +385,7 @@ module.exports = function (router, servicesRouter, db, config) {
     var justIds = ['eventId', 'priceId', 'domainId', 'accountId', 'userId', 'ticketId', 'id', 'amount'];
     justIds.forEach(function (idName) {
         router.param(idName, function (req, res, next, id) {
-            if (Number.isPositiveNumeric(id)) {
+             if (Number.isPositiveNumeric(id)) {
                 req.body[idName] = id;
                 next();
             } else {

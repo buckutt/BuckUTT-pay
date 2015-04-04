@@ -79,7 +79,7 @@ pay.controller('Validate', [
          */
         this.validateByBirthDate = function (e, id, birthDate) {
             e.preventDefault();
-            $http.post('api/validate/byTicketId/' + id).then(function (res) {
+            $http.post('api/validate/byTicketId/' + $routeParams.event + '/' + id).then(function (res) {
                 $success.fadeIn('fast').delay(1000).fadeOut('fast');
                 $scope.history.unshift({
                     date: new Date(),

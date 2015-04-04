@@ -66,7 +66,13 @@
                     <div class="row paywith buckutt">
                         <h2>Paiement par BuckUTT</h2>
                         <div ng-if="isAuth">
-                            <p>Prix du ticket : {{ prices[event.id] | euro }} (prix d'un externe : {{ extPrices[event.id] | euro }})</p>
+                            <p>
+                                Prix du ticket : {{ prices[event.id] | euro }}
+                                (prix d'un externe :
+                                    <span ng-if="extPrices[event.id] > 0">{{ extPrices[event.id] | euro }}</span>
+                                    <span ng-if="extPrices[event.id] === 0">--</span>
+                                )
+                            </p>
                             <p>
                                 <em>Les places sont nominatives, non échangeables, non remboursables.</em><br>
                                 <em>Les organisateurs se réservent le droit de refuser l'entrée.</em><br>
@@ -93,7 +99,8 @@
                                         </a>
                                     </div>
                                 </span>
-                                <a href="#" ng-click="ticket.addExtTicket($event)">Ajouter une place pour un externe</a>
+                                <a href="#" ng-click="ticket.addExtTicket($event)"
+                                            ng-if="extPrices[event.id] > 0">Ajouter une place pour un externe</a>
                             </div>
                             <h4>Solde actuel : {{ sold | euro }}</h4>
                             <h4 ng-init="ticket.getPrice(event.id); ticket.getExtPrice(event.id)">
@@ -104,7 +111,7 @@
                                     </span>
                                     <br>
                                     <br>
-                                    <button class="btn btn-primary btn-lg" disabled="disabled" 
+                                    <button class="btn btn-primary btn-lg" disabled="disabled"
                                             ng-click="ticket.buyOneWithBuckutt($event, event.id)">
                                         Prendre une place pour cet événement
                                     </button>
@@ -130,8 +137,16 @@
                         <h2>Paiement par carte bancaire</h2>
                         <div ng-init="ticket.getPrice(event.id); ticket.getExtPrice(event.id)">
                             <div ng-if="prices[event.id]">
-                                <p>Prix du ticket : {{ prices[event.id] | euro }} (prix d'un externe : {{ extPrices[event.id] | euro }})</p>
-                                <p>Prix total : {{ ticket.parseFloat(prices[event.id]) + additionalExtTickets.length * extPrices[event.id] | euro }}</p>
+                                <p>
+                                    <span ng-if="isAuth">
+                                        Prix du ticket : {{ prices[event.id] | euro }}
+                                        (prix d'un externe :
+                                            <span ng-if="extPrices[event.id] > 0">{{ extPrices[event.id] | euro }}</span>
+                                            <span ng-if="extPrices[event.id] === 0">--</span>
+                                        )
+                                    </span>
+                                </p>
+                                <p class="totalPrice">Prix total : {{ ticket.parseFloat(prices[event.id]) + additionalExtTickets.length * extPrices[event.id] | euro }}</p>
 
                                 <p>
                                     <em>Les places sont nominatives, non échangeables, non remboursables.</em><br>
@@ -178,7 +193,8 @@
                                                 </a>
                                             </div>
                                         </span>
-                                        <a href="#" ng-click="ticket.addExtTicket($event)">Ajouter une place pour un externe</a>
+                                        <a href="#" ng-click="ticket.addExtTicket($event)"
+                                                    ng-if="extPrices[event.id] > 0">Ajouter une place pour un externe</a>
                                     </div>
 
                                     <div ng-if="!isAuth">
@@ -223,5 +239,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div ng-if="events.length === 0">
+        <p>
+            Aucun événement pour le moment.
+        </p>
     </div>
 </div>

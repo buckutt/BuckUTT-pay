@@ -16,6 +16,7 @@ module.exports = function (db) {
         paid_with: 'buckutt',
         temporarlyOut: false,
         barcode: '3780173904905',
+        bdeCard: null,
         validatedMap: null,
         birthdate: '21/09/1994',
         mainTicket: 0
@@ -46,6 +47,7 @@ module.exports = function (db) {
         paid_with: 'buckutt',
         temporarlyOut: false,
         barcode: '123456',
+        bdeCard: null,
         validatedMap: null,
         birthdate: '22/09/1994',
         mainTicket: 0
