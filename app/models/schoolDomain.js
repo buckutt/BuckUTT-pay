@@ -15,8 +15,7 @@ module.exports = function (sequelize, DataTypes) {
 
         domain: {
             type: DataTypes.STRING(255),
-            allowNull: false,
-            unique: true
+            allowNull: false
         }
     }, {
         underscored: true,
