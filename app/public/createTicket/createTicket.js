@@ -27,11 +27,22 @@ pay.controller('CreateTicket', [
             var $btn = $(e.currentTarget).attr('disabled', '');
 
             $http.get('api/getUsername/' + $scope.ticket.username).then(function (res) {
+                var keptUsername = $scope.ticket.username;
                 $scope.ticket.username = res.data.username;
                 $http.post('api/makeTicketFromAdmin', $scope.ticket).then(function () {
+                    $scope.ticket = {
+                        paid: true,
+                        paid_at: new Date(),
+                        paid_with: 'buckutt',
+                        temporarlyOut: false,
+                        event_id: $routeParams.event
+                    };
                     $btn.removeAttr('disabled');
-                }, function () {
+                    $('#success').fadeIn().delay(750).fadeOut();
+                }, function (mtfaRes) {
+                    $scope.ticket.username = keptUsername;
                     $btn.removeAttr('disabled');
+                    Error('Erreur', mtfaRes.data.error);
                 });
             }, function (res) {
                 $btn.removeAttr('disabled');
