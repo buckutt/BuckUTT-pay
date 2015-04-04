@@ -15,6 +15,7 @@ function Log () {
     this.outTo = null;
     this.minLevel = null;
     this.format = null;
+    this.showTrace = null;
 
     var levels = {
         'debug': 0,
@@ -98,7 +99,9 @@ function Log () {
      */
     this.error = function (msg) {
         this.write('err', msg);
-        console.trace();
+        if (this.showTrace) {
+            console.trace();
+        }
     };
 }
 
@@ -108,6 +111,10 @@ module.exports = function (config) {
     log.outTo = config.log.out;
     log.format = config.log.format;
     log.minLevel = config.log.level;
+
+    if (config.debug) {
+        log.showTrace = true;
+    }
 
     if (config.log.log) {
         return log;

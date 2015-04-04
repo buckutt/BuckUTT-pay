@@ -1,5 +1,6 @@
 {
     "debug": true,
+    "override": false,
     "port": 8080,
     "bcryptCost": 10,
     "bankPrice": 0.4,
