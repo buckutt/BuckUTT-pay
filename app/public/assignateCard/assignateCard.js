@@ -29,7 +29,7 @@ pay.controller('AssignateCard', [
             e.preventDefault();
             $http.post('api/assignateCard/' + $routeParams.event, {
                 etu_id: $scope.id,
-                barcode: $scope.eventCard
+                bdeCard: $scope.eventCard
             }).then(function (res) {
                 $('#success').fadeIn('fast').delay(1000).fadeOut('fast');
                 $scope.id = '';

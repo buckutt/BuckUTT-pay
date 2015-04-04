@@ -1,5 +1,5 @@
 //////////////////////////////////////////
-// Ticket barcode setter form validator //
+// Ticket bdeCard setter form validator //
 //////////////////////////////////////////
 
 'use strict';
@@ -12,7 +12,7 @@ module.exports = form(
         .trim()
         .required()
         .is(/^\d{5}$/),
-    field('barcode')
+    field('bdeCard')
         .trim()
         .required()
         .is(/^\d+$/)
