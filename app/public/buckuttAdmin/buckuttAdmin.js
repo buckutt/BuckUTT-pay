@@ -48,11 +48,13 @@ pay.controller('BuckuttAdmin', [
             e.preventDefault();
 
             var val = $('#newDomain').val();
+            $('#newDomain').val('');
             var domain = new Domain({
                 domain: val
             });
 
             domain.$save(function () {
+                console.log(domain);
                 $btn.removeAttr('disabled');
                 domain.domain = val;
                 $scope.domains.push(domain);
@@ -69,19 +71,14 @@ pay.controller('BuckuttAdmin', [
          */
         this.removeDomain = function (e, id) {
             e.preventDefault();
-            var $btn = $(e.currentTarget).attr('disabled', '');
 
-            var self = e.target;
+            var $self = $(e.currentTarget);
             Domain.remove({
                 id: id
-            }, function (e) {
-                if (!e.status) {
-                    Error('Erreur', e.error);
-                    return;
-                }
-
-                $btn.removeAttr('disabled');
-                $(self).parent().remove();
+            }).$promise.then(function (res) {
+                $self.parent().remove();
+            }, function (res) {
+                Error('Erreur', res.data.error);
             });
         };
     }

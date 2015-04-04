@@ -29,6 +29,8 @@ module.exports = function (db, config) {
                     return Error.emit(res, 401, '401 - Unauthorized', 'Couldn\'t reset password : wrong token');
                 }
 
+                token.destroy();
+
                 var mail = token.usermail;
 
                 var hash = bcrypt.hashSync(pwd, config.bcryptCost);
@@ -36,7 +38,7 @@ module.exports = function (db, config) {
                 rest
                     .get('users?mail=' + mail)
                     .then(function (uRes) {
-                        return uRes.data.id;
+                        return uRes.data.data.id;
                     })
                     .catch(function (err) {
                         return Error.emit(res, 500, '500 - Buckutt server error', err);

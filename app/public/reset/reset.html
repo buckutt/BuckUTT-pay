@@ -20,9 +20,6 @@
             Status : <span id="status">En attente des mots de passe.</span>
             <br>
         </p>
-        <div ng-if="classic">
-            
-        </div>
         <div ng-if="!classic">
             <label for="newpwd1">Veuillez saisir ci-dessous votre nouveau mot de passe :</label>
             <input type="password" id="newpwd1" class="form-control input-lg" autofocus
@@ -30,12 +27,13 @@
                    ng-keyup="reset.validatePwds($event)"
                    ng-keypress="reset.next($event)">
             <br>
-            <label for="newpwd2">Veuillez saisir à nouveau votre nouveau mot de passe (validez avec &crarr;) :</label>
+            <label for="newpwd2">Veuillez saisir à nouveau votre nouveau mot de passe (validez avec <kbd>&crarr;</kbd>) :</label>
             <input type="password" id="newpwd2" class="form-control input-lg"
                    ng-minlength="8"
                    ng-keyup="reset.validatePwds($event)"
                    ng-keypress="reset.reset($event)">
             <br>
+            <button type="submit" class="btn btn-warning btn-lg btn-block" ng-click="reset.resetBtn($event)">Changer mon mot de passe</button>
         </div>
     </div>
 </div>

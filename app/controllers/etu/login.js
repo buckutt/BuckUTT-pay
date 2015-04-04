@@ -27,7 +27,7 @@ module.exports = function (db, config) {
             rest
                 .get('users?mail=' + username)
                 .then(function (uRes) {
-                    return uRes.data;
+                    return uRes.data.data;
                 })
                 .then(checkPassword)
                 .then(getTickets)
@@ -35,7 +35,7 @@ module.exports = function (db, config) {
                 .then(checkIfAdmin)
                 .then(checkBdeMember)
                 .catch(function (err) {
-                    return Error.emit(res, 500, '500 - Buckutt server error', 'Mail auth failed', err);
+                    return Error.emit(res, 500, '500 - Buckutt server error', err);
                 });
         } else {
             // First get the user id (via its meanoflogin)

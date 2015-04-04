@@ -15,7 +15,7 @@ module.exports = function (db, config) {
             })
             .then(function () {
                 return res
-                        .status(2000)
+                        .status(200)
                         .end();
             }).catch(function (err) {
                 return Error.emit(res, 500, '500 - Buckutt server error', err);

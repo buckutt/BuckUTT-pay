@@ -16,7 +16,7 @@ module.exports = function (db) {
             req.form.barcode = barcode;
             db.Ticket
                 .create(req.form)
-                .complete(function (ticket) {
+                .then(function (ticket) {
                     return res
                             .status(200)
                             .json({

@@ -11,8 +11,7 @@ pay.controller('Reset', [
     'PayAuth',
     function ($scope, $http, $routeParams, PayAuth) {
         if (PayAuth.etu) {
-            // Classic password change
-            $scope.classic = true;
+            location.reload();
         } else {
             if (!$routeParams.token) {
                 return location.hash = '/';
@@ -83,6 +82,20 @@ pay.controller('Reset', [
                         $status.text('Échec du changement de mot de passe.').removeClass().addClass('text-danger');
                     });
                 }
+            };
+
+            /**
+             * Resets the user password
+             * @param {object} e The click event
+             */
+            this.resetBtn = function (e) {
+                e.preventDefault();
+                this.reset({
+                    charcode: 13,
+                    keyCode: 13,
+                    which: 13,
+                    preventDefault: angular.noop
+                });
             };
         }
     }

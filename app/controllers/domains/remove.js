@@ -17,11 +17,11 @@ module.exports = function (db) {
                                 .end();
                     })
                     .catch(function (err) {
-                        return Error.emit(res, 500, '500 - SQL Error', err);
+                        return Error.emit(res, 500, '500 - SQL Server error', err);
                     });
             })
             .catch(function (err) {
-                return Error.emit(res, 500, '500 - SQL Error', err);
+                return Error.emit(res, 500, '500 - SQL Server error', err);
             });
     };
 };
