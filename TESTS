@@ -1,0 +1,131 @@
+# Tests (✔ ✘)
+
+## Pay login
+
+[✔] Wrong password for pay user
+[✔] Correct password for pay user
+
+## User login
+
+[✔] Login/Pwd null
+[✔] Pwd null
+[✔] Login null
+[✔] Wrong login
+[✔] Wrong password
+[✔] Correct email
+[✔] Correct username
+[✔] Correct etu card
+[✔] Disconnect
+
+## Ticket forget
+
+[✔] Wrong email
+[] Correct email
+[] Multiple tickets
+
+## Password forget
+
+[✔] Wrong email
+[] Correct email
+[✔] Password change
+[✔] Too small new password
+
+## Event creation
+
+[✔] All prices
+[✔] Some prices
+[✔] Too large image
+[✔] Wrong form
+
+## BDE Card assignment
+
+[✔] Empty form
+[✔] Wrong username
+[✔] Username without ticket *Success callback with 0 row modified*
+[✔] Correct form
+
+## Birthdate assignment
+
+[✔] Empty form
+[✔] Wrong username
+[✔] Username without ticket *Success callback with 0 row modified*
+[✔] Correct form
+
+## Handmade ticket
+
+[✔] Empty form
+[✔] Wrong data
+[✔] Correct form
+
+## Event managment
+
+[✔] Tickets count progressbar
+[✔] Remaining date
+[✔] Ticket origin
+
+## Event's accounts
+
+[✔] Autocompletion
+[✔] Wrong name
+[✔] Correct nam
+
+## Event's prices
+
+[✔] Adding prices
+[✔] Deleting prices
+[✔] Editing prices
+[✔] Wrong form
+
+## Event's data
+
+[✔] Wrong data
+[✔] Correct form
+[✔] Too large image
+
+## Ticket payment
+
+[✔] Buckutt when connected
+[✔] Multiple tickets with buckutt
+[] One ticket with card (disconnected)
+[] One ticket with card (connected)
+[] Multple tickets with card (disconnected)
+[✔] Wrong form
+
+## Ticket reciepe
+
+[] Bill
+[] Invoice
+
+## Ticket printing
+
+[✔] One ticket
+[✔] Multiple ticket
+[] Wrong id
+[] Other user id
+
+## Event deletion
+
+[✔] Test deletion
+
+## Ticket validation
+
+[✔] Ticket with deleted event
+[✔] Ticket with a deleted price
+[✔] Ticket with bdeCard
+[✔] Ticket already validated
+[✔] Ticket with user identity
+[✔] Ticket with birthdate
+[✔] Ticket with etu card
+
+## Buckutt admin
+
+[✔] Transaction price
+[✔] Partner mails
+
+## Buckutt
+
+[✔] Reload date
+[✔] Payment date
+[✔] Cost
+[✔] Block etu card
+[] Reload account
