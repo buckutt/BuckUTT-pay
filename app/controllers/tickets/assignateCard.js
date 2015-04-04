@@ -31,9 +31,10 @@ module.exports = function (db, config) {
                 // See :
                 // https://github.com/sequelize/sequelize/issues/3307
                 //
-                // db.Ticket.update({ barcode: req.form.barcode }, {
+                // db.Ticket.update({ bdeCard: req.form.bdeCard }, {
                 //     where: {
-                //         username: uRes.data.data.id
+                //         username: uRes.data.data.id,
+                //         event_id: req.params.eventId
                 //     },
                 //     limit: 1,
                 //     order: [['created_at', 'ASC']]
@@ -42,8 +43,9 @@ module.exports = function (db, config) {
                 // Meanwhile, let's just do raw queries
 
                 return db.sequelize.query(
-                    'UPDATE `Tickets` SET `barcode`=' + req.form.barcode +
+                    'UPDATE `Tickets` SET `bdeCard`=' + req.form.bdeCard +
                     ' WHERE `username`=' + uRes.data.data.id +
+                    ' AND   `event_id`=' + req.params.eventId +
                     ' ORDER BY `created_at` ASC LIMIT 1');
             })
             .then(function (ticket) {

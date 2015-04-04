@@ -32,7 +32,8 @@ module.exports = function (db, config) {
                 // https://github.com/sequelize/sequelize/issues/3307
                 // db.Ticket.update({ birthdate: req.form.birthdate }, {
                 //     where: {
-                //         username: uRes.data.data.id
+                //         username: uRes.data.data.id,
+                //         event_id: req.params.eventId
                 //     },
                 //     limit: 1,
                 //     order: [['created_at', 'ASC']]
@@ -42,6 +43,7 @@ module.exports = function (db, config) {
                 return db.sequelize.query(
                     'UPDATE `Tickets` SET `birthdate`="' + req.form.birthdate + '"' +
                     ' WHERE `username`=' + uRes.data.data.id +
+                    ' AND   `event_id`=' + req.params.eventId +
                     ' ORDER BY `created_at` ASC LIMIT 1');
             })
             .then(function (ticket) {
