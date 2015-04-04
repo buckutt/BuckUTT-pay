@@ -64,7 +64,7 @@ module.exports = function (config) {
 
         // If debug mode is enabled, reset the database
         var syncOptions = {};
-        if (config.debug) {
+        if (config.override) {
             syncOptions.force = true;
         }
 
@@ -76,7 +76,7 @@ module.exports = function (config) {
                 }
 
                 // Database seeding
-                if (config.debug) {
+                if (config.override) {
                     require('./seed')(db);
                 }
 
