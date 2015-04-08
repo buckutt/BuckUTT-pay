@@ -23,7 +23,7 @@
     </div>
 
     <div class="row meanOfPaymentRow">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
             <div class="panel panel-default" ng-click="sell.setPaidWith('liquid')">
                 <h1>
                     <a class="active"
@@ -33,7 +33,17 @@
             </div>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-xs-4">
+            <div class="panel panel-default" ng-click="sell.setPaidWith('cheque')">
+                <h1>
+                    <a class="active"
+                       ng-if="ticket.paid_with == 'cheque'">Chèque</a>
+                    <a ng-if="ticket.paid_with != 'cheque'">Chèque</a>
+                </h1>
+            </div>
+        </div>
+
+        <div class="col-xs-4">
             <div class="panel panel-default" ng-click="sell.setPaidWith('card')">
                 <h1>
                     <a class="active"

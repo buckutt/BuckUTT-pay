@@ -45,22 +45,22 @@
     margin-top: 0;
 }
 
-.meanOfPaymentRow .col-xs-6 .panel {
+.meanOfPaymentRow .col-xs-4 .panel {
     background-color: #23527c;
     cursor: pointer;
     padding-top: 20px;
     text-align: center;
 }
 
-.meanOfPaymentRow .col-xs-6 .panel h1 a {
+.meanOfPaymentRow .col-xs-4 .panel h1 a {
     color: #fff;
 }
 
-.meanOfPaymentRow .col-xs-6 .panel h1 a.active {
+.meanOfPaymentRow .col-xs-4 .panel h1 a.active {
     text-decoration: underline;
 }
 
-.meanOfPaymentRow .col-xs-6 .panel h1:hover a:not(.active) {
+.meanOfPaymentRow .col-xs-4 .panel h1:hover a:not(.active) {
     text-decoration: none;
 }
 

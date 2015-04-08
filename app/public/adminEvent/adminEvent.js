@@ -167,6 +167,10 @@ pay.controller('AdminEvent', [
             $scope.ticketsByCard = tickets.filter(function (ticket) {
                 return ticket.paid_with === 'card';
             });
+            // Tickets bought with cheque
+            $scope.ticketsByCheque = tickets.filter(function (ticket) {
+                return ticket.paid_with === 'cheque';
+            });
 
             // Bank cost
             BankPrice.get(function (data) {

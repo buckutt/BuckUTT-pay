@@ -234,7 +234,8 @@
                 Étudiants non-cotisants: {{ ticketsEtu.length }}<br>
                 Étudiants cotisants : {{ ticketsContrib.length }}<br>
                 Externes : {{ ticketsExt.length }}<br>
-                Payments par cartes : {{ ticketsByCard.length }} / {{ tickets.length }}<br>
+                Paiements par cartes : {{ ticketsByCard.length }} / {{ tickets.length }}<br>
+                Paiements par chèque : {{ ticketsByCheque.length }} / {{ tickets.length }}<br>
                 Prix des transactions par carte : {{ bdeCost | euro: 3 }}<br>
             </p>
         </div>

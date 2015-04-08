@@ -49,7 +49,7 @@ pay.controller('Sell', [
                     price.name = price.name.replace($scope.event.name + ' - ', '');
                     return price;
                 }).filter(function (price) {
-                    return price.name.indexOf('en prévente') === -1;
+                    return price.name.indexOf('en prévente') !== -1;
                 });
 
                 // Exposes
