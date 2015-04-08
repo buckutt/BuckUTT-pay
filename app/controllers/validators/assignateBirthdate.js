@@ -12,6 +12,7 @@ module.exports = form(
         .trim()
         .required()
         .is(/^\d{5}$/),
+
     field('birthdate')
         .trim()
         .required()
