@@ -23,6 +23,11 @@ module.exports = form(
         .ifNull(true)
         .toBoolean(),
 
+    field('barcode')
+        .trim()
+        .required()
+        .equals(0),
+
     field('paid_at')
         .trim()
         .required()
@@ -32,6 +37,16 @@ module.exports = form(
                 throw new Error('wrong date');
             }
         }),
+
+    field('birthdate')
+        .trim()
+        .required()
+        .is(/^\d{2}\/\d{2}\/\d{4}/),
+
+    field('mail')
+        .trim()
+        .required()
+        .isEmail(),
 
     field('paid_with')
         .trim()
@@ -43,12 +58,22 @@ module.exports = form(
         .ifNull(false)
         .toBoolean(),
 
-    field('barcode')
+    field('student')
         .trim()
-        .required()
-        .equals(0),
+        .ifNull(false)
+        .toBoolean(),
+
+    field('contributor')
+        .trim()
+        .ifNull(false)
+        .toBoolean(),
 
     field('event_id')
+        .trim()
+        .required()
+        .is(/^\d+$/),
+
+    field('price_id')
         .trim()
         .required()
         .is(/^\d+$/)

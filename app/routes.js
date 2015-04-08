@@ -66,6 +66,10 @@ module.exports = function (router, servicesRouter, db, config) {
     ////////////////////
 
     router.route('/events/:eventId/prices')
+        .get(
+            auth.isInEvent('validate'),
+            controllers.events.getPrices
+        )
         // Updates an event price
         .post(
             auth.isInEvent('admin'),

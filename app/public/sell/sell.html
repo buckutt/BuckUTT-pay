@@ -4,7 +4,9 @@
     <h1 class="text-center">
         <a href="#/">BuckUTT</a>
     </h1>
-    <h2 class="text-center">Validation de tickets</h2>
+    <h2 class="text-center">
+        <a href="#/admin">Administration</a> - Vente de tickets
+    </h2>
 
     <div id="success">Ok !</div>
     <div id="error">Erreur !</div>
@@ -42,6 +44,10 @@
         </div>
     </div>
 
+    <p class="text-muted">
+        <em>La vente par BuckUTT se fait via les eee-tops.</em>
+    </p>
+
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default">
@@ -49,9 +55,23 @@
                 <form>
                     <div class="form-group">
                         <label for="displayName">Nom de la personne :</label>
-                        <input type="text" class="form-control" placeholder="John Doe"
+                        <input type="text" id="displayName" class="form-control" placeholder="John Doe"
                                ng-required
                                ng-model="ticket.displayName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mail">E-Mail :</label>
+                        <input type="mail" id="mail" class="form-control" placeholder="john.doe@utt.fr"
+                               ng-required
+                               ng-model="ticket.mail">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthdate">Date de naissance :</label>
+                        <input type="text" id="birthdate" class="form-control" placeholder="DD/MM/YYYY"
+                               ng-required
+                               ng-model="ticket.birthdate">
                     </div>
 
                     <div class="form-group">
