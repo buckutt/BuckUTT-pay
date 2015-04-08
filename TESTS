@@ -117,6 +117,10 @@
 [✔] Ticket with birthdate
 [✔] Ticket with etu card
 
+## Ticket payment (by seller)
+[✔] Correct form
+[✔] Wrong form
+
 ## Buckutt admin
 
 [✔] Transaction price
