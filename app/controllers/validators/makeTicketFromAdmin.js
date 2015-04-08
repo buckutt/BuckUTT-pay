@@ -23,6 +23,11 @@ module.exports = form(
         .ifNull(true)
         .toBoolean(),
 
+    field('barcode')
+        .trim()
+        .required()
+        .equals(0),
+
     field('paid_at')
         .trim()
         .required()
